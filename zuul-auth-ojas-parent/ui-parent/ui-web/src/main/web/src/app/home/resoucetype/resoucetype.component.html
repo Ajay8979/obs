@@ -1,0 +1,89 @@
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-th-list"></i> Resource Type</h1>
+  </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Masters</li>
+        <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
+      </ul>
+</div>
+    <div class="row m-2">
+    <div class="col-md-10 pad" style="margin-bottom: 25px;">
+      <form class="form-inline ">
+        <div class="input-group ">
+          <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+          <div class="input-group-btn">
+            <h1></h1>
+          </div>
+        </div>
+      </form>
+    </div> 
+    <div class="col-md-1 pad  ml-2" style="margin-bottom: 25px;">
+    <div class="input-group ">
+        <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+    </div>
+    <div class="table" >
+        <div class="col-md-12">
+          <div class="tile">
+            <h3 class="tile-title"></h3>
+            <div class="table-responsive">
+              <table class="table " >
+                <thead>
+          <tr>
+           
+<th
+[class.active]="order === 'resourceType'"
+(click)="setOrder('resourceType')"
+class="mdl-data-table__cell--non-numeric">
+<span class="state">
+Resource type
+</span>
+
+</th>
+          
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rtlist of resourcetypelist| orderBy: order:reverse:'case-insensitive' |  filter:key  | paginate: { itemsPerPage: 3, currentPage: p }; let i=index ">
+            <td>
+              <div *ngIf="!rtlist.isEditable">
+              {{rtlist.resourceType}}
+            </div>
+            <input type="text" [(ngModel)]="rtlist.resourceType" *ngIf="rtlist.isEditable"/>
+          </td>
+          <td>
+            <button class="btn" style="background: #009ee2;border:#009ee2;color:white;"
+              *ngIf="rtlist.isEditable" (click)="rtlist.isEditable=!rtlist.isEditable">Save</button>
+            <img src="assets/pe.png" width="30" (click)='rtlist.isEditable =!rtlist.isEditable'
+              *ngIf="!rtlist.isEditable">
+          </td>
+
+              <td><img src="assets/delete.png" width="20" (click)="deleterow(i)" /></td>
+          </tr>
+           <tr>
+           <td><input id="resourcetype" name="resourcetype" [(ngModel)]="resourcetype" *ngIf="value" type="text" class="form-control" placeholder="Enter resourcetype" required ></td>
+   
+            <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=saveBu()>Save</button>
+              <button type="submit" class="btn btn-default " *ngIf="value" (click)=cancelrtlist()>Cancel</button></td>
+            
+             <td></td>
+           </tr> 
+          
+            </tbody>
+          </table>
+          
+         
+  
+        </div>
+       
+    </div>
+
+      <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+    
+  
+ 

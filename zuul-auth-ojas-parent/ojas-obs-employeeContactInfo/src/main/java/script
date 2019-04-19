@@ -1,0 +1,18 @@
+CREATE TABLE `obs`.`employeecontactinfo` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) ,
+  `personal_mobileNo` VARCHAR(45),
+  `alternate_mobileNo` VARCHAR(45),
+  `current_Address_Line1` VARCHAR(45),
+  `current_Address_Line2` VARCHAR(45),
+  `current_City` VARCHAR(45),
+  `current_State` VARCHAR(45),
+  `current_Pin` INT(15),
+  `permanent_Address_Line_1` VARCHAR(45),
+  `emp_Id` VARCHAR(45),
+  `created_By` INT(15),
+  `updated_By` INT(15),
+  `created_date` Timestamp,
+  `updated_date` Timestamp,
+  `flag` Tinyint,
+  PRIMARY KEY (`id`));

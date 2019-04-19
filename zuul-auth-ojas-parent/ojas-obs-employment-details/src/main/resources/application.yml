@@ -1,0 +1,13 @@
+
+server:
+  port: 8084
+  
+  
+spring :
+  datasource :
+   url: jdbc:mysql://localhost:3306/ojas_obs?autoReconnect=true&useSSL=false
+   username: root
+   password: root
+   driver-class-name: com.mysql.cj.jdbc.Driver
+    
+    

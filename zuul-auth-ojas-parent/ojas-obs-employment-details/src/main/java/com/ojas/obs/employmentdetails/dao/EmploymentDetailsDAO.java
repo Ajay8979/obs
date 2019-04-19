@@ -1,0 +1,20 @@
+package com.ojas.obs.employmentdetails.dao;
+
+import java.util.List;
+
+import com.ojas.obs.employmentdetails.exception.DataNotInsertedException;
+import com.ojas.obs.employmentdetails.model.EmploymentDetails;
+
+public interface EmploymentDetailsDAO {
+	boolean saveEmploymentDetails(List<EmploymentDetails> employmentDetails) throws DataNotInsertedException;
+
+	boolean updateEmploymentDetails(List<EmploymentDetails> employmentDetailsList) throws DataNotInsertedException;
+
+	boolean deleteEmploymentDetails(List<EmploymentDetails> employmentDetailsList) throws DataNotInsertedException;
+
+	List<EmploymentDetails> getAllEmploymentDetails();
+
+	List<EmploymentDetails> getEmploymentDetailsByEmploymentId(String employeeId);
+	
+	List<EmploymentDetails> getEmploymentDetailsById(Integer employeeId);
+}

@@ -32,13 +32,19 @@ public class CostCenterImpl implements CostCenterDao {
 	public boolean save(List<CostCenter> lists) throws SQLException {
 		logger.debug("INSIDE the save....");
 		ArrayList<Object[]> list = new ArrayList<>();
-try {
+
 		for (CostCenter costCenter2 : lists) {
 			Object[] param = new Object[] { costCenter2.getCostCenterCode() };
 			list.add(param);
 		}
 
 		int[] i = jdbcTemplate.batchUpdate(INSERTCOSTCENTER, list);
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (int j : i) {
 			if (j > 0) {
 
@@ -47,15 +53,7 @@ try {
 				
 			}
 		}
-}finally {
-	jdbcTemplate.getDataSource().getConnection().close();
-	logger.debug("INSIDE the finally....");
-}
-		
-
-		
 		return false;
-		
 	}
 
 	// update the data into database
@@ -79,6 +77,12 @@ try {
 				return true;
 			}
 		}
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -91,6 +95,13 @@ try {
 		if (batchUpdate > 0) {
 			return true;
 		}
+		
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -100,7 +111,14 @@ try {
 	public List<CostCenter> getAllCostCenter(CostCenterRequest costCenterReq) throws SQLException {
 
 		logger.debug("INSIDE the getAllCostCenter....");
-		return jdbcTemplate.query(GETCOSTCENTER, new BeanPropertyRowMapper<>(CostCenter.class));
+		List<CostCenter> cost= jdbcTemplate.query(GETCOSTCENTER, new BeanPropertyRowMapper<>(CostCenter.class));
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cost;
 	}
 
 	// get costcenter count
@@ -108,7 +126,16 @@ try {
 	@Override
 	public int getAllCostCenterCount() throws SQLException {
 		logger.debug("INSIDE the getAllCostCenterCount....");
-		return jdbcTemplate.queryForObject(GETCOSTCENTERCOUNT, Integer.class);
+		int i= jdbcTemplate.queryForObject(GETCOSTCENTERCOUNT, Integer.class);
+		
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return i;
 	}
 
 	@Override
@@ -131,10 +158,4 @@ try {
 
 	}
 
-	/*
-	 * public void closeConnecton() { try {
-	 * 
-	 * } catch (SQLException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } }
-	 */
 }

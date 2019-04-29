@@ -133,7 +133,7 @@ var requestData = {
   "costCenter" : [{
           
   
-          "costCenterCode":this.costCenterCode;
+          "costCenterCode":this.costCenterCode
   
   }
   ],

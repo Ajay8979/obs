@@ -5,6 +5,7 @@ import static com.obs.businessunit.constants.UserConstants.INSERT_BUSINESSUNIT;
 import static com.obs.businessunit.constants.UserConstants.SELECT_BUSINESSUNIT;
 import static com.obs.businessunit.constants.UserConstants.UPDATE_BUSINESSUNIT;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,13 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 		}
 		save = jdbcTemplate.batchUpdate(INSERT_BUSINESSUNIT, list);
 		
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		if (save.length > 0) {
 			b = true;
 			
@@ -52,7 +60,12 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 			list.add(bus);
 		}
 		update = jdbcTemplate.batchUpdate(UPDATE_BUSINESSUNIT, list);
-		
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (update.length > 0) {
 			b = true;
 		} 
@@ -65,13 +78,26 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 	public List<BusinessUnit> getAllBussinessDetails(BusinessUnitRequest request) {
 		logger.debug("Inside getAllEducationDetails DAO .***");
 		List<BusinessUnit> list = jdbcTemplate.query(SELECT_BUSINESSUNIT, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return list;
 	}
 	@Override
 	public List<BusinessUnit> getById(BusinessUnitRequest request) {
 		Integer id = request.getBusinessUnit().get(0).getId();
 		Object[] param = {id};
-		return  jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
-}
+		List<BusinessUnit> list= jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
+		try {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 }

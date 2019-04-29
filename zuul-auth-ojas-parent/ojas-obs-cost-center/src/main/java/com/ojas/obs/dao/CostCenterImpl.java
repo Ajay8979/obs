@@ -32,14 +32,13 @@ public class CostCenterImpl implements CostCenterDao {
 	public boolean save(List<CostCenter> lists) throws SQLException {
 		logger.debug("INSIDE the save....");
 		ArrayList<Object[]> list = new ArrayList<>();
-
+try {
 		for (CostCenter costCenter2 : lists) {
 			Object[] param = new Object[] { costCenter2.getCostCenterCode() };
 			list.add(param);
 		}
 
 		int[] i = jdbcTemplate.batchUpdate(INSERTCOSTCENTER, list);
-
 		for (int j : i) {
 			if (j > 0) {
 
@@ -48,7 +47,15 @@ public class CostCenterImpl implements CostCenterDao {
 				
 			}
 		}
+}finally {
+	jdbcTemplate.getDataSource().getConnection().close();
+	logger.debug("INSIDE the finally....");
+}
+		
+
+		
 		return false;
+		
 	}
 
 	// update the data into database
@@ -124,4 +131,10 @@ public class CostCenterImpl implements CostCenterDao {
 
 	}
 
+	/*
+	 * public void closeConnecton() { try {
+	 * 
+	 * } catch (SQLException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } }
+	 */
 }

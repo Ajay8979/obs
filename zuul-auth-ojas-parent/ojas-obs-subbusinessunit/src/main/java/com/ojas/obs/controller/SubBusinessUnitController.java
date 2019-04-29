@@ -1,9 +1,11 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.SubBusinessUnitConstants.DELETE;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.GET;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SET;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.SUBBUSINESSUNIT;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.UPDATE;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETALL;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETBYID;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,7 +29,7 @@ import com.ojas.obs.request.SubBusinessUnitRequest;
  * @author asuneel
  *
  */
-
+@RequestMapping(SUBBUSINESSUNIT)
 @Controller
 public class SubBusinessUnitController {
 
@@ -44,7 +46,7 @@ public class SubBusinessUnitController {
 	 */
 	@RequestMapping(SET)
 	public ResponseEntity<Object> setSubBusinessUnit(@RequestBody SubBusinessUnitRequest subBusinessUnitRequest,
-			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)  throws SQLException {
+			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws SQLException {
 
 		logger.debug("incoming requests " + subBusinessUnitRequest);
 
@@ -62,22 +64,21 @@ public class SubBusinessUnitController {
 				if ((subBusinessUnitRequest.getTransactionType().equalsIgnoreCase("save")
 						|| subBusinessUnitRequest.getTransactionType().equalsIgnoreCase("update"))
 						&& ((null == subBusinessUnit.getName() || subBusinessUnit.getName().isEmpty())
-						|| (subBusinessUnit.getCostCenterId() == null)
-						|| (subBusinessUnit.getBusinessUnitId() == null))) {
+								|| (subBusinessUnit.getCostCenterId() == null)
+								|| (subBusinessUnit.getBusinessUnitId() == null))) {
 
 					ErrorResponse error = new ErrorResponse();
-					logger.debug("data is  invalid");
+					logger.debug("requested data is  invalid");
 					error.setStatusCode("422");
 					error.setMessage("Request is  invalid");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 
 				}
 
-				if ((subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(UPDATE)
-						|| subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(DELETE))
+				if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(UPDATE)
 						&& subBusinessUnit.getId() == null) {
 					ErrorResponse error = new ErrorResponse();
-					logger.debug("data is  invalid");
+					logger.debug("requested data is  invalid");
 					error.setMessage("Request is  invalid");
 					error.setStatusCode("422");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -110,10 +111,11 @@ public class SubBusinessUnitController {
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
 		try {
-			if (!subBusinessUnitRequest.getTransactionType().equalsIgnoreCase("get")) {
+			if (!subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(GETALL)
+					&& !subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 				logger.debug("request is not valid");
 				ErrorResponse error = new ErrorResponse();
-				error.setMessage("Data must not be null");
+				error.setMessage("Transaction type miss match");
 				error.setStatusCode("422");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 

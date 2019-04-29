@@ -1,0 +1,114 @@
+2019-04-22 19:32:46 DEBUG requestObject received = BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@7463], transactionType=getbyId]
+2019-04-22 19:32:46 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 19:44:40 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 19:44:41 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-22 19:45:29 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 19:45:29 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-22 19:48:15 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 19:48:15 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-22 19:50:17 DEBUG incoming request BusinessUnitRequest [businessUnit=null, transactionType=save]
+2019-04-22 19:50:17 DEBUG data is not valid
+2019-04-22 19:51:08 DEBUG incoming request BusinessUnitRequest [businessUnit=null, transactionType=save]
+2019-04-22 19:51:08 DEBUG data is not valid
+2019-04-22 19:52:20 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@b45f2612], transactionType=save]
+2019-04-22 19:52:20 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@b45f2612], transactionType=save]
+2019-04-22 19:52:20 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 19:52:20 DEBUG data is  invalid
+2019-04-22 19:53:58 DEBUG incoming request BusinessUnitRequest [businessUnit=null, transactionType=save]
+2019-04-22 19:53:58 DEBUG data is not valid
+2019-04-22 19:54:08 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@c7a51e63, com.obs.businessunit.model.BusinessUnit@46884469], transactionType=save]
+2019-04-22 19:54:08 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@c7a51e63, com.obs.businessunit.model.BusinessUnit@46884469], transactionType=save]
+2019-04-22 19:54:08 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 19:54:08 DEBUG data is  invalid
+2019-04-22 19:54:18 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@ca29bed7, com.obs.businessunit.model.BusinessUnit@8a6f96d7], transactionType=save]
+2019-04-22 19:54:18 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@ca29bed7, com.obs.businessunit.model.BusinessUnit@8a6f96d7], transactionType=save]
+2019-04-22 19:54:18 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 19:54:18 DEBUG data is  invalid
+2019-04-22 19:54:26 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 19:54:26 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 19:54:26 DEBUG inside  save condition.****** : true
+2019-04-22 20:03:48 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 20:03:55 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 20:04:03 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:04:03 DEBUG data is  invalid
+2019-04-22 20:04:36 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 20:04:36 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=save]
+2019-04-22 20:04:36 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:04:36 DEBUG data is  invalid
+2019-04-22 20:07:59 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67b, com.obs.businessunit.model.BusinessUnit@8a71ea9d], transactionType=save]
+2019-04-22 20:07:59 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67b, com.obs.businessunit.model.BusinessUnit@8a71ea9d], transactionType=save]
+2019-04-22 20:07:59 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:07:59 DEBUG data is  invalid
+2019-04-22 20:08:14 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:08:14 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:08:14 DEBUG inside  save condition.****** : true
+2019-04-22 20:08:27 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=update]
+2019-04-22 20:08:27 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@349ac67f, com.obs.businessunit.model.BusinessUnit@8a71ea9f], transactionType=update]
+2019-04-22 20:08:27 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:08:27 DEBUG data is  invalid
+2019-04-22 20:08:41 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@20807f1, com.obs.businessunit.model.BusinessUnit@c55d8d00], transactionType=update]
+2019-04-22 20:08:41 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@20807f1, com.obs.businessunit.model.BusinessUnit@c55d8d00], transactionType=update]
+2019-04-22 20:09:25 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:14:42 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:15:52 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:17:42 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:21:03 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:22:42 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-22 20:22:42 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-22 20:22:50 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:22:50 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:22:50 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:22:50 DEBUG data is  invalid
+2019-04-22 20:25:27 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:25:27 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:25:27 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:25:27 DEBUG data is  invalid
+2019-04-22 20:25:55 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:25:55 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@6a93a712, com.obs.businessunit.model.BusinessUnit@d0806365], transactionType=save]
+2019-04-22 20:25:55 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-22 20:25:55 DEBUG data is  invalid
+2019-04-22 20:56:20 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@432c785a, com.obs.businessunit.model.BusinessUnit@dbe9aa0c], transactionType=save]
+2019-04-22 20:56:20 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@432c785a, com.obs.businessunit.model.BusinessUnit@dbe9aa0c], transactionType=save]
+2019-04-22 20:56:20 DEBUG inside  save condition.****** : true
+2019-04-23 10:12:40 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@3a2bf991, com.obs.businessunit.model.BusinessUnit@fa075cd1], transactionType=save]
+2019-04-23 10:12:40 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@3a2bf991, com.obs.businessunit.model.BusinessUnit@fa075cd1], transactionType=save]
+2019-04-23 10:12:41 DEBUG inside  save condition.****** : true
+2019-04-23 10:14:09 DEBUG requestObject received = BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@7460], transactionType=getbyid]
+2019-04-23 10:14:09 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 10:14:27 DEBUG requestObject received = BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@745f], transactionType=getall]
+2019-04-23 10:14:27 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 10:14:27 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-23 11:38:51 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 11:38:51 DEBUG Inside getAllEducationDetails DAO .***
+2019-04-23 11:39:06 ERROR Request is not valid, No id provided
+2019-04-23 11:39:33 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 11:42:54 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@10b62091], transactionType=update]
+2019-04-23 11:42:54 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@10b62091], transactionType=update]
+2019-04-23 11:43:12 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@10b62079], transactionType=update]
+2019-04-23 11:43:12 DEBUG TransactionType is  invalid
+2019-04-23 11:43:29 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@10b61ae0], transactionType=]
+2019-04-23 11:44:04 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 11:44:04 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 11:44:04 DEBUG inside  save condition.****** : true
+2019-04-23 12:01:42 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:01:42 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:01:42 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-23 12:01:42 DEBUG data is  invalid
+2019-04-23 12:04:02 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:04:02 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:04:02 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-23 12:04:02 DEBUG data is  invalid
+2019-04-23 12:05:19 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:05:19 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@4b76e913], transactionType=save]
+2019-04-23 12:05:19 DEBUG inside EmployeeEducationFacde catch block.****
+2019-04-23 12:05:19 DEBUG data is  invalid
+2019-04-23 15:22:50 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@3a8a809], transactionType=save]
+2019-04-23 15:22:50 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@3a8a809], transactionType=save]
+2019-04-23 15:22:52 DEBUG inside  save condition.****** : true
+2019-04-23 15:23:36 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@5d9bcd7], transactionType=update]
+2019-04-23 15:23:36 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@5d9bcd7], transactionType=update]
+2019-04-23 15:26:54 DEBUG incoming request BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@5d9bcd7], transactionType=getbyid]
+2019-04-23 15:26:54 DEBUG inside saveEmployeeEducation method : BusinessUnitRequest [businessUnit=[com.obs.businessunit.model.BusinessUnit@5d9bcd7], transactionType=getbyid]
+2019-04-23 15:27:14 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 15:27:31 DEBUG inside getAllEducationDetails in EmployeeEducationFacde.***
+2019-04-23 15:27:31 DEBUG Inside getAllEducationDetails DAO .***

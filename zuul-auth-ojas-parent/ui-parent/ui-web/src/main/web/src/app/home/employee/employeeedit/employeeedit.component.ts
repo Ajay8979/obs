@@ -1,9 +1,10 @@
-import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { HrmsService } from '../../services/hrms.service';
 import { identifierModuleUrl } from '@angular/compiler';
 import swal from 'sweetalert';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 declare var $: any;
 
 @Component({
@@ -102,7 +103,7 @@ export class EmployeeeditComponent implements OnInit {
   //project end
  
 
-  constructor(private hrms:HrmsService, private auth: AuthService) { }
+  constructor(private hrms:HrmsService,NgxPaginationModule:NgxPaginationModule,Ng2SearchPipeModule:Ng2SearchPipeModule) { }
 
   ngOnInit() {
     this.getdependentData();
@@ -121,8 +122,8 @@ export class EmployeeeditComponent implements OnInit {
     this.getbankdetails();
    this.getemploymentdetails();
    this.getProject();
-
-
+   this.getSkillInfomaster();
+   this.getStatus(); 
   }
 //  OnSave()
 //  {
@@ -200,170 +201,11 @@ export class EmployeeeditComponent implements OnInit {
   }
 
   
-getdependentData(){
-  var requestData ={
-    "dependentDetails" : [
-                                            {
-                                            }
-                   ], 
-                   "transactionType":"getall",
-                  "sessionId" : "any String" 
-  }
-
-    this.hrms.getdependentdetails(requestData).subscribe(response =>{
-      this.dependent_details = response;
-      this.dependents = this.dependent_details.getDependentDetailsList;
-
-    //  console.log(this.dependent_details);
-    //   if(this.costcenterRes.statusMessage == "Successfully record added"){
-    //     this.value = false;
-    //     swal(this.costcenterRes.statusMessage, "","success");
-    //     this.getCostCenter();
-    //   }
-    })
-  }
-//  savedependentdata(){
-//     var requestData = {
-//   "dependentDetails" : [
-//     {
-//                             "id":3,
-// "dependent_Name":"AA",
-// "relation":"brother",
-// "date_Of_Birth":"1995-04-08",
-// "employee_Id":95,
-// "updated_By":21
-// },
-
-// {
-//        "id":4,
-// "dependent_Name":"BB",
-// "relation":"brother",
-// "date_Of_Birth":"1995-04-08",
-// "employee_Id":31,
-// "updated_By":21
-// }
-// ], 
-// "transactionType":"update",
-// "sessionId" : "any String" 
-// }
-    
-//     this.hrms.savedependentdetails(requestData).subscribe(response =>{
-//    this.dependent_details = response;
-//        this.dependents = this.dependent_details.saveDependentDetailsList;
-
-//         console.log(this.dependent_details);
-//     })
-    
-
- 
-     
-//   }
-//   onsavedependentdata(){
-
-//     var requestData = {
-//       "dependentDetails" : [
-//                                     {
-//                                     "dependent_Name":this.dependent_Name,
-//                                     "relation":this.relation,
-//                                     "date_Of_Birth":this.date_Of_Birth,
-//                                     "employee_Id":this.employee_Id,
-                                   
-//                                      "created_By":this.created_By,
-
-//                          }
-//                            ], 
-//                      "transactionType":"save",
-//                     "sessionId" : "any String" 
-//     }
-    
-//     this.hrms.savedependentdetails(requestData).subscribe(response =>{
-//    this.dependent_details = response;
-//        this.dependents = this.dependent_details.saveDependentDetailsList;
-
-//        // console.log(this.dependent_details);
-//         this.getdependentData();
-//     })
-    
-//  }
- updatedependentdata(){
- 
-  var updatedependentdata ={
-    "dependentDetails" : [
-                                            {
-                                                                    "id":3,
-                                  "dependent_Name":this.dependent_Name,
-                                  "relation":this.relation,
-                                  "date_Of_Birth":this.date_Of_Birth,
-                                  "employee_Id":this.employee_Id,
-                                  "updated_By":this.updated_By
-                       }
-                       
-                      
-                   ], 
-                   "transactionType":"update",
-                  "sessionId" : "any String" 
-  }
-  
-  this.hrms.updatedependentdetails(updatedependentdata).subscribe(res =>{
-    this.updateRes = res;
-    console.log(this.updateRes);
-      if(this.updateRes.statusMessage == "Successfully record updated"){
-        //swal(this.updateRes.statusMessage, "","success");
-        this.getdependentData();
-      }
-  })
-
- }
- deletedependentdata(dependent){
-
-  var deletedependentdata ={
-    "dependentDetails" : [
-                      {
-                           "id":dependent.id,
-                           "updated_By":dependent.updated_By
-                       },
-                       
-                      
-                   ], 
-                   "transactionType":"delete",
-                  "sessionId" : "any String" 
-  }
-this.hrms.deletedependentdetails(deletedependentdata).subscribe(res=>{
-  this.deleteRes=res;
-  if(this.deleteRes.statusMessage == "DependentDetails are deleted successfully"){
-    //swal(this.deleteRes.statusMessage, "","success");
-    this.getdependentData();
-  }
-
-})
-  
- }
- getbankdetails(){
- var bankdetails=
- {
-  "bankDetails":[
-
-  ],
-"transactionType":"getall"
-
-}
-this.hrms.getbankserverdetails(bankdetails).subscribe(response =>{
-  this.employee_bankdetails = response;
-  this.bankdt = this.employee_bankdetails.listBankDetails;
-console.log(this.bankdt);
-
-})
-}
-
-
-
-
-
-
 
 //skill starts
 skill_id:any;
 level_id:any;
+skillid:any;
 // employee_id:any;
 // created_by:any;
 skillReq:any;
@@ -377,11 +219,17 @@ SkillDetails:any;
 update_by:any;
 updateArr:any;
 
+skillmasterlist:any;
+skillmasterArray;
+//skillMasterName:[];
+//skillName:[];
+
 //method save skillInfo
 setSkillInfo(){
 
-var reqData={
-      
+var reqData=
+{
+        
 "skillInfoModel":
 [{
                 
@@ -393,8 +241,8 @@ var reqData={
            
  "employee_id" :this.SKILLinfo.employee_id,
            
- "created_by" : this.SKILLinfo.created_by,
- "flag":this.SKILLinfo.flag
+ "created_by" : this.SKILLinfo.created_by
+        
 }],
 
         
@@ -410,19 +258,21 @@ this.hrms.setSkill(reqData).subscribe(responce=>{
   this.skillReq = responce;
   console.log(this.skillReq);
   if(this.skillReq.statusMessage =="Successfully record added"){
-    //this.value = false;
-   //swal(this.skillReq.statusMessage, "","success");
+   
+    swal(this.skillReq.statusMessage, "","success");
+   // this.getSkillInfo();
+   }
+   //this.SkillArr = this.skillReq.getSkillInfoList;
    this.getSkillInfo();
-  }
-  this.SkillArr = this.skillReq.getSkillInfoList;
-  this.getSkillInfo();
+  
+ });
  
-});
-
-
-}
+ 
+ }
 
 //method get skillInfo
+
+getSkillName:any;
 getSkillInfo(){
 
 var Requestdata={
@@ -440,42 +290,49 @@ var Requestdata={
 this.hrms.getSkill(Requestdata).subscribe(responce=>{
 this.skillinfolist=responce;
 this.skillInfoList=this.skillinfolist.getSkillInfoList;
-console.log(this.skillInfoList)
+console.log(this.skillInfoList);
+
+for(let i=0;i<=this.skillInfoList.length;i++){
+
+  for(let j=0;j<this.skillmasterArray.length;j++){
+  if(this.skillmasterArray[j].skill_id==this.skillInfoList[i].skill_id){
+  this.getSkillName=this.skillmasterArray[j].skill_name;
+  console.log("Skill name details");
+  console.log(this.getSkillName);
+  } 
+  }
+  this.skillInfoList[i].skill_id=this.getSkillName;
+  console.log("skill Details Array");
+  console.log(this.skillinfolist);
+  }
+
+
+
 })
 
 }
 
-//skill delete Info
-// deleteSkillInfo(tableData){
+//masterskill get method 
+getSkillInfomaster(){
 
-//   var deleteRequest= {
-//    "skillInfoModel":[{
-                
-
-//     "id":tableData.id,
-           
-//    "update_by" : tableData.update_by
-        
-//   }],
-
-        
+  var Requestdata={
+    "listOfSkill" : [{
+    
+            
+    }],
+    "transactionType" : "getAll"
+  }
+  this.hrms.getSkillmaster(Requestdata).subscribe(responce=>{
+  this.skillmasterlist=responce;
+  this.skillmasterArray=this.skillmasterlist.listOfSkill;
+  // this.skillName=this.skillMasterName
+  console.log(this.skillmasterArray)
+  })
   
-//   "sessionId" :"14",
-        
-//   "transactionType" : "save"
-  
-  
-//   }
-//   this.hrms.deleteSkill(deleteRequest).subscribe(request=>{
-//     this.deleteSkilldetails=request;
-//     this.deleteSkillarr=this.deleteSkilldetails.getSkillInfoList;
-//     console.log(this.deleteSkilldetails);
-//     this.getSkillInfo();
-//   })
-// }
+  }
 
-
-addSkillvalue(){
+addSkillvalue(newUserForm1){
+  newUserForm1.reset()
 this.isUPDATEDBY=false;
 this.CREATEDBY=true;
 }
@@ -519,8 +376,6 @@ var GetUpdateData ={
   
   }
 
-  
-
 this.hrms.getSkilbyId(GetUpdateData).subscribe(res =>{
  this.skillbyid=res;
  this.SkillDetails=this.skillbyid.getSkillInfoList;
@@ -537,15 +392,15 @@ var updaterequestData={
   "skillInfoModel":[{
                   
 
-    "skill_id":SKILLinfo.skill_id,
+    "skill_id":this.SKILLinfo.skill_id,
           
-    "level_id" :SKILLinfo.level_id,
+    "level_id" :this.SKILLinfo.level_id,
              
-   "employee_id" :SKILLinfo.employee_id,
-   "created_by" :SKILLinfo.created_by, 
-   "update_by" : SKILLinfo.update_by,
-   "flag":SKILLinfo.flag,
-   "id":SKILLinfo.id
+   "employee_id" :this.SKILLinfo.employee_id,
+   "created_by" :this.SKILLinfo.created_by, 
+   "update_by" : this.SKILLinfo.update_by,
+   "flag":this.SKILLinfo.flag,
+   "id":this.SKILLinfo.id
             
   }],
           
@@ -563,7 +418,10 @@ var updaterequestData={
            this.updateRes= res;
               
           console.log(this.updateRes);
-        
+          if(this.updateRes.statusMessage == "Successfully record updated"){
+            swal(this.updateRes.statusMessage, "","success");
+            this.getSkillInfo();
+          }
                this.getSkillInfo();
           })
      
@@ -601,6 +459,11 @@ var updaterequestData={
   contactInfo:any;
   contactInfoDetails:any;
   empinfoarr:any;
+
+
+  StateDetails:any;
+  StateList:any;
+  getcontactontable:any;
 // Method for Save Contact Information
     setContactInformation() {
      
@@ -618,16 +481,16 @@ var updaterequestData={
                  "current_Pin": this.ContactInfo.current_Pin,
                  "permanent_Address_Line_1":this.ContactInfo.permanent_Address_Line_1,
                  "emp_Id": this.ContactInfo.emp_Id,
-                 "created_By":"Ojas12"
+                 "created_By":"user"
              }],
        "transactionType" : "save"
      }
 this.hrms.setContactInfo(RequestData).subscribe(responce=>{
   this.contactinfoReq = responce;
   console.log(this.contactinfoReq);
-   if(this.contactinfoReq.statusMessage == "employee contact info saved successfully"){
-     //this.value = false;
-   // swal(this.contactinfoReq.statusMessage, "","success");
+  if(this.contactinfoReq.statusMessage == "employee contact info saved successfully"){
+    
+    swal(this.contactinfoReq.statusMessage, "","success");
      this.getContactInformation();
    }
   this.contactinfoArr = this.contactinfoReq.empInfo;
@@ -644,14 +507,63 @@ this.hrms.setContactInfo(RequestData).subscribe(responce=>{
      this.contactInfolist = res;
      this.contactList = this.contactInfolist.empContacts;
      console.log(this.contactList);
-     
+
+
+     for(let i=0;i<=this.contactList.length;i++){
+
+      for(let j=0;j<this.StateList.length;j++){
+      if(this.StateList[j].id==this.contactList[i].current_State){
+      this.getcontactontable=this.StateList[j].stateName;
+      console.log("Qualification details");
+      console.log(this.getcontactontable);
+      } 
+      }
+      this.contactList[i].current_State=this.getcontactontable;
+      console.log("Final Educational ");
+      console.log(this.contactList);
+      }
+
       })
     }
 
-    valueAdd(){
-      this.isUpdate=false;
-      this.createdby= true;
-    }
+   
+   
+
+
+
+
+
+
+
+ 
+
+//master get method for stateslist
+getStatus() {
+  var request =
+    {
+       
+      "states":
+       [{
+        "stateName":"Hariyana",
+        "id":4
+       }],
+            
+      "sessionId":"1234",
+       "transactionType": "getall"
+       
+      }
+this.hrms.getStatusList(request).subscribe(res =>{
+  this.StateDetails = res;
+  this.StateList = this.StateDetails.statesList;
+  console.log(this.StateList);
+})
+}
+
+valueAdd(newUserFormcontact){
+  newUserFormcontact.reset()
+  this.isUpdate=false;
+  this.createdby= true;
+}
 
      //isUpdate = true;
      createdby= false;
@@ -720,11 +632,11 @@ updateContactdetails(){
               "current_City" : this.ContactInfo.current_City,
         
         "current_Pin" :  this.ContactInfo.current_Pin,
-        "current_State" : this.ContactInfo.current_State ,
+        "current_State" :this.ContactInfo.current_State,
         "permanent_Address_Line_1" : this.ContactInfo.permanent_Address_Line_1 ,
         "emp_Id" : this.ContactInfo.emp_Id ,
         "id" : this.ContactInfo.id,
-        "updated_By" :"ojas456"
+        "updated_By" : "user45"
       }],
          
         "transactionType" : "update"
@@ -734,6 +646,10 @@ updateContactdetails(){
              this.updateRes = res;
                 
             console.log(this.updateRes);
+            if(this.updateRes.statusMessage == "employee contact info updated successfully"){
+              swal(this.updateRes.statusMessage, "","success");
+              this.getContactInformation();
+            }
                  this.getContactInformation();
             })
        
@@ -759,6 +675,10 @@ updateContactdetails(){
     this.deletedcontactDetails = res;
     this.empinfoarr = this.deletedcontactDetails.empInfo;
     console.log(this.deletedcontactDetails);
+    if(this.deletedcontactDetails.statusMessage == "employee contact info deleted successfully"){
+      swal(this.deletedcontactDetails.statusMessage, "","success");
+      this.getContactInformation();
+    }
     this.getContactInformation();
     })
     }
@@ -811,13 +731,12 @@ updateContactdetails(){
             this.certificationReq = responce;
             console.log(this.certificationReq );
 
-         
-            if(this.certificationReq.statusMessage == "Employee Certification detail saved successfuly"){
-              //this.value = false;
-             //swal(this.certificationReq.statusMessage, "","success");
-              this.getCertificationDetails();
-            }
-            this.certificationArr = this.certificationReq.certificationDetailsModel;
+            if(this.certificationReq.statusMassage =="Employee Certification detail saved successfuly"){
+    
+              swal(this.certificationReq.statusMassage, "","success");
+              //this.getCertificationDetails();
+             }
+            //this.certificationArr = this.certificationReq.certificationDetailsModel;
             this.getCertificationDetails();
            
           });
@@ -864,12 +783,18 @@ updateContactdetails(){
                 this.deletedcertificationDetails = res;
                 this.certificationDetailsListarr = this.deletedcertificationDetails.certificationDetailsList;
                 console.log(this.deletedcertificationDetails);
+
+                if(this.deletedcertificationDetails.statusMassage == "Employee Certification detail deleted successfuly"){
+                  swal(this.deletedcertificationDetails.statusMassage, "","success");
+                  //this.getCertificationDetails();
+                }
                this.getCertificationDetails();
                 });
           }
 
 
-Addvalue(){
+Addvalue(newUserFormCer){
+  newUserFormCer.reset()
   this.isUpdateBy=false;
   this.createdBY=true;
 }
@@ -942,13 +867,16 @@ updateCertificationdetails(){
              this.updateRequest = res;
                 
             console.log(this.updateRequest);
+            if(this.updateRequest.statusMassage == "Employee Certification detail updated successfuly"){
+              swal(this.updateRequest.statusMassage, "","success");
+              //this.getCertificationDetails();
+            }
                  this.getCertificationDetails();
             })
        
       
   }
 //certificatiion details ends
-
 
 
 // bu starts-------
@@ -972,6 +900,7 @@ bu_empid:any;
   businesbyid:any;
   businesDetails:any;
   createdby1:any;
+  isempid:any;
 
   addbusinessUnit(){
     this.isUpdate = false;
@@ -982,7 +911,7 @@ public businessUnitObj=
 {
   "employeeId": "",
   "sbu": "",
-  "flag": "",
+  
   "createddate": "",
   "updateddate": "",
   "createdby": "",
@@ -1006,17 +935,31 @@ getbusines(){
   this.empbu =res;
   this.empbuinfo= this.empbu.listCourse;
    console.log(this.empbu);
+   for(let i=0;i<=this.empbuinfo.length;i++){
+
+    for(let j=0;j<this.subBusinessUnitlist.length;j++){
+    if(this.empbuinfo[i].gender==this.subBusinessUnitlist[j].id){
+    this.getgenderdata=this.subBusinessUnitlist[j].gender;
+    console.log("GEnder details");
+    console.log(this.getgenderdata);
+    } 
+    }
+    this.empbuinfo[i].gender=this.getgenderdata;
+    console.log("Final Educational Details Array");
+    console.log(this.empbuinfo);
+    }
    })
   
 }
 savebusinesunit(){
+  
   var savebusines={
     "employeeBUDeatils": [{
-            "employeeId" : this.businessUnitObj.id,
+            "employeeId" : this.businessUnitObj.employeeId,
             "sbu" : this.businessUnitObj.sbu,
             "status" : this.businessUnitObj.status,
             "createdby" : this.businessUnitObj.createdby,
-            "flag" : this.businessUnitObj.flag
+    
     }
     ],
       "transactionType" :"save"
@@ -1054,10 +997,11 @@ empdelete(empbu){
   
   }
   updatebusinesunitint(){
+    this.isempid = false;
  
     var updatebusinesunitkt={
       "employeeBUDeatils": [{
-              //"id" : this.businessUnitObj.id,
+              "id" : this.businessUnitObj.id,
               "employeeId" : this.businessUnitObj.employeeId,
               "sbu" : this.businessUnitObj.sbu,
               "status" : this.businessUnitObj.status,
@@ -1071,20 +1015,35 @@ empdelete(empbu){
     this.hrms.updatebusinesunit(updatebusinesunitkt).subscribe(res =>{
       this.updatebusines = res;
       console.log(this.updatebusines);
-         if(this.updateRes.statusMessage == "Successfully Education record updated"){
-           swal(this.updateRes.statusMessage, "","success");
-          this.getdependentData();
-         
-    this.getbusines();
+         if(this.updatebusines.statusMessage == "Successfully BusinessUnit record updated"){
+           swal(this.updatebusines.statusMessage, "","success");
+          
+         this.getbusines();
          }
     })
-  
-    
-  
    }
+   
+     //bulist getdata
+     subbusinessunitDetails:any;
+     subBusinessUnitlist:any;
+     getSubBusinessUnit(){
+      var request = {
+           "subBusinessUnitModel": [
+           {
+           }
+      ],
+          "transactionType" : "getAll"
+  }
+       this.hrms.getSubbusinessUnit(request).subscribe(res =>{
+        this.subbusinessunitDetails = res;
+        this.subBusinessUnitlist = this.subbusinessunitDetails.subBusinessUnitList;
+        console.log(this.subbusinessunitDetails);
+       })
+    }
    
    getbusiness_data_byid(empbu){
     this.isUpdate = true;
+    
     
     this.createdby1 = false;
     var buId= empbu.id;
@@ -1108,9 +1067,9 @@ empdelete(empbu){
     })
     }
 
+
 // bu ends ///
  // emp basic starts //
-
 
  emp_fname:any;
  emp_mname:any;
@@ -1132,6 +1091,10 @@ empdelete(empbu){
  CREATEDBY2:any;
  createdby2:any;
  isUpdate1:any;
+ basicempstatus:any;
+ empbasicstatus:any;
+ empgender:any;
+ empgenderinfo:any;
  
  isUPDATEDBY2:any;
 
@@ -1158,8 +1121,9 @@ empdelete(empbu){
 
 }
 
-
-
+//Get Employee Basic Info
+getgenderdata:any;
+getstatusdata:any;
  getempdata(){
   var empinfo = {
   
@@ -1174,8 +1138,35 @@ empdelete(empbu){
    this.hrms.getempinfo(empinfo).subscribe(res =>{
   this.empbasic =res;
   this.empbasicinfo= this.empbasic.employeeInfo;
-
    console.log(this.empbasicinfo);
+   for(let i=0;i<=this.empbasicinfo.length;i++){
+
+    for(let j=0;j<this.empgenderinfo.length;j++){
+    if(this.empbasicinfo[i].gender==this.empgenderinfo[j].id){
+    this.getgenderdata=this.empgenderinfo[j].gender;
+    console.log("GEnder details");
+    console.log(this.getgenderdata);
+    } 
+    }
+    this.empbasicinfo[i].gender=this.getgenderdata;
+    console.log("Final Educational Details Array");
+    console.log(this.empbasicinfo);
+    }
+    for(let i=0;i<=this.empbasicinfo.length;i++){
+
+      for(let j=0;j<this.empbasicstatus.length;j++){
+      if(this.empbasicinfo[i].status==this.empbasicstatus[j].id){
+      
+        this.getstatusdata=this.empbasicstatus[j].status;
+      console.log("GEnder And Status details");
+      console.log(this.getstatusdata);
+      } 
+      }
+      this.empbasicinfo[i].status=this.getstatusdata;
+      console.log("Final Educational Details Array");
+      console.log(this.empbasicinfo);
+      }
+
    })
   
 }
@@ -1205,10 +1196,11 @@ saveemployeeInfo(){
 
     console.log(this.basicinfo);
   if(this.basicinfo.statusMessage == "Success fully record added"){
-          swal(this.basicinfo.statusMessage, "","success");
+  swal(this.basicinfo.statusMessage, "", "success");
   
-      this.getempdata();
+     
   }
+  this.getempdata();
      })
     
   }
@@ -1229,16 +1221,14 @@ saveemployeeInfo(){
         if(this.delete_data.statusMessage == "Success fully record deleted"){
            swal(this.delete_data.statusMessage, "","success");
           
-           this.getempdata();
+          
           }
+          this.getempdata();
       })
       
       }
       updateempinfo(){
-       
-       
-
-
+        this.isupdate = false;
         var updateempinfo={
           "employeeInfo" :[{
                  "id":this.empinobj.id,
@@ -1272,10 +1262,17 @@ saveemployeeInfo(){
       
        }
 
+      //  addBasic()
+      //  {
+         
+      //  }
+
        getbyIdbasicdata(empbasic){
 
-        this.createdby1 = false;
+        this.createdby=false;
         this.isUpdate = true;
+        
+       
     
     
         var empdataid= empbasic.id;
@@ -1301,9 +1298,48 @@ saveemployeeInfo(){
          console.log("this.basicUnitObj",this.empinobj);
         })
         }
+getemplostatus(){
+          var empstatus = {
+            "employeeStatus": [
+                {
+                        
+                }
+         
+            ],
+            "transactionType": "getall"
+         }
+           this.hrms.getempstatus(empstatus).subscribe(res =>{
+          this.basicempstatus =res;
+          this.empbasicstatus= this.basicempstatus.employeeStatusList;
+           console.log(this.empbasicstatus);
+           })
+          
+        }
+        getgender(){
+          var genderinfo={
+       
+            "gender":[
+             {
+             
+             }
+            ],
+            
+             "transactionType": "getall"
+            }
+            this.hrms.getGenderinfo(genderinfo).subscribe(res =>{
+              this.empgender=res;
+              this.empgenderinfo=this.empgender.genderList;
+              console.log(this.empgenderinfo);
+            })
+          
+
+        }
     
 
-        // ----Employee Experience Details Starts---------------------------------------------
+ //emp Basic ends//
+    
+
+// ----Employee Experience Details Starts---------------------------------------------
 empexp : any;
 empexpdetails :any;
 saveRes :any;
@@ -1336,19 +1372,19 @@ joining_date:any;
 exit_date:any;
 salary:any;
 //location:any;
-is_current_company:boolean;
-//employee_Id:any;
+is_current_company:any;
 first_Reference_Name:any;
 first_Reference_Contact:any;
 second_Reference_Name:any;
 second_Reference_Contact:any;
 sessionId:any;
+created_date:any;
+updated_date:any;
 
 
 isCreated:boolean=false;
 
-
-
+booleanValue = true;
 EmpExpArr:any;
 
   saveEmpExp(){
@@ -1368,11 +1404,14 @@ EmpExpArr:any;
                  "employee_Id":this.editemparrlist.employee_Id,
                  "first_Reference_Name":this.editemparrlist.first_Reference_Name,
                  "first_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-                 "second_Reference_Name":this.editemparrlist.second_Reference_Name,
-                 "second_Reference_Contact":this.editemparrlist.second_Reference_Contact,
-                 "created_by":this.editemparrlist.created_by,
+                 "second_Reference_Name":"phani",
+                 "second_Reference_Contact":1234567890,
+                 "created_by":19196,
+                 "created_date":this.editemparrlist.created_date,
+                  "updated_by": "123",
+                  "updated_date": "2019-04-22T06:29:14.000+0000"
                  
-                
+              
           }
         ],
         
@@ -1383,9 +1422,13 @@ EmpExpArr:any;
     this.hrms.saveEmployeeExperienceDetails(savReqObj).subscribe(res =>{
       this.saveRes = res;
       console.log(this.saveRes);
-      this.EmpExpArr = this.saveRes.employeeExperienceDetails;
-      console.log(this.EmpExpArr);
-      this.getEmpExp();
+      
+        if(this.saveRes.statusMessage == "EmployeeExperienceDetails saved successfully")
+        {
+         swal(this.saveRes.statusMessage,"","success");
+         //this.getEmpExp();
+       }
+     this.getEmpExp();
     })
 
   }
@@ -1413,7 +1456,12 @@ this.deleteres = res;
 this.deleteEmpExpArr = this.deleteres.employeeExperienceDetails;
 console.log(this.deleteres);
 
-this.getEmpExp();
+ if(this.deleteres.statusMessage == "EmployeeExperienceDetails deleted sucesfully")
+ {
+  swal(this.deleteres.statusMessage,"","success");
+  this.getEmpExp();
+ }
+//this.getEmpExp();
 })
 }
 
@@ -1437,16 +1485,20 @@ public editemparrlist =
             "second_Reference_Contact":"",
             "updated_by":"",
             "created_by":"",
+            "created_date":"",
+            "updated_date":""
           
 }
 
 
-addempexp()
+addempexp(newUserFormEmpExp)
 {
+newUserFormEmpExp.reset();
 this.isUpdate = false;
 this.isCreated = true;
 
 }
+
 
 editempexpbyid(emp)
 {
@@ -1503,8 +1555,8 @@ console.log("this.editemparrlist",this.editemparrlist);
           "employee_Id":this.editemparrlist.employee_Id,
           "first_Reference_Name":this.editemparrlist.first_Reference_Name,
           "first_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-          "second_Reference_Name":this.editemparrlist.second_Reference_Name,
-          "second_Reference_Contact":this.editemparrlist.second_Reference_Contact,
+          "second_Reference_Name":"phani",
+          "second_Reference_Contact":"gpv",
           "updated_by":this.editemparrlist.updated_by,
         
           
@@ -1517,29 +1569,35 @@ console.log("this.editemparrlist",this.editemparrlist);
 this.hrms.updateEmployeeExperienceDetails(updateReqObj).subscribe(res => {
   this.updateres = res;
   console.log(this.updateres);
-  this.updateEmpExpArr = this.updateres.employeeExperienceDetails;
-  console.log(this.updateEmpExpArr);
-  this.getEmpExp();
+  // this.updateEmpExpArr = this.updateres.employeeExperienceDetails;
+  // console.log(this.updateEmpExpArr);
+   if(this.updateres.statusMessage == "EmployeeExperienceDetails updated successfully")
+       {
+        swal(this.updateres.statusMessage,"","success");
+        this.getEmpExp();
+      }
+     //this.getEmpExp();
 })
 
 }
 
 
 
-
-
 //---Employee KYE details starts--------------
 
 //--- getting Employee KYE details-------------------
+Location:any;
 empkye:any;
 empkyearr:any;
+savepassport:any;
 getEmpKye()
 {
 var reqObj = 
 {
-"kye" :[{
+        "kye" :
+        [{
 
-}],
+        }],
         "transactionType"     :  "getAll"
 }
 
@@ -1547,8 +1605,53 @@ this.hrms.getEmployeeKyeDetails(reqObj).subscribe(res =>{
 this.empkye = res;
 console.log(this.empkye);
 this.empkyearr = this.empkye.kyeList;
+//console.log("welcome to KYE");
+ //console.log(this.empkye.kyeList[5].place_of_issue);
+ for(let i=0;i<=this.empkyearr.length;i++){
+   for(let j=0;j<this.passportCenterList.length;j++){
+    if(this.passportCenterList[j].id==this.empkyearr[i].place_of_issue){
+     this.savepassport=this.passportCenterList[j].centerName;
+     console.log("Loop for Place");
+     console.log(this.savepassport);
+    }
+   }
+   this.empkyearr[i].place_of_issue=this.savepassport;
+ }
+
+
 })
 }
+
+
+//-- Getting Passport Deatails -------------
+passportCenterDetails:any;
+passportCenterList:any;
+passport:any;
+sample:any;
+getPassportCenter() {
+  var request =
+  {
+    "passportList":[
+   ],
+
+"sessionId" : "323",
+"transaactionType" : "getall"
+}
+  this.hrms.getPassportCeneter(request).subscribe(res =>{
+    this.passportCenterDetails = res;
+    console.log(this.passportCenterDetails.body.passportList);
+    //this.sample= this.passportCenterDetails.passportList;
+    this.passportCenterList = this.passportCenterDetails.body.passportList;
+    console.log(this.passportCenterList);
+  })
+}
+
+
+//num = this.passport.id
+
+
+
+//-- Getting Passport Deatails -------------
 
 
 //--- saving Employee KYE details-------------------
@@ -1591,15 +1694,13 @@ var savereqObj =
 this.hrms.saveEmployeeKyeDetails(savereqObj).subscribe(res => {
 this.savekyeres = res;
 console.log(this.savekyeres);
-this.savekyeresarr = this.savekyeres.kye;
 
-//   if(this.savekyeres.statusMessage == "Success fully record added")
-// {
-//    this.value =false;
-//    swal(this.savekyeres.statusMessage,"","success");
-//    this.getEmpKye();
-// }
-this.getEmpKye();
+
+if(this.savekyeres.statusMessage == "record added successfully")
+    {
+     swal(this.savekyeres.statusMessage,"","success");
+     this.getEmpKye();
+   }
 })
 
 }
@@ -1624,7 +1725,13 @@ this.hrms.deleteEmployeeKyeDetails(deleteReqKye).subscribe (res => {
 this.deleteKye = res;
 console.log(this.deleteKye);
 this.deleteKyearr = this.deleteKye.kye;
-this.getEmpKye();
+
+ if(this.deleteKye.statusMessage == "record deleted successfully")
+ {
+  swal(this.deleteKye.statusMessage,"","success");
+  this.getEmpKye();
+ }
+//  this.getEmpKye();
 })
 }
 
@@ -1634,8 +1741,9 @@ editkye:any;
 editkyearr:any;
 kye:any;
 
-addeditkye()
+addeditkye(newUserFormExp)
 {
+  newUserFormExp.reset();
 this.isUpdate=false;
 
 this.isCreated = true;
@@ -1710,7 +1818,14 @@ this.hrms.updateEmployeeKyeDetails(updatekyereq).subscribe(updateres =>{
 this.updatekyeres = updateres;
 console.log(this.updatekyeres);
 this.updatekyeresarr = this.updatekyeres.kye;
-this.getEmpKye();
+
+
+if(this.updatekyeres.statusMessage == "record updated successfully")
+    {
+     swal(this.updatekyeres.statusMessage,"","success");
+     this.getEmpKye();
+   }
+// this.getEmpKye();
 })
 }
 
@@ -1724,6 +1839,7 @@ this.getEmpKye();
 gettitle:any;
 gettitlearr:any;
 
+saveRole:any;
 getempTiltle()
 {
 var reqtitle = 
@@ -1738,8 +1854,52 @@ this.hrms.getEmpTitleDetails(reqtitle).subscribe(res =>{
 this.gettitle = res;
 this.gettitlearr = this.gettitle.listCourse;
 console.log(this.gettitlearr);
+
+for(let i=0;i<=this.gettitlearr.length;i++){
+
+  for(let j=0;j<this.roleManagemenListArr.length;j++){
+  if(this.gettitlearr[i].role==this.roleManagemenListArr[j].id){
+  this.saveRole=this.roleManagemenListArr[j].roleName;
+  console.log("Role Management details");
+  console.log(this.saveRole);
+  } 
+  }
+  this.gettitlearr[i].role=this.saveRole;
+  console.log("Final Role Details Array");
+  console.log(this.gettitlearr);
+  }
+
+})
+
+}
+
+
+
+//----getRoleManagement Master API Call-------------------
+getRoleDetails:any;
+roleManagemenListArr:any;
+getRole(){
+  var request = {
+    
+        
+      "roleManagement" : [{
+        
+      }
+     ],
+      "transactionType" : "getall"
+      
+
+
+    
+}
+this.hrms.getRoleManagement(request).subscribe(res=>{
+  this.getRoleDetails = res;
+  this.roleManagemenListArr = this.getRoleDetails.roleManagementList;
 })
 }
+//----getRoleManagement ends------------------
+
+
 
 //--Saving employee title ----------------
 
@@ -1754,11 +1914,14 @@ title:any;
 //flag:boolean;
 
 
-clickadd()
+clickadd(newUserFormtitle)
 {
+  newUserFormtitle.reset();
 this.isCreatedby=true;
 this.isUpdatedby=false;
 }
+
+//save Title 
 
 saveempTitle()
 
@@ -1770,7 +1933,7 @@ saveempTitle()
       "title" : this.edittitle.title,
       "employeeId" : this.edittitle.employeeId,
       "createdby" : this.edittitle.createdby,
-       //"flag" : this.edittitle.flag
+       "flag" : true
 }],
 "transactionType" :"save"
   }
@@ -1778,8 +1941,17 @@ saveempTitle()
   this.saveEmpObj = res;
   this.savetitlearr = this.saveEmpObj.model;
   console.log(this.savetitlearr);
-  this.getempTiltle();
+
+   if(this.saveEmpObj.statusMessage == "Successfully Title record saved")
+     {
+      swal(this.saveEmpObj.statusMessage,"","success");
+      //this.getempTiltle();
+    }
+
+   this.getempTiltle();
 })
+
+
 
 }
 
@@ -1800,7 +1972,13 @@ var deleteReqtitle =
 this.hrms.deleteEmpTitleDetails(deleteReqtitle).subscribe (res => {
   this.deletetitle = res;
   console.log(this.deletetitle);
-  this.deletetitlearr = this.deletetitle.listCourse;
+  //this.deletetitlearr = this.deletetitle.listCourse;
+
+  if(this.deletetitle.statusMessage == "Successfully Title record deleted")
+      {
+       swal(this.deletetitle.statusMessage,"","success");
+      // this.getempTiltle();
+     }
   this.getempTiltle();
 })
 }
@@ -1859,7 +2037,7 @@ var updatetileObj =
   "id" : this.edittitle.id,
   "role": this.edittitle.role,
   "title" : this.edittitle.title,
-  //"employeeId" : this.edittitle.employeeId ,
+  "employeeId" : this.edittitle.employeeId,
   "updatedby" : this.edittitle.updatedby
 }],
 "transactionType" :"update"
@@ -1868,7 +2046,13 @@ this.hrms.updateEmpTitleDetails( updatetileObj).subscribe(updaterestitle =>{
 this.updateres = updaterestitle;
 console.log(this.updateres);
 this.updatetitlearr = this.updateres.model;
-this.getempTiltle();
+
+if(this.updateres.statusMessage == "Successfully Title record updated")
+      {
+       swal(this.updateres.statusMessage,"","success");
+       //this.getempTiltle();
+     }
+ this.getempTiltle();
 })
 }
 
@@ -1878,9 +2062,11 @@ this.getempTiltle();
 
 
 
+
 //----Getting Employee Education Details--------------------
 getempedu:any;
 getempeduarr:any;
+Qualification_value:any;
 
 getEmpEdu()
 {
@@ -1897,7 +2083,26 @@ this.hrms.getEmpEduDetails(reqtitle).subscribe(res =>{
 this.getempedu = res;
 this.getempeduarr = this.getempedu.employeeEducationDetailsList;
 console.log("Employee Education get");
-console.log(this.getempedu);
+console.log(this.getempeduarr);
+for(let i=0;i<=this.getempeduarr.length;i++){
+
+  for(let j=0;j<this.EmpQualArray.length;j++){
+      if(this.getempeduarr[i].qualification==this.EmpQualArray[j].id){
+        this.Qualification_value=this.EmpQualArray[j].educationType;
+        console.log("Qualification details");
+        console.log(this.Qualification_value);
+     
+      }   
+  }
+  this.getempeduarr[i].qualification=this.Qualification_value;
+  console.log("Final Educational Details Array");
+  console.log(this.getempeduarr);
+   
+ 
+}
+
+
+
 })
 }
 
@@ -1919,8 +2124,9 @@ updatedByEdu: any;
 createdDate: any;
 updatedDate: any;
 
-clickaddEdu()
+clickaddEdu(EmpEducationForm)
 {
+  EmpEducationForm.reset();
 this.isCreatedEduby=true;
 this.isUpdatedEduby=false;
 }
@@ -1928,6 +2134,7 @@ this.isUpdatedEduby=false;
 saveEmpEdu()
 
 {
+  var user="user";
    var saveempeduobj = 
   {
    "employeeEducationDetailsList" :[
@@ -1939,10 +2146,10 @@ saveEmpEdu()
 "percentage_marks": this.editEduEmp.percentage_marks,
 "institution_name": this.editEduEmp.institution_name,
 "flag":this.editEduEmp.flagEdu,
-"createdBy": this.editEduEmp.createdbyEdu,
-"updatedBy": this.editEduEmp.updatedbyEdu,
-"createdDate": this.editEduEmp.createdDate,
-"updatedDate": this.editEduEmp.updatedDate,
+"createdBy": user,
+"updatedBy": user,
+// "createdDate": this.editEduEmp.createdDate,
+// "updatedDate": this.editEduEmp.updatedDate,
 "id":this.editEduEmp.id
 }
 ],
@@ -1955,6 +2162,10 @@ saveEmpEdu()
 this.hrms.saveEmpEduDetails(saveempeduobj).subscribe(res => {
 this.saveEmpEduObj = res;
 this.saveEmpEduarr = this.saveEmpEduObj.employeeEducationDetailsList;
+if(this.saveEmpEduObj.statusMessage == "Employee Education Details have been saved"){
+  swal(this.saveEmpEduObj.statusMessage, "","success");
+  this.getdependentData();
+}
 console.log(this.saveEmpEduObj);
 this.getEmpEdu();
 })
@@ -1988,7 +2199,45 @@ var deleteEmpEduObj =
   this.deleteEmpObj = res;
   console.log(this.deleteEmpObj);
   this.deleteEmpEduarr = this.deleteEmpObj.employeeEducationDetailsList;
+  if(this.deleteEmpObj.statusMessage == "Employee Education Details have been deleted"){
+    swal(this.deleteEmpObj.statusMessage, "","success");
+    
+  }
   this.getEmpEdu();
+})
+}
+
+// Employee Qualification Details 
+
+EmpQualObject:any;
+EmpQualArray;
+EmpQualification: [];
+Qualification: [];
+
+// Qualification_n: [];
+
+getEmployeeQualification(){
+  var QualificationRequest=
+  {
+
+        
+    "transactionType" : "getall"
+}
+this.hrms.getEmpEduQualification(QualificationRequest).subscribe(response=>{
+this.EmpQualObject=response;
+
+this.EmpQualArray = this.EmpQualObject.listCourse;
+// for(let i=0; i< this.EmpQualArray.length; i++){
+//   //console.log(this.EmpQualArray[i].degree); //use i instead of 0
+//   this.EmpQualification = this.EmpQualArray[i];
+//  // this.Qualification_n.push(this.EmpQualArray[i]);
+//   //console.log("List of EmpQualification");
+//   console.log(this.EmpQualification['id']);
+//   console.log(this.EmpQualification['degree']);
+// }
+this.Qualification=this.EmpQualification;
+//console.log(this.EmpQualObject);
+console.log(this.EmpQualArray);
 })
 }
 
@@ -2023,21 +2272,23 @@ this.isCreatedEduby = false;
 var eduid = edu.id;
 var editEmpEduobj = 
 {
-
-    "employeeEducationDetailsList" : [{
-   "id":eduid
-
- }],
-
-"transaactionType":"getall",
-"pageNo" : 2,
-"pageSize" : 2
+  "employeeEducationDetailsList" :[
+      {
+      "id": eduid
+     
+  }    
+  ],
+  
+  "transaactionType":"getAll",
+  "pageNo" : 2,
+  "pageSize" : 2
 }
 
 this.hrms.editEmpEduDetails(editEmpEduobj).subscribe(res => {
 this.editEmpEdu = res;
 this.editEmpEduarr = this.editEmpEdu.employeeEducationDetailsList;
 this.editEduEmp = this.editEmpEduarr[0];
+
 console.log("this.empEmpEdudetails",this.editEduEmp);
 
 })
@@ -2047,8 +2298,9 @@ console.log("this.empEmpEdudetails",this.editEduEmp);
 updateedures:any;
 updateEduarr:any;
 
-updateEdu()
+updateEdu(EmpEducationForm)
 {
+  var user="user";
 var updateEduObj = 
 {
 "employeeEducationDetailsList" :[
@@ -2060,7 +2312,7 @@ var updateEduObj =
     "percentage_marks": this.editEduEmp.percentage_marks,
     "institution_name": this.editEduEmp.institution_name,
     "flag":true,
-    "updatedBy": this.editEduEmp.updatedbyEdu,
+    "updatedBy": user,
     "id":this.editEduEmp.id
 }
 ],
@@ -2068,6 +2320,7 @@ var updateEduObj =
 "transaactionType":"update",
 "pageNo" : 2,
 "pageSize" : 2
+
 }
 
 
@@ -2076,171 +2329,18 @@ this.hrms.updateEmpEduDetails(updateEduObj).subscribe(updateEdu =>{
  this.updateedures = updateEdu;
  console.log(this.updateedures);
  this.updateEduarr = this.updateedures.employeeEducationDetailsList;
+ if(this.updateedures.statusMessage == "Employee Education Details have been updated"){
+  swal(this.updateedures.statusMessage, "","success");
+  
+}
  this.getEmpEdu();
+
 })
+EmpEducationForm.reset();
+
 }
 
 //----Employee Education details Ends--------------------
-//dependent starts
-
-//dependent details starts
-OnSave()
-{
-  
- this.createdByDependent=true;
-  this.isupdateDependent=false;
-}
-
-// getdependentData(){
-//   var requestData ={
-//     "dependentDetails" : [
-//                                             {
-                                              
-//                                             }
-//                    ], 
-//                    "transactionType":"getall",
-//                   "sessionId" : "any String" 
-//   }
-
-//     this.hrms.getdependentdetails(requestData).subscribe(response =>{
-//       this.dependent_details = response;
-//       this.dependents = this.dependent_details.getDependentDetailsList;
-
-//       console.log(this.dependent_details);
-    
-//     })
-//   }
-
-
-
-  onsavedependentdata(){
-
-    var requestData = {
-      "dependentDetails" : [
-                                    {
-                                    "dependent_Name":this.dependentdetailss.dependent_Name,
-                                    "relation":this.dependentdetailss.relation,
-                                    "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
-                                    "employee_Id":this.dependentdetailss.employee_Id,
-                                   
-                                     "created_By":this.dependentdetailss.created_By
-
-                         }
-                           ], 
-                     "transactionType":"save",
-                    "sessionId" : "any String" 
-    }
-    
-    this.hrms.savedependentdetails(requestData).subscribe(response =>{
-   this.dependent_details = response;
-       
-       if(this.dependent_details.statusMessage == "DependentDetails have saved successfully"){
-       // swal(this.dependent_details.statusMessage, "","success");
-        this.getdependentData();
-      }
-       
-    })
-    
- }
- createdByDependent= false;
-
- isupdateDependent = false;
- public dependentdetailss={
-  
-          
-            "id":"",
-            "dependent_Name":"",
-            "relation":"",
-            "date_Of_Birth":"",
-            "employee_Id":"",
-            "updated_By":"",
-            "created_By":""
-
- }
-
-//  updatedependentdata(){
- 
-//   var updatedependentdata ={
-//     "dependentDetails" : [
-//                                             {
-//                                                                     "id":this.dependentdetailss.id,
-//                                   "dependent_Name":this.dependentdetailss.dependent_Name,
-//                                   "relation":this.dependentdetailss.relation,
-//                                   "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
-//                                   "employee_Id":this.dependentdetailss.employee_Id,
-//                                   "updated_By":this.dependentdetailss.updated_By
-//                        }
-                       
-                      
-//                    ], 
-//                    "transactionType":"update",
-//                   "sessionId" : "any String" 
-//   }
-  
-//   this.hrms.updatedependentdetails(updatedependentdata).subscribe(res =>{
-//     this.updateRes = res;
-//     console.log(this.updateRes);
-//       if(this.updateRes.statusMessage == "DependentDetails are updated successfully"){
-//         swal(this.updateRes.statusMessage, "","success");
-//         this.getdependentData();
-        
-        
-//       }
-//   })
-
-// }
-//  deletedependentdata(dependent){
-
-//   var deletedependentdata ={
-//     "dependentDetails" : [
-//                       {
-//                            "id":dependent.id,
-//                            "updated_By":dependent.updated_By
-//                        },
-                       
-                      
-//                    ], 
-//                    "transactionType":"delete",
-//                   "sessionId" : "any String" 
-//   }
-// this.hrms.deletedependentdetails(deletedependentdata).subscribe(res=>{
-//   this.deleteRes=res;
-//   if(this.deleteRes.statusMessage == "DependentDetails are deleted successfully"){
-//     swal(this.deleteRes.statusMessage, "","success");
-//     this.getdependentData();
-//   }
-
-// })
-  
-//  }
-
-
-
-
- getdependentdetailsById(dependent){
-  this.isupdateDependent = true;
-  this.createdByDependent = false;
-   var ddid = dependent.id;
-   var dependentdetailsByid={
-    "dependentDetails" : [
-                                            {
-                                                    "id": ddid
-                       }
-                   ], 
-                   "transactionType":"getbyid",
-                  "sessionId" : "any String" 
-  }
-  this.hrms.getdependentdetails(dependentdetailsByid).subscribe(response =>{
-    this.  employee_dependentdetailsById = response;
-    this. dependent_dtdetails = this.employee_dependentdetailsById.getDependentDetailsList;
-    this.dependentdetailss = this.dependent_dtdetails[0]
-      
-  
-  })
-
- }
-//dependent detils ends
-//bank details starts 
 
 
 public bankdetailss ={
@@ -2258,22 +2358,22 @@ public bankdetailss ={
 }
 
 
-//  getbankdetails(){
-//  var bankdetails={
-//   "bankDetails":[{
+ getbankdetails(){
+ var bankdetails={
+  "bankDetails":[{
          
   
-// }],
-// "transactionType":"getall"
+}],
+"transactionType":"getall"
 
-// }
-// this.hrms.getbankserverdetails(bankdetails).subscribe(response =>{
-//   this.employee_bankdetails = response;
-//   this.bankdt = this.employee_bankdetails.listBankDetails;
-// console.log(this.bankdt);
+}
+this.hrms.getbankserverdetails(bankdetails).subscribe(response =>{
+  this.employee_bankdetails = response;
+  this.bankdt = this.employee_bankdetails.listBankDetails;
+console.log(this.bankdt);
 
-// })
-// }
+})
+}
 
 getbankdetailsbyId(bank){
   
@@ -2296,6 +2396,14 @@ getbankdetailsbyId(bank){
  
  })
  }
+
+// Add Bank details Button 
+
+AddBank(newUserFormBank){
+  newUserFormBank.reset();
+  this.createdByDependent=true;
+  this.isupdateDependent=false;
+}
 
 
 Onsavebank(){
@@ -2380,6 +2488,7 @@ this.hrms.updatebankdetails(updatebankdetails).subscribe(res =>{
 }
 //bank details ends
 
+
 //employment details starts
 
 getemploymentdetails(){
@@ -2426,7 +2535,7 @@ getemploymentdetails(){
 
   
        if(this.onboardingdetails.statusMessage == "Data is inserted successfully"){
-         // swal(this.onboardingdetails.statusMessage, "","success");
+          swal(this.onboardingdetails.statusMessage, "","success");
           this.onboardingdetails();
          }
 
@@ -2449,7 +2558,7 @@ var deleteemployee={
 this.hrms.deleteOnboardingdetails(deleteemployee).subscribe(res=>{
   this.deleteonboarding=res;
    if(this.deleteonboarding.statusMessage == "Data is deleted successfully"){
-    // swal(this.deleteonboarding.statusMessage, "","success");
+     swal(this.deleteonboarding.statusMessage, "","success");
      this.getemploymentdetails();
    }
  
@@ -2504,7 +2613,7 @@ this.hrms. updateonboardingdetails(updatenboarddetails).subscribe(res =>{
   this.onboardRes = res;
   console.log(this.onboardRes);
      if(this.onboardRes.statusMessage == "Data is updated successfully"){
-       //swal(this.onboardRes.statusMessage, "","success");
+       swal(this.onboardRes.statusMessage, "","success");
        this.getemploymentdetails();
      }
 })
@@ -2530,6 +2639,177 @@ public onboarddetailsss={
 
 // ends onboarding details 
 
+
+//dependent starts 
+//dependent starts 
+
+
+OnSaveonboard(newUserFormonboard)
+{
+  newUserFormonboard.reset();
+ this.createdByDependent=true;
+  this.isupdateDependent=false;
+}
+Onsavedep(newUserFormDependent){
+  newUserFormDependent.rest();
+  this.createdByDependent=true;
+  this.isupdateDependent=false;
+
+}
+
+getdependentData(){
+  var requestData ={
+    "dependentDetails" : [
+                                            {
+                                              
+                                            }
+                   ], 
+                   "transactionType":"getall",
+                  "sessionId" : "any String" 
+  }
+
+    this.hrms.getdependentdetails(requestData).subscribe(response =>{
+      this.dependent_details = response;
+      this.dependents = this.dependent_details.getDependentDetailsList;
+
+      console.log(this.dependent_details);
+    
+    })
+  }
+
+
+
+  onsavedependentdata(){
+    var user="user";
+    this.isupdateDependent=false;
+    //this.isupdateDependent=false;
+    var requestData = {
+      "dependentDetails" : [
+                                    {
+                                    "dependent_Name":this.dependentdetailss.dependent_Name,
+                                    "relation":this.dependentdetailss.relation,
+                                    "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
+                                    "employee_Id":this.dependentdetailss.employee_Id,
+                                   
+                                     "created_By":user
+
+                         }
+                           ], 
+                     "transactionType":"save",
+                    "sessionId" : "any String" 
+    }
+    
+    this.hrms.savedependentdetails(requestData).subscribe(response =>{
+   this.dependent_details = response;
+       
+       if(this.dependent_details.statusMessage == "DependentDetails have saved successfully"){
+       swal(this.dependent_details.statusMessage, "","success");
+        this.getdependentData();
+      }
+       
+    })
+    
+ }
+ createdByDependent= true;
+ 
+ isupdateDependent = false;
+ public dependentdetailss={
+  
+          
+            "id":"",
+            "dependent_Name":"",
+            "relation":"",
+            "date_Of_Birth":"",
+            "employee_Id":"",
+            "updated_By":"",
+            "created_By":""
+
+ }
+
+ updatedependentdata(){
+
+ var user="user";
+  var updatedependentdataobj ={
+    "dependentDetails" : [
+                                            {
+                                                                    "id":this.dependentdetailss.id,
+                                  "dependent_Name":this.dependentdetailss.dependent_Name,
+                                  "relation":this.dependentdetailss.relation,
+                                  "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
+                                  "employee_Id":this.dependentdetailss.employee_Id,
+                                  "updated_By":user
+                       }
+                       
+                      
+                   ], 
+                   "transactionType":"update",
+                  "sessionId" : "any String" 
+  }
+  
+  this.hrms.updatedependentdetails(updatedependentdataobj).subscribe(res =>{
+    this.updateRes = res;
+  
+      if(this.updateRes.statusMessage == "DependentDetails are updated successfully"){
+        swal(this.updateRes.statusMessage, "","success");
+    
+        
+        
+      }
+      this.getdependentData();
+  })
+
+}
+ deletedependentdata(dependent){
+
+  var deletedependentdata ={
+    "dependentDetails" : [
+                      {
+                           "id":dependent.id,
+                           "updated_By":dependent.updated_By
+                       },
+                       
+                      
+                   ], 
+                   "transactionType":"delete",
+                  "sessionId" : "any String" 
+  }
+this.hrms.deletedependentdetails(deletedependentdata).subscribe(res=>{
+  this.deleteRes=res;
+  if(this.deleteRes.statusMessage == "DependentDetails are deleted successfully"){
+    swal(this.deleteRes.statusMessage, "","success");
+    this.getdependentData();
+  }
+
+})
+  
+ }
+
+
+
+
+ getdependentdetailsById(dependent){
+  this.isupdateDependent = true;
+  this.createdByDependent = false;
+   var ddid = dependent.id;
+   var dependentdetailsByid={
+    "dependentDetails" : [
+                                            {
+                                                    "id": ddid
+                       }
+                   ], 
+                   "transactionType":"getbyid",
+                  "sessionId" : "any String" 
+  }
+  this.hrms.getdependentdetails(dependentdetailsByid).subscribe(response =>{
+    this.  employee_dependentdetailsById = response;
+    this. dependent_dtdetails = this.employee_dependentdetailsById.getDependentDetailsList;
+    this.dependentdetailss = this.dependent_dtdetails[0]
+      
+  
+  })
+
+ }
+//dependent detils ends
 //project details starts
 
 
@@ -2550,6 +2830,8 @@ getProject(){
   
   }
   setProject(){
+
+    var user="user";
     var requestObj = {
       "projectDetailsList" : [{
                     "projectName":this.projectDetailss.projectName,
@@ -2567,19 +2849,18 @@ getProject(){
                                     "projectStatus":this.projectDetailss.projectStatus,
                                     "bdmContact":this.projectDetailss.bdmContact,
                                     "isInternal":this.projectDetailss.isInternal,
-                                    "createdBy":this.projectDetailss.createdBy
+                                    "createdBy":user
                                 
                                    
                          }], 
-                     "transactionType":"save",
-                    "sessionId" : "any String" 
+                     "transactionType":"save"
     }
     this.hrms.setProjectDetails(requestObj).subscribe(response =>{
       this.projectsave = response;
       this.projectDetailsList = this.projectsave.projectDetailsList;
       console.log(this.projectsave);
       if(this.projectsave.statusMessage == "ProjectDetails has saved successfully"){
-        //swal(this.projectsave.statusMessage,"","success");
+        swal(this.projectsave.statusMessage,"","success");
         this.getProject();
       }
       
@@ -2628,16 +2909,11 @@ getProject(){
       this.projectDetailss = this.projectDetails[0];
       console.log("this.projectDetailss",this.projectDetailss);
       
-      // var projectDetailss = {};
-      //console.log(this.projectGetById);
-        //  this.projectDetails.forEach(function (value) {
-        //   this.projectDetailss=value;
-           
-        // });
-       
+      
     })
   }
   updateprojdata(){
+    var user="user";
     var updatereq = {
       "projectDetailsList" : [{
               "id":this.projectDetailss.id,
@@ -2656,7 +2932,7 @@ getProject(){
                                     "projectStatus":this.projectDetailss.projectStatus,
                                     "bdmContact":this.projectDetailss.bdmContact,
                                     "isInternal":this.projectDetailss.isInternal,
-                                    "updatedBy":this.projectDetailss.updatedBy
+                                    "updatedBy":user
                          }], 
                      "transactionType":"update",
                     "sessionId" : "any String" 
@@ -2665,13 +2941,11 @@ getProject(){
       this.projectdetailsupdate = response;
       console.log(this.projectdetailsupdate);
       if(this.projectdetailsupdate.statusMessage == "ProjectDetails has updated successfully")
-      //swal(this.projectdetailsupdate.statusMessage,"","success")
+      swal(this.projectdetailsupdate.statusMessage,"","success")
       this.getProject();
     })
   }
-  // valueAdd(){
-  //   this.isUpdate = false;
-  // }
+
   deleteproj(user){
   var deletep ={
     "projectDetailsList" : [{
@@ -2688,14 +2962,20 @@ getProject(){
     this.projectdelete = response;
     console.log(this.projectdelete);
     if(this.projectdelete.statusMessage == "ProjectDetails has deactivated successfully"){
-     // swal(this.projectdelete.statusMessage, "","success");
+     swal(this.projectdelete.statusMessage, "","success");
       this.getProject();
     }
    
   })
   }
-
   
+ //project ends 
+
+
+
+
+
+
 
 
 }

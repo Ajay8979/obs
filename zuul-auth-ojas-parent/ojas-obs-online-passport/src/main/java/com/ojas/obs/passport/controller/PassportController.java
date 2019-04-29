@@ -9,6 +9,7 @@ import static com.ojas.obs.passport.utility.Constants.SESSIONIDNULL;
 import static com.ojas.obs.passport.utility.Constants.SET;
 import static com.ojas.obs.passport.utility.Constants.TRANSACTIONTYPENULL;
 import static com.ojas.obs.passport.utility.Constants.UPDATE;
+//import static com.ojas.obs.passport.utility.Constants.PASSPORTSERVICE;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +32,9 @@ import com.ojas.obs.passport.facade.PassportFacade;
 import com.ojas.obs.passport.model.ErrorResponse;
 import com.ojas.obs.passport.model.Passport;
 
-/**
- * Title : PassportService date : 01/04/2019
- * @author <a href = "mailto : aliflaila.mohamma@ojas-it.com ">Alif</a>
- *@version 1.0
- *@see 
 
- */
 @RestController
+//@RequestMapping(PASSPORTSERVICE)
 public class PassportController {
 	Logger logger = Logger.getLogger(this.getClass());
 	ResponseEntity<Object> responseEntity = null;
@@ -83,6 +80,14 @@ public class PassportController {
 		ResponseEntity<Object> setPassport = passportFacadeImpl.setPassport(passportRequestObject);
 		return responseEntity = new ResponseEntity<Object>(setPassport, HttpStatus.OK);
 
+		}
+		catch (DuplicateKeyException e) { 
+			
+			error.setMessage("DuplicateKeyException");
+			e.printStackTrace();
+			error.setStatusMessage(e.getCause().getLocalizedMessage());
+			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
+			
 		} catch (SQLException e) { 
 			error.setStatusCode(String.valueOf(e.getErrorCode()));
 			error.setMessage("sql exception");

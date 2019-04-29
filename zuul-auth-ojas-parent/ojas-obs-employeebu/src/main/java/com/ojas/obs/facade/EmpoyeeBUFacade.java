@@ -43,17 +43,20 @@ public class EmpoyeeBUFacade {
 	 * @throws SQLException
 	 */
 	public ResponseEntity<Object> setEmployeeBU(EmployeeBUDetailsRequest employeeBURequest) throws SQLException {
+		logger.debug("inside setEmployeeBU method : " + employeeBURequest);
 		EmployeeBUDeatailsResponse employeeburesponse = null;
 		try {
 			if (employeeBURequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				employeeburesponse = new EmployeeBUDeatailsResponse();
 				boolean saveEmployeebu = employeebuDao.saveEmployeebu(employeeBURequest);
+				logger.debug("*****inside  save condition.***** : " + saveEmployeebu);
 				if (saveEmployeebu) {
 					int allRecordsCount = employeebuDao.getAllRecordsCount();
 					employeeburesponse.setTotalCount(allRecordsCount);
-					employeeburesponse.setStatusMessage("Success fully Education record saved");
+					employeeburesponse.setStatusMessage("Successfully BusinessUnit record saved");
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to save the record(s)***");
 					employeeburesponse.setStatusMessage(FAILED);
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.CONFLICT);
 				}
@@ -61,10 +64,12 @@ public class EmpoyeeBUFacade {
 			if (employeeBURequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				employeeburesponse = new EmployeeBUDeatailsResponse();
 				boolean updateemployeebu = employeebuDao.updateEmployeebu(employeeBURequest);
+				logger.debug("*****inside  update condition.***** : " + updateemployeebu);
 				if (updateemployeebu) {
-					employeeburesponse.setStatusMessage("Successfully Education record updated");
+					employeeburesponse.setStatusMessage("Successfully BusinessUnit record updated");
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to update the record(s)***");
 					employeeburesponse.setStatusMessage(FAILED);
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.CONFLICT);
 				}
@@ -72,15 +77,17 @@ public class EmpoyeeBUFacade {
 			if (employeeBURequest.getTransactionType().equalsIgnoreCase(DELETE)) {
 				employeeburesponse = new EmployeeBUDeatailsResponse();
 				boolean deleteId = false;
+				logger.debug("*****inside  delete condition.***** : " + deleteId);
 				List<EmployeeBUDetails> budetails = employeeBURequest.getEmployeeBUDeatils();
 				for (EmployeeBUDetails employeebudetails : budetails) {
 					Integer id = employeebudetails.getId();
 					deleteId = employeebuDao.deleteEmployeeRecord(id);
 				}
 				if (deleteId) {
-					employeeburesponse.setStatusMessage("Success fully Education record deleted");
+					employeeburesponse.setStatusMessage("Successfully BusinessUnit record deleted");
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to delete the record(s)***");
 					employeeburesponse.setStatusMessage(FAILED);
 					return new ResponseEntity<>(employeeburesponse, HttpStatus.CONFLICT);
 				}

@@ -13,6 +13,7 @@ import com.ojas.obs.response.ExperienceResponse;
 import static com.ojas.obs.constants.UserConstants.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,6 +28,8 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 			throws SQLException {
 		List<EmployeeExperienceDetails> employeeExperienceDetailsList = experienceRequestObject
 				.getEmployeeExperienceDetails();
+		
+		
 		for (EmployeeExperienceDetails employeeExperienceDetails : employeeExperienceDetailsList) {
 			experienceResponse = new ExperienceResponse();
 
@@ -40,7 +43,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 				logger.debug("received at service by calling the saveEmployeeExperienceDetails is" + saveRes);
 				if (saveRes > 0) {
 					experienceResponse.setStatusCode("200");
-					experienceResponse.setStatusMessage("EmployeeExperienceDetails has saved successfully");
+					experienceResponse.setStatusMessage("EmployeeExperienceDetails saved successfully");
 
 				}
 				return experienceResponse;
@@ -59,7 +62,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 
 					if (updateEmployeeExperienceDetails > 0) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("EmployeeExperienceDetails has updated successfully");
+						experienceResponse.setStatusMessage("EmployeeExperienceDetails updated successfully");
 					}
 				} else {
 					experienceResponse.setStatusCode("422");
@@ -81,7 +84,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 							+ deleteEmployeeExperienceDetails);
 					if (deleteEmployeeExperienceDetails > 0) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("EmployeeExperienceDetails has deleted sucesfully");
+						experienceResponse.setStatusMessage("EmployeeExperienceDetails deleted sucesfully");
 						return experienceResponse;
 					}
 				} else {
@@ -95,6 +98,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 		return experienceResponse;
 
 	}
+	
 
 	@Override
 	public ExperienceResponse getEmployeeExperienceDetails(ExperienceRequest experienceRequestObject)
@@ -127,7 +131,8 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 			// -------------------------GETALL METHOD------------------------------------
 
 			if (experienceRequestObject.getTransactionType().equalsIgnoreCase(GETALL)) {
-				List<EmployeeExperienceDetails> employeeExperienceDetailsList = employeeExperienceDetailsDao.getAll();
+				List<EmployeeExperienceDetails> employeeExperienceDetailsList = new ArrayList<EmployeeExperienceDetails>();
+				employeeExperienceDetailsList =		employeeExperienceDetailsDao.getAll();
 				logger.debug("received at service by calling the getAllmethod is" + employeeExperienceDetailsList);
 				if (!employeeExperienceDetailsList.isEmpty()) {
 					experienceResponse.setStatusCode("200");
@@ -137,6 +142,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 
 				} else {
 					experienceResponse.setStatusCode("200");
+					experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsList);
 					experienceResponse.setStatusMessage("no record found");
 					return experienceResponse;
 				}

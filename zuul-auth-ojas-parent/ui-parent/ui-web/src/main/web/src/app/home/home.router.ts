@@ -4,8 +4,8 @@ import { HomeComponent } from './home.component';
 import { Routes } from '@angular/router';
 import { ReportComponent } from './report/report.component';
 import { AuthGuard } from '../gaurds/auth.guard';
-import {CostcenterComponent} from './costcenter/costcenter.component';
-import {BusinessunitComponent} from './businessunit/businessunit.component';
+import { CostcenterComponent} from './costcenter/costcenter.component';
+import { BusinessunitComponent} from './businessunit/businessunit.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { SubbusinessunitComponent } from './subbusinessunit/subbusinessunit.component';
 import { EmployeeeducationComponent } from './employeeeducation/employeeeducation.component';
@@ -21,7 +21,21 @@ import { SystemComponent } from './system/system.component';
 import { EmployeedesignationComponent } from './employeedesignation/employeedesignation.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { PassportcenterComponent } from './passportcenter/passportcenter.component';
-import{ EmployeeeditComponent} from './employee/employeeedit/employeeedit.component';
+import { EmployeeeditComponent} from './employee/employeeedit/employeeedit.component';
+import { BasicInfoComponent } from './employee/employeeedit/basic-info/basic-info.component';
+import { OnBoardingComponent } from './employee/employeeedit/on-boarding/on-boarding.component';
+import { EducationComponent } from './employee/employeeedit/education/education.component';
+import { ExperienceComponent } from './employee/employeeedit/experience/experience.component';
+import { SkillComponent } from './employee/employeeedit/skill/skill.component';
+import { CertificationComponent } from './employee/employeeedit/certification/certification.component';
+import { InsuranceDetailsComponent } from './employee/employeeedit/insurance-details/insurance-details.component';
+import { BankComponent } from './employee/employeeedit/bank/bank.component';
+import { ContactComponent } from './employee/employeeedit/contact/contact.component';
+import { KyeComponent } from './employee/employeeedit/kye/kye.component';
+import { BusinessUnitComponent } from './employee/employeeedit/business-unit/business-unit.component';
+import { EmployeeTitleComponent } from './employee/employeeedit/employee-title/employee-title.component';
+import { ProjectComponent } from './employee/employeeedit/project/project.component';
+import { DependentComponent } from './employee/employeeedit/dependent/dependent.component';
 
 export const HomeRoutes: Routes = [
     {path:'',component:HomeComponent,canActivate:[AuthGuard],
@@ -47,7 +61,26 @@ export const HomeRoutes: Routes = [
     {path:'role',component:RoleComponent},
     {path:'system',component:SystemComponent},
     {path:'help',component:HelpComponent},
-    {path:'employeeedit',component:EmployeeeditComponent}
+    {path:'employeeedit',component:EmployeeeditComponent,
+    children:
+    [
+    {path:'kye',component:KyeComponent},
+    {path:'title',component:EmployeeTitleComponent},
+    {path:'experience',component:ExperienceComponent},
+    {path:'bankdetails',component:BankComponent},
+    {path:'projectdetails',component:ProjectComponent},
+    {path:'dependentdetails',component:DependentComponent},
+    {path:'basicInfo',component:BasicInfoComponent},
+    {path:'businessunit',component:BusinessUnitComponent},
+    {path:'education',component:EducationComponent},
+    {path:'skill',component:SkillComponent},
+    {path:'certification',component:CertificationComponent},
+    {path:'contact',component:ContactComponent},
+    {path:'onboardingdetails',component:OnBoardingComponent},
+    {path:'insurance',component:InsuranceDetailsComponent}
+    ]
+}
+    
 
     ]
    }]

@@ -43,17 +43,20 @@ public class TitleFacade {
 	 * @throws SQLException
 	 */
 	public ResponseEntity<Object> setTitle(Request request) throws SQLException {
+		logger.debug("inside setTitle method : " + request);
 		Response response = null;
 		try {
 			if (request.getTransactionType().equalsIgnoreCase(SAVE)) {
 				response = new Response();
 				boolean saveTitle = titleDao.saveTitle(request);
+				logger.debug("*****inside  save condition.***** : " + saveTitle);
 				if (saveTitle) {
 					int allRecordsCount = titleDao.getAllRecordsCount();
 					response.setTotalCount(allRecordsCount);
-					response.setStatusMessage("Success fully Education record saved");
+					response.setStatusMessage("Successfully Title record saved");
 					return new ResponseEntity<>(response, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to save the record(s)***");
 					response.setStatusMessage(FAILED);
 					return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 				}
@@ -62,10 +65,12 @@ public class TitleFacade {
 			if (request.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				response = new Response();
 				boolean updateTitle = titleDao.updateTitle(request);
+				logger.debug("*****inside  update condition.***** : " + updateTitle);
 				if (updateTitle) {
-					response.setStatusMessage("Successfully Education record updated");
+					response.setStatusMessage("Successfully Title record updated");
 					return new ResponseEntity<>(response, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to update the record(s)***");
 					response.setStatusMessage(FAILED);
 					return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 				}
@@ -74,6 +79,7 @@ public class TitleFacade {
 			if (request.getTransactionType().equalsIgnoreCase(DELETE)) {
 				response = new Response();
 				boolean deleteId = false;
+				logger.debug("*****inside  delete condition.***** : " + deleteId);
 				List<Model> modellist = request.getModel();
 				for (Model model : modellist) {
 					Integer id = model.getId();
@@ -81,16 +87,17 @@ public class TitleFacade {
 					deleteId = titleDao.deleteEmployeeRecord(id);
 				}
 				if (deleteId) {
-					response.setStatusMessage("Success fully Education record deleted");
+					response.setStatusMessage("Successfully Title record deleted");
 					return new ResponseEntity<>(response, HttpStatus.OK);
 				} else {
+					logger.error("**Failed to delete the record(s)***");
 					response.setStatusMessage(FAILED);
 					return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 				}
 			}
 
 		} catch (Exception e) {
-			logger.debug("inside EmployeeEducationFacde catch block.****");
+			logger.debug("inside TitleFacde catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
 			error.setMessage(e.getMessage());

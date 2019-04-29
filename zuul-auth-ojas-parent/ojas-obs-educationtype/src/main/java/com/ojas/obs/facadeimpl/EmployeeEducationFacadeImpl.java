@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ojas.obs.constants.UserConstants;
 import com.ojas.obs.dao.EmployeeEducationDao;
+import com.ojas.obs.error.ErrorResponse;
 import com.ojas.obs.facade.EmployeeEducationFacade;
 import com.ojas.obs.model.EmployeeEducation;
 import com.ojas.obs.modelrequest.EmployeeEducationRequest;
@@ -43,8 +44,6 @@ public class EmployeeEducationFacadeImpl implements EmployeeEducationFacade {
 		try {
 			if (employeeEducationRequest.getTransactionType().equalsIgnoreCase(UserConstants.SAVE)) {
 				employeeEducationResponse = new EmployeeEducationResponse();
-
-				System.out.println("Inside save method");
 				boolean employeeEducation = employeeEducationDao.saveEmployeeEducation(employeeEducationRequest);
 				if (employeeEducation) {
 					int allRecordsCount = employeeEducationDao.getAllRecordsCount();
@@ -96,8 +95,12 @@ public class EmployeeEducationFacadeImpl implements EmployeeEducationFacade {
 			}
 
 		} catch (Exception e) {
-
+			logger.debug("inside facade catch block ");
+			ErrorResponse error = new ErrorResponse();
 			e.printStackTrace();
+			error.setMessage("educationType object is null");
+			error.setStatusCode("422");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 
 		return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.CONFLICT);
@@ -134,7 +137,12 @@ public class EmployeeEducationFacadeImpl implements EmployeeEducationFacade {
 			}
 
 		} catch (Exception e) {
+			logger.debug("inside facade catch block ");
+			ErrorResponse error = new ErrorResponse();
 			e.printStackTrace();
+			error.setMessage("educationType object is null");
+			error.setStatusCode("422");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 
 		return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.CONFLICT);

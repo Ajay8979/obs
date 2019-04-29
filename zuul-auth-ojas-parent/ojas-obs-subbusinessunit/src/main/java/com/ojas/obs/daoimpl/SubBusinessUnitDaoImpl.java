@@ -20,11 +20,10 @@ import com.ojas.obs.request.SubBusinessUnitRequest;
 @Repository
 public class SubBusinessUnitDaoImpl implements SubBusinessUnitDao {
 
-	public static final String SAVEBUSINESSUNIT = "Insert into obs_subbusinessunitt(name,BusinessUnitId,CostCenterId) VALUES (?,?,?)";
-	public static final String UPDATEBUSINESSUNITID = "update obs_subbusinessunitt set name = ?, BusinessUnitId = ?, CostCenterId = ? where id = ? ";
-	//public static final String DELETEBUSINESSUNIT = "delete from obs_subbusinessunitt where id = ?";
-	public static final String GETALLBUSINESSUNITS = "select * from obs_subbusinessunitt";
-	public static final String GETBUSINESSUNITCOUNT = "select count(*) from obs_subbusinessunitt";
+	public static final String SAVEBUSINESSUNIT = "Insert into obs_subbusinessunit(name,BusinessUnitId,CostCenterId) VALUES (?,?,?)";
+	public static final String UPDATEBUSINESSUNITID = "update obs_subbusinessunit set name = ?, BusinessUnitId = ?, CostCenterId = ? where id = ? ";
+	public static final String GETALLBUSINESSUNITS = "select * from obs_subbusinessunit";
+	public static final String GETBYIDBUSINESSUNITS = "select * from obs_subbusinessunit where id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -82,30 +81,10 @@ public class SubBusinessUnitDaoImpl implements SubBusinessUnitDao {
 		return flag;
 	}
 
+	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.SubBusinessUnitDao#deleteSubBusinessUnit(int)
-	 */
-	/*
-	 * @Override public boolean deleteSubBusinessUnit(SubBusinessUnitRequest
-	 * subBusinessUnitRequest) {
-	 * 
-	 * boolean flag = false; int[] delete; List<SubBusinessUnit> subBusinessUnitList
-	 * = subBusinessUnitRequest.getSubBusinessUnitModel(); List<Object[]> list = new
-	 * ArrayList<>(); for (SubBusinessUnit subBusinessUnit : subBusinessUnitList) {
-	 * 
-	 * Object[] subBusiness = new Object[] { subBusinessUnit.getId() };
-	 * list.add(subBusiness); } delete =
-	 * jdbcTemplate.batchUpdate(DELETEBUSINESSUNIT, list); if (delete.length > 0) {
-	 * flag = true; } return flag; }
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ojas.obs.dao.SubBusinessUnitDao#getAllSubBusinessUnitDetails(com.ojas.obs
-	 * .request.SubBusinessUnitRequest)
+	 * @see com.ojas.obs.dao.SubBusinessUnitDao#getAllSubBusinessUnitDetails()
 	 */
 	@Override
 	public List<SubBusinessUnit> getAllSubBusinessUnitDetails() {
@@ -114,16 +93,18 @@ public class SubBusinessUnitDaoImpl implements SubBusinessUnitDao {
 				new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
 
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.SubBusinessUnitDao#getAllSubBusinessUnitDetailsCount()
+	 * @see com.ojas.obs.dao.SubBusinessUnitDao#getByIdSubBusinessUnitDetails(java.lang.Integer)
 	 */
 	@Override
-	public int getAllSubBusinessUnitDetailsCount() {
+	public List<SubBusinessUnit> getByIdSubBusinessUnitDetails(Integer id) {
 
-		return jdbcTemplate.queryForObject(GETBUSINESSUNITCOUNT, Integer.class);
+		Object[] params = new Object[] { id };
+		return jdbcTemplate.query(GETBYIDBUSINESSUNITS, params,
+				new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
+
 	}
-
+	
 }

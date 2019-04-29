@@ -23,6 +23,8 @@ public interface DesignationDao {
 	 List<Designation> getAll(DesignationRequest designationRequest) throws SQLException;
 	
 	 int getAllDesignationCount() throws SQLException;
+	 
+	 public List<Designation> getById(DesignationRequest designationRequest);
 	
 	 //List<Designation> getCountPerPage(List<Designation> list, int pageSize, int pageNo);
 

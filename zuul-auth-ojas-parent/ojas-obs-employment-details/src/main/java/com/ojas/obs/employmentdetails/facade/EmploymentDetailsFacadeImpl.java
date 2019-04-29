@@ -130,9 +130,17 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 	private EmploymentDetailsResponse insertEmploymentDetails(List<EmploymentDetails> employmentDetailsList,
 			EmploymentDetailsResponse employmentDetailsResponse)
 			throws EmploymentDetailsException, DataNotInsertedException {
-		employmentDetailsResponse.setStatusCode("400");
+		employmentDetailsResponse.setStatusCode("201");
 		employmentDetailsResponse.setStatusMessage("Data is not inserted successfully");
+		for (EmploymentDetails employmentDetails2 : employmentDetailsList) {
 
+			if (StringUtils.isEmpty(employmentDetails2.getEmployeeId()) || null == employmentDetails2.getJoiningDate()
+					|| StringUtils.isEmpty(employmentDetails2.getResourceType())
+					|| false == employmentDetails2.isBondStatus() || null == employmentDetails2.getCreatedBy()) {
+				LOGGER.error("the requested object is null" + employmentDetails2);
+				throw new EmploymentDetailsException("The requested object has null values");
+			}
+		}
 		if (employmentDetailsDAO.saveEmploymentDetails(employmentDetailsList)) {
 			employmentDetailsResponse.setStatusCode("201");
 			employmentDetailsResponse.setStatusMessage("Data is inserted successfully");
@@ -158,7 +166,7 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 		}
 		List<EmploymentDetails> employmentDetailsList = null;
 		if (employmentDetailsRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
-			if (null != employmentDetailsRequest.getEmploymentDetails() &&  null != employmentDetailsRequest.getEmploymentDetails().get(0) && null != employmentDetailsRequest.getEmploymentDetails().get(0).getId()) {
+			/*if (null != employmentDetailsRequest.getEmploymentDetails() &&  null != employmentDetailsRequest.getEmploymentDetails().get(0) && null != employmentDetailsRequest.getEmploymentDetails().get(0).getId()) {
 				employmentDetailsList = employmentDetailsDAO
 						.getEmploymentDetailsById(employmentDetailsRequest.getEmploymentDetails().get(0).getId());
 			} else if (null != employmentDetailsRequest.getEmploymentDetails() &&  null != employmentDetailsRequest.getEmploymentDetails().get(0) && null != employmentDetailsRequest.getEmploymentDetails().get(0).getEmployeeId()) {
@@ -166,7 +174,10 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 						employmentDetailsRequest.getEmploymentDetails().get(0).getEmployeeId());
 			} else {
 				employmentDetailsList = employmentDetailsDAO.getAllEmploymentDetails();
-			}
+			}*/
+			List<EmploymentDetails> employmentDetailsByEmploymentId = employmentDetailsDAO.getEmploymentDetailsByEmploymentId(employmentDetailsRequest);
+			employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsByEmploymentId);
+			return employmentDetailsResponse;
 		}
 
 		if (!CollectionUtils.isEmpty(employmentDetailsList)) {

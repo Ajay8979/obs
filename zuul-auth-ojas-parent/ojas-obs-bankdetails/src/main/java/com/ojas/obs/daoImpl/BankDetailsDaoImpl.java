@@ -1,4 +1,4 @@
- package com.ojas.obs.daoImpl;
+package com.ojas.obs.daoImpl;
 
 import static com.ojas.obs.constants.UserConstants.ALLRECORDS;
 import static com.ojas.obs.constants.UserConstants.DELETEBANKDETAILS;
@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +32,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	Logger logger = Logger.getLogger(this.getClass());
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -39,18 +42,20 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	 */
 	@Override
 	public boolean saveEmployeeBankDetails(BankDetailsRequest bankDetailsRequest) {
+		logger.debug("incoming request in DAO ");
 		Timestamp timestamp = new Timestamp(new Date().getTime());
 		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
 		List<Object[]> list = new ArrayList<Object[]>();
 
 		for (BankDetails employeeBankDetails : bankDetails) {
 			employeeBankDetails.setFlag(true);
+			
 			Object[] object = { employeeBankDetails.getBank_account_no(), employeeBankDetails.getBank_name(),
 					employeeBankDetails.getBank_city(), employeeBankDetails.getBank_branch(),
 					employeeBankDetails.getBank_ifsc_code(), employeeBankDetails.getBank_account_status(),
 					employeeBankDetails.getEmployee_id(), employeeBankDetails.isIs_active(),
 					employeeBankDetails.getCreated_by(), timestamp, employeeBankDetails.isFlag() };
-
+			logger.debug("Number of records in Object[] : " +object.length);
 			list.add(object);
 		}
 		int[] batchsave = jdbcTemplate.batchUpdate(SAVEBANKDETAILS, list);
@@ -114,22 +119,25 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	 */
 	@Override
 	public List<BankDetails> getAllBankDetails(BankDetailsRequest bankDetailsRequest) throws SQLException {
-
-		List<BankDetails> bankObjects = jdbcTemplate.query(ALLRECORDS,
-				new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
-		List<BankDetails> listObjects = new ArrayList<BankDetails>();
-		if (null != bankObjects || !bankObjects.isEmpty()) {
-			for (BankDetails bankDetails2 : bankObjects) {
-				List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
+		
+		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
+		
+		List<BankDetails> list = new ArrayList<BankDetails>();
+		
+			List<BankDetails> query = jdbcTemplate.query(ALLRECORDS.toString(),
+						new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+			for (BankDetails bankDetails2 : query) {
 				for (BankDetails bankDetails3 : bankDetails) {
-					if (bankDetails2.getId() == bankDetails3.getId()) {
-						listObjects.add(bankDetails2);
-						return listObjects;
+					if(bankDetails2.getId() == bankDetails3.getId()) {
+						list.add(bankDetails2);
+						return list;
 					}
 				}
 			}
-		}
-		return bankObjects;
+			return query;
+		
+		
+		 
 
 	}
 

@@ -1,5 +1,7 @@
 package com.ojas.obs.request;
 
+import java.util.List;
+
 import com.ojas.obs.model.EmployeeInfo;
 
 /**
@@ -9,7 +11,7 @@ import com.ojas.obs.model.EmployeeInfo;
  */
 public class EmployeeInfoRequest {
 
-	private EmployeeInfo employeeInfo;
+	private List<EmployeeInfo> employeeInfo;
 
 	private String sessionId;
 	private Integer totalCount;
@@ -18,11 +20,11 @@ public class EmployeeInfoRequest {
 	private String statusMessage;
 	private String transactionType;
 
-	public EmployeeInfo getEmployeeInfo() {
+	public List<EmployeeInfo> getEmployeeInfo() {
 		return employeeInfo;
 	}
 
-	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
+	public void setEmployeeInfo(List<EmployeeInfo> employeeInfo) {
 		this.employeeInfo = employeeInfo;
 	}
 

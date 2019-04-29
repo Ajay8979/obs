@@ -2,7 +2,7 @@ package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.Constants.GET;
 import static com.ojas.obs.constants.Constants.SET;
-
+import static com.ojas.obs.constants.Constants.SKILLDETAILS;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +24,7 @@ import com.ojas.obs.model.EmployeeSkillInfoRequest;
 import com.ojas.obs.utility.ErrorResponse;
 
 @RestController
+
 public class EmployeeSkillInfoController {
 
 	@Autowired

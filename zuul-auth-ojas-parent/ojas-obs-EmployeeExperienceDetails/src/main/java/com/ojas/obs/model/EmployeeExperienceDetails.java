@@ -11,7 +11,7 @@ public class EmployeeExperienceDetails {
 	private Date exit_date;
 	private  Double salary;
 	private String location;
-	private boolean is_current_company;
+	private String is_current_company;
 	private String first_Reference_Name;
 	private String first_Reference_Contact;
 	private String second_Reference_Name;
@@ -25,7 +25,7 @@ public class EmployeeExperienceDetails {
 	public EmployeeExperienceDetails() {}
 
 	public EmployeeExperienceDetails(Integer id, String employee_Id, String company_name, Date joining_date,
-			Date exit_date, Double salary, String location, boolean is_current_company, String first_Reference_Name,
+			Date exit_date, Double salary, String location, String is_current_company, String first_Reference_Name,
 			String first_Reference_Contact, String second_Reference_Name, String second_Reference_Contact, boolean flag,
 			String created_by, String updated_by, Timestamp created_date, Timestamp updated_date) {
 		super();
@@ -104,11 +104,11 @@ public class EmployeeExperienceDetails {
 		this.location = location;
 	}
 
-	public boolean isIs_current_company() {
+	public String getIs_current_company() {
 		return is_current_company;
 	}
 
-	public void setIs_current_company(boolean is_current_company) {
+	public void setIs_current_company(String is_current_company) {
 		this.is_current_company = is_current_company;
 	}
 
@@ -184,7 +184,6 @@ public class EmployeeExperienceDetails {
 		this.updated_date = updated_date;
 	}
 
-	
 	
 	
 

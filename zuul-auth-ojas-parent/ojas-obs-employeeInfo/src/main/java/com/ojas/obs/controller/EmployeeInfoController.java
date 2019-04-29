@@ -1,6 +1,14 @@
 package com.ojas.obs.controller;
 
+import static com.ojas.obs.constants.URLconstants.EMPLOYEEINFO;
+import static com.ojas.obs.constants.URLconstants.GET;
+import static com.ojas.obs.constants.URLconstants.SET;
+import static com.ojas.obs.constants.UserConstants.DELETE;
+import static com.ojas.obs.constants.UserConstants.SAVE;
+import static com.ojas.obs.constants.UserConstants.UPDATE;
+
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,18 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.gson.Gson;
+
 import com.ojas.obs.errorResponse.ErrorResponse;
 import com.ojas.obs.facade.EmployeeInfoFacade;
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
-
-import static com.ojas.obs.constants.URLconstants.GET;
-import static com.ojas.obs.constants.URLconstants.SET;
-import static com.ojas.obs.constants.UserConstants.SAVE;
-import static com.ojas.obs.constants.UserConstants.UPDATE;
-import static com.ojas.obs.constants.UserConstants.DELETE;
-
 
 /**
  * 
@@ -32,6 +33,7 @@ import static com.ojas.obs.constants.UserConstants.DELETE;
  */
 
 @RestController
+//@RequestMapping(EMPLOYEEINFO)
 public class EmployeeInfoController {
 
 	@Autowired
@@ -48,71 +50,70 @@ public class EmployeeInfoController {
 	 * @return
 	 * @throws SQLException
 	 */
+
 	@RequestMapping(SET)
-	public ResponseEntity<Object> saveEmployeeInfo(@RequestBody String employeeInfoRequest,
+	public ResponseEntity<Object> setEmployeeInfo(@RequestBody EmployeeInfoRequest employeeInfoRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
 
 		ResponseEntity<Object> responseEntity = null;
-		EmployeeInfoRequest employeeRequestObject = null;
-		// String sessionId = null;
-		try {
-			Gson gson = new Gson();
-			logger.debug("requestObject received = ");
-			employeeRequestObject = gson.fromJson(employeeInfoRequest, EmployeeInfoRequest.class);
 
-			if (null == employeeRequestObject) {
+		try {
+
+			if (null == employeeInfoRequest) {
 
 				ErrorResponse error = new ErrorResponse();
 				logger.debug("data is not valid");
 				error.setMessage("Request is not valid");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			// sessionId = employeeRequestObject.getSessionId();
-			// logger.debug("incoming request " + sessionId);
-			EmployeeInfo empInfo = employeeRequestObject.getEmployeeInfo();
 
-			if (null == empInfo) {
+			List<EmployeeInfo> empInfolist = employeeInfoRequest.getEmployeeInfo();
+
+			if (null == empInfolist) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("data must not be null");
 				logger.debug("data is not valid");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			transactionType = employeeRequestObject.getTransactionType();
+			transactionType = employeeInfoRequest.getTransactionType();
 
-			if (transactionType.equalsIgnoreCase(SAVE)
+			for (EmployeeInfo empInfo : empInfolist) {
 
-					&& ((null == empInfo.getFirstname() || empInfo.getFirstname().isEmpty())
-							|| (null == empInfo.getMiddlename() || empInfo.getMiddlename().isEmpty())
-							|| (null == empInfo.getLastname() || empInfo.getLastname().isEmpty())
-							|| (null == empInfo.getStatus() || empInfo.getStatus().isEmpty())
-							|| (null == empInfo.getGender() || empInfo.getGender().isEmpty())
-							|| (null == empInfo.getDob() || empInfo.getDob().isEmpty())
-							|| (null == empInfo.getStatus() || empInfo.getStatus().isEmpty())
-							|| (null == empInfo.getPassword() || empInfo.getPassword().isEmpty())
-							|| null == empInfo.getEmployee_id() || empInfo.getEmployee_id().isEmpty()
-							|| (employeeRequestObject.getTransactionType() == null
-									|| (employeeRequestObject.getTransactionType().isEmpty())))) {
+				if (transactionType.equalsIgnoreCase(SAVE)
 
-				ErrorResponse error = new ErrorResponse();
-				logger.debug("data is  invalid");
-				error.setMessage("Request is  invalid");
+						&& ((null == empInfo.getFirstname() || empInfo.getFirstname().isEmpty())
+								|| (null == empInfo.getMiddlename() || empInfo.getMiddlename().isEmpty())
+								|| (null == empInfo.getLastname() || empInfo.getLastname().isEmpty())
+								|| (null == empInfo.getStatus() || empInfo.getStatus().isEmpty())
+								|| (null == empInfo.getGender() || empInfo.getGender().isEmpty())
+								|| (null == empInfo.getDob() || empInfo.getDob().isEmpty())
+								|| (null == empInfo.getStatus() || empInfo.getStatus().isEmpty())
+								|| (null == empInfo.getPassword() || empInfo.getPassword().isEmpty())
+								|| null == empInfo.getEmployeeId() || empInfo.getEmployeeId().isEmpty()
+								|| (employeeInfoRequest.getTransactionType() == null
+										|| (employeeInfoRequest.getTransactionType().isEmpty())))) {
 
-				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+					ErrorResponse error = new ErrorResponse();
+					logger.debug("data is  invalid");
+					error.setMessage("Request is  invalid");
 
+					return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+
+				}
+
+				if ((transactionType.equalsIgnoreCase(UPDATE) || transactionType.equalsIgnoreCase(DELETE))
+						&& null == empInfo.getId()) {
+
+					ErrorResponse errorResponse = new ErrorResponse();
+					errorResponse = new ErrorResponse();
+					errorResponse.setStatusCode("422");
+					errorResponse.setMessage("id cannot be null");
+
+					logger.info("Request is not valid, No id provided");
+					return new ResponseEntity<Object>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+				}
 			}
-
-			if ((transactionType.equalsIgnoreCase(UPDATE) || transactionType.equalsIgnoreCase(DELETE))
-					&& null == employeeRequestObject.getEmployeeInfo().getId()) {
-
-				ErrorResponse errorResponse = new ErrorResponse();
-				errorResponse = new ErrorResponse();
-				errorResponse.setStatusCode("422");
-				errorResponse.setMessage("id cannot be null");
-
-				logger.info("Request is not valid, No id provided");
-				return new ResponseEntity<Object>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-			}
-			responseEntity = employeeInfoFacade.saveEmployeeInfo(employeeRequestObject);
+			responseEntity = employeeInfoFacade.setEmployeeInfo(employeeInfoRequest);
 			return responseEntity;
 
 		} catch (Exception e) {
@@ -133,35 +134,30 @@ public class EmployeeInfoController {
 	 * @return
 	 * @throws SQLException
 	 */
+
 	@RequestMapping(GET)
-
-	public ResponseEntity<Object> getEmpDetails(@RequestBody String employeeInfoRequest,
+	public ResponseEntity<Object> getEmpDetails(@RequestBody EmployeeInfoRequest employeeInfoRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
-
+        System.out.println("Inside controller");
 		ResponseEntity<Object> responseEntity = null;
-		EmployeeInfoRequest employeeRequest = null;
-		// String sessionId = null;
 		try {
-			Gson gson = new Gson();
-			logger.debug("requestObject received = ");
-			employeeRequest = gson.fromJson(employeeInfoRequest, EmployeeInfoRequest.class);
 
-			if (null == employeeRequest) {
+			if (null == employeeInfoRequest) {
 
 				ErrorResponse error = new ErrorResponse();
 				logger.debug("data is not valid");
 				error.setMessage("Request is not valid");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			// sessionId = employeeRequest.getSessionId();
-			// logger.debug("incoming request " + sessionId);
-			if (null == employeeRequest.getTransactionType() || employeeRequest.getTransactionType().isEmpty()) {
+
+			if (null == employeeInfoRequest.getTransactionType()
+					|| employeeInfoRequest.getTransactionType().isEmpty()) {
 				ErrorResponse error = new ErrorResponse();
 				logger.debug("data is not valid");
 				error.setMessage("transactiontype can't be null");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			return employeeInfoFacade.getAllEmployeeDetails(employeeRequest);
+			return employeeInfoFacade.getAllEmployeeDetails(employeeInfoRequest);
 
 		} catch (Exception exception) {
 			logger.debug("inside catch block.*******");
@@ -171,5 +167,4 @@ public class EmployeeInfoController {
 		}
 		return responseEntity;
 	}
-
 }

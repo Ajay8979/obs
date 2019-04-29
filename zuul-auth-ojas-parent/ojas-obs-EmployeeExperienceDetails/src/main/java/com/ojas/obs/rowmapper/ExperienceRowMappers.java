@@ -19,7 +19,7 @@ public class ExperienceRowMappers  implements RowMapper<EmployeeExperienceDetail
 		employeeExperienceDetails.setExit_date(rs.getDate(4));
 		employeeExperienceDetails.setSalary(rs.getDouble(5));
 		employeeExperienceDetails.setLocation(rs.getString(6));
-		employeeExperienceDetails.setIs_current_company(rs.getBoolean(7));
+		employeeExperienceDetails.setIs_current_company(rs.getString(7));
 		employeeExperienceDetails.setEmployee_Id(rs.getString(8));
 		employeeExperienceDetails.setFirst_Reference_Name(rs.getString(9));
 		employeeExperienceDetails.setFirst_Reference_Contact(rs.getString(10));

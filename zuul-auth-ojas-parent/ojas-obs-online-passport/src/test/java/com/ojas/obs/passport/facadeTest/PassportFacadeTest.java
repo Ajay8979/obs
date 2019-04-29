@@ -28,7 +28,7 @@ import com.ojas.obs.passport.model.Passport;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 @Ignore
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class PassportFacadeTest {
 
 	@InjectMocks
@@ -173,7 +173,7 @@ public class PassportFacadeTest {
 
 	}
 //Update Null
-	//@Test //ok
+	@Test //ok
 	public void setUpdatefalseTest() {
 		PassportRequest passportRequest2 = new PassportRequest();
 		//passportRequest2.setPassportList(this.getPassport());
@@ -249,7 +249,7 @@ public class PassportFacadeTest {
 	 * }
 	 */
 //Null transaction
-	//@Test// ok
+	@Test// ok
 	public void setTransactionNullTest() {
 		 passportRequest2 = new PassportRequest();
 		List<Passport> passport = this.getPassport();
@@ -269,7 +269,7 @@ public class PassportFacadeTest {
 		}
 
 	}
-
+	
 	@Test
 	public void getPassportForNoRecordTest() {
 		 passportRequest2 = new PassportRequest();
@@ -366,5 +366,27 @@ public class PassportFacadeTest {
 			e.printStackTrace();
 		}
 		}
+	//getById
+	@Test
+	public void getByidTest() {
+		 passportRequest2 = new PassportRequest();
+		List<Passport> passportlist =  new ArrayList<Passport>();
+		passportRequest2.setPassportList(getPassport());
+		passportRequest2.getPassportList().get(0).setId(1);
+		passportRequest2.setPageNo(1);
+		passportRequest2.setPageSize(2);
+		passportRequest2.setSessionId("1234");
+		passportRequest2.setTransaactionType("getById");
+		try {
+			when(passportDaoImpl.getById(passportRequest2)).thenReturn(passportlist);
+			when(passportDaoImpl.getcountPassport(passportRequest2)).thenReturn(2);
+			ResponseEntity<Object> getPassport = passportFacadeImpl.getPassport(passportRequest2);
+			HttpStatus statusCode = getPassport.getStatusCode();
+			assertEquals(HttpStatus.OK, statusCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

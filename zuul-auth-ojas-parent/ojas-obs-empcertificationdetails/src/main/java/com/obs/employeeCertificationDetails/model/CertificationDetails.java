@@ -1,18 +1,25 @@
 package com.obs.employeeCertificationDetails.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CertificationDetails {
 	private Integer id;
 	private String certificationName;
 	private String issuedBy;
-	private Timestamp dateOfIssue;
+	private Date dateOfIssue;
 	private String employeeId;
 	private String createdBy;
 	private String updatedBy;
 	private Timestamp createdDate;
 	private Timestamp updatedDate;
 	private boolean flag;
+	public Date getDateOfIssue() {
+		return dateOfIssue;
+	}
+	public void setDateOfIssue(Date dateOfIssue) {
+		this.dateOfIssue = dateOfIssue;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -48,12 +55,6 @@ public class CertificationDetails {
 	}
 	public void setIssuedBy(String issuedBy) {
 		this.issuedBy = issuedBy;
-	}
-	public Timestamp getDateOfIssue() {
-		return dateOfIssue;
-	}
-	public void setDateOfIssue(Timestamp dateOfIssue) {
-		this.dateOfIssue = dateOfIssue;
 	}
 	public Timestamp getCreatedDate() {
 		return createdDate;

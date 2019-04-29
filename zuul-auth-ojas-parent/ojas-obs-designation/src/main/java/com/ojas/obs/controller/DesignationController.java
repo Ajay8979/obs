@@ -1,6 +1,7 @@
 package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.DesignationServiceConstants.SET;
+import static com.ojas.obs.constants.DesignationServiceConstants.DESIGNATION;
 import static com.ojas.obs.constants.DesignationServiceConstants.GET;
 
 //import java.awt.peer.DesktopPeer;
@@ -31,6 +32,7 @@ import com.ojas.utility.ErrorResponse;
  */
 
 @RestController
+//@RequestMapping(DESIGNATION)
 public class DesignationController {
 
 	@Autowired
@@ -101,6 +103,7 @@ public class DesignationController {
 			HttpServletRequest request, HttpServletResponse response) throws SQLException {
 
 		String sessionId = null;
+		
 		try {
 
 			logger.debug("requestObject received = " + designationRequest);

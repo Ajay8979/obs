@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +71,7 @@ public class ProjectDetailsFacadeImplTest {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Before
-	public void init() {
+	public void init() throws Exception {
 		projectDetailsFacade = new ProjectDetailsFacadeImpl();
 
 		projectDetailsDaoImpl = mock(ProjectDetailsDaoImpl.class);
@@ -80,18 +79,11 @@ public class ProjectDetailsFacadeImplTest {
 	}
 
 	public void setCollaborator(ProjectDetailsFacadeImpl projectDetailsFacadeImpl, String projectDetailsDao,
-			ProjectDetailsDaoImpl projectDetailsDaoImpl) {
+			ProjectDetailsDaoImpl projectDetailsDaoImpl) throws Exception {
 		Field field;
-		try {
-			field = projectDetailsFacadeImpl.getClass().getDeclaredField(projectDetailsDao);
-			field.setAccessible(true);
-			field.set(projectDetailsFacadeImpl, projectDetailsDaoImpl);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-
+		field = projectDetailsFacadeImpl.getClass().getDeclaredField(projectDetailsDao);
+		field.setAccessible(true);
+		field.set(projectDetailsFacadeImpl, projectDetailsDaoImpl);
 	}
 
 	public List<ProjectDetails> projectDetailsList() throws ParseException {
@@ -151,29 +143,25 @@ public class ProjectDetailsFacadeImplTest {
 		return list;
 	}
 
-	public ProjectDetails projectDetails() throws ParseException {
-
-		projectDetails.setContractId(2);
-		projectDetails.setRateId(3);
-		projectDetails.setStartDate(new Timestamp(dateFormat.parse("2019-02-28").getTime()));
-		projectDetails.setEndDate(new Timestamp(dateFormat.parse("2019-03-28").getTime()));
-		projectDetails.setBillingId(987);
-		projectDetails.setEmployeeId("877");
-		projectDetails.setProjectTechStack("project");
-		projectDetails.setCustomer("ojas");
-		projectDetails.setLocation("hyd");
-		projectDetails.setGstApplicable(true);
-		projectDetails.setProjectType("running");
-		projectDetails.setProjectStatus("internal");
-		projectDetails.setBdmContact("emp2");
-		projectDetails.setInternal(true);
-		projectDetails.setFlag(true);
-		projectDetails.setProjectName("obs");
-		projectDetails.setCreatedBy("877");
-		projectDetails.setUpdatedBy("877");
-		return projectDetails;
-	}
-
+	/*
+	 * public ProjectDetails projectDetails() throws ParseException {
+	 * 
+	 * projectDetails.setContractId(2); projectDetails.setRateId(3);
+	 * projectDetails.setStartDate(new
+	 * Timestamp(dateFormat.parse("2019-02-28").getTime()));
+	 * projectDetails.setEndDate(new
+	 * Timestamp(dateFormat.parse("2019-03-28").getTime()));
+	 * projectDetails.setBillingId(987); projectDetails.setEmployeeId("877");
+	 * projectDetails.setProjectTechStack("project");
+	 * projectDetails.setCustomer("ojas"); projectDetails.setLocation("hyd");
+	 * projectDetails.setGstApplicable(true);
+	 * projectDetails.setProjectType("running");
+	 * projectDetails.setProjectStatus("internal");
+	 * projectDetails.setBdmContact("emp2"); projectDetails.setInternal(true);
+	 * projectDetails.setFlag(true); projectDetails.setProjectName("obs");
+	 * projectDetails.setCreatedBy("877"); projectDetails.setUpdatedBy("877");
+	 * return projectDetails; }
+	 */
 	public List<ProjectDetails> projectDetailsDeleteData() {
 		List<ProjectDetails> al = new ArrayList<ProjectDetails>();
 
@@ -224,23 +212,37 @@ public class ProjectDetailsFacadeImplTest {
 		return projectDetailsRequest;
 
 	}
+	/*
+	 * public ProjectDetailsResponse projectDetailsRes() {
+	 * projectDetailsResponse.setStatusMessage("success");
+	 * projectDetailsResponse.setProjectDetailsList(projectDetailsList); return
+	 * projectDetailsResponse; }
+	 */
 
-	public ProjectDetailsResponse projectDetailsRes() {
-		projectDetailsResponse.setStatusMessage("success");
-		projectDetailsResponse.setProjectDetailsList(projectDetailsList);
-		return projectDetailsResponse;
+	@Test
+	public void nullProjectDetails() throws SQLException, ParseException {
+		ProjectDetailsRequest detailsRequest = projectDetailsSaveReq();
+		detailsRequest.setTransactionType("");
+		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl.setProjectDetails(detailsRequest);
+		String status = setProjectDetails.getStatusCode();
+
+		assertEquals(null, status);
+
 	}
 
 	@Test
 	public void saveProjectDetails() throws SQLException, ParseException {
+		when(projectDetailsDaoImpl.saveProjectDetails(projectDetailsSaveReq())).thenReturn(1);
+		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl.setProjectDetails(projectDetailsSaveReq());
+		String status = setProjectDetails.getStatusCode();
 
-		try {
-			when(projectDetailsDaoImpl.saveProjectDetails(projectDetailsSaveReq())).thenReturn(1);
+		assertEquals("200", status);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	}
 
+	@Test
+	public void saveProjectDetailsNull() throws SQLException, ParseException {
+		when(projectDetailsDaoImpl.saveProjectDetails(projectDetailsSaveReq())).thenReturn(1);
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl.setProjectDetails(projectDetailsSaveReq());
 		String status = setProjectDetails.getStatusCode();
 
@@ -251,13 +253,7 @@ public class ProjectDetailsFacadeImplTest {
 	@Test
 	public void updateProjectDetails() throws SQLException, ParseException {
 
-		try {
-			when(projectDetailsDaoImpl.updateProjectDetails(projectDetailsUpdateReq())).thenReturn(1);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		when(projectDetailsDaoImpl.updateProjectDetails(projectDetailsUpdateReq())).thenReturn(1);
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl
 				.setProjectDetails(projectDetailsUpdateReq());
 		String status = setProjectDetails.getStatusCode();
@@ -268,13 +264,7 @@ public class ProjectDetailsFacadeImplTest {
 	@Test
 	public void deleteProjectDetails() throws SQLException {
 
-		try {
-			when(projectDetailsDaoImpl.deleteProjectDetails(projectDetailsDeleteReq())).thenReturn(1);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		when(projectDetailsDaoImpl.deleteProjectDetails(projectDetailsDeleteReq())).thenReturn(1);
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl
 				.setProjectDetails(projectDetailsDeleteReq());
 		String status = setProjectDetails.getStatusCode();
@@ -285,15 +275,8 @@ public class ProjectDetailsFacadeImplTest {
 
 	@Test
 	public void showProjectDetailsById() throws SQLException, ParseException {
-		try {
-
-			List<ProjectDetails> list = projectDetailsUpdatedList();
-			when(projectDetailsDaoImpl.getById(1)).thenReturn(list);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		List<ProjectDetails> list = projectDetailsUpdatedList();
+		when(projectDetailsDaoImpl.getById(1)).thenReturn(list);
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl
 				.getProjectDetails(getByIdprojectDetailsReq());
 		if (setProjectDetails != null) {
@@ -307,37 +290,37 @@ public class ProjectDetailsFacadeImplTest {
 
 	@Test
 	public void showProjectDetailsByIdNullData() throws SQLException, ParseException {
-		try {
-
-			List<ProjectDetails> list = new ArrayList<ProjectDetails>();
-			when(projectDetailsDaoImpl.getById(1)).thenReturn(list);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		List<ProjectDetails> list = new ArrayList<ProjectDetails>();
+		when(projectDetailsDaoImpl.getById(1)).thenReturn(list);
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl
 				.getProjectDetails(getByIdprojectDetailsReq());
 		if (setProjectDetails != null) {
 			String status = setProjectDetails.getStatusCode();
-
 			assertEquals("200", status);
-
 		}
 
 	}
 
 	@Test
-	public void showAllProjectDetails() throws SQLException {
-
-		try {
-			List<ProjectDetails> list = projectDetailsUpdatedList();
-			when(projectDetailsDaoImpl.getAll()).thenReturn(list);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void getProjectDetailsNull() throws SQLException, ParseException {
+		List<ProjectDetails> list = new ArrayList<ProjectDetails>();
+		ProjectDetailsRequest detailsRequest = getByIdprojectDetailsReq();
+		detailsRequest.getProjectDetailsList().get(0).setId(null);
+		when(projectDetailsDaoImpl.getById(1)).thenReturn(list);
+		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl.getProjectDetails(detailsRequest);
+		if (setProjectDetails != null) {
+			String status = setProjectDetails.getStatusCode();
+			assertEquals(null, status);
 		}
-		
+
+	}
+
+	@Test
+	public void showAllProjectDetails() throws SQLException, ParseException {
+
+		List<ProjectDetails> list = projectDetailsUpdatedList();
+		when(projectDetailsDaoImpl.getAll()).thenReturn(list);
+
 		ProjectDetailsResponse setProjectDetails = projectDetailsFacadeImpl.getProjectDetails(allProjectDetailsReq());
 
 		if (setProjectDetails != null) {

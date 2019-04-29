@@ -1,12 +1,12 @@
 package com.ojas.obs.model;
 
+import java.util.List;
+
 public class EmployeeSkillInfoRequest {
 
 	
-	private EmployeeSkillInfo skillInfoModel;
+	private List<EmployeeSkillInfo> skillInfoModel;
 	private String sessionId;
-	private int pageNo;
-	private int pageSize;
 	private int totalCount;
 	private String transactionType;
 	
@@ -16,10 +16,11 @@ public class EmployeeSkillInfoRequest {
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
-	public EmployeeSkillInfo getSkillInfoModel() {
+	
+	public List<EmployeeSkillInfo> getSkillInfoModel() {
 		return skillInfoModel;
 	}
-	public void setSkillInfoModel(EmployeeSkillInfo skillInfoModel) {
+	public void setSkillInfoModel(List<EmployeeSkillInfo> skillInfoModel) {
 		this.skillInfoModel = skillInfoModel;
 	}
 	public String getSessionId() {
@@ -28,18 +29,7 @@ public class EmployeeSkillInfoRequest {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-	public int getPageNo() {
-		return pageNo;
-	}
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+
 	public int getTotalCount() {
 		return totalCount;
 	}

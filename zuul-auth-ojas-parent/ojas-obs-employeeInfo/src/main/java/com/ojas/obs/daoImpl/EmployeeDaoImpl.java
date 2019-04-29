@@ -1,33 +1,39 @@
 package com.ojas.obs.daoImpl;
 
 import static com.ojas.obs.constants.UserConstants.DELETEEMPINFO;
+
+import static com.ojas.obs.constants.UserConstants.GETEMPBYID;
 import static com.ojas.obs.constants.UserConstants.GETEMPCOUNT;
 import static com.ojas.obs.constants.UserConstants.GETEMPDETAILS;
 import static com.ojas.obs.constants.UserConstants.SAVEEMPINFO;
 import static com.ojas.obs.constants.UserConstants.UPDATEEMPINFO;
-import static com.ojas.obs.constants.UserConstants.SAVED;
-import static com.ojas.obs.constants.UserConstants.UPDATED;
-import static com.ojas.obs.constants.UserConstants.DELETED;
+import static com.ojas.obs.constants.UserConstants.GETROLEBYEMPID;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+
 import com.ojas.obs.dao.EmployeeInfoDao;
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
+import com.ojas.obs.response.EmployeeRoleResponse;
+import com.ojas.obs.response.RoleResponse;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeInfoDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	Logger logger = Logger.getLogger(this.getClass());
 
 	/*
 	 * (non-Javadoc)
@@ -39,23 +45,22 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	@Override
 	public boolean saveEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) {
 
-		java.sql.Date date = java.sql.Date.valueOf(employeeInfoRequest.getEmployeeInfo().getDob());
+		List<Object[]> inputList = new ArrayList<Object[]>();
 
-		int saveEmployee = jdbcTemplate.update(SAVEEMPINFO,
+		for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
+			java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
+			Object[] emp = { employeeInfo.getFirstname(), employeeInfo.getMiddlename(), employeeInfo.getLastname(),
+					employeeInfo.getStatus(), date, employeeInfo.getGender(), employeeInfo.getPassword(),
+					employeeInfo.getEmployeeId(), true, new Timestamp(new Date().getTime()),
+					employeeInfo.getCreatedBy() };
 
-				employeeInfoRequest.getEmployeeInfo().getFirstname(),
-				employeeInfoRequest.getEmployeeInfo().getMiddlename(),
-				employeeInfoRequest.getEmployeeInfo().getLastname(), employeeInfoRequest.getEmployeeInfo().getStatus(),
-				date, employeeInfoRequest.getEmployeeInfo().getGender(),
-				employeeInfoRequest.getEmployeeInfo().getPassword(),
-				employeeInfoRequest.getEmployeeInfo().getEmployee_id(), SAVED, new Timestamp(new Date().getTime()),
-				employeeInfoRequest.getEmployeeInfo().getCreated_by());
+			inputList.add(emp);
 
-		if (saveEmployee > 0) {
-			return true;
 		}
+		jdbcTemplate.batchUpdate(SAVEEMPINFO, inputList);
 
-		return false;
+		return true;
+
 
 	}
 
@@ -68,20 +73,22 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	 */
 	@Override
 	public boolean updateEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
-		java.sql.Date date = java.sql.Date.valueOf(employeeInfoRequest.getEmployeeInfo().getDob());
-		int updateEmployee = jdbcTemplate.update(UPDATEEMPINFO, employeeInfoRequest.getEmployeeInfo().getFirstname(),
-				employeeInfoRequest.getEmployeeInfo().getMiddlename(),
-				employeeInfoRequest.getEmployeeInfo().getLastname(), employeeInfoRequest.getEmployeeInfo().getStatus(),
-				date, employeeInfoRequest.getEmployeeInfo().getGender(),
-				employeeInfoRequest.getEmployeeInfo().getPassword(),
-				employeeInfoRequest.getEmployeeInfo().getEmployee_id(), UPDATED, new Timestamp(new Date().getTime()),
-				employeeInfoRequest.getEmployeeInfo().getUpdated_by(), employeeInfoRequest.getEmployeeInfo().getId());
 
-		if (updateEmployee > 0) {
-			return true;
+		List<Object[]> inputList = new ArrayList<Object[]>();
+
+		for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
+			java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
+			Object[] emp = { employeeInfo.getFirstname(), employeeInfo.getMiddlename(), employeeInfo.getLastname(),
+					employeeInfo.getStatus(), date, employeeInfo.getGender(), employeeInfo.getPassword(),
+					employeeInfo.getEmployeeId(), new Timestamp(new Date().getTime()),
+					employeeInfo.getUpdatedBy(), employeeInfo.getId() };
+
+			inputList.add(emp);
+
 		}
+		jdbcTemplate.batchUpdate(UPDATEEMPINFO, inputList);
+		return true;
 
-		return false;
 
 	}
 
@@ -95,14 +102,18 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	@Override
 	public boolean deleteEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 
-		int delete = jdbcTemplate.update(DELETEEMPINFO, DELETED, new Timestamp(new Date().getTime()),
-				employeeInfoRequest.getEmployeeInfo().getId());
-		if (delete > 0) {
-			return true;
-		}
+		List<Object[]> inputList = new ArrayList<Object[]>();
 
-		return false;
+		for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
+			Object[] emp = { false, new Timestamp(new Date().getTime()), employeeInfo.getId() };
+
+			inputList.add(emp);
+
+		}
+		jdbcTemplate.batchUpdate(DELETEEMPINFO, inputList);
+		return true;
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -111,12 +122,42 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	 * com.ojas.obs.dao.EmployeeInfoDao#getAllEmployeeDetails(com.ojas.obs.request.
 	 * EmployeeInfoRequest)
 	 */
+	
+//	@Override
+//	public List<EmployeeInfo> getAllEmployeeDetails(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
+//		List<EmployeeInfo> employeeList = employeeInfoRequest.getEmployeeInfo();
+//		logger.debug("**employeeInfoRequest in EmployeeDaoImpl ::" + employeeInfoRequest);
+//		StringBuilder builder = new StringBuilder();
+//		builder.append(GETEMPDETAILS);
+//		
+//		
+//		
+//		for (EmployeeInfo getList : employeeList) {
+//			if (getList.getId() != 0) {
+//				builder.append("where id = " + getList.getId());
+//
+//			} else {
+//				List<EmployeeInfo> empInfo = jdbcTemplate.query(builder.toString(),
+//						new BeanPropertyRowMapper<>(EmployeeInfo.class));
+//
+//				
+//
+//				return empInfo;
+//			}
+//		}
+//		return null;
+//	}
+
 	@Override
-	public List<EmployeeInfo> getAllEmployeeDetails(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
+	public List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 
-		List<EmployeeInfo> empInfo = jdbcTemplate.query(GETEMPDETAILS, new BeanPropertyRowMapper<>(EmployeeInfo.class));
-		return empInfo;
-
+		List<EmployeeInfo> employeeinfo = null;
+		List<EmployeeInfo> employeeList = employeeInfoRequest.getEmployeeInfo();
+		for (EmployeeInfo getList : employeeList) {
+			employeeinfo = jdbcTemplate.query(GETEMPBYID + getList.getId(),
+					new BeanPropertyRowMapper<>(EmployeeInfo.class));
+		}
+		return employeeinfo;
 	}
 
 	/*
@@ -168,6 +209,34 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 
 	}
 
+	@Override
+	public List<EmployeeInfo> getAllEmployeeDetails(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
+		List<EmployeeInfo> employee = jdbcTemplate.query(GETEMPDETAILS,
+				new BeanPropertyRowMapper<>(EmployeeInfo.class));
+		return employee;
+	}
+
+	@Override
+	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest) {
+		
+		EmployeeRoleResponse employeeinfo = new EmployeeRoleResponse();
+		RoleResponse roleResponse=null;
+		List<EmployeeInfo> employeeList = employeeInfoRequest.getEmployeeInfo();
+		for (EmployeeInfo getList : employeeList) {
+			roleResponse=jdbcTemplate.queryForObject(GETROLEBYEMPID, new Object[] { getList.getEmployeeId() }, new RoleRowMapper());
+		}
+		System.out.println("RoleName"+roleResponse.getRoleName());
+		employeeinfo.setRoleName(roleResponse.getRoleName());
+		employeeinfo.setRoleId(roleResponse.getRoleId());
+		employeeinfo.setEmployeeId(roleResponse.getEmployeeId());
+		employeeinfo.setEmpFirstName(roleResponse.getFirstName());
+		employeeinfo.setEmpMiddleName(roleResponse.getMiddleName());
+		employeeinfo.setEmpLastName(roleResponse.getMiddleName());
+		return employeeinfo;
+		
+		
+	}
+	
 	
 
 }

@@ -13,9 +13,9 @@ public class EmployeeContactInfo {
 	private String current_Address_Line1; 
 	private String current_Address_Line2;
 	private String current_City;
-	private String current_State;
+	private int current_State;
 	private int current_Pin;
-	private String permanent_Address_Line_1;
+	private String permanent_Address_Line_1; 
 	private String emp_Id;
 	private String created_By;
 	private String updated_By;
@@ -69,13 +69,14 @@ public class EmployeeContactInfo {
 	public void setCurrent_City(String current_City) {
 		this.current_City = current_City;
 	}
-	public String getCurrent_State() {
+
+
+	public int getCurrent_State() {
 		return current_State;
 	}
-	public void setCurrent_State(String current_State) {
+	public void setCurrent_State(int current_State) {
 		this.current_State = current_State;
 	}
-
 	public String getPermanent_Address_Line_1() {
 		return permanent_Address_Line_1;
 	}

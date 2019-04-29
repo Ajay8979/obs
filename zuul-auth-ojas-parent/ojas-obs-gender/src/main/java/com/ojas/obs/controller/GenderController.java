@@ -1,25 +1,27 @@
 package com.ojas.obs.controller;
 
-import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.ojas.obs.facade.GenderFacade;
-import com.ojas.obs.model.ErrorResponse;
-import com.ojas.obs.model.Genders;
-import com.ojas.obs.request.GenderRequest;
+import static com.ojas.obs.constants.Constants.GET;
 import static com.ojas.obs.constants.Constants.SET;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.ojas.obs.constants.Constants.GET;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ojas.obs.facade.GenderFacade;
+import com.ojas.obs.model.ErrorResponse;
+import com.ojas.obs.model.Genders;
+import com.ojas.obs.request.GenderRequest;
 
 @RestController
+//@RequestMapping(GENDERS)
 public class GenderController {
 	@Autowired
     private GenderFacade genderFacadeImpl;
@@ -45,13 +47,6 @@ public class GenderController {
 				sessionId = genderRequestObj.getSessionId();
 				logger.debug("incoming request " + sessionId);
 			}
-            if(genderRequestObj.getSessionId()==null) {
-          	  ErrorResponse error = new ErrorResponse();
-				logger.debug("session id check");
-				error.setMessage("session id must be provided");
-				error.setStatusCode("422");
-				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-            }
             if (null == genderRequestObj.getTransactionType()|| genderRequestObj.getTransactionType().isEmpty()) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("transationType is not valid");
@@ -60,7 +55,7 @@ public class GenderController {
 			}
             List<Genders> genders=genderRequestObj.getGender();
 			for (Genders gender : genders) {
-				if ((genderRequestObj.getTransactionType().equalsIgnoreCase("UPDATE")|| genderRequestObj.getTransactionType().equalsIgnoreCase("DELETE"))&& 0 == gender.getId()) {
+				if ((genderRequestObj.getTransactionType().equalsIgnoreCase("UPDATE")|| genderRequestObj.getTransactionType().equalsIgnoreCase("DELETE"))&& null == gender.getId()) {
 					ErrorResponse error = new ErrorResponse();
 					logger.debug("data is  invalid");
 					error.setMessage("Id should be provided");
@@ -78,7 +73,15 @@ public class GenderController {
 			
 			return genderFacadeImpl.setGender(genderRequestObj);
 
-		} catch (SQLException exception) {
+		}  catch (DuplicateKeyException exception) {
+			logger.debug("inside catch block.*******");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			error.setStatusCode("409");
+			exception.printStackTrace();
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (SQLException exception) {
 			logger.debug("inside catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
@@ -86,6 +89,13 @@ public class GenderController {
 			exception.printStackTrace();
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
+		/*
+		 * catch (Exception exception) { logger.debug("inside catch block.*******");
+		 * ErrorResponse error = new ErrorResponse();
+		 * error.setStatusMessage(exception.getMessage()); error.setStatusCode("409");
+		 * exception.printStackTrace(); return new ResponseEntity<>(error,
+		 * HttpStatus.CONFLICT); }
+		 */
 	}
 	
 	@PostMapping(GET)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Statelist } from './statelist.model';
 import { OrderPipe } from 'ngx-order-pipe';
 import { HrmsService } from '../services/hrms.service';
+import  swal  from 'sweetalert';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { HrmsService } from '../services/hrms.service';
 })
 export class StatelistComponent implements OnInit {
 
+ 
   deleteStateRes: any;
   updateRes: any;
   statelist: any;
@@ -26,8 +28,51 @@ export class StatelistComponent implements OnInit {
 
   ngOnInit() 
   {
-   this.getStatus();
+   this.getStateListData();
   }
+  getStateListData() {
+    var request ={
+       
+      "states":
+       [],
+            
+      "sessionId":"1234",
+       "transactionType": "getAll"
+       
+      }
+  this.hrms.getStateListMaster(request).subscribe(res =>{
+    this.StateDetails = res;
+    this.StateList = this.StateDetails.statesList;
+    console.log(this.StateDetails);
+  })
+  }
+
+  
+updateStateData(state) {
+  var requestData =  {
+       
+    "states":
+     [{
+      "stateName":state.stateName,
+      "id":state.id
+     }],
+          
+    "sessionId":"1234",
+     "transactionType": "update"
+     
+    }
+this.hrms.updateStateListMaster(requestData).subscribe(response =>{
+  this.StateRes = response;
+  console.log(this.StateRes);
+  if(this.StateRes.statusMessage == "Successfully record updated"){
+    this.value = false;
+     swal(this.StateRes.statusMessage, "","success");
+     this.getStateListData();
+  }
+})
+}
+
+
 
 //   sortedCollection: any[];
 //   order: string = 'stateList';
@@ -121,19 +166,23 @@ export class StatelistComponent implements OnInit {
 
 setState() {
   var requestData = {
-    "states" :{
-            "stateName" : this.statelist
-    },
-"transactionType" : "save",
-    "sessionId" : "132"
+       
+"states":
+ [{
+  "stateName":this.statelist
+ }],
+      
+"sessionId":"1234",
+ "transactionType": "save"
+ 
 }
-this.hrms.setStateList(requestData).subscribe(response =>{
+this.hrms.saveStateListMaster(requestData).subscribe(response =>{
   this.StateRes = response;
   console.log(this.StateRes);
   if(this.StateRes.statusMessage == "Successfully record added"){
     this.value = false;
-    swal(this.StateRes.statusMessage, "","success");
-    this.getStatus();
+     swal(this.StateRes.statusMessage, "","success");
+    this.getStateListData();
   }
 })
 }
@@ -166,8 +215,8 @@ this.hrms.updateStateList(updateRequestData).subscribe(res =>{
   this.updateRes = res;
   console.log(this.updateRes);
    if(this.updateRes.statusMessage == "Successfully record updated"){
-     swal(this.updateRes.statusMessage, "","success");
-     this.getStatus();
+    //  swal(this.updateRes.statusMessage, "","success");
+    //  this.getStatus();
    }
 })
 }
@@ -184,11 +233,12 @@ deleteSate(state){
 this.hrms.deleteStateList(deleteRequest).subscribe(data => {
   this.deleteStateRes = data;
   if(this.deleteStateRes.statusMessage == "Successfully record deleted"){
-    swal(this.deleteStateRes.statusMessage,"","success");
-    this.getStatus();
+    // swal(this.deleteStateRes.statusMessage,"","success");
+    // this.getStatus();
   }
 })
 
 }
+
 
 }

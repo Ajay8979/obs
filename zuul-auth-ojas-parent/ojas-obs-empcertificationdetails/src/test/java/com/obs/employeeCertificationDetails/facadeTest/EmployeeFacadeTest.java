@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class EmployeeFacadeTest {
 		model.setIssuedBy("hdjhf");
 		model.setEmployeeId("1212");
 		model.setCreatedDate(new Timestamp(112134));
-		model.setDateOfIssue(new Timestamp(112134) );
+		model.setDateOfIssue(new Date(545454545) );
 		model.setFlag(true);
 		list.add(model);
 		return list;

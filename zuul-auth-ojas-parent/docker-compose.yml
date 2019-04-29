@@ -37,12 +37,12 @@ services:
     - auth-center
     ports:
     - "9000:9000"
-#  ojas-obs-dependentdetails:
-#    image: ojas-obs-dependentdetails
-#    depends_on:
-#    - auth-center
-#    ports:
-#    - "8090:8090"
+  ojas-obs-dependentdetails:
+    image: ojas-obs-dependentdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8090:8090"
   ojas-obs-employeebu:
     image: ojas-obs-employeebu
     depends_on:
@@ -79,12 +79,12 @@ services:
      - auth-center
     ports:
      - "8023:8023"
-#  ojas-obs-employeeskills:
-#    image : ojas-obs-employeeskills
-#    depends_on:
-#     - auth-center
-#    ports:
-#    - "8094:8094"
+  ojas-obs-employeeskills:
+    image : ojas-obs-employeeskills
+    depends_on:
+     - auth-center
+    ports:
+    - "8094:8094"
   ojas-obs-employment-details:
     image : ojas-obs-employment-details
     depends_on:
@@ -175,12 +175,18 @@ services:
    - auth-center
    ports:
    - "8022:8022"
-  ojas-obs-business-unit:
-   image : ojas-obs-business-unit
+  ojas-obs-businessunit:
+   image : ojas-obs-businessunit
    depends_on:
    - auth-center
    ports:
    - "8096:8096"
+  ojas-obs-resource-type:
+   image : ojas-obs-resource-type
+   depends_on:
+   - auth-center
+   ports:
+   - "8085:8085"
   ui-server:
      image: ui-server
      ports:

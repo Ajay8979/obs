@@ -98,9 +98,6 @@ public class RoleManagementFacadeTest {
 		roleManagementList.add(roleManagement2);
 		roleManagementRequest.setTransactionType("save");
 		roleManagementRequest.setRoleManagement(roleManagementList);
-		roleManagementRequest.setPageNo(1);
-		roleManagementRequest.setPageSize(2);
-		roleManagementRequest.setSessionId("1234");
 		return roleManagementRequest;
 	}
 	
@@ -142,41 +139,6 @@ public class RoleManagementFacadeTest {
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
 	
-	/*
-	 * @Test public void setRolemanagementDeleteSuccess() throws SQLException {
-	 * roleManagementRequest = roleManagementRequest();
-	 * roleManagementRequest.setTransactionType("delete");
-	 * when(roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest)).
-	 * thenReturn(true); ResponseEntity<Object> saveRole =
-	 * roleManagementFacade.setRoleManagement(roleManagementRequest); HttpStatus
-	 * statusCode = saveRole.getStatusCode(); assertEquals(HttpStatus.OK,
-	 * statusCode); }
-	 * 
-	 * @Test public void setRolemanagementDeleteFail() throws SQLException {
-	 * roleManagementRequest = roleManagementRequest();
-	 * roleManagementRequest.setTransactionType("delete");
-	 * when(roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest)).
-	 * thenReturn(false); ResponseEntity<Object> saveRole =
-	 * roleManagementFacade.setRoleManagement(roleManagementRequest); HttpStatus
-	 * statusCode = saveRole.getStatusCode(); assertEquals(HttpStatus.CONFLICT,
-	 * statusCode); }
-	 * 
-	 * @Test public void setRolemanagementEmptyTransactionTest() throws SQLException
-	 * { roleManagementRequest = roleManagementRequest();
-	 * roleManagementRequest.setTransactionType("");
-	 * when(roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest)).
-	 * thenReturn(true); ResponseEntity<Object> saveRole =
-	 * roleManagementFacade.setRoleManagement(roleManagementRequest); HttpStatus
-	 * statusCode = saveRole.getStatusCode(); assertEquals(HttpStatus.CONFLICT,
-	 * statusCode); }
-	 * 
-	 * @Test public void setRolemanagementExceptionTest() throws SQLException {
-	 * when(roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest)).
-	 * thenReturn(true); ResponseEntity<Object> saveRole =
-	 * roleManagementFacade.setRoleManagement(roleManagementRequest); HttpStatus
-	 * statusCode = saveRole.getStatusCode(); assertEquals(HttpStatus.CONFLICT,
-	 * statusCode); }
-	 */
 	
 	@Test
 	public void getRolemanagementSuccess() throws SQLException {

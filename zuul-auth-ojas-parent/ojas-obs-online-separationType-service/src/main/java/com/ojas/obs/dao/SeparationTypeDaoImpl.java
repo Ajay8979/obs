@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 
 import com.ojas.obs.model.SeparationType;
+
 import com.ojas.obs.request.SeparationTypeRequest;
 //import com.ojas.obs.request.SeparationTypeRequest;
 
@@ -21,7 +22,7 @@ import com.ojas.obs.request.SeparationTypeRequest;
  * @author nsrikanth 
  *
  */ 
-
+ 
 @Repository
 public class SeparationTypeDaoImpl implements SeparationTypeDao  {  
 	
@@ -32,7 +33,8 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 	public static final String SAVESeparationTtype = "Insert into obs_separationtype(separationType) values(?)";
 	public static final String UPDATESeparationTtype = "Update obs_separationtype set separationType =? where separationTypeId =? ";
 	public static final String DELETESeparationTtype = "Delete from obs_separationtype where separationTypeId =?";
-	public static final String SELECTSeparationTtype = "Select * from obs_separationtype";
+	public static final String SELECTSeparationTtype = "Select * from obs_separationtype ORDER BY separationTypeId asc";
+	public static final String Getbyid = "Select * from obs_separationtype where separationTypeId = ";
 	//String DESIGNATIONCOUNTDesignation = "Select count(*) from obs_designation";
 
 /*
@@ -41,7 +43,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
  */
 	@Override
 	public boolean saveSeparationType(SeparationTypeRequest separationTypeReq) throws SQLException { 
-		try {
+		//try {
 
 			List<Object[]> inputList = new ArrayList<Object[]>();
 
@@ -62,14 +64,13 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 			}
 			return false;
 		}
-
-		catch (Exception e) {
-			logger.debug("Inside saveSeparationType..DAO catch block" + e.getMessage());
-		}
-		return false;
-		
-	}
-	
+	/*
+	 * catch (Exception e) {
+	 * logger.debug("Inside saveSeparationType..DAO catch block" + e.getMessage());
+	 * } return false;
+	 * 
+	 * }
+	 */
 	
 	
 	
@@ -189,6 +190,19 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 		 * BeanPropertyRowMapper<SeparationType>(SeparationType.class));
 		 * System.out.println("data.****" + query); return query;
 		 */
+	}
+	
+	
+	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest) {
+
+		List<SeparationType> separationTypeList = new ArrayList<>();
+		List<SeparationType> insuranceList = separationTypeRequest.getSeparationType();
+		for (SeparationType separationType : insuranceList) {
+			List<SeparationType> query = jdbc.query(Getbyid + separationType.getSeparationTypeId(),
+					new BeanPropertyRowMapper<>(SeparationType.class));
+			separationTypeList.addAll(query);
+		}
+		return separationTypeList;
 	}
 	
 	

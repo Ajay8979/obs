@@ -1,4 +1,4 @@
- <div class="app-title">
+<div class="app-title">
   <div>
     <h1><i class="fa fa-dashboard"></i> EmployeeStatus</h1>
   </div>
@@ -35,33 +35,33 @@
       </th>
 
       <th>Edit</th>
-      <th>Delete</th>
+      <!-- <th>Delete</th> -->
     </tr>
 
     <tbody>
       <tr
-        *ngFor="let employee of employeestatuslist |filter:key| paginate: { itemsPerPage: 5, currentPage: p } | orderBy: order:reverse:'case-insensitive'| filter:searchText; let i=index ">
+        *ngFor="let employee of employee_statuslist |filter:key| paginate: { itemsPerPage: 5, currentPage: p } | orderBy: order:reverse:'case-insensitive'| filter:searchText; let i=index ">
         <td>
           <div *ngIf="!employee.isEditable">
-            {{employee.employeeStatus}}
+            {{employee.status}}
           </div>
-          <input type="text" [(ngModel)]="employee.employeeStatus" *ngIf="employee.isEditable" />
+          <input type="text" [(ngModel)]="employee.status" *ngIf="employee.isEditable" />
         </td>
 
         <td>
 
           <button class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="employee.isEditable"
-            (click)="employee.isEditable=!employee.isEditable">Save</button>
+            (click)="employee.isEditable=!employee.isEditable;updateEmployeeStatusData(employee)">Save</button>
           <img src="/assets/pe.png" width="35px" (click)='employee.isEditable =!employee.isEditable'
             *ngIf="!employee.isEditable">
         </td>
-        <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)" /></td>
+        <!-- <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)" /></td> -->
       </tr>
       <tr>
-        <td><input id="employeestatus" name="employeestatus" [(ngModel)]="employeestatus" *ngIf="value" type="text"
+        <td><input id="employee_status_data" name="employee_status_data" [(ngModel)]="employee_status_data" *ngIf="value" type="text"
             class="form-control" placeholder="Enter EmployeeStatus" required></td>
 
-        <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=saveBu()>Save</button></td>
+        <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setEmployeeStatusData()>Save</button></td>
         <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=cancelbulist()>Cancel</button></td>
 
       </tr>

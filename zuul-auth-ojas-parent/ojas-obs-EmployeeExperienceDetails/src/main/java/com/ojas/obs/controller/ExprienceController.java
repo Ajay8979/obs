@@ -7,6 +7,9 @@ import static com.ojas.obs.constants.UserConstants.REQUESTOBJECTNULL;
 import static com.ojas.obs.constants.UserConstants.SESSIONIDNULL;
 import static com.ojas.obs.constants.UserConstants.TRANSACTIONTYPENULL;
 
+import java.sql.SQLException;
+
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,12 +73,12 @@ public class ExprienceController {
 			ExperienceResponse setEmployeeExperienceDetails = experienceFacade
 					.setEmployeeExperienceDetails(experienceRequest);
 			responseEntity = new ResponseEntity<>(setEmployeeExperienceDetails, HttpStatus.OK);
-		} /*
-			 * catch (SQLException e) { ErrorResponse error = new ErrorResponse();
-			 * error.setStatusCode(String.valueOf(e.getErrorCode()));
-			 * error.setMessage("sql exception"); error.setStatusMessage(e.getMessage());
-			 * responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT); }
-			 */
+		} 
+			  catch (SQLException e) { ErrorResponse error = new ErrorResponse();
+			  error.setStatusCode(String.valueOf(e.getErrorCode()));
+			  error.setMessage("sql exception"); error.setStatusMessage(e.getMessage());
+			  responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT); }
+			 
 
 		catch (Exception e) {
 			ErrorResponse error = new ErrorResponse();
@@ -90,7 +93,7 @@ public class ExprienceController {
 	public ResponseEntity<Object> getEmployeeExprienceDetails(@RequestBody ExperienceRequest experienceRequest,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		logger.debug(" Received input data in EmployeeExperienceDetailssController :" + experienceRequest);
-
+		try {
 		if (experienceRequest == null) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusCode("422");
@@ -111,17 +114,17 @@ public class ExprienceController {
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
-		try {
+		
 
 			ExperienceResponse setEmployeeExperienceDetails = experienceFacade
 					.getEmployeeExperienceDetails(experienceRequest);
 			responseEntity = new ResponseEntity<>(setEmployeeExperienceDetails, HttpStatus.OK);
-		} /*
-			 * catch (SQLException e) { ErrorResponse error = new ErrorResponse();
-			 * error.setStatusCode(String.valueOf(e.getErrorCode()));
-			 * error.setMessage("sql exception"); error.setStatusMessage(e.getMessage());
-			 * responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT); }
-			 */ catch (Exception e) {
+		} 
+			  catch (SQLException e) { ErrorResponse error = new ErrorResponse();
+			  error.setStatusCode(String.valueOf(e.getErrorCode()));
+			  error.setMessage("sql exception"); error.setStatusMessage(e.getMessage());
+			  responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT); }
+			  catch (Exception e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(e.getMessage());
 			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);

@@ -31,14 +31,13 @@
                   <tr>
                     <th>Center Name</th>
                     <th>Edit</th>
-                    <th>Delete</th>
+                  
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    *ngFor="let bulist of passportCenterList |paginate: { itemsPerPage: 5, currentPage: p } | orderBy: order:reverse:'case-insensitive'| filter:key; let i=index ">
+                  <tr *ngFor="let bulist of passportCenterList | filter:key | paginate: { itemsPerPage:6, currentPage: p }; let i=index ">
                     <td>
-                      <div *ngIf="!bulist.isEditable">
+                      <div   *ngIf="!bulist.isEditable" >
                         {{bulist.centerName}}
                       </div>
                       <input type="text" [(ngModel)]="bulist.centerName" *ngIf="bulist.isEditable" />
@@ -50,7 +49,7 @@
                       <img src="assets/pe.png" width="30" (click)='bulist.isEditable =!bulist.isEditable'
                         *ngIf="!bulist.isEditable">
                     </td>
-                    <td><img src="assets/delete.png" width="20" (click)="deletePassport(bulist)" /></td>
+                    <!-- <td><img src="assets/delete.png" width="20" (click)="deletePassport(bulist)" /></td> -->
                   <tr>
                     <td><input id="businessunit" name="businessunit" [(ngModel)]="centerName" *ngIf="value" type="text"
                         class="form-control" placeholder="Enter Passport Center" required></td>
@@ -61,6 +60,19 @@
                   </tr>
                 </tbody>
               </table>
+              <!-- <table class="table table-condensed tile">
+                <thead>
+                  <th>Id</th>
+                  <th>Center Name</th>
+                  <th>Edit</th>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let bulist of passportCenterList ">
+                    <td>{{bulist.centerName}}</td>
+                  </tr>
+                </tbody>
+              </table> -->
 
             </div>
           <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>

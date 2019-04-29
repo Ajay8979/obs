@@ -1,6 +1,7 @@
 package com.ojas.obs.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import static com.ojas.obs.constants.UserConstants.SET;
+import static com.ojas.obs.constants.UserConstants.GET;
 
 import com.ojas.obs.facade.EmployeeStatusFacade;
 import com.ojas.obs.model.EmployeeContactInfo;
@@ -32,6 +34,7 @@ import com.ojas.obs.response.ErrorResponse;
  */
 
 @RestController
+//@RequestMapping("/employeecontactinfo")
 public class EmployeeContactInfoController {
 
 	@Autowired
@@ -40,7 +43,7 @@ public class EmployeeContactInfoController {
 	Logger logger = Logger.getLogger(this.getClass());
 	 
 	//service to save,update or delete employeeContactInfo
-	@PostMapping("/set")
+	@PostMapping(SET)
 	public ResponseEntity<Object> setEmployeeContactInfo(@RequestBody EmployeeContactInfoRequest employeeContacts,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -69,7 +72,7 @@ public class EmployeeContactInfoController {
 
 	
 	//Service to get EmployeeContactInfo
-	@PostMapping("/get")
+	@PostMapping(GET)
 	public ResponseEntity<Object> getEmployeeContactInfo(@RequestBody EmployeeContactInfoRequest empRequest,
 			HttpServletRequest request, HttpServletResponse response) {
          
@@ -159,45 +162,5 @@ public class EmployeeContactInfoController {
 		 
 	}}
 }
-				 /*
-			}else if(empRequest.getTransactionType().equalsIgnoreCase("get")) {
-				
-				
-				if(empRequest.getId()!=0) {
-				logger.debug("@block to get particular employee contact info based on his id");
-				EmployeeContactInfo emp=empFacade.showEmployeeContactInfo(empRequest);
-				if(emp!=null) {
-				   EmployeeContactInfoResponse resp=new EmployeeContactInfoResponse();
-				   resp.setEmpContact(emp);
-				   resp.setStatusCode("200");
-				   resp.setStatusMessage("success");
-				   return new ResponseEntity<Object>(resp,HttpStatus.OK);
-				}else {
-					EmployeeContactInfoResponse resp=new EmployeeContactInfoResponse();
-					resp.setStatusCode("422");
-					resp.setStatusMessage("No data");
-					return new ResponseEntity<Object>(resp,HttpStatus.NO_CONTENT);
-				}
-				}else {
-					 logger.debug("@Id is"+empRequest.getId());
-						ErrorResponse err = new ErrorResponse();
-						err.setStatusMessage("id is mandatory");
-						err.setStatusCode("422");
-						return new ResponseEntity<Object>(err, HttpStatus.UNAUTHORIZED);
-					
-				}
-			}
-			 
-			 */
-			 
-		/*	 else {
-                logger.debug("@Transaction type is not matched");
-				ErrorResponse err = new ErrorResponse();
-				err.setStatusMessage("Please check transaction type");
-				err.setStatusCode("422");
-				return new ResponseEntity<Object>(err, HttpStatus.UNAUTHORIZED);
-			}*/
-
-		
-
+	
 

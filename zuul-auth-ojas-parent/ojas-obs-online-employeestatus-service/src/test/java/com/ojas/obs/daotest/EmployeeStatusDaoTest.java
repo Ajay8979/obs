@@ -122,5 +122,15 @@ public class EmployeeStatusDaoTest {
 		boolean b = status.isEmpty();
 		assertEquals(true, b);
 	}
+	
+	@Test
+	public void getByIdTest() {
+
+		when(jdbcTemplate.query(EmployeeStatusDaoImpl.GETBYIDSTMT,
+				new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class))).thenReturn(getEmpStatusList());
+		List<EmployeeStatus> status = employeeStatusDaoImpl.getById(1);
+		boolean b = status.isEmpty();
+		assertEquals(true, b);
+	}
 
 }

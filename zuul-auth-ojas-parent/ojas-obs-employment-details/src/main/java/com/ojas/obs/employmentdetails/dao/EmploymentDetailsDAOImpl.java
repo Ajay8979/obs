@@ -1,11 +1,15 @@
 package com.ojas.obs.employmentdetails.dao;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,6 +19,7 @@ import com.ojas.obs.employmentdetails.controller.EmploymentDetailsController;
 import com.ojas.obs.employmentdetails.exception.DataNotInsertedException;
 import com.ojas.obs.employmentdetails.mapper.EmploymentDetailsRowMapper;
 import com.ojas.obs.employmentdetails.model.EmploymentDetails;
+import com.ojas.obs.employmentdetails.model.EmploymentDetailsRequest;
 import com.ojas.obs.employmentdetails.util.QueryUtil;
 
 /**
@@ -44,26 +49,22 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 	@Transactional(rollbackFor = DataNotInsertedException.class)
 	public boolean saveEmploymentDetails(List<EmploymentDetails> employmentDetailsList)
 			throws DataNotInsertedException {
+		Timestamp created_date = new Timestamp(new Date().getTime());
+		int savedRows = 0;
+		for (EmploymentDetails employmentObject : employmentDetailsList) {
 
-		for (EmploymentDetails employmentDetails : employmentDetailsList) {
-
-			if (null != employmentDetails) {
-				try {
-					Object[] inputArgs = { employmentDetails.getEmployeeId(), employmentDetails.getJoiningDate(),
-							employmentDetails.getResourceType(), employmentDetails.getBondStatus(),
-							employmentDetails.getFlag(), employmentDetails.getCreatedBy() }; //
-					jdbcTemplate.update(queryUtil.getQuery("INSERT_EMPLOYMENT_DETAILS_STMT"), inputArgs);
-				} catch (DataAccessException e) {
-					LOGGER.debug("All requested Employee  records not get inserted ");
-					throw new DataNotInsertedException(
-							"failed to insert employee details with employee id " + employmentDetails.getEmployeeId());
-				}
-			}
+			savedRows = jdbcTemplate.update(queryUtil.getQuery("INSERT_EMPLOYMENT_DETAILS_STMT"),
+					employmentObject.getEmployeeId(), employmentObject.getJoiningDate(),
+					employmentObject.getResourceType(), employmentObject.isBondStatus(),
+					employmentObject.getResignationDate(), employmentObject.getExitDate(),
+					employmentObject.getSeparationType(), 1, employmentObject.getCreatedBy(), created_date);
 		}
-
-		LOGGER.debug("Employee details record inserted succefully ");
-		return true;
-
+		if (savedRows > 0) {
+			LOGGER.debug("Employee details record inserted succefully ");
+			return true;
+		}
+		LOGGER.debug("Employee details record not inserted succefully ");
+		return false;
 	}
 
 	/**
@@ -74,30 +75,20 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 	@Override
 	public boolean updateEmploymentDetails(List<EmploymentDetails> employmentDetailsList)
 			throws DataNotInsertedException {
-
-		for (EmploymentDetails employmentDetails : employmentDetailsList) {
-
-			if (null != employmentDetails && isEmployeeExits(employmentDetails.getId())) {
-				try {
-					Object[] inputArgs = { employmentDetails.getResourceType(), employmentDetails.getBondStatus(),
-							employmentDetails.getResignationDate(), employmentDetails.getExitDate(),
-							employmentDetails.getSeparationType(), employmentDetails.getFlag(),
-							employmentDetails.getUpdatedBy(), employmentDetails.getId() }; //
-					jdbcTemplate.update(queryUtil.getQuery("UPDATE_EMPLOYMENT_DETAILS_STMT"), inputArgs);
-				} catch (DataAccessException e) {
-					LOGGER.debug("All requested Employee  records not get updated ");
-					throw new DataNotInsertedException(
-							"failed to update record with employee id " + employmentDetails.getEmployeeId());
-				}
-			} else {
-				LOGGER.debug("All requested Employee  records not get updated ");
-				throw new DataNotInsertedException(
-						"Employee details not found for employee with  id " + employmentDetails.getId());
-			}
+		boolean flag = true;
+		int updatedRows = 0;
+		Timestamp updatedDate_date = new Timestamp(new Date().getTime());
+		for (EmploymentDetails employmentObject : employmentDetailsList) {
+			updatedRows = jdbcTemplate.update(queryUtil.getQuery("UPDATE_EMPLOYMENT_DETAILS_STMT"),
+					employmentObject.getResourceType(), employmentObject.isBondStatus(),
+					employmentObject.getResignationDate(), employmentObject.getExitDate(),
+					employmentObject.getSeparationType(), flag, employmentObject.getUpdatedBy(),updatedDate_date,
+					employmentObject.getId());
 		}
-
-		LOGGER.debug("Employee  records not updated succefully ");
-		return true;
+		if (updatedRows > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isEmployeeExits(Integer id) {
@@ -118,28 +109,16 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 	@Override
 	public boolean deleteEmploymentDetails(List<EmploymentDetails> employmentDetailsList)
 			throws DataNotInsertedException {
-
-		for (EmploymentDetails employmentDetails : employmentDetailsList) {
-
-			if (null != employmentDetails && isEmployeeExits(employmentDetails.getId())) {
-				try {
-					Object[] inputArgs = { 0, employmentDetails.getUpdatedBy(), employmentDetails.getId() }; //
-					jdbcTemplate.update(queryUtil.getQuery("DELETE_EMPLOYMENT_DETAILS_STMT"), inputArgs);
-				} catch (DataAccessException e) {
-					LOGGER.debug("Employee  records are not  deleted as employee record with id "
-							+ employmentDetails.getId() + " is not found");
-					throw new DataNotInsertedException(
-							"failed to update record with employee id " + employmentDetails.getEmployeeId());
-				}
-			} else {
-				LOGGER.debug("All requested Employee  records not get deleted ");
-				throw new DataNotInsertedException("Employee details not found for employee with employee id "
-						+ employmentDetails.getEmployeeId());
-			}
+		int deletedRows = 0;
+		boolean flag = false;
+		for (EmploymentDetails employmentObject : employmentDetailsList) {
+			deletedRows = jdbcTemplate.update(queryUtil.getQuery("DELETE_EMPLOYMENT_DETAILS_STMT"),
+					flag, employmentObject.getId());
 		}
-
-		LOGGER.debug("All requested Employee  records  got deleted ");
-		return true;
+		if (deletedRows > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -156,12 +135,23 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 	}
 
 	@Override
-	public List<EmploymentDetails> getEmploymentDetailsByEmploymentId(String employeeId) {
-
+	public List<EmploymentDetails> getEmploymentDetailsByEmploymentId(EmploymentDetailsRequest employmentDetailsRequest) {
+		boolean flag= true;
 		RowMapper<EmploymentDetails> rowMapper = new EmploymentDetailsRowMapper();
+		List<EmploymentDetails> employmentDetails = employmentDetailsRequest.getEmploymentDetails();
+		List<EmploymentDetails> list = new ArrayList<EmploymentDetails>();
+		
 		List<EmploymentDetails> employmentDetailsList = jdbcTemplate.query(
-				queryUtil.getQuery("GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT"), new Object[] { employeeId },
-				rowMapper);
+				queryUtil.getQuery("GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT"),new BeanPropertyRowMapper<EmploymentDetails>(EmploymentDetails.class));
+		for (EmploymentDetails employmentDetails2 : employmentDetails) {
+			for (EmploymentDetails employmentDetail : employmentDetailsList) {
+				if(employmentDetails2.getId() == employmentDetail.getId()){
+					list.add(employmentDetail);
+					return list;
+				}
+			}
+		}
+		
 		LOGGER.debug("Employee  details list " + employmentDetailsList);
 		return employmentDetailsList;
 

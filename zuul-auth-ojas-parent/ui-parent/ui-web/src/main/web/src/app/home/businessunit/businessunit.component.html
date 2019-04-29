@@ -29,7 +29,7 @@
                     <th>Business Unit</th>
                  <th>Cost Center</th>
 									<th>Edit</th>
-									<th>Delete</th>
+                  
                 </tr>
                 </thead>
                 <tbody>
@@ -47,14 +47,14 @@
                   <select id="costcenter" name="costcenter" [(ngModel)]="bulist.costCenterId" *ngIf="bulist.isEditable" class='form-control' >
                       <option value="undefined" selected disabled >--Select--</option>
                       <option *ngFor="let bulist of coscentergetlist">{{bulist.costCenterCode}}</option>
-        
+                    
                     </select>
                     </td>
                   <td>
                     <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="bulist.isEditable" (click)="bulist.isEditable=!bulist.isEditable;saveUpdatedBuData(bulist);">Save</button>
                     <img src="assets/pe.png" width="35px" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable">
                     </td>
-                  <td><img src="assets/delete.png" width="20px" (click)=" deleteBuData(bulist)"/></td>
+                  <!-- <td><img src="assets/delete.png" width="20px" (click)=" deleteBuData(bulist)"/></td> -->
                 </tr>
                  <tr>
                  <td><input id="businessunit" name="businessunit" [(ngModel)]="businessUnitName" *ngIf="value" type="text" class="form-control" placeholder="Enter BusinessUnit" required ></td>
@@ -70,11 +70,7 @@
                 
 									</tbody>
                 </table>
-                <!-- <div class="input-group  " >
-                    <button type="submit" (click)="value=!value"class="btn btn-primary" ><i class="fa fa-plus" aria-hidden="true"></i></button>
-                </div> -->
-							
-        
+              
               
              
           </div>
@@ -82,19 +78,3 @@
                 <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
 
               
-       
-<!-- 
-              <div class="row down">
-                  <div class="col-md-11 pad">
-                  <form class="form-inline ">
-                  <div class="input-group ">
-                  <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" ng-reflect-name="key" ng-reflect-model placeholder="Search" >
-                  </div>
-                  </form>
-                  </div>
-                  <div class="col-md-1 pad">
-                  <div class="input-group " >
-                  <button type="submit" (click)="value=!value"class="btn btn-primary" >Add</button>
-                  </div>
-                  </div>
-                  </div> -->

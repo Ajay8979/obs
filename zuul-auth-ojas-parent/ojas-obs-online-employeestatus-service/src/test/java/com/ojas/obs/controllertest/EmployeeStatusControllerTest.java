@@ -320,7 +320,7 @@ public class EmployeeStatusControllerTest {
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
 		employeeStatusRequest.setTransactionType("getall");
-		when(employeeStatusFacadeImpl.getEmployeeStatus()).thenReturn(successResponse);
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(successResponse);
 		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
 				httpServletRequest, httpServletResponse);
 		HttpStatus status = saveStatus.getStatusCode();
@@ -328,12 +328,53 @@ public class EmployeeStatusControllerTest {
 	}
 
 	@Test
-	public void testGetEmployeeStatusNullCheck() {
+	public void testGetEmployeeStatusById() throws SQLException {
+		HttpServletRequest httpServletRequest = null;
+		HttpServletResponse httpServletResponse = null;
+		employeeStatusRequest = new EmployeeStatusRequest();
+		employeeStatusRequest.setTransactionType("getbyid");
+		employeeStatusRequest.setEmployeeStatus(getEmpStatusList());
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(successResponse);
+		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
+				httpServletRequest, httpServletResponse);
+		HttpStatus status = saveStatus.getStatusCode();
+		assertEquals(HttpStatus.OK, status);
+	}
+	
+	@Test
+	public void testGetEmployeeStatusByIdNull() throws SQLException {
+		HttpServletRequest httpServletRequest = null;
+		HttpServletResponse httpServletResponse = null;
+		employeeStatusRequest = new EmployeeStatusRequest();
+		employeeStatusRequest.setTransactionType("getbyid");
+		employeeStatusRequest.setEmployeeStatus(getEmpStatusList());
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(successResponse);
+		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
+				httpServletRequest, httpServletResponse);
+		HttpStatus status = saveStatus.getStatusCode();
+		assertEquals(HttpStatus.OK, status);
+	}
+	
+	@Test
+	public void testGetEmployeeStatusTypeEmpty() {
 		HttpServletRequest httpServletRequest = null;
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
 		employeeStatusRequest.setTransactionType("");
-		when(employeeStatusFacadeImpl.getEmployeeStatus()).thenReturn(failureResponse);
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(failureResponse);
+		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
+				httpServletRequest, httpServletResponse);
+		HttpStatus status = saveStatus.getStatusCode();
+		assertNotEquals(HttpStatus.OK, status);
+	}
+	
+	@Test
+	public void testGetEmployeeStatusTypeNull() {
+		HttpServletRequest httpServletRequest = null;
+		HttpServletResponse httpServletResponse = null;
+		employeeStatusRequest = new EmployeeStatusRequest();
+		//employeeStatusRequest.setTransactionType("");
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(failureResponse);
 		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
 				httpServletRequest, httpServletResponse);
 		HttpStatus status = saveStatus.getStatusCode();
@@ -346,7 +387,7 @@ public class EmployeeStatusControllerTest {
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
 		employeeStatusRequest.setTransactionType("getall");
-		when(employeeStatusFacadeImpl.getEmployeeStatus()).thenThrow(new RuntimeException());
+		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenThrow(new RuntimeException());
 		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
 				httpServletRequest, httpServletResponse);
 		HttpStatus status = saveStatus.getStatusCode();

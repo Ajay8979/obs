@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
 import { Separationtype} from './separation.model';
 import { OrderPipe } from 'ngx-order-pipe';
+import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-separationtype',
@@ -22,72 +24,121 @@ export class SeparationtypeComponent implements OnInit {
   order: string = 'separationType';
 
   
-  separationtypelist: Separationtype[] = [
-    {
-      'separationType': 'obsconed',
-      
-    },
-    {
-      'separationType': 'resigned',
-      
-    }
-
-
-  ]
-  constructor(private orderpipe:OrderPipe) 
+  
+  constructor(private hrms:HrmsService) 
   {
-    this.sortedCollection = orderpipe.transform(this.separationtypelist, 'separationType');
-    console.log(this.sortedCollection);
-   }
+
+  }
+  
   
   ngOnInit() {
+    this.getSeparation();
   }
  
 
-  saveBu(){
-    debugger;
-    this.value = false;
-    this.data = {
-      "separationType":this.separationtype,
-    
-    }
-    this.separationtypelist.unshift(this.data);
+//--------------Separation Starts------
+//---getSeparation-------------
+separationDetailsList:any;
+separationDetails:any;
+  getSeparation() {
+    var requestgetObj =
+    {
+      "separationType":[
+              {
+      
+              
+              
+              },
+              {
+                      
+              
+              
+              },
+              {
+                      
+              
+              
+              }
+              ],
+              "sessionId":"1234",
+              "transactionType":"/getall"
+      }
+    this.hrms.getSeperationType(requestgetObj).subscribe(res =>{
+      this.separationDetails = res;
+      console.log(this.separationDetails);
+      this.separationDetailsList = this.separationDetails.separationTypeList;
+      console.log(this.separationDetailsList);
+    })
+  }
+  
+//--Save Separation Type--------------------------------
+//value: boolean;
+//isEditable:boolean = false;
+//reverse: boolean = false;
 
-    this.separationType='';
-  
-  }
-  editData(blist){
-    console.log(blist);
-    //this.listDetails = blist;
-    this.separation = blist.separationType;
+saveseparationReq:any;
+separationtypeid:any;
+setSeparation(){
+  var requestsaveData = 
+  {
+    "separationType":[
+            {
+            // "separationTypeId":this.separationtypeid,
+            "separationType":this.separationtype
+            
+            }
+            ],
+            "sessionId":"1234",
+            "transactionType":"save"
     
-  }
-  saveData(){
-    var editD = {
-      "separationType":this.separation
-    }
-    console.log(editD);
-  }
-  deleterow(index){
-    debugger;
-    if(index !== -1){
-      this.separationtypelist.splice(0,1);
-    }
-    else {
-    this.separationtypelist.splice(index,1);
-    }
-  }
-  
-  cancelbulist(){
-    this.value=false;
     
-  }
-  setOrder(value: string) {
-    if (this.order === value) {
-      this.reverse = !this.reverse;
     }
+this.hrms.saveSeperationType(requestsaveData).subscribe(response =>{
+this.saveseparationReq = response;
+console.log(this.saveseparationReq); if(this.saveseparationReq.statusMessage == " Record Saved Successfully"){
+  this.value = false;
+ swal(this.saveseparationReq.statusMessage, "","success");
+ /// this.getPassportCenter();
+}
+this.getSeparation();
+})
+   this.getSeparation();
+ 
+}
+
+//--Update Separation Type--------------------------------
+updatedseparationRes:any;
+separationTypeListArr:any;
+
+updateSeparation(separation){
   
-    this.order = value;
-  
-  }
+  var updateRequestData = 
+  {
+    "separationType":[
+            {
+            "separationTypeId":separation.separationTypeId,
+            "separationType":separation.separationType
+            
+            }
+            ],
+            "sessionId":"1234",
+            "transactionType":"/update"
+    
+    
+    }
+  this.hrms.updateSeperationType(updateRequestData).subscribe(res =>{
+    this.updatedseparationRes = res;
+    this.separationTypeListArr=this.updatedseparationRes.separationTypeList;
+    console.log(this.updatedseparationRes);
+
+    if(this.updatedseparationRes.statusMessage == "Record Updated Successfully"){
+      swal(this.updatedseparationRes.statusMessage , "","success");
+      //this.getSeparation();
+    }
+    this.getSeparation();
+  })
+}
+
+
+//--End of Separation Type--------------------------------
 }

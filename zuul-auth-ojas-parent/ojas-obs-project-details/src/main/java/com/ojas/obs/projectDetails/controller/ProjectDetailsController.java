@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -34,7 +33,6 @@ import com.ojas.obs.projectDetails.request.ProjectDetailsRequest;
 import com.ojas.obs.projectDetails.response.ProjectDetailsResponse;
 
 @RestController
-@RequestMapping("/obs/projectDetails") 
 public class ProjectDetailsController {
 
 	ResponseEntity<Object> responseEntity = null;
@@ -121,7 +119,8 @@ public class ProjectDetailsController {
 			error.setMessage(REQUESTOBJECTNULL);
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		if (null == projectDetailsRequestObject.getTransactionType() || !projectDetailsRequestObject.getTransactionType().equalsIgnoreCase("getAll")) {
+		if (null == projectDetailsRequestObject.getTransactionType()
+				|| !projectDetailsRequestObject.getTransactionType().equalsIgnoreCase("getAll")) {
 			logger.error(" In ProjectDetailsController/getProjectDetails :" + TRANSACTIONTYPENULL);
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusCode("422");
@@ -129,8 +128,10 @@ public class ProjectDetailsController {
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		if (projectDetailsRequestObject.getTransactionType().equalsIgnoreCase(GETALL)
-				&& (projectDetailsRequestObject.getProjectDetailsList() != null && projectDetailsRequestObject.getProjectDetailsList().size()>0  && projectDetailsRequestObject
-						.getProjectDetailsList().stream().anyMatch(projectDetails -> projectDetails.getId() == null))) {
+				&& (projectDetailsRequestObject.getProjectDetailsList() != null
+						&& projectDetailsRequestObject.getProjectDetailsList().size() > 0
+						&& projectDetailsRequestObject.getProjectDetailsList().stream()
+								.anyMatch(projectDetails -> projectDetails.getId() == null))) {
 			logger.error(" In ProjectDetailsController/getProjectDetails :" + IDISNULL);
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusCode("422");

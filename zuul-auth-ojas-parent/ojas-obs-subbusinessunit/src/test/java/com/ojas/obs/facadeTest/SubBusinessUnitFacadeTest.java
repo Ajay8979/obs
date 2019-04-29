@@ -85,7 +85,6 @@ public class SubBusinessUnitFacadeTest {
 		subBusinessUnitList.add(subBusinessUnit1);
 		subBusinessUnitRequest.setTransactionType("save");
 		subBusinessUnitRequest.setSubBusinessUnitModel(subBusinessUnitList);
-		subBusinessUnitRequest.setTotalCount(10);
 		return subBusinessUnitRequest;
 	}
 
@@ -126,35 +125,6 @@ public class SubBusinessUnitFacadeTest {
 		HttpStatus statusCode = saveRole.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
-
-	/*
-	 * @Test public void setSubBusinessUnitDeleteSuccess() throws SQLException {
-	 * subBusinessUnitRequest = subBusinessUnitRequest();
-	 * subBusinessUnitRequest.setTransactionType("delete");
-	 * when(subBusinessUnitDaoImpl.deleteSubBusinessUnit(subBusinessUnitRequest)).
-	 * thenReturn(true); ResponseEntity<Object> saveRole =
-	 * subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest);
-	 * HttpStatus statusCode = saveRole.getStatusCode(); assertEquals(HttpStatus.OK,
-	 * statusCode); }
-	 * 
-	 * @Test public void setSubBusinessUnitDeleteFail() throws SQLException {
-	 * subBusinessUnitRequest = subBusinessUnitRequest();
-	 * subBusinessUnitRequest.setTransactionType("delete");
-	 * when(subBusinessUnitDaoImpl.deleteSubBusinessUnit(subBusinessUnitRequest)).
-	 * thenReturn(false); ResponseEntity<Object> saveRole =
-	 * subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest);
-	 * HttpStatus statusCode = saveRole.getStatusCode();
-	 * assertEquals(HttpStatus.CONFLICT, statusCode); }
-	 * 
-	 * @Test public void setSubBusinessUnitEmptyTest() throws SQLException {
-	 * subBusinessUnitRequest = subBusinessUnitRequest();
-	 * subBusinessUnitRequest.setTransactionType("");
-	 * when(subBusinessUnitDaoImpl.deleteSubBusinessUnit(subBusinessUnitRequest)).
-	 * thenReturn(true); ResponseEntity<Object> saveRole =
-	 * subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest);
-	 * HttpStatus statusCode = saveRole.getStatusCode();
-	 * assertEquals(HttpStatus.CONFLICT, statusCode); }
-	 */
 
 	@Test
 	public void setSubBusinessUnitExceptionTest() throws SQLException {

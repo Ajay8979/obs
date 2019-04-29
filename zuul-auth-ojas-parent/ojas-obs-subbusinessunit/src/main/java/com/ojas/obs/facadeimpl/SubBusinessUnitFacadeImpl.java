@@ -1,14 +1,16 @@
 package com.ojas.obs.facadeimpl;
 
-import static com.ojas.obs.constants.SubBusinessUnitConstants.DELETE;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.FAILED;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SAVE;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SUCCESS;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.UPDATE;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETALL;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETBYID;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -47,8 +49,6 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 				logger.debug("inside  save condition.****** : " + saveSubBusinessUnit);
 				if (saveSubBusinessUnit) {
 					subBusinessUnitResponse.setMessage("Success fully record added");
-					int totalCount = subBusinessDAO.getAllSubBusinessUnitDetailsCount();
-					subBusinessUnitResponse.setTotalCount(totalCount);
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
@@ -61,10 +61,9 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				subBusinessUnitResponse = new SubBusinessUnitResponse();
 				boolean updateSubBusinessUnit = subBusinessDAO.updateSubBusinessUnit(subBusinessUnitRequest);
+				logger.debug("inside  update condition.****** : " + updateSubBusinessUnit);
 				if (updateSubBusinessUnit) {
 					subBusinessUnitResponse.setMessage("Success fully record updated");
-					int totalCount = subBusinessDAO.getAllSubBusinessUnitDetailsCount();
-					subBusinessUnitResponse.setTotalCount(totalCount);
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
@@ -73,29 +72,20 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 					return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 				}
 			}
-			/*
-			 * if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
-			 * subBusinessUnitResponse = new SubBusinessUnitResponse(); boolean
-			 * deleteEducationRecord =
-			 * subBusinessDAO.deleteSubBusinessUnit(subBusinessUnitRequest);
-			 * 
-			 * logger.debug("inside  delete condition.******  : " + subBusinessUnitRequest);
-			 * if (deleteEducationRecord) {
-			 * subBusinessUnitResponse.setMessage("Success fully record deleted"); int
-			 * totalCount = subBusinessDAO.getAllSubBusinessUnitDetailsCount();
-			 * subBusinessUnitResponse.setTotalCount(totalCount); return new
-			 * ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK); } else {
-			 * ErrorResponse error = new ErrorResponse(); error.setMessage(FAILED);
-			 * error.setStatusCode("409"); return new ResponseEntity<>(error,
-			 * HttpStatus.CONFLICT); }
-			 * 
-			 * }
-			 */
+			
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(FAILED);
 			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		} catch (Exception exception) {
+			
+		}catch (DuplicateKeyException exception) {
+			ErrorResponse error = new ErrorResponse();
+			error.setMessage(exception.getCause().getLocalizedMessage());
+			logger.debug("data is  invalid");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		
+		catch (Exception exception) {
 			logger.debug("inside SubBusinessUnitFacade catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
@@ -113,17 +103,21 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 		logger.debug("inside getSubBusinessUnit in SubBusinessUnitFacade.***");
 
 		try {
-			List<SubBusinessUnit> allSubBusinessUnitDetails = subBusinessDAO.getAllSubBusinessUnitDetails();
+			List<SubBusinessUnit> allSubBusinessUnitDetails = null;
+			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
+			 allSubBusinessUnitDetails = subBusinessDAO.getAllSubBusinessUnitDetails();
+			}
+			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+				Integer id = subBusinessUnitRequest.getSubBusinessUnitModel().get(0).getId();
+				 allSubBusinessUnitDetails = subBusinessDAO.getByIdSubBusinessUnitDetails(id);
+				}
 			if (allSubBusinessUnitDetails == null || allSubBusinessUnitDetails.isEmpty()) {
 				subBusinessUnitResponse.setMessage("No records found");
-				subBusinessUnitResponse.setTotalCount(0);
 				subBusinessUnitResponse.setSubBusinessUnitList(allSubBusinessUnitDetails);
 				return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.CONFLICT);
 			} else {
-				int count = subBusinessDAO.getAllSubBusinessUnitDetailsCount();
 				subBusinessUnitResponse.setSubBusinessUnitList(allSubBusinessUnitDetails);
 				subBusinessUnitResponse.setMessage(SUCCESS);
-				subBusinessUnitResponse.setTotalCount(count);
 				return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 			}
 

@@ -16,14 +16,15 @@ public class BankDetails {
 	private String bank_branch;
 	private String bank_ifsc_code;
 	private String bank_account_status;
-	private Integer employee_id;
+	private String employee_id;
 	private boolean is_active;
-	private Integer updated_by;
-	private Integer created_by;
+	private String updated_by;
+	private String created_by;
 	private Timestamp created_date;
 	private Timestamp updated_date;
 	private boolean flag;
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -80,11 +81,11 @@ public class BankDetails {
 		this.bank_account_status = bank_account_status;
 	}
 
-	public Integer getEmployee_id() {
+	public String getEmployee_id() {
 		return employee_id;
 	}
 
-	public void setEmployee_id(Integer employee_id) {
+	public void setEmployee_id(String employee_id) {
 		this.employee_id = employee_id;
 	}
 
@@ -96,19 +97,19 @@ public class BankDetails {
 		this.is_active = is_active;
 	}
 
-	public Integer getUpdated_by() {
+	public String getUpdated_by() {
 		return updated_by;
 	}
 
-	public void setUpdated_by(Integer updated_by) {
+	public void setUpdated_by(String updated_by) {
 		this.updated_by = updated_by;
 	}
 
-	public Integer getCreated_by() {
+	public String getCreated_by() {
 		return created_by;
 	}
 
-	public void setCreated_by(Integer created_by) {
+	public void setCreated_by(String created_by) {
 		this.created_by = created_by;
 	}
 
@@ -242,4 +243,5 @@ public class BankDetails {
 		return true;
 	}
 
+	
 }

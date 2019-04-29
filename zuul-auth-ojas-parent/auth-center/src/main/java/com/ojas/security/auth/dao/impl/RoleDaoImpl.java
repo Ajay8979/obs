@@ -17,7 +17,7 @@ public class RoleDaoImpl implements RoleDao {
 	public List<String> getRoleNames(String employeeId)//(Long userId)
 	{
 		
-		String sql = "Select r.role_name from user_role ur, app_role r where ur.role_id = r.role_id and ur.employee_id = ? ";
+		String sql = "Select r.role_name from user_role ur, app_role r where ur.role_id = r.role_id and ur.employeeId = ? ";
 		Object[] params = new Object[] { employeeId };
 		List<String> roles = jdbcTemplate.queryForList(sql, params, String.class);
 		return roles;

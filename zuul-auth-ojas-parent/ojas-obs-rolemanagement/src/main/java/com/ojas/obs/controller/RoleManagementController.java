@@ -1,9 +1,11 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.RoleServiceConstants.DELETE;
 import static com.ojas.obs.constants.RoleServiceConstants.GET;
+import static com.ojas.obs.constants.RoleServiceConstants.ROLEMANAGEMENT;
 import static com.ojas.obs.constants.RoleServiceConstants.SET;
 import static com.ojas.obs.constants.RoleServiceConstants.UPDATE;
+import static com.ojas.obs.constants.RoleServiceConstants.GETALL;
+import static com.ojas.obs.constants.RoleServiceConstants.GETBYID;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -30,6 +32,7 @@ import com.ojas.obs.request.RoleManagementRequest;
  *
  */
 @RestController
+@RequestMapping(ROLEMANAGEMENT)
 public class RoleManagementController {
 
 	@Autowired
@@ -64,7 +67,7 @@ public class RoleManagementController {
 				if ((roleManagementRequest.getTransactionType().equalsIgnoreCase("save")
 						|| roleManagementRequest.getTransactionType().equalsIgnoreCase("update"))
 						&& (roleManagementItem.getRoleName() == null || roleManagementItem.getRoleName().isEmpty())) {
-					logger.debug("data is not valid");
+					logger.debug("requested data is not valid");
 					ErrorResponse error = new ErrorResponse();
 					error.setMessage("Data must not be null");
 					error.setStatusCode("422");
@@ -72,10 +75,9 @@ public class RoleManagementController {
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 
-				if ((roleManagementRequest.getTransactionType().equalsIgnoreCase(UPDATE)
-						|| roleManagementRequest.getTransactionType().equalsIgnoreCase(DELETE))
+				if (roleManagementRequest.getTransactionType().equalsIgnoreCase(UPDATE)
 						&& roleManagementItem.getId() == null) {
-					logger.debug("data is not valid");
+					logger.debug("requested data is not valid");
 					ErrorResponse error = new ErrorResponse();
 					error.setMessage("Data must not be null");
 					error.setStatusCode("422");
@@ -107,7 +109,8 @@ public class RoleManagementController {
 
 		try {
 
-			if (!roleManagementRequest.getTransactionType().equalsIgnoreCase("get")) {
+			if (!roleManagementRequest.getTransactionType().equalsIgnoreCase(GETALL)
+					&& !roleManagementRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 				logger.debug("request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Data must not be null");

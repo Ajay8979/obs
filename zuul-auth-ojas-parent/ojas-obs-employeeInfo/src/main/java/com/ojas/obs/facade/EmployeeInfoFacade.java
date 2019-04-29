@@ -18,7 +18,7 @@ public interface EmployeeInfoFacade {
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResponseEntity<Object> saveEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
+	public ResponseEntity<Object> setEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 
 	/**
 	 * 

@@ -1,8 +1,10 @@
 package com.ojas.obs.passport.facadeImpl;
 //import static com.ojas.obs.passport.utility.Constants.DELETE;
 import static com.ojas.obs.passport.utility.Constants.GETALL;
+
 import static com.ojas.obs.passport.utility.Constants.SAVE;
 import static com.ojas.obs.passport.utility.Constants.UPDATE;
+import static com.ojas.obs.passport.utility.Constants.GETBYID;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -129,8 +131,8 @@ public class PassportFacadeImpl implements PassportFacade {
 			List<Passport> allPassportDetails = passportDaoImpl.getAll(passportRequestObject);
 			int count = passportDaoImpl.getcountPassport(passportRequestObject);
 			System.out.println("all method " + allPassportDetails);
-			List<Passport> perPage = passportDaoImpl.getCountPerPage(allPassportDetails, passportRequestObject.getPageSize(),
-					passportRequestObject.getPageNo());
+			//List<Passport> perPage = passportDaoImpl.getCountPerPage(allPassportDetails, passportRequestObject.getPageSize(),
+					//passportRequestObject.getPageNo());
 			logger.debug("@@@@@@@@@@@@@received at service by calling the getAllmethod is" + allPassportDetails);
 			
 			
@@ -151,13 +153,22 @@ public class PassportFacadeImpl implements PassportFacade {
 				} else {
 					passportResponse.setStatusCode("200");
 					passportResponse.setStatusMessage("you got the list of PassportCenters successfully");
-					passportResponse.setPassportList(perPage);
+					//passportResponse.setPassportList(perPage);
 					passportResponse.setNoOfRecords(count);
 					
 				}
 			}
 				return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
 			}
+		if (passportRequestObject.getTransaactionType().equalsIgnoreCase(GETBYID)) {
+			List<Passport> listOfPassport = passportDaoImpl.getById(passportRequestObject);
+			int count = passportDaoImpl.getcountPassport(passportRequestObject);
+			passportResponse.setNoOfRecords(count);
+			passportResponse.setPassportList(listOfPassport);
+			passportResponse.setStatusMessage("success");
+			return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
+		}
+
 		 return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
 	}}
 		

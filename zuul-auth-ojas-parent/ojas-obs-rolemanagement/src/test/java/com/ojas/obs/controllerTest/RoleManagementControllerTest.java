@@ -94,9 +94,6 @@ public class RoleManagementControllerTest {
 		roleManagementList.add(roleManagement2);
 		roleManagementRequest.setTransactionType("save");
 		roleManagementRequest.setRoleManagement(roleManagementList);
-		roleManagementRequest.setPageNo(1);
-		roleManagementRequest.setPageSize(2);
-		roleManagementRequest.setSessionId("1234");
 		return roleManagementRequest;
 	}
 

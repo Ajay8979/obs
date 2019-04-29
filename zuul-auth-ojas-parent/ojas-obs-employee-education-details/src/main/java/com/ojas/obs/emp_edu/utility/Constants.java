@@ -9,8 +9,9 @@ public class Constants {
 	public static final String GETALL_STMT = "select * from ojas_obs.employee_education_details where flag = 1";
 	public static final String GETBYID_STMT = "select * from ojas_obs.employee_education_details where flag = 1 and id = ?;";
 	// =================================url constants===========================
-	public static final String EMP_EDU_DETAILS = "/obs/employeeEducationDetails";
-	public static final String SET = "/set";
+	/*
+	 * public static final String EMP_EDU_DETAILS = "/obs/employeeEducationDetails";
+	 */	public static final String SET = "/set";
 	public static final String GET = "/get";
 	// =================================user constants===========================
 	public static final String REQUEST_NULL = "Request Object is Empty";

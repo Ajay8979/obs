@@ -163,13 +163,5 @@ public class SubBusinessUnitDaoTest {
 		assertEquals(true, flag);
 	}
 	
-	@Test
-	public void getAllSubBusinessUnitDetailsCount() {
-		subBusinessUnitRequest = subBusinessUnitRequest();
-		String GETBUSINESSUNITCOUNT = "select count(*) from obs_subbusinessunitt";
-		when(jdbcTemplate.queryForObject(GETBUSINESSUNITCOUNT, Integer.class)).thenReturn(1);
-		int count = subBusinessUnitDaoImpl.getAllSubBusinessUnitDetailsCount();
-		assertEquals(1, count);
-	}
 	
 }

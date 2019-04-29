@@ -13,7 +13,7 @@ public class EmploymentDetails {
 
 	private String resourceType;
 
-	private Boolean bondStatus;
+	private boolean bondStatus;
 
 	private Date resignationDate;
 
@@ -63,11 +63,13 @@ public class EmploymentDetails {
 		this.resourceType = resourceType;
 	}
 
-	public Boolean getBondStatus() {
+	
+
+	public boolean isBondStatus() {
 		return bondStatus;
 	}
 
-	public void setBondStatus(Boolean bondStatus) {
+	public void setBondStatus(boolean bondStatus) {
 		this.bondStatus = bondStatus;
 	}
 

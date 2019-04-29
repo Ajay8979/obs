@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Passport } from './passportcenter.model';
 import { NgForm} from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // import { Http2Server } from 'http2';
 import { HrmsService } from '../services/hrms.service';
-
+import swal from 'sweetalert';
 @Component({
   selector: 'app-passportcenter',
   templateUrl: './passportcenter.component.html',
@@ -34,7 +35,7 @@ export class PassportcenterComponent implements OnInit {
  
   
 
-   constructor(private hrms:HrmsService) {
+   constructor(private hrms:HrmsService,Ng2SearchPipeModule:Ng2SearchPipeModule) {
    
     }
 //    passportlist:Passport[]=[{
@@ -128,52 +129,76 @@ export class PassportcenterComponent implements OnInit {
 //       this.getEmpDesignation();
 //     }
 
+passportrequset:any;
 setPassportCenter(){
-  var requestData = {
-    "passport" : {
-            "centerName" : this.centerName
-    }, 
-       "transactionType":"save",
-    "sessionId" : "any String"
+  var requestData =
+{
+  "passportList":[{
+
+         "centerName" : this.centerName
+ 
+ }
+ ],
+
+"sessionId" : "323",
+"transaactionType" : "save"
 }
 this.hrms.setPassportCeneter(requestData).subscribe(response =>{
 this.passportCenterReq = response;
+this.passportrequset= this.passportCenterReq.body;
+
 console.log(this.passportCenterReq);
- if(this.passportCenterReq.statusMessage == "PassportCenter has saved successfully"){
-   this.value = false;
-   swal(this.passportCenterReq.statusMessage, "","success");
-   this.getPassportCenter();
- }
+
+if(this.passportrequset.statusMessage == "PassportCenter has saved successfully"){
+  //this.value = false;
+  swal(this.passportrequset.statusMessage,"","success");
+  //this.roleArr = this.setRoleDetails.roleManagementList;
+  this.getPassportCenter();
+}
+this.getPassportCenter();
 })
+this.value=false;
 }
 getPassportCenter() {
-  var request = {
-    "transactionType":"getAll",
-    "passport" : {
-    },
-    "sessionId" : "any String"
+  var request =  {
+    "passportList":[
+   {
+   "centerName" : "Hyd",
+   "id":8
+   }
+   ],
+
+"sessionId" : "323",
+"transaactionType" : "getall"
 }
   this.hrms.getPassportCeneter(request).subscribe(res =>{
     this.passportCenterDetails = res;
-    this.passportCenterList = this.passportCenterDetails.passportList;
+    this.passportCenterList = this.passportCenterDetails.body.passportList;
     console.log(this.passportCenterDetails);
   })
 }
+updatedpassportResData:any;
 saveUpdatedValues(bulist){
   console.log(bulist);
-  var updateRequestData = {
-    "passport" : {
-     "id":bulist.id,
-            "centerName" : bulist.centerName
-    },
-    "transactionType":"update",
-    "sessionId" : "any String"
-    }
+  var updateRequestData = 
+    {
+      "passportList":[{
+
+             "centerName" :bulist.centerName,
+             "id":bulist.id
+     
+     }
+     ],
+
+"sessionId" : "323",
+"transaactionType" : "update"
+}
   this.hrms.updatePassportCenter(updateRequestData).subscribe(res =>{
     this.updatedpassportRes = res;
+    this.updatedpassportResData= this.updatedpassportRes.body;
     console.log(this.updatedpassportRes);
-    if(this.updatedpassportRes.statusMessage == "PassportCenter has updated successfully"){
-      swal(this.updatedpassportRes.statusMessage , "","success");
+    if(this.updatedpassportResData.statusMessage == "PassportCenter has updated successfully"){
+      swal(this.updatedpassportResData.statusMessage , "","success");
       this.getPassportCenter();
     }
   })
@@ -196,4 +221,8 @@ this.hrms.deletepassportCenter(deleteRequest).subscribe(data =>{
     }
   })
 }
+cancelbulist(){
+  this.value=false;
+   
+  }
 }

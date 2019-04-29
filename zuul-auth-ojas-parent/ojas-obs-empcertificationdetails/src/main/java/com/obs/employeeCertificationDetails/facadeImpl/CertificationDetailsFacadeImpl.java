@@ -9,11 +9,10 @@ import static com.obs.employeeCertificationDetails.constants.Constants.SAVE;
 import static com.obs.employeeCertificationDetails.constants.Constants.SUCCESS;
 import static com.obs.employeeCertificationDetails.constants.Constants.UPDATE;
 import static com.obs.employeeCertificationDetails.constants.Constants.GETBYID;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

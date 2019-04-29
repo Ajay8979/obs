@@ -4,7 +4,7 @@ package com.ojas.obs.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +15,7 @@ import static com.ojas.obs.constants.Constants.INSERT_STATES;
 import static com.ojas.obs.constants.Constants.UPDATE_STATES;
 import static com.ojas.obs.constants.Constants.SELECT_STATES;
 import static com.ojas.obs.constants.Constants.STATESCOUNT;
+import static com.ojas.obs.constants.Constants. SELECT_STATES_BY_ID;
 
 @Repository
 public class StatesDAOImpl implements StatesDao {
@@ -31,17 +32,22 @@ public class StatesDAOImpl implements StatesDao {
 		logger.debug("Inside saveStates..DAO");
 		List<States> states = statesRequestObj.getStates();
 		List<Object[]> list = new ArrayList<Object[]>();
+		int count=0;
 		for (States states1 : states) {
 			Object[] params = new Object[] { states1.getStateName() };
 			list.add(params);
 		}
 		//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_STATES"), list);
-		int[] count = jdbcTemplate.batchUpdate(INSERT_STATES, list);
-		for (int i : count) {
+		int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_STATES, list);
+		int len=batchUpdate.length;
+		for (int i : batchUpdate) {
 			if (i > 0) {
-				logger.debug("saved successfully through DaoImpl" + i);
-				return true;
+				count++;
 			}
+		}
+		if (len == count) {
+			logger.debug("saved successfully through DaoImpl");
+			return true;
 		}
 		logger.debug("failed to save through daoImpl Method");
 		return false;
@@ -57,17 +63,22 @@ public class StatesDAOImpl implements StatesDao {
 		logger.debug("Inside updatestates..DAO *****");
 		List<States> states1=statesRequestObj.getStates();
 		List<Object[]> list=new ArrayList<Object[]>();
+		int count=0;
 		for(States states:states1) {
 			Object[] params=new Object[] {states.getStateName(),states.getId()};
 			list.add(params);
 		}
 		//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_STATES"),list );
-		int[] count=jdbcTemplate.batchUpdate(UPDATE_STATES,list );
-		for (int i : count) {
+		int[] batchUpdate=jdbcTemplate.batchUpdate(UPDATE_STATES,list );
+		int len=batchUpdate.length;
+		for (int i : batchUpdate) {
 			if (i > 0) {
-				logger.debug("saved successfully through DaoImpl" + i);
-				return true;
+				count++;
 			}
+		}
+		if (len == count) {
+			logger.debug("updated successfully through DaoImpl");
+			return true;
 		}
 			logger.debug("failed to save through daoImpl Method");
 			return false;
@@ -112,5 +123,18 @@ public class StatesDAOImpl implements StatesDao {
 		return getAllFiltered;
 	}
 
+	@Override
+	public List<States>getStateById(StatesRequest statesRequestObj) throws SQLException {
+		List<Object[]> inputList = new ArrayList<Object[]>();
+		Object[] stateId=null;
+		List<States> statesList=statesRequestObj.getStates();
+		for(States state:statesList) {
+		   stateId=new Object[] {state.getId()};
+			inputList.add(stateId);
+		}
+		return jdbcTemplate.query(SELECT_STATES_BY_ID,stateId, new
+				BeanPropertyRowMapper<>(States.class));
+	
+	}
 
 }

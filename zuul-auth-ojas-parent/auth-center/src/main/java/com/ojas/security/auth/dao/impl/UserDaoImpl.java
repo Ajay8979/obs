@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
 	public AppUser findUserAccount(String userName) {
 
 		
-		String sql = AppUserMapper.BASE_SQL + " where e.firstname = ? ";
+		String sql = AppUserMapper.BASE_SQL + " where e.employeeId = ? ";
 		Object[] params = new Object[] { userName };
 		AppUserMapper mapper = new AppUserMapper();
 		try {

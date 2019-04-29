@@ -52,9 +52,11 @@ public class TitleController {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> setEmployeeBUDetails(@RequestBody Request request, HttpServletRequest servletRequest,
 			HttpServletResponse servletResponse) {
+		logger.debug("incoming requests " + request);
 		ResponseEntity<Object> responseEntity = null;
 		try {
 			if (null == request) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is I");
 				error.setStatusCode("422");
@@ -62,6 +64,7 @@ public class TitleController {
 			}
 			List<Model> modellist = request.getModel();
 			if (null == modellist) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is In");
 				error.setStatusCode("422");
@@ -69,10 +72,11 @@ public class TitleController {
 			}
 			for (Model model : modellist) {
 				if ((request.getTransactionType().equalsIgnoreCase(SAVE))
-						&& ((model.getRole() == null || model.getRole().isEmpty())
+						&& ((model.getRole() == null)
 								|| (model.getTitle() == null || model.getTitle().isEmpty())
 								|| (model.getEmployeeId() == null || model.getEmployeeId().isEmpty())
 								|| (model.getCreatedby() == null))) {
+					logger.error("Request is not valid");
 					ErrorResponse error = new ErrorResponse();
 					error.setMessage("Request is Inv");
 					error.setStatusCode("422");
@@ -83,6 +87,7 @@ public class TitleController {
 			for (Model model : modellist) {
 				if ((request.getTransactionType().equalsIgnoreCase(UPDATE)
 						|| request.getTransactionType().equalsIgnoreCase(DELETE)) && model.getId() == null) {
+					logger.error("Request is not valid");
 					ErrorResponse error = new ErrorResponse();
 					error.setMessage("Request is Inva");
 					error.setStatusCode("422");

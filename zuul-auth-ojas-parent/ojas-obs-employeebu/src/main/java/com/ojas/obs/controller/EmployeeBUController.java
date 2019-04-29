@@ -51,9 +51,11 @@ public class EmployeeBUController {
 	@RequestMapping(SETEMPLOYEEBUDETAILS)
 	public ResponseEntity<Object> setEmployeeBUDetails(@RequestBody EmployeeBUDetailsRequest employeeBUDetailsRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+		logger.debug("incoming requests " + employeeBUDetailsRequest);
 		ResponseEntity<Object> responseEntity = null;
 		try {
 			if (null == employeeBUDetailsRequest) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is Invalid");
 				error.setStatusCode("422");
@@ -61,6 +63,7 @@ public class EmployeeBUController {
 			}
 			List<EmployeeBUDetails> budetails = employeeBUDetailsRequest.getEmployeeBUDeatils();
 			if (null == budetails) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is Invalid");
 				error.setStatusCode("422");
@@ -71,6 +74,7 @@ public class EmployeeBUController {
 			if ((employeeBUDetailsRequest.getTransactionType().equalsIgnoreCase(SAVE))
 					&& ((employeebudetails.getEmployeeId() == null || employeebudetails.getEmployeeId().isEmpty())
 							|| (employeebudetails.getSbu() == null))) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is Invalid");
 				error.setStatusCode("422");
@@ -79,6 +83,7 @@ public class EmployeeBUController {
 			if ((employeeBUDetailsRequest.getTransactionType().equalsIgnoreCase(UPDATE)
 					|| employeeBUDetailsRequest.getTransactionType().equalsIgnoreCase(DELETE))
 					&& (employeebudetails.getId() == null)) {
+				logger.error("Request is not valid");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Request is Invalid");
 				error.setStatusCode("422");
@@ -87,6 +92,7 @@ public class EmployeeBUController {
 			}
 			return employeebuFacade.setEmployeeBU(employeeBUDetailsRequest);
 		} catch (Exception exception) {
+			logger.error("Request is not valid");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("422");

@@ -17,14 +17,14 @@ public class EmployeeInfo {
 	private String dob;
 	private String gender;
 	private String password;
-	private String employee_id;
-	private String flag;
+	private String employeeId;
+	private boolean flag;
 
-	private Timestamp created_on;
-	private Timestamp updated_on;
+	private Timestamp createdOn;
+	private Timestamp updatedOn;
 
-	private Integer created_by;
-	private Integer updated_by;
+	private String createdBy;
+	private String updatedBy;
 
 	public Integer getId() {
 		return id;
@@ -90,72 +90,74 @@ public class EmployeeInfo {
 		this.password = password;
 	}
 
-	public String getEmployee_id() {
-		return employee_id;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
-	public String getFlag() {
+	public boolean isFlag() {
 		return flag;
 	}
 
-	public void setFlag(String flag) {
+	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
 
-	public Timestamp getCreated_on() {
-		return created_on;
+	public Timestamp getCreatedOn() {
+		return createdOn;
 	}
 
-	public void setCreated_on(Timestamp created_on) {
-		this.created_on = created_on;
+	public void setCreatedOn(Timestamp createdOn) {
+		this.createdOn = createdOn;
 	}
 
-	public Timestamp getUpdated_on() {
-		return updated_on;
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
 	}
 
-	public void setUpdated_on(Timestamp updated_on) {
-		this.updated_on = updated_on;
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
-	public Integer getCreated_by() {
-		return created_by;
+
+
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setCreated_by(Integer created_by) {
-		this.created_by = created_by;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
-	public Integer getUpdated_by() {
-		return updated_by;
+	public String getUpdatedBy() {
+		return updatedBy;
 	}
 
-	public void setUpdated_by(Integer updated_by) {
-		this.updated_by = updated_by;
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((created_by == null) ? 0 : created_by.hashCode());
-		result = prime * result + ((created_on == null) ? 0 : created_on.hashCode());
+		result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
+		result = prime * result + ((createdOn == null) ? 0 : createdOn.hashCode());
 		result = prime * result + ((dob == null) ? 0 : dob.hashCode());
-		result = prime * result + ((employee_id == null) ? 0 : employee_id.hashCode());
+		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
 		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + ((flag == null) ? 0 : flag.hashCode());
+		result = prime * result + (flag ? 1231 : 1237);
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((middlename == null) ? 0 : middlename.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((updated_by == null) ? 0 : updated_by.hashCode());
-		result = prime * result + ((updated_on == null) ? 0 : updated_on.hashCode());
+		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
+		result = prime * result + ((updatedOn == null) ? 0 : updatedOn.hashCode());
 		return result;
 	}
 
@@ -168,35 +170,32 @@ public class EmployeeInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeeInfo other = (EmployeeInfo) obj;
-		if (created_by == null) {
-			if (other.created_by != null)
+		if (createdBy == null) {
+			if (other.createdBy != null)
 				return false;
-		} else if (!created_by.equals(other.created_by))
+		} else if (!createdBy.equals(other.createdBy))
 			return false;
-		if (created_on == null) {
-			if (other.created_on != null)
+		if (createdOn == null) {
+			if (other.createdOn != null)
 				return false;
-		} else if (!created_on.equals(other.created_on))
+		} else if (!createdOn.equals(other.createdOn))
 			return false;
 		if (dob == null) {
 			if (other.dob != null)
 				return false;
 		} else if (!dob.equals(other.dob))
 			return false;
-		if (employee_id == null) {
-			if (other.employee_id != null)
+		if (employeeId == null) {
+			if (other.employeeId != null)
 				return false;
-		} else if (!employee_id.equals(other.employee_id))
+		} else if (!employeeId.equals(other.employeeId))
 			return false;
 		if (firstname == null) {
 			if (other.firstname != null)
 				return false;
 		} else if (!firstname.equals(other.firstname))
 			return false;
-		if (flag == null) {
-			if (other.flag != null)
-				return false;
-		} else if (!flag.equals(other.flag))
+		if (flag != other.flag)
 			return false;
 		if (gender == null) {
 			if (other.gender != null)
@@ -228,15 +227,15 @@ public class EmployeeInfo {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (updated_by == null) {
-			if (other.updated_by != null)
+		if (updatedBy == null) {
+			if (other.updatedBy != null)
 				return false;
-		} else if (!updated_by.equals(other.updated_by))
+		} else if (!updatedBy.equals(other.updatedBy))
 			return false;
-		if (updated_on == null) {
-			if (other.updated_on != null)
+		if (updatedOn == null) {
+			if (other.updatedOn != null)
 				return false;
-		} else if (!updated_on.equals(other.updated_on))
+		} else if (!updatedOn.equals(other.updatedOn))
 			return false;
 		return true;
 	}
@@ -245,8 +244,8 @@ public class EmployeeInfo {
 	public String toString() {
 		return "EmployeeInfo [id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname="
 				+ lastname + ", status=" + status + ", dob=" + dob + ", gender=" + gender + ", password=" + password
-				+ ", employee_id=" + employee_id + ", flag=" + flag + ", created_on=" + created_on + ", updated_on="
-				+ updated_on + ", created_by=" + created_by + ", updated_by=" + updated_by + "]";
+				+ ", employeeId=" + employeeId + ", flag=" + flag + ", createdOn=" + createdOn + ", updatedOn="
+				+ updatedOn + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
 	}
 
 }

@@ -3,6 +3,7 @@ package com.ojas.obs.dao;
 import java.util.List;
 import java.sql.SQLException;
 
+
 import com.ojas.obs.model.SeparationType;
 import com.ojas.obs.request.SeparationTypeRequest;
 //import com.ojas.obs.request.SeparationTypeRequest;
@@ -20,6 +21,7 @@ boolean saveSeparationType(SeparationTypeRequest separationTypeReq) throws SQLEx
 	boolean updateSeparationType(SeparationTypeRequest separationType) throws SQLException;
 	
 	//boolean deleteSeparationType(int separationTypeId) throws SQLException;
+	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest);
 	
 	List<SeparationType> getAllSeparationType() throws SQLException;
 

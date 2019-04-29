@@ -1,21 +1,7 @@
 package com.ojas.obs.controller;
-
-import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ojas.obs.facade.StatesFacade;
-import com.ojas.obs.model.ErrorResponse;
-import com.ojas.obs.model.States;
-import com.ojas.obs.request.StatesRequest;
+import static com.ojas.obs.constants.Constants.DELETE;
 import static com.ojas.obs.constants.Constants.GET;
 import static com.ojas.obs.constants.Constants.SET;
-import static com.ojas.obs.constants.Constants.DELETE;
 import static com.ojas.obs.constants.Constants.UPDATE;
 
 import java.sql.SQLException;
@@ -23,11 +9,26 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ojas.obs.facade.StatesFacade;
+import com.ojas.obs.model.ErrorResponse;
+import com.ojas.obs.model.States;
+import com.ojas.obs.request.StatesRequest;
+
 /**
  * @author spuja
  *
  */
 @RestController
+//@RequestMapping(STATES)
 public class StatesController {
 
 	@Autowired
@@ -85,8 +86,24 @@ public class StatesController {
 			
             return statesFacade.setStates(statesRequestObj);
 
-		} catch (SQLException exception) {
+		}catch (DuplicateKeyException exception) {
 			logger.debug("inside catch block.*******");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			//error.setStatusCode("409");
+			exception.printStackTrace();
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+	  }
+		catch (SQLException exception) {
+			logger.debug("inside catch SQLblock.*******");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getMessage());
+			//error.setStatusCode("409");
+			exception.printStackTrace();
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+	  }
+		catch (Exception exception) {
+			logger.debug("inside catch Exception block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
 			//error.setStatusCode("409");
@@ -111,6 +128,11 @@ public class StatesController {
 			}
 			return statesFacade.getStates(statesRequestObj);
 		} catch (SQLException exception) {
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (Exception exception) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);

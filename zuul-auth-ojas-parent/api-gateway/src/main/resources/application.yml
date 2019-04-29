@@ -5,93 +5,97 @@ zuul:
   routes:
     auth-center:
       path: /login/**
-      url: http://10.0.75.1:8081/
+      url: http://192.168.6.186:8081/
       sensitiveHeaders: Cookie,Set-Cookie
       stripPrefix: false
     backend-service:
       path: /backend/**
-      url: http://10.0.75.1:8082/
+      url: http://192.168.6.186:8082/
     ojas-obs-project-details:
        path: /obs/projectDetails/**
-       url: http://10.0.75.1:8083/
+       url: http://192.168.6.186:8083/
     ojas-obs-employment-details :
        path: /obs/employmentDetails/**
-       url: http://10.0.75.1:8084/
+       url: http://192.168.6.186:8084/
     ojas-obs-kye:
        path: /obs/kye/**
-       url: http://10.0.75.1:7070/
+       url: http://192.168.6.186:7070/
     ojas-obs-employee-education-details:
       path: /obs/employeeEducationDetails/**
-      url: http://10.0.75.1:8525/
+      url: http://192.168.6.186:8525/
     ojas-obs-bankdetails:
       path: /obs/BankDetails/**
-      url: http://10.0.75.1:9000/
+      url: http://192.168.6.186:9000/
     ojas-obs-dependentdetails:
       path: /obs/DependentDetailsService/**
-      url: http://10.0.75.1:8090/
+      url: http://192.168.6.186:8090/
     ojas-obs-employeebu:
      path: /obs/employeebu/**
-     url: http://10.0.75.1:8015/
+     url: http://192.168.6.186:8015/
     ojas-obs-empcertificationdetails:
      path: /obs/certifications/**
-     url: http://10.0.75.1:8888/
+     url: http://192.168.6.186:8888/
     ojas-obs-employeeskills:
      path: /obs/employeeskillsdetails/** 
-     url: http://10.0.75.1:8094/
+     url: http://192.168.6.186:8094/
     ojas-obs-employeecontactinfo:
      path: /obs/employeecontactinfo/**
-     url: http://10.0.75.1:8091/
+     url: http://192.168.6.186:8091/
     ojas-obs-employeeexperiencedetails:
       path: /obs/EmployeeExperienceDetails/**
-      url: http://10.0.75.1:8092/
+      url: http://192.168.6.186:8092/
     ojas-obs-employeeinfo:
       path: /obs/employeeInfo/**
-      url: http://10.0.75.1:8093/
+      url: http://192.168.6.186:8093/
     ojas-obs-title:
       path: /obs/employeetitle/**
-      url: http://10.0.75.1:8095/
+      url: http://192.168.6.186:8095/
     ojas-obs-gender:
       path: /obs/genders/**
-      url: http://10.0.75.1:8010/
+      url: http://192.168.6.186:8010/
     ojas-obs-designation:
       path: /obs/designation/**
-      url: http://10.0.75.1:8011/
+      url: http://192.168.6.186:8011/
     ojas-obs-cost-center:
       path : /obs/costcenterservice/**
-      url: http://10.0.75.1:8013/
+      url: http://192.168.6.186:8013/
     ojas-obs-states :
       path : /obs/states/**
-      url : http://10.0.75.1:8014/
+      url : http://192.168.6.186:8014/
     ojas-obs-online-passport:
      path : /obs/passportService/**
-     url : http://10.0.75.1:8012/
+     url : http://192.168.6.186:8012/
     ojas-obs-educationtype:
      path : /obs/educationdetails/**
-     url : http://10.0.75.1:8016/
+     url : http://192.168.6.186:8016/
     ojas-obs-online-employeestatus-service:
      path : /obs/EmployeeStatus/**
-     url : http://10.0.75.1:8017/
+     url : http://192.168.6.186:8017/
     ojas-obs-online-gpa:
-     path : /obs/service/gpa/**
-     url : http://10.0.75.1:8018/
+     path : /obs/gpa/**
+     url : http://192.168.6.186:8018/
     ojas-obs-online-separationtype-service :
      path : /obs/separationType/**
-     url : http://10.0.75.1:8019/
+     url : http://192.168.6.186:8019/
     ojas-obs-rolemanagement:
      path : /obs/RoleManagement/**
-     url : http://10.0.75.1:8020/
+     url : http://192.168.6.186:8020/
     ojas-obs-subbusinessunit:
      path : /obs/subbusinessunit/**
-     url : http://10.0.75.1:8021/
+     url : http://192.168.6.186:8021/
     ojas-obs-insurance: 
      path : /obs/insurance/**
-     url : http://10.0.75.1:8022/
-    ojas-obs-business-unit :
-      path : /obs/businessUnit/service/**
-      url : http://10.0.75.1:8096/
+     url : http://192.168.6.186:8022/
+    ojas-obs-businessunit :
+      path : /obs/businessUnit/**
+      url : http://192.168.6.186:8096/
     ojas-obs-skill:
       path : /obs/skill/**
-      url : http://10.0.75.1:8023/
+      url : http://192.168.6.186:8023/
+    ojas-obs-resource-type:
+       path : /obs/resourceType/**
+       url : http://192.168.6.186:8085/
+   
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

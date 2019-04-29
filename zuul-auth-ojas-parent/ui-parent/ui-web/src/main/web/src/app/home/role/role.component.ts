@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 
 
@@ -15,6 +16,7 @@ export class RoleComponent implements OnInit {
 
 
 
+
   
 
   deleteRoleDetails: any;
@@ -23,7 +25,8 @@ export class RoleComponent implements OnInit {
   roleManagemenList: any;
   getRoleDetails: any;
   setRoleDetails: any;
-  rolename: any;
+  roleName: any;
+  roleArr:any;
   // addText:any;
   // key: string = 'name'; //set default
   // reverse: boolean = false;
@@ -83,45 +86,48 @@ export class RoleComponent implements OnInit {
 //   }
 setRole(){
   var request = {
-    "roleManagement":{
-            
-            "rolename":this.rolename
-    },
-    "sessionId":12345,
-    "transactiontype":"save"
+        
+    "roleManagement" : [
+    {
+            "roleName" : this.roleName
+    }],
+    "transactionType" : "save"
+    
 }
 this.hrms.setRoleManagement(request).subscribe(res=>{
   this.setRoleDetails = res;
   console.log(this.setRoleDetails);
-   if(this.setRoleDetails.statusMessage == "Success fully record added"){
-     this.value = false;
+   if(this.setRoleDetails.statusMessage == "Successfully Role Management record saved"){
+     //this.value = false;
      swal(this.setRoleDetails.statusMessage,"","success");
-     this.getRole();
+     this.roleArr = this.setRoleDetails.roleManagementList;
+     
    }
+   this.getRole();
 })
 }
 getRole(){
   var request = {
-    "roleManagement":{
-            
-    },
-    "sessionId":12345
-    
+        
+    "transactionType" : "getAll"
 }
+
 this.hrms.getRoleManagement(request).subscribe(res=>{
   this.getRoleDetails = res;
-  this.roleManagemenList = this.getRoleDetails.roleManagemenList;
+  this.roleManagemenList = this.getRoleDetails.roleManagementList;
   console.log(this.getRoleDetails);
 })
 }
 saveUpdateValue(field){
   var request = {
-    "roleManagement":{
-            "id"                :field.id,
-            "rolename"  :field.rolename
-    },
-    "sessionId":12345,
-    "transactiontype":"update"
+        
+    "roleManagement" : [
+    {
+            "id" : field.id,
+            "roleName" : field.roleName
+    }],
+    "transactionType" : "update"
+    
 }
 this.hrms.updateRoleManagement(request).subscribe(res=>{
   this.updateRoleDetails = res;
@@ -135,8 +141,8 @@ this.hrms.updateRoleManagement(request).subscribe(res=>{
 deleteRole(field) {
   var request = {
     "roleManagement":{
-            "id"                :field.id,
-            "rolename"  :field.rolename
+            "id"          :field.id,
+            "roleName"  :field.roleName
     },
     "sessionId":12345,
     "transactiontype":"delete"
@@ -150,4 +156,8 @@ this.hrms.dleteRoleManagement(request).subscribe(res=>{
 })
 }
 
+cancelbulist(){
+  this.value=false;
+   
+  }
 }

@@ -23,10 +23,8 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 
 	public static final String SAVEROLE = "insert into obs_RoleManagement(rolename) values(?)";
 	public static final String UPDATEROLE = "update obs_RoleManagement set rolename = ? where id = ?";
-//	public static final String DELETEROLE = "delete from obs_RoleManagement where id = ?";
 	public static final String GETALLRECORDS = "select * from obs_RoleManagement";
-	public static final String TOTALCOUNT = "select count(*) from obs_RoleManagement";
-
+	public static final String GETBYIDRECORDS = "select * from obs_RoleManagement where id = ?";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -67,17 +65,6 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 		return false;
 	}
 
-	/*
-	 * @Override public boolean deleteRoleManagement(RoleManagementRequest
-	 * roleManagementRequest) { int[] delete; List<RoleManagement>
-	 * roleManagementList = roleManagementRequest.getRoleManagement();
-	 * List<Object[]> list = new ArrayList<>(); for(RoleManagement
-	 * roleManagementItem : roleManagementList) {
-	 * 
-	 * Object[] role = new Object[] {roleManagementItem.getId()}; list.add(role); }
-	 * delete = jdbcTemplate.batchUpdate(DELETEROLE, list); if (delete.length > 0) {
-	 * return true; } return false; }
-	 */
 
 	@Override
 	public List<RoleManagement> getAllRollManagements() throws SQLException{
@@ -85,9 +72,10 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 	}
 
 	@Override
-	public int getAllRollManagementsCount() {
-
-		return jdbcTemplate.queryForObject(TOTALCOUNT, Integer.class);
+	public List<RoleManagement> getByIdRollManagement(Integer id) throws SQLException {
+		Object[] params = new Object[] { id };
+		return jdbcTemplate.query(GETBYIDRECORDS, params, new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
 	}
+
 
 }

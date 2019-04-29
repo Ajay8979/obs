@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -32,7 +33,7 @@ import com.ojas.obs.passport.model.Passport;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 @Ignore
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class PassportControllerTest {
 
 	@InjectMocks
@@ -40,6 +41,9 @@ public class PassportControllerTest {
 
 	@Mock
 	PassportFacadeImpl passportFacadeImpl;
+	
+	@Mock
+	DuplicateKeyException duplicateKeyException;
 
 	@Spy
 	ErrorResponse errorResponse = new ErrorResponse();
@@ -63,7 +67,7 @@ public class PassportControllerTest {
 	public void beforeTest() {
 		passportController = new PassportController();
 		passportFacadeImpl = mock(PassportFacadeImpl.class);
-
+		duplicateKeyException=mock(DuplicateKeyException.class);
 		setCollaborator(passportController, "passportFacadeImpl", passportFacadeImpl);
 	}
 
@@ -94,6 +98,7 @@ public class PassportControllerTest {
 	public List<Passport> getPassport() {
 		Passport passport = new Passport();
 		passport.setId(1);
+		passport.setCenterName("centername1");
 		passport.setCenterName("centername1");
 		//passport.setCreatedBy(1234);
 		//passport.setUpdatedBy(1234);
@@ -133,7 +138,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.OK, statusCode);
 	}
 
-	//@Test
+	@Test
 	public void setNullTest() {
 		PassportRequest passportRequest2 = new PassportRequest();
 		// passportRequest2.setPassportList(this.getPassport()); HERE WE ARE SENDING NULL OBJECT
@@ -155,7 +160,7 @@ public class PassportControllerTest {
 	}
 
 	// Null Transaction
-	//@Test
+	@Test
 	public void setTestForNullTransaction() {
 		 passportRequest2 = new PassportRequest();
 		passportRequest2.setPassportList(this.getPassport());
@@ -176,7 +181,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 
-	//@Test
+	@Test
 	public void setCenterNameNullTest() {
 		 passportRequest2 = new PassportRequest();
 		passportRequest2.setPassportList(this.getPassport());
@@ -199,7 +204,7 @@ public class PassportControllerTest {
 	}
 
 	// UPDATE Null Center Name
-	//@Test
+	@Test
 	public void setupdCenterNameNullTest() {
 		 passportRequest2 = new PassportRequest();
 		passportRequest2.setPassportList(this.getPassport());
@@ -265,7 +270,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.OK, getpassport.getStatusCode());
 	}
 
-	//@Test
+	@Test
 	public void getNullTest() throws Exception {
 		 passportRequest2 = new PassportRequest();
 		// passportRequest2.setPassportList(this.getPassport1());
@@ -285,7 +290,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, getpassport.getStatusCode());
 	}
 
-	//@Test
+	@Test
 	public void getRequestNullTest() throws Exception {
 		 passportRequest2 = null;
 		HttpServletRequest request = null;
@@ -299,7 +304,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, getpassport.getStatusCode());
 	}
 
-	//@Test
+	@Test
 	public void getSessionIdNullTest() throws Exception {
 		 passportRequest2 = new PassportRequest();
 		// passportRequest2.setPassportList(this.getPassport1());
@@ -318,7 +323,7 @@ public class PassportControllerTest {
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, getpassport.getStatusCode());
 	}
 
-	//@Test
+	@Test
 	public void getTransactionTypeNullTest() throws Exception {
 		 passportRequest2 = new PassportRequest();
 		passportRequest2.setPassportList(this.getPassport1());
@@ -335,11 +340,31 @@ public class PassportControllerTest {
 		ResponseEntity<Object> getpassport = passportController.getPaasport(passportRequest2, request, response);
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, getpassport.getStatusCode());
 	}
-
+	@Test
+	public void DuplExcpTest() throws DuplicateKeyException {
+		 passportRequest2 = this.passportRequest();
+		 passportRequest2.setPassportList(this.getPassport());
+		 passportRequest2.getPassportList().get(0).setCenterName("centername");
+		 passportRequest2.getPassportList().get(1).setCenterName("centername");
+		passportRequest2.setTransaactionType("save");
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+		try {
+			Throwable cause = new Throwable();
+			when(passportFacadeImpl.setPassport(passportRequest2)).thenThrow(new DuplicateKeyException(null, cause));
+		} catch (Exception e) { // TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ResponseEntity<Object> setPassport = passportController.setPassport(passportRequest2, request, response);
+		System.out.println(setPassport);
+		HttpStatus statusCode = setPassport.getStatusCode();
+		System.out.println(statusCode);
+		assertEquals(HttpStatus.CONFLICT, setPassport.getStatusCode());
+	}
 	@Test
 	public void PassportSQLExcpTest() throws SQLException {
 		 passportRequest2 = this.passportRequest();
-		passportRequest2.setTransaactionType("delete");
+		passportRequest2.setTransaactionType("save");
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		try {
@@ -357,7 +382,7 @@ public class PassportControllerTest {
 	@Test
 	public void PassportExcpTest() throws Exception {
 		 passportRequest2 = this.passportRequest();
-		passportRequest2.setTransaactionType("delete");
+		passportRequest2.setTransaactionType("save");
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		try {

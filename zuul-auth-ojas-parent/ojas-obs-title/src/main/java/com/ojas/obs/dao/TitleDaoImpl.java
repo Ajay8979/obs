@@ -22,12 +22,12 @@ import com.ojas.request.Request;
  */
 @Repository
 public class TitleDaoImpl implements TitleDao {
-	private static final String INSERT = "Insert into title( Role, Title, EmployeeId, Createdby, Createddate, flag) values(?,?,?,?,?,?)";
-	private static final String GET = "Select * from title where flag='1' ";
-	private static final String UPDATE = "Update title set Role=?,Title=?,EmployeeId=?, Updatedby=?, Updateddate=? WHERE Id=?";
-	private static final String DELETE = "Update title set flag='0' where Id = ?";
-	private static final String GETCOUNT = "select count(*) from title where flag='1'";
-	private static final String GETBYID = "Select * from title where flag = 1 and id = ?";
+	private static final String INSERT = "Insert into obs_title( Role, Title, EmployeeId, Createdby, Createddate, flag) values(?,?,?,?,?,?)";
+	private static final String GET = "Select * from obs_title where flag='1' ";
+	private static final String UPDATE = "Update obs_title set Role=?,Title=?,EmployeeId=?, Updatedby=?, Updateddate=? WHERE Id=?";
+	private static final String DELETE = "Update obs_title set flag='0' where Id = ?";
+	private static final String GETCOUNT = "select count(*) from obs_title where flag='1'";
+	private static final String GETBYID = "Select * from obs_title where flag = 1 and id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

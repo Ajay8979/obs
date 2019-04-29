@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class Model {
 	private Integer id;
-	private String role;
+	private Integer role;
 	private String title;
 	private String employeeId;
 	private boolean flag;
@@ -22,10 +22,10 @@ public class Model {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getRole() {
+	public Integer getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 	public String getTitle() {
@@ -144,6 +144,7 @@ public class Model {
 			return false;
 		return true;
 	}
+	
 	
 }
 	

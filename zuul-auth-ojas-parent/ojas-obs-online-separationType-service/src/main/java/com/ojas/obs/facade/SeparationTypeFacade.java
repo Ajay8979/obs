@@ -5,6 +5,9 @@ import java.util.List;
 
 import static com.ojas.obs.constants.SeparationTypeConstants.SAVE;
 import static com.ojas.obs.constants.SeparationTypeConstants.UPDATE;
+import static com.ojas.obs.constants.SeparationTypeConstants.GETBYID;
+import static com.ojas.obs.constants.SeparationTypeConstants.SUCCESS;
+import static com.ojas.obs.constants.SeparationTypeConstants.GETALL;
 //import static com.ojas.obs.constants.SeparationTypeConstants.DELETE;
 
 
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.ojas.obs.constants.SeparationTypeConstants;
 import com.ojas.obs.dao.SeparationTypeDao;
 import com.ojas.obs.model.SeparationType;
@@ -36,8 +38,8 @@ public class SeparationTypeFacade {
 	/**
 	 * 
 	 * @param separationTypeRequest
-	 * @return
-	 * @throws SQLException 
+	 * @return 
+	 * @throws SQLException  
 	 */
 	
 	public ResponseEntity<Object> setSeparationTypeDetails(SeparationTypeRequest separationTypeRequest)
@@ -87,21 +89,26 @@ public class SeparationTypeFacade {
 		 }
 		 catch(Exception e) {
 				logger.info("Inside setSeparationTypeDetails() catch block:"); 
-				separationTypeResponse.setStatusMessage(e.getMessage());
+				separationTypeResponse.setStatusMessage(e.getCause().getLocalizedMessage());
 				//return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
+				 return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
 			}
+		return null; 
 		 
-		 return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
-			}
+			} 
 	
 	/**
 	 *  
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResponseEntity<Object> getAllSeparationType() throws SQLException { 
-		logger.info("Inside getAllSeparationType():");
+	public ResponseEntity<Object> getSeparationType(SeparationTypeRequest separationTypeRequest) throws SQLException {  
 		SeparationTypeResponse separationTypeResponse = new SeparationTypeResponse();
+
+		
+		logger.info("Inside getAllSeparationType():");
+		
+		if (separationTypeRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
 		List<SeparationType> separationTypeList = separationTypeDao.getAllSeparationType();
 		if (null != separationTypeList && separationTypeList.size() != 0) { 
 			separationTypeResponse.setSeparationTypeList(separationTypeList);
@@ -112,7 +119,24 @@ public class SeparationTypeFacade {
 			return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
 		}
 	
-	} 
+	}
+		if (separationTypeRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+			separationTypeResponse = new SeparationTypeResponse();
+			List<SeparationType> list = separationTypeDao.getById(separationTypeRequest);
+			logger.debug("inside  get_count condition.****** : ");
+			if (list.size() == 0) {
+				separationTypeResponse.setStatusMessage("No record Present");
+				//separationTypeResponse.setTotalCount(0);
+				return new ResponseEntity<>(separationTypeResponse, HttpStatus.CONFLICT);
+			} else {
+				separationTypeResponse.setStatusMessage(SUCCESS);
+				separationTypeResponse.setSeparationTypeList(list);
+				return new ResponseEntity<>(separationTypeResponse, HttpStatus.OK);
+			} 
+		
+	}
+		return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
+		
+	}	
 	
-
 }

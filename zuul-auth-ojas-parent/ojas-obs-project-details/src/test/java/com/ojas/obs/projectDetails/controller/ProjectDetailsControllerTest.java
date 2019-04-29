@@ -66,7 +66,7 @@ public class ProjectDetailsControllerTest {
 	List<ProjectDetails> projectDetailsList = new ArrayList<>();
 
 	@Before
-	public void init() {
+	public void init() throws SecurityException, Exception {
 		projectDetailsController = new ProjectDetailsController();
 
 		projectDetailsFacadeImpl = mock(ProjectDetailsFacadeImpl.class);
@@ -74,18 +74,11 @@ public class ProjectDetailsControllerTest {
 	}
 
 	private void setCollaborator(ProjectDetailsController projectDetailsController, String projectDetailsFacade,
-			ProjectDetailsFacadeImpl projectDetailsFacadeImpl) {
+			ProjectDetailsFacadeImpl projectDetailsFacadeImpl) throws Exception, SecurityException {
 		Field field;
-		try {
 			field = projectDetailsController.getClass().getDeclaredField(projectDetailsFacade);
 			field.setAccessible(true);
 			field.set(projectDetailsController, projectDetailsFacadeImpl);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-
 	}
 
 	public ProjectDetailsRequest projectDetailsRequest() throws ParseException {
@@ -241,6 +234,26 @@ public class ProjectDetailsControllerTest {
 		HttpStatus statusCode = setProjectDetails.getStatusCode();
 		assertNotEquals(HttpStatus.OK, statusCode);
 	}
+	
+	@Test
+	public void testSetProjectDetailsCatch()
+			throws SQLException, ProjectDetailsException, ParseException, JsonProcessingException {
+
+		ProjectDetailsRequest projectDetailsRequestObject = projectDetailsRequest();
+
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+
+		when(projectDetailsFacadeImpl.setProjectDetails(projectDetailsRequestObject))
+				.thenThrow(new RuntimeException());
+
+		ResponseEntity<Object> setProjectDetails = projectDetailsController
+				.setProjectDetails(projectDetailsRequestObject, request, response);
+		HttpStatus status = setProjectDetails.getStatusCode();
+
+		assertEquals(HttpStatus.CONFLICT, status);
+
+	}
 
 	@Test
 	public void getProjectDetailsObjectNullCheck()
@@ -282,6 +295,26 @@ public class ProjectDetailsControllerTest {
 				.getProjectDetails(projectDetailsRequestObject, servletRequest, servletResponse);
 		HttpStatus statusCode = setProjectDetails.getStatusCode();
 		assertNotEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+	public void testGetProjectDetailsCatch() throws ParseException, SQLException {
+		ProjectDetailsRequest projectDetailsRequestObject = projectDetailsRequest();
+
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+
+		projectDetailsRequestObject.setTransactionType("getAll");
+		projectDetailsRequestObject.setProjectDetailsList(null);
+
+		when(projectDetailsFacadeImpl.getProjectDetails(projectDetailsRequestObject))
+				.thenThrow(new RuntimeException());
+		ResponseEntity<Object> getProjectDetails = projectDetailsController
+				.getProjectDetails(projectDetailsRequestObject, request, response);
+		HttpStatus status = getProjectDetails.getStatusCode();
+
+		assertEquals(HttpStatus.CONFLICT, status);
+
 	}
 
 }

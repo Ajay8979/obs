@@ -28,6 +28,7 @@ import com.ojas.obs.request.BankDetailsRequest;
  *
  */
 @RestController
+//@RequestMapping("/obs/BankDetails")
 public class BankDetailsController {
 
 	Logger logger = Logger.getLogger(this.getClass());

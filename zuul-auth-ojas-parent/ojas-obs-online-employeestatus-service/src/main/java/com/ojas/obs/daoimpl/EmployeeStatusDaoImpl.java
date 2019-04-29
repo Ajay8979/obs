@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ojas.obs.dao.EmployeeStatusDao;
 import com.ojas.obs.model.EmployeeStatus;
 import com.ojas.obs.request.EmployeeStatusRequest;
+
 /**
  * 
  * @author Manohar
@@ -18,12 +19,14 @@ import com.ojas.obs.request.EmployeeStatusRequest;
  */
 @Repository
 public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
-	public static final String INSERTEMPLOYEESTATUSSTMT = "INSERT INTO OBS_EMPSTATUS(OBS_EMPSTATUS.STATUS) VALUES (?)";
-	public static final String UPDATESTMT = "UPDATE OJAS_OBS.OBS_EMPSTATUS SET OBS_EMPSTATUS.STATUS= ? WHERE OBS_EMPSTATUS.ID = ?";
-//	public static final String DELETESTMT = "UPDATE OJAS_OBS.OBS_EMPSTATUS SET OBS_EMPSTATUS.DELETE = '1' WHERE OBS_EMPSTATUS.ID = ? AND OBS_EMPSTATUS.DELETE = '0'";
-	public static final String GETTOTALSTMT = "SELECT * FROM OJAS_OBS.OBS_EMPSTATUS";
+	public static final String INSERTEMPLOYEESTATUSSTMT = "insert into ojas_obs.obs_employeestatus(obs_employeestatus.status) values (?)";
+	public static final String UPDATESTMT = "update ojas_obs.obs_employeestatus set obs_employeestatus.status= ? where obs_employeestatus.id = ?";
+//	public static final String DELETESTMT = "update ojas_obs.obs_employeestatus set obs_employeestatus.delete = '1' where obs_employeestatus.id = ? and obs_employeestatus.delete = '0'";
+	public static final String GETTOTALSTMT = "select * FROM ojas_obs.obs_employeestatus";
+	public static final String GETBYIDSTMT = "select * FROM ojas_obs.obs_employeestatus where obs_employeestatus.id = ?";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
 	@Override
 	public boolean saveEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) {
 		boolean b = false;
@@ -31,14 +34,12 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 		List<EmployeeStatus> employeeStatusList = employeeStatusRequest.getEmployeeStatus();
 		List<Object[]> list = new ArrayList<>();
 		for (EmployeeStatus employeeStatus : employeeStatusList) {
-			 Object[] emp = new Object[] {employeeStatus.getStatus()};
+			Object[] emp = new Object[] { employeeStatus.getStatus() };
 			list.add(emp);
 		}
 		save = jdbcTemplate.batchUpdate(INSERTEMPLOYEESTATUSSTMT, list);
-		
 		if (save.length > 0) {
 			b = true;
-			
 		}
 		return b;
 	}
@@ -50,14 +51,14 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 		int[] update;
 		List<Object[]> list = new ArrayList<>();
 		for (EmployeeStatus employeeStatus : employeeStatusList) {
-			 Object[] emp = new Object[] {employeeStatus.getStatus(), employeeStatus.getId()};
+			Object[] emp = new Object[] { employeeStatus.getStatus(), employeeStatus.getId() };
 			list.add(emp);
 		}
 		update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
-		
+
 		if (update.length > 0) {
 			b = true;
-		} 
+		}
 		return b;
 	}
 
@@ -79,4 +80,9 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 		return jdbcTemplate.query(GETTOTALSTMT, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
 	}
 
+	@Override
+	public List<EmployeeStatus> getById(Integer id) {
+		Object[] param = { id };
+		return jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
+	}
 }

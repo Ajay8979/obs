@@ -3,6 +3,7 @@ package com.ojas.obs.facadetest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -131,8 +132,10 @@ public class EmployeeStatusFacadeTest {
 		EmployeeStatus status = new EmployeeStatus();
 		status.setId(1);
 		employeeStatusList.add(status);
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		empstatusReques.setTransactionType("getall");
 		when(empStatusDaoImpl.getAllStatus()).thenReturn(employeeStatusList);
-		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus();
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus(empstatusReques);
 		HttpStatus statusCode = saveStatus.getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
 	}
@@ -140,9 +143,42 @@ public class EmployeeStatusFacadeTest {
 	@Test
 	public void testGetNegative() {
 		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		empstatusReques.setTransactionType("getall");
 		when(empStatusDaoImpl.getAllStatus()).thenReturn(employeeStatusList);
-		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus();
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus(empstatusReques);
 		HttpStatus statusCode = saveStatus.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
+
+	@Test
+	public void testGetById() {
+		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
+		EmployeeStatus status = new EmployeeStatus();
+		status.setId(1);
+		employeeStatusList.add(status);
+		List<EmployeeStatus> empStatusList = new ArrayList<EmployeeStatus>();
+		EmployeeStatus response = new EmployeeStatus();
+		response.setStatus("Active");
+		empStatusList.add(response);
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		empstatusReques.setTransactionType("getbyid");
+		empstatusReques.setEmployeeStatus(employeeStatusList);
+		when(empStatusDaoImpl.getById(anyInt())).thenReturn(empStatusList);
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus(empstatusReques);
+		HttpStatus statusCode = saveStatus.getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+
+	@Test
+	public void testGetByIdNegative() {
+		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		empstatusReques.setTransactionType("getall");
+		when(empStatusDaoImpl.getAllStatus()).thenReturn(employeeStatusList);
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.getEmployeeStatus(empstatusReques);
+		HttpStatus statusCode = saveStatus.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+	}
+
 }

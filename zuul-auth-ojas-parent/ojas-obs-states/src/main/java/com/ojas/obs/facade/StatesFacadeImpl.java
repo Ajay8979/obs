@@ -3,7 +3,8 @@ package com.ojas.obs.facade;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import static com.ojas.obs.constants.Constants.DELETE;
 import static com.ojas.obs.constants.Constants.FAILED;
 import static com.ojas.obs.constants.Constants.SAVE;
 import static com.ojas.obs.constants.Constants.UPDATE;
+import static com.ojas.obs.constants.Constants.GETALL;
+import static com.ojas.obs.constants.Constants.GETBYID;
 
 @Service
 public class StatesFacadeImpl implements StatesFacade {
@@ -33,10 +36,10 @@ public class StatesFacadeImpl implements StatesFacade {
 		try {
 			if (statesRequestObj.getTransactionType().equalsIgnoreCase(SAVE)) {
 				statesResponse = new StatesResponse();
-				boolean savestate = statesDao.saveStates(statesRequestObj);
 				int count = statesDao.getAllStatesCount();
-				logger.debug("inside  save condition.****** : " + savestate);
+				boolean savestate = statesDao.saveStates(statesRequestObj);
 				if (savestate) {
+					logger.debug("inside  save condition.****** : " + savestate);
 					statesResponse.setStatusMessage("Successfully record added");
 					statesResponse.setTotalCount(count);
 					return new ResponseEntity<>(statesResponse, HttpStatus.OK);
@@ -96,7 +99,12 @@ public class StatesFacadeImpl implements StatesFacade {
 
 		StatesResponse statesResponse = new StatesResponse();
 		logger.debug("inside get in DesignationServiceImpl.***");
-		List<States> StateList = statesDao.getAll(statesRequestObj);
+		List<States> StateList=null;
+		if(statesRequestObj.getTransactionType().equalsIgnoreCase(GETALL)) {
+		 StateList = statesDao.getAll(statesRequestObj);
+		}else if(statesRequestObj.getTransactionType().equalsIgnoreCase(GETBYID)){
+			 StateList = statesDao.getStateById(statesRequestObj);
+		}
 		List<States> list = statesDao.getCountPerPage(StateList, statesRequestObj.getPageSize(),
 				statesRequestObj.getPageNo());
 		if (  list == null || StateList == null) { 

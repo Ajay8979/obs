@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
+import com.ojas.obs.response.EmployeeRoleResponse;
 
 /**
  * 
@@ -61,6 +62,10 @@ public interface EmployeeInfoDao {
 	 * @throws SQLException
 	 */
 	public int getAllEmployeeDetailsCount() throws SQLException;
+
+	List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
+
+	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest);
 	
 	
 	

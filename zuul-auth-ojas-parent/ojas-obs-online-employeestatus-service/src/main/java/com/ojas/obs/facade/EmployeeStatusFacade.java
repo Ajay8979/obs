@@ -10,6 +10,6 @@ import com.ojas.obs.request.EmployeeStatusRequest;
  */
 public interface EmployeeStatusFacade {
 	public ResponseEntity<Object> setEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
-	public ResponseEntity<Object> getEmployeeStatus();
+	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
 
 }

@@ -19,6 +19,8 @@ export class EmployeedesignationComponent implements OnInit {
   empDesignationlist: any;
   empDesignationDetails: any;
   empDesignationRes: any;
+  designation:any;
+  id:any;
 //   public data1=[];
 //   public show:boolean = false;
 //   public buttonName:any = 'Show';
@@ -115,17 +117,20 @@ export class EmployeedesignationComponent implements OnInit {
 // ads API code here
 setEmpDesignation(){
   var requestData = {
-    "designationrequest" :{
-            "designation" : this.employee
-    },
-    "transactionType" : "save",
-    "sessionId" : "132"
+    "designation":[
+            {
+            "id":this.id,
+            "designation":this.employee
+    }
+    ],
+    "sessionId":"3121",
+    "transactionType":"save"
 }
 
   this.hrms.setEmployeeDesignation(requestData).subscribe(response =>{
     this.empDesignationRes = response;
     console.log(this.empDesignationRes);
-    if(this.empDesignationRes.statusMessage == "Successfully record added"){
+    if(this.empDesignationRes.statusMessage == "record added Successfully"){
       this.value = false;
       swal(this.empDesignationRes.statusMessage , "","success");
       this.getEmpDesignation();
@@ -134,10 +139,18 @@ setEmpDesignation(){
 }
 getEmpDesignation(){
   var request = {
-    "designationrequest" :{
+    "designation":[
+            {
+    
+            
     },
-    "transactionType" : "getAll",
-    "sessionId" : "132"
+    {
+            
+            
+    }
+    ],
+    "sessionId":"3121",
+    "transactionType":"/getall"
 }
    this.hrms.getEmployeeDesignation(request).subscribe(res =>{
     this.empDesignationDetails = res;
@@ -148,21 +161,25 @@ getEmpDesignation(){
 
 saveUpdatedValues(bulist){
   console.log(bulist);
-  var updateRequestData = {
-    "designationrequest" :{
-      "id":bulist.id,
-      "designation" :bulist.designation,
-    },
-    "transactionType" : "update",
-    "sessionId" : "132"
-  }
+  var updateRequestData =
+  {
+    "designation":[
+            {
+            "id":bulist.id,
+            "designation":bulist.designation
+    }
+    ],
+    "sessionId":"3121",
+    "transactionType":"update"
+}
   this.hrms.updateEmpolyeeDesignation(updateRequestData).subscribe(res =>{
     this.updatedRes = res;
     console.log(this.updatedRes);
-    if(this.updatedRes.statusMessage == "Successfully record updated"){
+    if(this.updatedRes.statusMessage == "record updated Successfully"){
       swal(this.updatedRes.statusMessage , "","success");
-      this.getEmpDesignation();
+     
     }
+    this.getEmpDesignation();
   })
   
 }
@@ -184,4 +201,8 @@ deleteDesignation(bulist){
     }
   })
 }
+cancelbulist(){
+  this.value=false;
+   
+  }
 }

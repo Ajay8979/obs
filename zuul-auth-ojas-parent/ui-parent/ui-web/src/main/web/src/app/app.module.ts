@@ -11,6 +11,8 @@ import { IndexComponent } from './index/index.component';
 import { HomeComponent } from './home/home.component';
 import { NoPageComponent } from './no-page/no-page.component';
 import {routes} from './app.router';
+import { TokenInterceptor } from './services/token-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {routes} from './app.router';
     IndexModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [AuthService,AuthGuard],
+  //providers: [AuthService,AuthGuard],
+  providers: [AuthService, AuthGuard,{ useClass: TokenInterceptor,provide:HTTP_INTERCEPTORS,multi: true}],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule { }

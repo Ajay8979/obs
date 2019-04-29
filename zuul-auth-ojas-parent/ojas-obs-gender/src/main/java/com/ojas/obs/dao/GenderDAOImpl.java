@@ -1,12 +1,14 @@
 package com.ojas.obs.dao;
 
+import static com.ojas.obs.constants.Constants.GENDERCOUNT;
+import static com.ojas.obs.constants.Constants.GENDER_BY_ID;
+import static com.ojas.obs.constants.Constants.INSERT_GENDER;
+import static com.ojas.obs.constants.Constants.SELECT_GENDER;
+import static com.ojas.obs.constants.Constants.UPDATE_GENDER;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import static com.ojas.obs.constants.Constants.INSERT_GENDER;
-import static com.ojas.obs.constants.Constants.UPDATE_GENDER;
-import static com.ojas.obs.constants.Constants.SELECT_GENDER;
-import static com.ojas.obs.constants.Constants.GENDERCOUNT;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,6 +30,7 @@ public class GenderDAOImpl implements GenderDAO {
 	 */
 	@Override
 	public boolean saveGender(GenderRequest genderRequest) {
+		int count = 0;
 		List<Genders> genders=genderRequest.getGender();
 		List<Object[]> list= new ArrayList<Object[]>();
 	    for(Genders gender:genders) {
@@ -35,14 +38,15 @@ public class GenderDAOImpl implements GenderDAO {
 		list.add(model);
 	    }
 		//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_GENDER"), list);
-	    int[] count=jdbcTemplate.batchUpdate(INSERT_GENDER, list);
-		for (int i : count) {
-			if (i > 0) {
-				logger.debug("saved successfully through DaoImpl" + i);
-				return true;
-
-			}
+	    int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_GENDER, list);
+	    int noOfrecAdded=batchUpdate.length;
+		for (int i : batchUpdate) {
+			if (i > 0) 
+			 count ++;
 		}
+		if(count==noOfrecAdded)
+			return true;
+		
 		logger.debug("failed to save through daoImpl Method");
 		return false;
 	}
@@ -54,25 +58,29 @@ public class GenderDAOImpl implements GenderDAO {
 	public boolean updateGender(GenderRequest genderRequest) {
 		List<Genders> genders = genderRequest.getGender();
 		List<Object[]> list = new ArrayList<Object[]>();
+		int count=0;
 		for (Genders gender : genders) {
 			Object[] model = new Object[] { gender.getGender() ,gender.getId() };
 			list.add(model);
 		}
 		//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_GENDER"), list);
-		int[] count = jdbcTemplate.batchUpdate(UPDATE_GENDER, list);
-		for (int i : count) {
-			if (i > 0) {
-				logger.debug("saved successfully through DaoImpl" + i);
-				return true;
-			}
+		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATE_GENDER, list);
+		int len=batchUpdate.length;
+		for (int i : batchUpdate) {
+			if (i > 0) 
+			 count ++;
 		}
-		logger.debug("failed to save through daoImpl Method");
+		if(count==len) {
+			return true;
+		}
+		logger.debug("failed to updated through daoImpl Method");
 		return false;
 	}
 	/**
 	 * method to delete the record from database
 	 */
 
+	
 	/*
 	 * @Override public boolean deleteGender(GenderRequest genderRequest) {
 	 * List<Genders> genders=genderRequest.getGender(); List<Object[]> list = new
@@ -84,6 +92,7 @@ public class GenderDAOImpl implements GenderDAO {
 	 * return true; } } logger.debug("failed to save through daoImpl Method");
 	 * return false; }
 	 */
+	 
     /**
      * method will get count of all record from database
      */
@@ -116,6 +125,20 @@ public class GenderDAOImpl implements GenderDAO {
 			}
 		}
 		return getAllFiltered;
+	}
+
+	@Override
+	public List<Genders> getGenderById(GenderRequest genderRequest) throws SQLException {
+		List<Object[]> inputList = new ArrayList<Object[]>();
+		Object[] stateId=null;
+		List<Genders> genderList=genderRequest.getGender();
+		for(Genders gender:genderList) {
+		   stateId=new Object[] {gender.getId()};
+			inputList.add(stateId);
+		}
+		return jdbcTemplate.query(GENDER_BY_ID,stateId, new
+				BeanPropertyRowMapper<>(Genders.class));
+	
 	}
 
 }

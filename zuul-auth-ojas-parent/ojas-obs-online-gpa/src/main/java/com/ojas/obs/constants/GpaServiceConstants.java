@@ -11,8 +11,8 @@ public class GpaServiceConstants {
 	//==================================Request==========================================================
 	/*
 	 * public static final String GPA = "/obs/service/gpa"; */	
-	public static final String SET = "/service/set";
-	public static final String GET = "/service/get";
+	public static final String SET = "/set";
+	public static final String GET = "/get";
 
 	
 	//==================================TransactionTypes======================================================

@@ -9,7 +9,6 @@ import com.ojas.obs.request.RoleManagementRequest;
 public interface RoleManagementDao {
 	boolean saveRoleManagement(RoleManagementRequest roleManagementRequest);
 	boolean updateRoleManagement(RoleManagementRequest roleManagementRequest);
-//	boolean deleteRoleManagement(RoleManagementRequest roleManagementRequest);
 	List<RoleManagement> getAllRollManagements() throws SQLException;
-	int getAllRollManagementsCount();
+	List<RoleManagement> getByIdRollManagement(Integer id) throws SQLException;
 }

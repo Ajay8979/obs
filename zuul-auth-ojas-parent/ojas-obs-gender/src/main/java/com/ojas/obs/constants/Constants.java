@@ -2,7 +2,7 @@ package com.ojas.obs.constants;
 
 public class Constants {
 	//=====================================================================
-	/* public static final String GENDERS = "/obs/genders"; */
+	 public static final String GENDERS = "/obs/genders"; 
 		public static final String GET = "/get";
 		public static final String SET = "/set";
 		//com.ojas.obs.constants.Constants.INSERT_GENDER
@@ -24,4 +24,5 @@ public class Constants {
 				public static final String UPDATE_GENDER = "update obs_genders set gender= ? where id= ?";
 				public static final String SELECT_GENDER ="select * from obs_genders";
 				public static final String GENDERCOUNT = "select count(*) from obs_genders";
+				public static final String GENDER_BY_ID ="select * from obs_genders where id= ?";
 }

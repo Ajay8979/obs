@@ -3,6 +3,7 @@ import { Businessunit } from './subbusinessunit.model';
 import { NgForm} from '@angular/forms';
 import {Costcenter} from './subbusinessunit.model';
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-subbusinessunit',
@@ -10,7 +11,7 @@ import { HrmsService } from '../services/hrms.service';
   styleUrls: ['./subbusinessunit.component.scss']
 })
 export class SubbusinessunitComponent implements OnInit {
-  updateSubbusinessDetails: Object;
+  updateSubbusinessDetails: any;
   costCenterId: any;
   businessUnitId: any;
   coscentergetlist: any;
@@ -25,6 +26,9 @@ export class SubbusinessunitComponent implements OnInit {
   costcenter: any;
   requestData: { "businessUnit": any; "costCenter": any; "subbusinessUnit": any; };
   value: boolean;
+  getSubbusinessinfo:any;
+  id:any;
+  
   // data: Businessunit; 
   // business: any;
   // businessu: any;
@@ -115,42 +119,51 @@ export class SubbusinessunitComponent implements OnInit {
 
   setSubbusinessunit(){
     var requestData = {
-      "subBusinessUnitModel": {
+      "subBusinessUnitModel": [{
         "costCenterId" : this.costCenterId,
         "businessUnitId" : this.businessUnitId,
                   "name": this.subbusinessunit
-                },
-      "sessionId":"123",
+                }],
+      
       "transactionType" : "save" 
      }
 
     this.hrms.setSubbusinessunit(requestData).subscribe(response =>{
       this.subbusinessunitRes = response;
       console.log(this.subbusinessunitRes);
+      if(this.subbusinessunitRes.statusMessage == "Successfully record added"){
+        this.value = false;
+        swal(this.subbusinessunitRes.statusMessage, "","success");
+        this.getSubBusinessUnit();
+        }
+       
     })
   }
   getSubBusinessUnit(){
     var request = {
-      "subBusinessUnitModel": {
-     },
-      "sessionId": "123"
-     }
+         "subBusinessUnitModel": [
+         {
+         }
+    ],
+        "transactionType" : "getAll"
+}
      this.hrms.getSubbusinessUnit(request).subscribe(res =>{
       this.subbusinessunitDetails = res;
-      this.subBusinessUnitlist = this.subbusinessunitDetails.subBusinessUnitModelilist;
+      this.subBusinessUnitlist = this.subbusinessunitDetails.subBusinessUnitList;
       console.log(this.subbusinessunitDetails);
      })
   }
   //bulist getdata
   getBusinessunit() {
-    var request = 
-      {
-        "businessUnit" :{
-        },
-                "transactionType" : "getAll",
-        "sessionId" : "132"
-  }
-  this.hrms.getBusinessunit(request).subscribe(res =>{
+    var request = {
+      "businessUnit" :[{
+              
+      }],
+       "transactionType":"getAll"
+}
+   
+     
+  this.hrms.getSubbusinessinfo(request).subscribe(res =>{
     this.businessunitDetails = res;
     this.businessUnitList = this.businessunitDetails.businessUnitList;
     console.log(this.businessunitDetails);
@@ -159,8 +172,8 @@ export class SubbusinessunitComponent implements OnInit {
     //costcenter get
     getCostCenter() {
       var request = {
-          "costCenter" : {
-          },
+          "costCenter" : [{
+          }],
           "sessionId" : "123",
          
           "transactionType" : "get"
@@ -173,7 +186,7 @@ export class SubbusinessunitComponent implements OnInit {
     }
     saveUpdatedValues(bulist){
       var request = {
-        "subBusinessUnitModel": {
+        "subBusinessUnitModel": [{
           
                   "id":bulist.id,
                 "name":bulist.name,
@@ -181,7 +194,7 @@ export class SubbusinessunitComponent implements OnInit {
                 "costCenterId":bulist.costCenterId
                 
         
-       },
+       }],
        "sessionId":"123",
        "transactionType":"update"
        
@@ -189,6 +202,10 @@ export class SubbusinessunitComponent implements OnInit {
        this.hrms.updateSubbusinessUnit(request).subscribe(res =>{
          this.updateSubbusinessDetails = res;
          console.log(this.updateSubbusinessDetails);
+         if(this.updateSubbusinessDetails.statusMessage == "Successfully record updated"){
+          swal(this.updateSubbusinessDetails.statusMessage, "","success");
+            
+          }
        })
     }
 }

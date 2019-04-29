@@ -36,8 +36,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		for(EmployeeSkillInfo skillDetails : listEmployeeSkillInfo) {
  
-			Object[] save = {skillDetails.getId(),
-				skillDetails.getSkill_id(),
+			Object[] save = {skillDetails.getSkill_id(),
 				skillDetails.getLevel_id(),
 				skillDetails.getEmployee_id(),
 				skillDetails.getCreated_by(),
@@ -97,15 +96,18 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 			return jdbcTemplate.query(buffer.toString(), new BeanPropertyRowMapper<>(EmployeeSkillInfo.class));
 		}
 		return null;*/
+
+		
 		return jdbcTemplate.query(getAll, new BeanPropertyRowMapper(EmployeeSkillInfo.class));
 	}
 
 	@Override
+	
 	public int getAllCount() throws SQLException {
 		return jdbcTemplate.queryForObject(getCount, Integer.class);
 	}
 
-	@Override
+	/*@Override
 	public List<EmployeeSkillInfo> getCountPerPage(List<EmployeeSkillInfo> list, int pageSize, int pageNo)
 			throws SQLException {
 
@@ -122,7 +124,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 			}
 		}
 		return getAllFilteredList;
-	}
+	}*/
 
 
 

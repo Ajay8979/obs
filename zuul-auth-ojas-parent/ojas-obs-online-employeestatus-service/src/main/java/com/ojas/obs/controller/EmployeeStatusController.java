@@ -1,7 +1,8 @@
 package com.ojas.obs.controller;
 
+//import static com.ojas.obs.constants.UserConstants.EMPLOYEESTATUS;
 import static com.ojas.obs.constants.UserConstants.GET;
-import static com.ojas.obs.constants.UserConstants.GETALL;
+import static com.ojas.obs.constants.UserConstants.GETBYID;
 import static com.ojas.obs.constants.UserConstants.SAVE;
 import static com.ojas.obs.constants.UserConstants.SET;
 import static com.ojas.obs.constants.UserConstants.UPDATE;
@@ -30,6 +31,7 @@ import com.ojas.obs.request.EmployeeStatusRequest;
  * 
  */
 @RestController
+//@RequestMapping(EMPLOYEESTATUS)
 public class EmployeeStatusController {
 
 	@Autowired
@@ -97,15 +99,23 @@ public class EmployeeStatusController {
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		logger.debug("incoming requests " + employeeStatusRequest);
 		try {
+			List<EmployeeStatus> empList = employeeStatusRequest.getEmployeeStatus();
 			logger.info("requestObject received = " + employeeStatusRequest);
-			if (!employeeStatusRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
+			if (null == employeeStatusRequest.getTransactionType() || employeeStatusRequest.getTransactionType().isEmpty()) {
+				logger.error("Request is not valid, no transactionType provided!");
+				ErrorResponse errorResponse = new ErrorResponse();
+				errorResponse.setStatusCode("422");
+				errorResponse.setMessage("Transaction type must not be null!");
+				return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
+			if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(GETBYID) && empList.get(0).getId() == null) {
 				logger.error("Request is not valid, No id provided");
 				ErrorResponse errorResponse = new ErrorResponse();
 				errorResponse.setStatusCode("422");
-				errorResponse.setMessage("Type must be getall");
+				errorResponse.setMessage("Id must not be null");
 				return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			return employeeStatusFacade.getEmployeeStatus();
+			return employeeStatusFacade.getEmployeeStatus(employeeStatusRequest);
 		} catch (Exception e) {
 			logger.error("inside catch block.*******");
 			ErrorResponse errorResponse = new ErrorResponse();

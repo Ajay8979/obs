@@ -4,7 +4,9 @@ import static com.ojas.obs.constants.DesignationServiceConstants.FAILED;
 import static com.ojas.obs.constants.DesignationServiceConstants.UPDATE;
 //import static com.ojas.obs.constants.DesignationServiceConstants.DELETE;
 import static com.ojas.obs.constants.DesignationServiceConstants.SAVE;
-
+import static com.ojas.obs.constants.DesignationServiceConstants.GETALL;
+import static com.ojas.obs.constants.DesignationServiceConstants.GETBYID;
+import static com.ojas.obs.constants.DesignationServiceConstants.SUCCESS;
 
 import java.util.List;
 import java.sql.SQLException;
@@ -22,17 +24,17 @@ import com.ojas.obs.request.DesignationRequest;
 import com.ojas.obs.response.DesignationResponse;
 import com.ojas.utility.ErrorResponse;
 
-@Service 
-public class DesignationFacadeImpl implements DesignationFacade {     
- 
-	@Autowired 
-	private DesignationDao designationDao;
-	Logger logger = Logger.getLogger(this.getClass()); 
+@Service
+public class DesignationFacadeImpl implements DesignationFacade {
 
-	@Override 
+	@Autowired
+	private DesignationDao designationDao;
+	Logger logger = Logger.getLogger(this.getClass());
+
+	@Override
 	public ResponseEntity<Object> setDesignation(DesignationRequest designationRequest) throws SQLException {
 		logger.debug("inside set method : " + designationRequest);
-		DesignationResponse designationResponse = null; 
+		DesignationResponse designationResponse = null;
 		try {
 			if (designationRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				designationResponse = new DesignationResponse();
@@ -40,11 +42,11 @@ public class DesignationFacadeImpl implements DesignationFacade {
 				int count = designationDao.getAllDesignationCount();
 				logger.debug("inside  save condition.****** : " + saveDesignation);
 				if (saveDesignation) {
-					designationResponse.setStatusMessage("Successfully record added");
+					designationResponse.setStatusMessage("record added Successfully");
 					designationResponse.setTotalCount(count);
 					return new ResponseEntity<>(designationResponse, HttpStatus.OK);
-				} else { 
-					designationResponse.setStatusMessage(FAILED); 
+				} else {
+					designationResponse.setStatusMessage(FAILED);
 					return new ResponseEntity<>(designationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 			}
@@ -54,7 +56,7 @@ public class DesignationFacadeImpl implements DesignationFacade {
 				boolean updateDesignation = designationDao.updateDesignation(designationRequest);
 				logger.debug("inside  update condition.****** : " + updateDesignation);
 				if (updateDesignation) {
-					designationResponse.setStatusMessage("Successfully record updated");
+					designationResponse.setStatusMessage("record updated Successfully ");
 					designationResponse.setTotalCount(count);
 					return new ResponseEntity<>(designationResponse, HttpStatus.OK);
 				} else {
@@ -62,7 +64,7 @@ public class DesignationFacadeImpl implements DesignationFacade {
 					return new ResponseEntity<>(designationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 			}
-			
+
 			/*
 			 * if (designationRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
 			 * boolean deleteDesignation = false; designationResponse = new
@@ -79,17 +81,17 @@ public class DesignationFacadeImpl implements DesignationFacade {
 			 * designationResponse.setStatusMessage(FAILED); return new
 			 * ResponseEntity<>(designationResponse, HttpStatus.UNPROCESSABLE_ENTITY); } }
 			 */
-			
+
 		} catch (Exception exception) {
 			logger.debug("inside designationService catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
-			error.setStatusMessage(exception.getMessage());
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		} 
+		}
 		return null;
 	}
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -98,25 +100,56 @@ public class DesignationFacadeImpl implements DesignationFacade {
 	 */
 
 	@Override
-	public ResponseEntity<Object> getDesignation(DesignationRequest designationRequest) throws SQLException {
+	public ResponseEntity<Object> getDesignation(DesignationRequest designationRequest) throws SQLException { 
 		DesignationResponse designationResponse = new DesignationResponse();
 		logger.debug("inside get in DesignationServiceImpl.***");
+		
+		try{
 
-		List<Designation> designationlist = designationDao.getAll(designationRequest);
+		if (designationRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
 
-		if (designationlist.isEmpty() || designationlist == null) {
-			designationResponse.setListDesignation(new ArrayList<>());
-			designationResponse.setStatusMessage("No records found");
-			designationResponse.setTotalCount(0);
-			return new ResponseEntity<>(designationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-		} else {
-			int count = designationDao.getAllDesignationCount();
-			designationResponse.setListDesignation(designationlist);
-			designationResponse.setStatusMessage("success");
-			designationResponse.setTotalCount(count);
-			return new ResponseEntity<Object>(designationResponse, HttpStatus.OK);
+			List<Designation> designationlist = designationDao.getAll(designationRequest);
+
+			if (designationlist.isEmpty() || designationlist == null) {
+				designationResponse.setListDesignation(new ArrayList<>());
+				designationResponse.setStatusMessage("No records found");
+				designationResponse.setTotalCount(0);
+				return new ResponseEntity<>(designationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			} else {
+				int count = designationDao.getAllDesignationCount();
+				designationResponse.setListDesignation(designationlist);
+				designationResponse.setStatusMessage("success");
+				designationResponse.setTotalCount(count);
+				return new ResponseEntity<Object>(designationResponse, HttpStatus.OK);
+			}
 		}
+		if (designationRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+			designationResponse = new DesignationResponse();
+			List<Designation> list = designationDao.getById(designationRequest);
+			logger.debug("inside  get_count condition.****** : ");
+			if (list.size() == 0) {
+				designationResponse.setStatusMessage("No record Present");
+				designationResponse.setTotalCount(0);
+				return new ResponseEntity<>(designationResponse, HttpStatus.CONFLICT);
+			} else {
+				designationResponse.setStatusMessage(SUCCESS);
+				designationResponse.setListDesignation(list);
+				return new ResponseEntity<>(designationResponse, HttpStatus.OK);
+			}
+		}
+		
+		
 
+		return new ResponseEntity<Object>(designationResponse, HttpStatus.OK);
 	}
-
-} 
+		catch (Exception exception) {
+			logger.debug("inside designationService catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("data is  invalid");
+			 error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			error.setStatusMessage("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+}
+		
+	}
+}

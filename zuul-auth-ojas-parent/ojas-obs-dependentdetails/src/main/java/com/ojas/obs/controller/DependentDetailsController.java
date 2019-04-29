@@ -1,6 +1,6 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.URLConstants.DEPENDENTDETAILSSERVICE;
+
 import static com.ojas.obs.constants.URLConstants.GET;
 import static com.ojas.obs.constants.URLConstants.SET;
 

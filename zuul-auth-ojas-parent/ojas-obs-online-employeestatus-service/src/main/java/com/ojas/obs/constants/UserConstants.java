@@ -12,6 +12,7 @@ public class UserConstants {
 	public static final String SET = "/set";
 	public static final String GET = "/get";
 	public static final String GETALL = "getall";
+	public static final String GETBYID = "getbyid";
 	public static final String SUCCESS = "success";
-	/* public static final String EMPLOYEESTATUS ="/obs/EmployeeStatus"; */
+	public static final String EMPLOYEESTATUS ="/EmployeeStatus";
 }

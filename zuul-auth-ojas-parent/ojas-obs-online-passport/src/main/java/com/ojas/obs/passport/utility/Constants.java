@@ -3,7 +3,7 @@ package com.ojas.obs.passport.utility;
 public class Constants {
 	//........................URL Constants Of Passports..............................//
 	public static final String BASE = "/obs";
-	/* public static final String PASSPORTSERVICE="/obs/passportService"; */
+	public static final String PASSPORTSERVICE="/obs/passportService";
 	public static final String PASSPORT = "/passport";
 	public static final String GET = "/get";
 	public static final String SET = "/set";
@@ -19,11 +19,13 @@ public class Constants {
 		public static final String SAVE = "save";
 		public static final String UPDATE = "update";
 		public static final String GETALL = "getAll";
+		public static final String GETBYID = "getById";
 
 		// ...........................SQL QUERIES for Passport.................//
 		public static final String INSERTPASSPORTSTMT = "insert into ojas_obs.obs_passport (centerName) values (?)";
 		public static final String GETTOTALSTMT = "select * from ojas_obs.obs_passport";
 		public static final String UPDATESTMT = "update ojas_obs.obs_passport set obs_passport.centerName = ?  where obs_passport.id = ?";
 		public static final String COUNTSTMT = "select count(*) from ojas_obs.obs_passport";
+		public static final String GETTOBYID = "select * from ojas_obs.obs_passport where id = ?";
 		
 }

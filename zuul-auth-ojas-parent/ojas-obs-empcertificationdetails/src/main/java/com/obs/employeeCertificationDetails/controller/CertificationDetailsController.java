@@ -1,41 +1,40 @@
 package com.obs.employeeCertificationDetails.controller;
 
 
-import static com.obs.employeeCertificationDetails.constants.Constants.GETCERTIFICATION;
-import static com.obs.employeeCertificationDetails.constants.Constants.SAVE;
-import static com.obs.employeeCertificationDetails.constants.Constants.SETCERTIFICATION;
 import static com.obs.employeeCertificationDetails.constants.Constants.DELETE;
-import static com.obs.employeeCertificationDetails.constants.Constants.UPDATE;
-import static com.obs.employeeCertificationDetails.constants.Constants.REQUEST_NULL;
-import static com.obs.employeeCertificationDetails.constants.Constants.MODEL_NULL;
-import static com.obs.employeeCertificationDetails.constants.Constants.SESSIONID_NULL;
+import static com.obs.employeeCertificationDetails.constants.Constants.GETCERTIFICATION;
 import static com.obs.employeeCertificationDetails.constants.Constants.ID_NULL;
+import static com.obs.employeeCertificationDetails.constants.Constants.MODEL_NULL;
 import static com.obs.employeeCertificationDetails.constants.Constants.REQUEST_DATA_MISSING;
+import static com.obs.employeeCertificationDetails.constants.Constants.REQUEST_NULL;
+import static com.obs.employeeCertificationDetails.constants.Constants.SAVE;
+import static com.obs.employeeCertificationDetails.constants.Constants.SESSIONID_NULL;
+import static com.obs.employeeCertificationDetails.constants.Constants.SETCERTIFICATION;
+import static com.obs.employeeCertificationDetails.constants.Constants.UPDATE;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.obs.employeeCertificationDetails.error.ErrorResponse;
 import com.obs.employeeCertificationDetails.facade.CertificationDetailsFacade;
 import com.obs.employeeCertificationDetails.model.CertificationDetails;
 import com.obs.employeeCertificationDetails.request.CertificationDetailsRequest;
 
 @RestController
-@Component
+//@RequestMapping(CERTIFICATION)
 public class CertificationDetailsController {
 	@Autowired
 	private CertificationDetailsFacade CertificationDetailsFacadeImpl;
 	Logger logger = Logger.getLogger(this.getClass());
-	//
+
 	@PostMapping(SETCERTIFICATION)
 	public ResponseEntity<Object> setCertificationDetails(@RequestBody CertificationDetailsRequest certificationDetailsRequestObject) {
 		ErrorResponse error = null;
@@ -78,7 +77,8 @@ public class CertificationDetailsController {
     		    }
     			if((certificationDetailsRequestObject.getTransactionType().equalsIgnoreCase(UPDATE) 
     					|| certificationDetailsRequestObject.getTransactionType().equalsIgnoreCase(DELETE))
-    					&&(certificationDetails.getId()==null)) {
+    					&&(certificationDetails.getId()==null)
+    					&&(certificationDetails.getUpdatedBy()==null)) {
     				logger.debug("@@@@@@@@@data is  invalid");
     				error = new ErrorResponse();
     				error.setMessage(ID_NULL);

@@ -125,24 +125,6 @@ public class RoleManagementDaoTest {
 		assertEquals(false, update);
 	}
 
-	/*
-	 * @Test public void deleteeRoleManagementSuccess() { roleManagementRequest =
-	 * roleManagementRequest(); when(jdbcTemplate.batchUpdate(anyString(),
-	 * Mockito.anyList())).thenReturn(count);
-	 * 
-	 * boolean delete =
-	 * roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest);
-	 * assertEquals(true, delete); }
-	 * 
-	 * @Test public void deleteeRoleManagementFail() { roleManagementRequest =
-	 * roleManagementRequest(); when(jdbcTemplate.batchUpdate(anyString(),
-	 * Mockito.anyList())).thenReturn(zeroCount);
-	 * 
-	 * boolean delete =
-	 * roleManagementDaoImpl.deleteRoleManagement(roleManagementRequest);
-	 * assertEquals(false, delete); }
-	 */
-
 	@Test
 	public void getAllRollManagements() throws SQLException {
 
@@ -162,7 +144,6 @@ public class RoleManagementDaoTest {
 		roleManagementRequest = roleManagementRequest();
 		String TOTALCOUNT = "select count(*) from obs_RoleManagement";
 		when(jdbcTemplate.queryForObject(TOTALCOUNT, Integer.class)).thenReturn(1);
-		int count = roleManagementDaoImpl.getAllRollManagementsCount();
 		assertEquals(1, count);
 	}
 

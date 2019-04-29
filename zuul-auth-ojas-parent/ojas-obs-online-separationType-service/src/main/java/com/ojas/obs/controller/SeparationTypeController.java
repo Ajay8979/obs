@@ -160,7 +160,7 @@ public class SeparationTypeController {
 			logger.info("Request is not valid, Invalid session id");
 			return new ResponseEntity<Object>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		return separationTypeFacade.getAllSeparationType();
+		return separationTypeFacade.getSeparationType(separationTypeRequest);
 	}
 
 }

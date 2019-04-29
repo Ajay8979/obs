@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{EmployeeEducation} from './employeeeducation.model';
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-employeeeducation',
@@ -8,7 +9,6 @@ import { HrmsService } from '../services/hrms.service';
   styleUrls: ['./employeeeducation.component.scss']
 })
 export class EmployeeeducationComponent implements OnInit {
-
   value: boolean;
   deletedEduDetails: any;
   EmpEduUpdateDetails: any;
@@ -19,6 +19,8 @@ export class EmployeeeducationComponent implements OnInit {
   degree_stream: any;
   pg: any;
   degree: any;
+  educationType:any;
+  edu_master:any;
 //   public data1=[];
 //   public show:boolean = false;
 //   public buttonName:any = 'Show';
@@ -71,7 +73,8 @@ export class EmployeeeducationComponent implements OnInit {
    }
     
   ngOnInit() {
-    this.getEmpEducation();
+    this.getEmployeeQualification();
+    //this.getEmpEducation();
   }
   
    
@@ -142,87 +145,140 @@ export class EmployeeeducationComponent implements OnInit {
 //   this.order = value;
 
 // }
- setEmpEducation(){
+UpdateEmpEduQual:any;
+ setEmpEducation(bulist){
+this.edu_master=bulist;
    var request = {
-        
-    "employeeEducation":{
-            "degree"                :this.degree,
-            "pg"                        :this.pg,
-            "degree_stream"        :this.degree_stream,
-            "pg_stream"                :this.pg_stream
-    },
-    "sessionID":"12321",
-    "transactionType":"save"
-
-}
-this.hrms.setEmployeeEducation(request).subscribe(data =>{
-  this.EmpEducationDetails = data,
-  console.log(this.EmpEducationDetails);
-  if(this.EmpEducationDetails.statusMessage == "Success fully Education record saved"){
-    this.value =false;
-    swal(this.EmpEducationDetails.statusMessage, "","success"),
-    this.getEmpEducation();
-  }
-})
- }
- getEmpEducation(){
-   var responseData = 
-   {
-   "employeeEducation":{
-   },
-   "sessionID":"12321"
-   }
-this.hrms.getEmployeeEducation(responseData).subscribe(res =>{
-  this.EmpEduSaveDetails = res,
-  this.EmpEduSaveList = this.EmpEduSaveDetails.listCourse;
-  console.log(this.EmpEduSaveDetails);
-})
- }
- saveUpdatedValues(bulist){
-   var udatedvalue = {
-        
-    "employeeEducation":{
+    "listEmployeeEducations" :[{
             "id":bulist.id,
-            "degree"                :bulist.degree,
-            "pg"                        :bulist.pg,
-            "degree_stream"        :bulist.degree_stream,
-            "pg_stream"                :bulist.pg_stream
-    },
-    "sessionID":"12321",
-    "transactionType":"update"
-
-}
-this.hrms.updatedEmployeeEducation(udatedvalue).subscribe(res =>{
-  this.EmpEduUpdateDetails = res,
-  console.log(this.EmpEduUpdateDetails);
-  if(this.EmpEduUpdateDetails.statusMessage == "Success fully Education record updated"){
-    swal(this.EmpEduUpdateDetails.statusMessage, "","success")
-    this.getEmpEducation();
+            "educationType":bulist.educationType
+            // "pg":bulist.pg,
+            // "degree_stream":bulist.degree_stream,
+            // "pg_stream":bulist.pg_stream
+            
+    }],
+            
+            "transactionType" : "update"
+    }
+this.hrms.updateEmpEducationalQualification(request).subscribe(data =>{
+  this.UpdateEmpEduQual = data,
+  console.log(this.UpdateEmpEduQual);
+  if(this.UpdateEmpEduQual.statusMessage == "succesfully updated"){
+    this.value =false;
+    swal(this.UpdateEmpEduQual.statusMessage, "","success");
+    this.getEmployeeQualification();
   }
 })
  }
+
+//  getEmpEducation(){
+//    var responseData = 
+//    {
+//    "employeeEducation":{
+//    },
+//    "sessionID":"12321"
+//    }
+// this.hrms.getEmployeeEducation(responseData).subscribe(res =>{
+//   this.EmpEduSaveDetails = res,
+//   this.EmpEduSaveList = this.EmpEduSaveDetails.listCourse;
+//   console.log(this.EmpEduSaveDetails);
+// })
+//  }
+
+  // Employee Qualification Details 
+
+//master data for Employee Educational Qualification
+
+  EmpQualObject:any;
+  EmpQualArray:any [];
+  EmpQualification:any [];
+  getQualification:any[];
+ 
+getEmployeeQualification(){
+  var QualificationRequest=
+  {
+    "listEmployeeEducations" :[],
+            
+            "transactionType" : "getAll"
+    }
+this.hrms.getEmpEduQualification(QualificationRequest).subscribe(response=>{
+this.EmpQualObject=response;
+
+this.EmpQualArray = this.EmpQualObject.listCourse;
+//this.getQualification=this.EmpQualification;
+console.log("Employee Education details"+this.EmpQualObject);
+console.log(this.EmpQualArray);
+})
+}
+
+//  saveUpdatedValues(bulist){
+//    var udatedvalue = {
+        
+//     "employeeEducation":{
+//             "id":bulist.id,
+//             "degree"                :bulist.degree,
+//             "pg"                        :bulist.pg,
+//             "degree_stream"        :bulist.degree_stream,
+//             "pg_stream"                :bulist.pg_stream
+//     },
+//     "sessionID":"12321",
+//     "transactionType":"update"
+
+// }
+// this.hrms.updatedEmployeeEducation(udatedvalue).subscribe(res =>{
+//   this.EmpEduUpdateDetails = res,
+//   console.log(this.EmpEduUpdateDetails);
+//   if(this.EmpEduUpdateDetails.statusMessage == "Success fully Education record updated"){
+//     swal(this.EmpEduUpdateDetails.statusMessage, "","success");
+//     //this.getEmpEducation();
+//   }
+// })
+//  }
+
+EmployeeQualification:any;
+
+saveEmpEducationalQual(){
+  var saveEmpEduQualRequest={
+    "listEmployeeEducations" :[{
+            "educationType":this.educationType
+            
+    }],
+            
+            "transactionType" : "save"
+    }
+      this.hrms.saveEmpEducationalQualification(saveEmpEduQualRequest).subscribe(response=>{
+        this.EmployeeQualification=response;
+        console.log(this.EmployeeQualification);
+        if(this.EmployeeQualification.statusMessage == "Successfully employeee education record saved")
+        {
+              swal(this.EmployeeQualification.statusMessage, "","success");
+              
+             }
+             this.getEmployeeQualification();   
+      })
+     // this.getEmployeeQualification();
+     this.value=false;
+  }
+
+  cancelbulist(){
+    this.value=false;
+    }
+
  deleteEmpEdu(bulist){
    var deletevalue = {
-        
-    "employeeEducation":{
-            "id":bulist.id,
-            "degree"                :bulist.degree,
-            "pg"                        :bulist.pg,
-            "degree_stream"        :bulist.degree_stream,
-            "pg_stream"                :bulist.pg_stream
-    },
-    "sessionID":"12321",
-    "transactionType":"delete"
-
-}
-this.hrms.deleteEmployeeEducation(deletevalue).subscribe(res =>{
+    "listEmployeeEducations" :[{
+            "id":bulist.id
+    }],
+            
+            "transactionType" : "delete"
+    }
+this.hrms.deleteEmpEducationalQualification(deletevalue).subscribe(res =>{
   this.deletedEduDetails = res,
 console.log(this.deletedEduDetails);
-if(this.deletedEduDetails.statusMessage == "Success fully Education record deleted"){
-  swal(this.deletedEduDetails.statusMessage, "","success"),
-  this.getEmpEducation();
+if(this.deletedEduDetails.statusMessage == "Successfully employeee education deleted"){
+  swal(this.deletedEduDetails.statusMessage, "","success");
+  this.getEmployeeQualification();
 }
 })
  }
-
 }

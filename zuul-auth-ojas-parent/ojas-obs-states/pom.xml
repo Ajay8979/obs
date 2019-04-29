@@ -20,6 +20,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -58,59 +65,60 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			 <plugin>
+			<plugin>
 
-                <groupId>com.spotify</groupId>
+				<groupId>com.spotify</groupId>
 
-                <artifactId>docker-maven-plugin</artifactId>
+				<artifactId>docker-maven-plugin</artifactId>
 
-                <version>0.4.10</version>
+				<version>0.4.10</version>
 
-                <configuration>
+				<configuration>
 
-                    <imageName>${project.artifactId}</imageName>
+					<imageName>${project.artifactId}</imageName>
 
-                    <baseImage>java:8</baseImage>
+					<baseImage>java:8</baseImage>
 
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 
-                  <!--   copy the service's jar file from target into the root directory of the image -->
+					<!-- copy the service's jar file from target into the root directory 
+						of the image -->
 
-                    <resources>
+					<resources>
 
-                        <resource>
+						<resource>
 
-                            <targetPath>/</targetPath>
+							<targetPath>/</targetPath>
 
-                            <directory>${project.build.directory}</directory>
+							<directory>${project.build.directory}</directory>
 
-                            <include>${project.build.finalName}.jar</include>
+							<include>${project.build.finalName}.jar</include>
 
-                        </resource>
+						</resource>
 
-                    </resources>
+					</resources>
 
-                </configuration>
+				</configuration>
 
-                <executions>
+				<executions>
 
-                    <execution>
+					<execution>
 
-                        <id>build-image</id>
+						<id>build-image</id>
 
-                        <phase>package</phase>
+						<phase>package</phase>
 
-                        <goals>
+						<goals>
 
-                            <goal>build</goal>
+							<goal>build</goal>
 
-                        </goals>
+						</goals>
 
-                    </execution>
+					</execution>
 
-                </executions>
+				</executions>
 
-            </plugin> 
+			</plugin>
 		</plugins>
 	</build>
 

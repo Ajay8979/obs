@@ -14,4 +14,5 @@ public interface EmployeeStatusDao {
 	public boolean updateEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
 	//public boolean deleteEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
 	public List<EmployeeStatus> getAllStatus();
+	public List<EmployeeStatus> getById(Integer id);
 }

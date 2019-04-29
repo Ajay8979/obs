@@ -3,6 +3,7 @@ import { Costcenter } from './costcenter.model';
 import { NgForm} from '@angular/forms';
 import { HttpRequest } from '@angular/common/http';
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-costcenter',
@@ -127,12 +128,27 @@ export class CostcenterComponent implements OnInit {
 
 setCostcenterData(){
 var requestData = {
-  "costCenter" : {
-          "costCenterCode" : this.costCenterCode
+        
+
+  "costCenter" : [{
+          
+  
+          "costCenterCode":123
+  
   },
-  "sessionId" : "123",
-          "transactionType" : "save",
-}
+  {
+  
+  "costCenterCode":456
+          
+  
+  }],
+          
+  "sessionId" : "124",
+  
+  
+  "transactionType" : "save"
+  
+  }
   this.hrms.setCostcenter(requestData).subscribe(responce =>{
     this.costcenterRes = responce;
     console.log(this.costcenterRes);
@@ -144,13 +160,21 @@ var requestData = {
   })
 }
 getCostCenter() {
-  var request = {
-      "costCenter" : {
-      },
-      "sessionId" : "123",
-     
-      "transactionType" : "get"
-  }
+  var request = 
+       {
+        
+
+"costCenter" : [{
+        
+
+}],
+        
+"sessionId" : "124",
+
+
+"transactionType" : "get"
+
+}
   this.hrms.getCostcenter(request).subscribe(res =>{
  this.costCenterList = res;
  this.coscentergetlist = this.costCenterList.listOfCostCenter;
@@ -160,10 +184,10 @@ getCostCenter() {
 saveUpdateValues(bulist){
   console.log(bulist);
   var updateRequestData = {
-    "costCenter" :{
+    "costCenter" :[{
             "id" : bulist.id,
             "costCenterCode" : bulist.costCenterCode
-    },
+    }],
  
     "sessionId" : "123",
     "transactionType" : "update"
@@ -173,29 +197,29 @@ saveUpdateValues(bulist){
     this.updateRes = res;
     console.log(this.updateRes);
       if(this.updateRes.statusMessage == "Successfully record updated"){
-        swal(this.updateRes.statusMessage, "","success");
+      swal(this.updateRes.statusMessage, "","success");
         this.getCostCenter();
       }
   })
   }
-  deleteCostCenter(bulist) {
-  var deleteReq = {
-    "costCenter" : {
-             "id" : bulist.id,
-             "costCenterCode" : bulist.costCenterCode
-    },
-    "sessionId" : "123",
-            "transactionType" : "delete"
-}
-this.hrms.deleteCostCenter(deleteReq).subscribe(res =>{
-this.deletedDetails = res;
-console.log(this.deletedDetails);
-if(this.deletedDetails.statusMessage == "Successfully record deleted"){
-swal(this.deletedDetails.statusMessage, "","success");
-this.getCostCenter();
-}
-})
+//   deleteCostCenter(bulist) {
+//   var deleteReq = {
+//     "costCenter" : {
+//              "id" : bulist.id,
+//              "costCenterCode" : bulist.costCenterCode
+//     },
+//     "sessionId" : "123",
+//             "transactionType" : "delete"
+// }
+// this.hrms.deleteCostCenter(deleteReq).subscribe(res =>{
+// this.deletedDetails = res;
+// console.log(this.deletedDetails);
+// if(this.deletedDetails.statusMessage == "Successfully record deleted"){
+// swal(this.deletedDetails.statusMessage, "","success");
+// this.getCostCenter();
+// }
+// })
 
-  }
+//   }
 
 }

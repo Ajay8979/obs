@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.ojas.obs.controller.GenderController;
@@ -199,4 +200,41 @@ public class GendersControllerTest {
 		HttpStatus statusCode = contResponse.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 		}
+	 
+	 @Test
+		public void dplicateKeySQLExcpTest() throws SQLException {
+			genderRequest= new GenderRequest();
+			genderRequest.setGender(getModel());
+		    genderRequest.setPageNo(1);
+		    genderRequest.getGender().get(0).setId(123);
+		    genderRequest.setPageSize(3);
+		    genderRequest.setSessionId("kjk121");
+		    genderRequest.setTransactionType("update");
+		try {
+			Throwable cause= new Throwable();
+			 when(genderFacade.setGender(genderRequest)).thenThrow(new DuplicateKeyException(null, cause));
+		} catch (Exception e) { // TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		ResponseEntity<Object> contResponse = genderController.setGenders(genderRequest);
+		HttpStatus statusCode = contResponse.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+		}
+	 
+	/*
+	 * @Test public void ExceptionTest() throws SQLException { genderRequest= new
+	 * GenderRequest(); genderRequest.setGender(getModel());
+	 * genderRequest.setPageNo(1); genderRequest.getGender().get(0).setId(123);
+	 * genderRequest.setPageSize(3); genderRequest.setSessionId("kjk121");
+	 * genderRequest.setTransactionType("update"); try {
+	 * when(genderFacade.setGender(genderRequest)).thenThrow(new
+	 * RuntimeException());
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } ResponseEntity<Object>
+	 * contResponse = genderController.setGenders(genderRequest); HttpStatus
+	 * statusCode = contResponse.getStatusCode(); assertEquals(HttpStatus.CONFLICT,
+	 * statusCode); }
+	 */
+	 
+	 
 }

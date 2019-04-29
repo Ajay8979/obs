@@ -11,6 +11,7 @@ public class PassportResponse {
 	private String statusCode;
 	private String statusMessage;
 	private  Integer noOfRecords;
+	
 	public List<Passport> getPassportList() {
 		return passportList;
 	}

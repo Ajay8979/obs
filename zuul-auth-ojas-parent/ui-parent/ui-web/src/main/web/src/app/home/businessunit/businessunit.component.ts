@@ -3,6 +3,7 @@ import { Businessunit } from './businessunit.model';
 import { NgForm} from '@angular/forms';
 import {Costcenter} from './businessunit.model'
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-businessunit',
@@ -105,10 +106,10 @@ export class BusinessunitComponent implements OnInit {
  
  setBusinessunit() {
    var requestData = {
-      "businessUnit" :{
+      "businessUnit" :[{
               "businessUnitName" :this.businessUnitName,
               "costCenterId" : this.costCenterId
-      },
+      }],
       "transactionType" : "save",
       "sessionId" : "132"
    }
@@ -124,14 +125,14 @@ export class BusinessunitComponent implements OnInit {
  }
  
 getBusinessunit() {
-  var request = 
-    {
-      "businessUnit" :{
-      },
-              "transactionType" : "getAll",
-      "sessionId" : "132"
+  var request = {
+    "businessUnit" :[{
+            
+    }],
+     "transactionType":"getAll"
 }
-this.hrms.getBusinessunit(request).subscribe(res =>{
+   
+this.hrms.getBusinesinfo(request).subscribe(res =>{
   this.businessunitDetails = res;
   this.businessUnitList = this.businessunitDetails.businessUnitList;
   console.log(this.businessunitDetails);
@@ -140,12 +141,20 @@ this.hrms.getBusinessunit(request).subscribe(res =>{
   //costcenter get
   getCostCenter() {
     var request = {
-        "costCenter" : {
-        },
-        "sessionId" : "123",
-       
-        "transactionType" : "get"
-    }
+        
+
+      "costCenter" : [{
+              
+      
+      }],
+              
+      "sessionId" : "124",
+      
+      
+      "transactionType" : "get"
+      
+      }
+      
     this.hrms.getCostcenter(request).subscribe(res =>{
    this.costCenterList = res;
    this.coscentergetlist = this.costCenterList.listOfCostCenter;
@@ -154,11 +163,11 @@ this.hrms.getBusinessunit(request).subscribe(res =>{
   }
   saveUpdatedBuData(bulist){
     var burequest = {
-      "businessUnit" :{
+      "businessUnit" :[{
               "id": bulist.id,
               "businessUnitName" :bulist.businessUnitName,
               "costCenterId" : bulist.costCenterId
-      },
+      }],
       "transactionType" : "update",
       "sessionId" : "132"
 }
@@ -185,7 +194,7 @@ this.hrms.deleteBusiness(budeletereq).subscribe(res =>{
   this.BudeleteDetails = res;
   console.log(this.BudeleteDetails);
   if(this.BudeleteDetails.statusMessage == "Success fully record deleted"){
-    swal(this.BudeleteDetails.statusMessage,"","success");
+    //swal(this.BudeleteDetails.statusMessage,"","success");
     this.getBusinessunit();
   }
 })

@@ -27,22 +27,22 @@ public class ExperienceDaoImpl implements ExperienceDao {
 	// -------------------------SAVE METHOD------------------------------------
 
 	@Override
-	public int saveEmployeeExperienceDetails(ExperienceRequest experienceRequestObject) {
+	public int saveEmployeeExperienceDetails(ExperienceRequest experienceRequestObject) throws SQLException {
 		List<EmployeeExperienceDetails> employeeExperienceDetailsList = experienceRequestObject
 				.getEmployeeExperienceDetails();
 		List<Object[]> inputList = new ArrayList<Object[]>();
-
+		boolean flag = true;
 		for (EmployeeExperienceDetails employeeExperienceDetails : employeeExperienceDetailsList) {
 
 			Object[] params = new Object[] { employeeExperienceDetails.getCompany_name(),
 					employeeExperienceDetails.getJoining_date(), employeeExperienceDetails.getExit_date(),
 					employeeExperienceDetails.getSalary(), employeeExperienceDetails.getLocation(),
-					employeeExperienceDetails.isIs_current_company(), employeeExperienceDetails.getEmployee_Id(),
+					employeeExperienceDetails.getIs_current_company(), employeeExperienceDetails.getEmployee_Id(),
 					employeeExperienceDetails.getFirst_Reference_Name(),
 					employeeExperienceDetails.getFirst_Reference_Contact(),
 					employeeExperienceDetails.getSecond_Reference_Name(),
-					employeeExperienceDetails.getSecond_Reference_Contact(), employeeExperienceDetails.isFlag(),
-					employeeExperienceDetails.getCreated_by(), employeeExperienceDetails.getUpdated_by() };
+					employeeExperienceDetails.getSecond_Reference_Contact(), false,
+					employeeExperienceDetails.getCreated_by()};
 			inputList.add(params);
 
 		}
@@ -72,7 +72,7 @@ public class ExperienceDaoImpl implements ExperienceDao {
 			Object[] params = new Object[] { employeeExperienceDetails.getCompany_name(),
 					employeeExperienceDetails.getJoining_date(), employeeExperienceDetails.getExit_date(),
 					employeeExperienceDetails.getSalary(), employeeExperienceDetails.getLocation(),
-					employeeExperienceDetails.isIs_current_company(), employeeExperienceDetails.getEmployee_Id(),
+					employeeExperienceDetails.getIs_current_company(), employeeExperienceDetails.getEmployee_Id(),
 					employeeExperienceDetails.getFirst_Reference_Name(),
 					employeeExperienceDetails.getFirst_Reference_Contact(),
 					employeeExperienceDetails.getSecond_Reference_Name(),

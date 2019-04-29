@@ -20,9 +20,9 @@ public class EmployeeContactRowMapper implements RowMapper<EmployeeContactInfo>{
 		emp.setCreated_date(rs.getTimestamp("created_date"));
 		emp.setCurrent_Address_Line1(rs.getString("current_Address_Line1"));
 		emp.setCurrent_Address_Line2(rs.getString("current_Address_Line2"));
-		emp.setCurrent_City(rs.getString("current_City"));
+		emp.setCurrent_City(rs.getString("current_City")); 
 		emp.setCurrent_Pin(rs.getInt("current_Pin"));
-		emp.setCurrent_State(rs.getString("current_State"));
+		emp.setCurrent_State(rs.getInt("current_State"));
 		emp.setEmail(rs.getString("email"));
 		emp.setEmp_Id(rs.getString("emp_Id"));
 		emp.setFlag(rs.getBoolean("flag"));

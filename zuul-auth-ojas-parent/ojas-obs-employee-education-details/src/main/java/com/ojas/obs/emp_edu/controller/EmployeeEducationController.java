@@ -3,7 +3,6 @@ package com.ojas.obs.emp_edu.controller;
 import com.ojas.obs.emp_edu.facade.EmployeeEducationFacade;
 import com.ojas.obs.emp_edu.model.EmployeeEducationDetailsRequest;
 import com.ojas.obs.emp_edu.model.ErrorResponse;
-import static com.ojas.obs.emp_edu.utility.Constants.EMP_EDU_DETAILS;
 import static com.ojas.obs.emp_edu.utility.Constants.SET;
 import static com.ojas.obs.emp_edu.utility.Constants.GET;
 import static com.ojas.obs.emp_edu.utility.Constants.TRANSACTIONTYPE_NULL;

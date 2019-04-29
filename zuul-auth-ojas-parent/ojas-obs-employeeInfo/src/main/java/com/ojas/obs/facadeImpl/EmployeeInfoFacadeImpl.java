@@ -1,5 +1,7 @@
 package com.ojas.obs.facadeImpl;
 
+import static com.ojas.obs.constants.URLconstants.GETBYID;
+import static com.ojas.obs.constants.URLconstants.GETROLEBYID;
 import static com.ojas.obs.constants.URLconstants.GETAll;
 import static com.ojas.obs.constants.UserConstants.DELETE;
 import static com.ojas.obs.constants.UserConstants.FAILED;
@@ -22,6 +24,7 @@ import com.ojas.obs.facade.EmployeeInfoFacade;
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
 import com.ojas.obs.response.EmployeeInfoResponse;
+import com.ojas.obs.response.EmployeeRoleResponse;
 
 /**
  * 
@@ -30,6 +33,8 @@ import com.ojas.obs.response.EmployeeInfoResponse;
  */
 @Service
 public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
+	
+
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
@@ -42,9 +47,9 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 	 * com.ojas.obs.facade.EmployeeInfoFacade#saveEmployeeInfo(com.ojas.obs.request.
 	 * EmployeeInfoRequest)
 	 */
-	
+
 	@Override
-	public ResponseEntity<Object> saveEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
+	public ResponseEntity<Object> setEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 		logger.debug("inside saveEmployee method : " + employeeInfoRequest);
 		EmployeeInfoResponse empInfoResponse = null;
 
@@ -77,10 +82,11 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 			}
 			if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
 				empInfoResponse = new EmployeeInfoResponse();
-				Integer planId = employeeInfoRequest.getEmployeeInfo().getId();
+
 				boolean deleteEmployeeRecord = employeeInfoDao.deleteEmployeeInfo(employeeInfoRequest);
 
-				logger.debug("**inside  delete condition.****** and id is : " + planId);
+				logger.debug("**inside  delete condition.******  : " + deleteEmployeeRecord);
+
 				if (deleteEmployeeRecord) {
 					empInfoResponse.setStatusMessage("Success fully record deleted");
 					return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
@@ -112,7 +118,10 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 		logger.debug("inside getAllEmployeeDetails in EmployeeInfoFacade.***");
 		EmployeeInfoResponse employeeResponse = new EmployeeInfoResponse();
 		if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETAll)) {
+
 			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getAllEmployeeDetails(employeeInfoRequest);
+//			List<EmployeeInfo> recordsPerPage = employeeInfoDao.getPageRecords(allEmployeeDetails,
+//					employeeInfoRequest.getPageSize(), employeeInfoRequest.getPageNum());
 			if (allEmployeeDetails == null) {
 				employeeResponse.setEmployeeInfo(new ArrayList<>());
 				employeeResponse.setStatusMessage("No records found");
@@ -125,7 +134,24 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 				employeeResponse.setTotalCount(count);
 				return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
 			}
+		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getById(employeeInfoRequest);
+			int count = employeeInfoDao.getAllEmployeeDetailsCount();
+			employeeResponse.setEmployeeInfo(allEmployeeDetails);
+			employeeResponse.setStatusMessage("Success");
+			employeeResponse.setTotalCount(count);
+			return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
+		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETROLEBYID)) {
+			System.out.println("Inside Role");
+			EmployeeRoleResponse allEmployeeDetails = employeeInfoDao.getRoleById(employeeInfoRequest);
+			int count = employeeInfoDao.getAllEmployeeDetailsCount();
+			
+			allEmployeeDetails.setStatusMessage("Success");
+			allEmployeeDetails.setTotalCount(count);
+			System.out.println("Resp"+allEmployeeDetails.getRoleName());
+			return new ResponseEntity<Object>(allEmployeeDetails, HttpStatus.OK);
 		}
+
 		return null;
 
 	}

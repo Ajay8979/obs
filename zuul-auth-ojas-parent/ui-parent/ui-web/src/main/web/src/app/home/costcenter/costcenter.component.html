@@ -72,7 +72,7 @@
                        
                      </th> 
                     <th>Edit</th>
-                    <th>Delete</th>
+                
                   </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@
                       <img src="assets/pe.png" width="30" (click)='bulist.isEditable =!bulist.isEditable'
                         *ngIf="!bulist.isEditable">
                     </td>
-                    <td><img src="assets/delete.png" width="20" (click)="deleteCostCenter(bulist)" /></td>
+                    <!-- <td><img src="assets/delete.png" width="20" (click)="deleteCostCenter(bulist)" /></td> -->
                   </tr>
                   <tr>
                     <td><input id="businessunit" name="businessunit" [(ngModel)]="costCenterCode" *ngIf="value" type="text"

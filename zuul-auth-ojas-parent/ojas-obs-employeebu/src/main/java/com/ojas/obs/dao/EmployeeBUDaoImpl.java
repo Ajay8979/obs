@@ -22,12 +22,12 @@ import com.ojas.obs.request.EmployeeBUDetailsRequest;
  */
 @Repository
 public class EmployeeBUDaoImpl implements EmployeeBUDao {
-	private static final String INSERTEMPLOYEBU = "Insert into employee_bu_details(EmployeeId, sbu, status, Createdby, Createddate,flag) values(?,?,?,?,?,?)";
-	private static final String GETEMPLOYEBU = "Select * from employee_bu_details where flag='1' ";
-	private static final String GETBYID = "Select * from employee_bu_details where flag = 1 and id = ? ";
-	private static final String UPDATEBUDETAILS = "Update employee_bu_details set EmployeeId=?, sbu=?, status=?, Updatedby=?, Updateddate=? WHERE Id=?";
-	private static final String DELETEBUDEAILS = "Update employee_bu_details set flag='0' where Id = ?";
-	private static final String GETBUDetailsCOUNT = "select count(*) from employee_bu_details where flag = '1' ";
+	private static final String INSERTEMPLOYEBU = "Insert into obs_bu_details(EmployeeId, sbu, status, Createdby, Createddate,flag) values(?,?,?,?,?,?)";
+	private static final String GETEMPLOYEBU = "Select * from obs_bu_details where flag='1' ";
+	private static final String GETBYID = "Select * from obs_bu_details where flag = 1 and id = ? ";
+	private static final String UPDATEBUDETAILS = "Update obs_bu_details set EmployeeId=?, sbu=?, status=?, Updatedby=?, Updateddate=? WHERE Id=?";
+	private static final String DELETEBUDEAILS = "Update obs_bu_details set flag='0' where Id = ?";
+	private static final String GETBUDetailsCOUNT = "select count(*) from obs_bu_details where flag = '1' ";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	Logger logger = Logger.getLogger(this.getClass());
@@ -41,14 +41,14 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	@Override
 	public boolean saveEmployeebu(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
 		Timestamp timestamp = new Timestamp(new Date().getTime());
-
+		boolean flag = true;
 		int count = 0;
 		boolean status = false;
 		List<EmployeeBUDetails> budetails = employeebuRequest.getEmployeeBUDeatils();
 		for (EmployeeBUDetails employeebudetails : budetails) {
 			count = jdbcTemplate.update(INSERTEMPLOYEBU, employeebudetails.getEmployeeId(), employeebudetails.getSbu(),
 					employeebudetails.getStatus(), employeebudetails.getCreatedby(), timestamp,
-					employeebudetails.isFlag());
+					flag);
 		}
 		if (count > 0)
 			return true;

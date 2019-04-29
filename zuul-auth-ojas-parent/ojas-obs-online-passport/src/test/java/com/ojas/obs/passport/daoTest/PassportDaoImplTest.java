@@ -70,6 +70,7 @@ public class PassportDaoImplTest {
 	 * passportRequest.setPageNo(1); passportRequest.setPageSize(2);
 	 * passportRequest.setSessionId("1234"); return passportRequest; }
 	 */
+	
 	public List<Passport> getPassport() {
 		List<Passport> list = new ArrayList<Passport>();
 		Passport passport = new Passport();
@@ -157,25 +158,40 @@ public class PassportDaoImplTest {
 
 	}
 
+	//@Test
+	public void getCountTest() throws SQLException {
+		passportRequest = new PassportRequest();
+		passportRequest.setPassportList(getPassport());
+		int count = 0 ;
+		when(jdbcTemplate.queryForObject("select count(*) from ojas_obs.obs_passport where flag=true", Integer.class))
+				.thenReturn(count);
+		int num = passportDaoImpl.getcountPassport(passportRequest);
+		assertEquals(4, num);
+
+	}
+	 
 	/*
-	 * @Test public void getAllCountTest() throws SQLException { passportRequest =
-	 * new PassportRequest(); passportRequest.setPassportList(getPassport()); int
-	 * count=4; when(jdbcTemplate.
-	 * queryForObject("select count(*) from ojas_obs.obs_passport where flag=true"
-	 * ,Integer.class)).thenReturn(count); int
-	 * num=passportDaoImpl.getcountPassport(passportRequest); assertEquals(4,num );
+	 * @Test public void getCountPerPageTest() throws SQLException { passportRequest
+	 * = new PassportRequest(); passportRequest.setPassportList(this.getPassport());
+	 * int count=4; when(jdbcTemplate.
+	 * queryForObject("select count(*) from obs_CertificationDetails where flag= true"
+	 * ,Integer.class)).thenReturn(count);
+	 * List<Passport>num=passportDaoImpl.getCountPerPage(getPassport(),2,3); boolean
+	 * status=num.isEmpty(); assertEquals(false,status );
 	 * 
 	 * }
 	 */
 	@Test
-	public void getCountPerPageTest() throws SQLException {
+	public void getByIdTest() throws SQLException {
 		passportRequest = new PassportRequest();
 		passportRequest.setPassportList(this.getPassport());
-	int count=4;
-	when(jdbcTemplate.queryForObject("select count(*) from obs_CertificationDetails where flag= true",Integer.class)).thenReturn(count);
-	List<Passport>num=passportDaoImpl.getCountPerPage(getPassport(),2,3);
+		passportRequest.getPassportList().get(0).setId(1);
+	
+	Passport count = null;
+	when(jdbcTemplate.queryForObject("select * from ojas_obs.obs_passport where id = ?",Passport.class)).thenReturn(count);
+	List<Passport>num=passportDaoImpl.getById(passportRequest);
 	boolean status=num.isEmpty();
-	assertEquals(false,status );
+	assertEquals(true,status );
 
 	}
 }

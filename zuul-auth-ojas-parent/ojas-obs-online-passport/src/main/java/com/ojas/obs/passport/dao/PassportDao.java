@@ -19,6 +19,7 @@ public interface PassportDao {
 	
 	public Integer getcountPassport(PassportRequest passportRequest) throws SQLException;
 
-	List<Passport> getCountPerPage(List<Passport> stateList, int pageSize, int pageNo);
-
+	//List<Passport> getCountPerPage(List<Passport> stateList, int pageSize, int pageNo) throws SQLException;
+	
+	public List<Passport> getById(PassportRequest passportRequest) throws SQLException;
 }

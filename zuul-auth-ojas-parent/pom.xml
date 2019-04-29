@@ -21,7 +21,9 @@
         <module>backend-service</module>
         <module>common</module>
         <module>ui-parent</module>
-        <module>ojas-obs-project-details</module>
+		<module>ojas-obs-cost-center</module>
+	    <module>ojas-obs-businessunit</module>
+       <!-- <module>ojas-obs-project-details</module>
         <module>ojas-obs-employment-details</module>
 		<module>ojas-obs-bankdetails</module>
 		<module>ojas-obs-kye</module>
@@ -34,8 +36,8 @@
 		<module>ojas-obs-employeecontactinfo</module>
 		<module>ojas-obs-employeeinfo</module>
 		<module>ojas-obs-gender</module>
-		<module>ojas-obs-designation</module>
-		<module>ojas-obs-cost-center</module>
+		<module>ojas-obs-designation</module> 
+	
 		<module>ojas-obs-states</module>
 		<module>ojas-obs-online-passport</module>
 		<module>ojas-obs-educationtype</module>
@@ -45,10 +47,10 @@
 		<module>ojas-obs-rolemanagement</module>
 		<module>ojas-obs-subbusinessunit</module>
 		<module> ojas-obs-insurance</module>
-		<module>ojas-obs-businessunit</module>
+	
 		<module>ojas-obs-title</module>
 		<module>ojas-obs-skill</module> 
-		<module>ojas-obs-resource-type</module>
+		<module>ojas-obs-resource-type</module> -->
 		
     </modules>
 

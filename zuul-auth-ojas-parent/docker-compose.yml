@@ -1,0 +1,193 @@
+version: '3'
+services:
+  api-gateway:
+    image: api-gateway
+    ports:
+     - "8089:8089"
+  auth-center:
+    image: auth-center
+    depends_on:
+     - api-gateway
+    ports:    
+    - "8081:8081"
+    deploy:
+      mode: replicated
+      replicas: 6
+  backend-service:
+    image: backend-service
+    depends_on:
+     - auth-center
+    ports:
+     - "8082:8082"
+  ojas-obs-project-details:
+     image: ojas-obs-project-details
+     depends_on:
+     - auth-center
+     ports:
+     - "8083:8083"
+  ojas-obs-employee-education-details:
+    image: ojas-obs-employee-education-details
+    depends_on:
+    - auth-center
+    ports:
+    - "8525:8525"
+  ojas-obs-bankdetails:
+    image: ojas-obs-bankdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "9000:9000"
+  ojas-obs-dependentdetails:
+    image: ojas-obs-dependentdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8090:8090"
+  ojas-obs-employeebu:
+    image: ojas-obs-employeebu
+    depends_on:
+    - auth-center
+    ports:
+    - "8015:8015"
+  ojas-obs-empcertificationdetails:
+    image: ojas-obs-empcertificationdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8888:8888"
+  ojas-obs-employeecontactinfo:
+    image: ojas-obs-employeecontactinfo
+    depends_on:
+    - auth-center
+    ports:
+    - "8091:8091"
+  ojas-obs-employeeexperiencedetails:
+     image : ojas-obs-employeeexperiencedetails
+     depends_on:
+     - auth-center
+     ports:
+     - "8092:8092"
+  ojas-obs-employeeinfo:
+     image : ojas-obs-employeeinfo
+     depends_on:
+     - auth-center
+     ports:
+     - "8093:8093"
+  ojas-obs-skill:
+    image : ojas-obs-skill
+    depends_on:
+     - auth-center
+    ports:
+     - "8023:8023"
+  ojas-obs-employeeskills:
+    image : ojas-obs-employeeskills
+    depends_on:
+     - auth-center
+    ports:
+    - "8094:8094"
+  ojas-obs-employment-details:
+    image : ojas-obs-employment-details
+    depends_on:
+    - auth-center
+    ports:
+    - "8084:8084"
+  ojas-obs-kye:
+    image : ojas-obs-kye
+    depends_on:
+    - auth-center
+    ports:
+    - "7070:7070"
+  ojas-obs-title:
+    image : ojas-obs-title
+    depends_on:
+    - auth-center
+    ports:
+    - "8095:8095"
+  ojas-obs-gender:
+    image : ojas-obs-gender
+    depends_on:
+    - auth-center
+    ports:
+    - "8010:8010"
+  ojas-obs-designation:
+    image : ojas-obs-designation
+    depends_on:
+    - auth-center
+    ports:
+    - "8011:8011"
+  ojas-obs-cost-center:
+   image :  ojas-obs-cost-center
+   depends_on:
+   - auth-center
+   ports:
+   - "8013:8013"
+  ojas-obs-states :
+   image : ojas-obs-states
+   depends_on:
+   - auth-center
+   ports:
+   - "8014:8014"
+  ojas-obs-online-passport :
+   image : ojas-obs-online-passport
+   depends_on:
+   - auth-center
+   ports:
+   - "8012:8012"
+  ojas-obs-educationtype :
+   image : ojas-obs-educationtype
+   depends_on:
+   - auth-center
+   ports:
+   - "8016:8016"
+  ojas-obs-online-employeestatus-service :
+   image : ojas-obs-online-employeestatus-service
+   depends_on:
+   - auth-center
+   ports:
+   - "8017:8017"
+  ojas-obs-online-gpa:
+   image : ojas-obs-online-gpa
+   depends_on:
+   - auth-center
+   ports:
+   - "8018:8018"
+  ojas-obs-online-separationtype-service:
+   image : ojas-obs-online-separationtype-service
+   depends_on:
+   - auth-center
+   ports:
+   - "8019:8019"
+  ojas-obs-rolemanagement:
+   image : ojas-obs-rolemanagement
+   depends_on:
+   - auth-center
+   ports:
+   - "8020:8020"
+  ojas-obs-subbusinessunit :
+   image : ojas-obs-subbusinessunit
+   depends_on:
+   - auth-center
+   ports:
+   - "8021:8021"
+  ojas-obs-insurance:
+   image : ojas-obs-insurance
+   depends_on:
+   - auth-center
+   ports:
+   - "8022:8022"
+  ojas-obs-businessunit:
+   image : ojas-obs-businessunit
+   depends_on:
+   - auth-center
+   ports:
+   - "8096:8096"
+  ojas-obs-resource-type:
+   image : ojas-obs-resource-type
+   depends_on:
+   - auth-center
+   ports:
+   - "8085:8085"
+  ui-server:
+     image: ui-server
+     ports:
+     - "8000:8000"

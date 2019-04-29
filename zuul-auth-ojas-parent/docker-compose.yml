@@ -21,7 +21,7 @@ services:
    depends_on:
    - auth-center
    ports:
-   - "8096:8096"
+   - "8087:8087"
   ui-server:
      image: ui-server
      ports:

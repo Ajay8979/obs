@@ -23,7 +23,7 @@ import com.obs.businessunit.error.ErrorResponse;
 import com.obs.businessunit.facade.BusinessUnitFacade;
 import com.obs.businessunit.request.BusinessUnitRequest;
 @RestController
-@RequestMapping(BUSINESSUNIT)
+
 public class BusinessUnitController {
 
 

@@ -32,26 +32,24 @@ public class CostCenterImpl implements CostCenterDao {
 	public boolean save(List<CostCenter> lists) throws SQLException {
 		logger.debug("INSIDE the save....");
 		ArrayList<Object[]> list = new ArrayList<>();
-
-		for (CostCenter costCenter2 : lists) {
-			Object[] param = new Object[] { costCenter2.getCostCenterCode() };
-			list.add(param);
-		}
-
-		int[] i = jdbcTemplate.batchUpdate(INSERTCOSTCENTER, list);
 		try {
-			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (int j : i) {
-			if (j > 0) {
-
-				return true;
-			}else {
-				
+			for (CostCenter costCenter2 : lists) {
+				Object[] param = new Object[] { costCenter2.getCostCenterCode() };
+				list.add(param);
 			}
+
+			int[] i = jdbcTemplate.batchUpdate(INSERTCOSTCENTER, list);
+
+			for (int j : i) {
+				if (j > 0) {
+
+					return true;
+				} else {
+
+				}
+			}
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
 		return false;
 	}
@@ -61,7 +59,9 @@ public class CostCenterImpl implements CostCenterDao {
 	@Override
 	public boolean updateCenter(List<CostCenter> lists) throws SQLException {
 		logger.debug("INSIDE the updateCenter....");
+		
 		int costCenterCode;
+		try {
 		ArrayList<Object[]> list = new ArrayList<>();
 
 		for (CostCenter costCenter2 : lists) {
@@ -77,13 +77,13 @@ public class CostCenterImpl implements CostCenterDao {
 				return true;
 			}
 		}
-		try {
+		}finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
+			
 		return false;
+
 	}
 
 	// Delete the data into database
@@ -91,16 +91,14 @@ public class CostCenterImpl implements CostCenterDao {
 	@Override
 	public boolean deleteCenterCode(int id) throws SQLException {
 		logger.debug("INSIDE the deleteCenterCode....");
-		int batchUpdate = jdbcTemplate.update(DELETECOSTCENTER, id);
-		if (batchUpdate > 0) {
-			return true;
-		}
-		
 		try {
+			int batchUpdate = jdbcTemplate.update(DELETECOSTCENTER, id);
+			if (batchUpdate > 0) {
+				return true;
+			}
+
+		} finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return false;
 	}
@@ -109,33 +107,30 @@ public class CostCenterImpl implements CostCenterDao {
 
 	@Override
 	public List<CostCenter> getAllCostCenter(CostCenterRequest costCenterReq) throws SQLException {
-
-		logger.debug("INSIDE the getAllCostCenter....");
-		List<CostCenter> cost= jdbcTemplate.query(GETCOSTCENTER, new BeanPropertyRowMapper<>(CostCenter.class));
 		try {
+			logger.debug("INSIDE the getAllCostCenter....");
+			List<CostCenter> cost = jdbcTemplate.query(GETCOSTCENTER, new BeanPropertyRowMapper<>(CostCenter.class));
+			return cost;
+
+		} finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return cost;
 	}
 
 	// get costcenter count
-	
+
 	@Override
 	public int getAllCostCenterCount() throws SQLException {
-		logger.debug("INSIDE the getAllCostCenterCount....");
-		int i= jdbcTemplate.queryForObject(GETCOSTCENTERCOUNT, Integer.class);
-		
 		try {
+			logger.debug("INSIDE the getAllCostCenterCount....");
+			int i = jdbcTemplate.queryForObject(GETCOSTCENTERCOUNT, Integer.class);
+
 			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return i;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		
-		return i;
+
 	}
 
 	@Override

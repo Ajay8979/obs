@@ -25,9 +25,10 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
-	public Boolean saveBusinessUnit(BusinessUnitRequest businessUnitRequest) {
+	public Boolean saveBusinessUnit(BusinessUnitRequest businessUnitRequest) throws SQLException {
 		boolean b = false;
 		int[] save;
+		try {
 		List<BusinessUnit> businessUnitList = businessUnitRequest.getBusinessUnit();
 		List<Object[]> list = new ArrayList<>();
 		for (BusinessUnit businessUnit : businessUnitList) {
@@ -35,22 +36,21 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 			list.add(bus);
 		}
 		save = jdbcTemplate.batchUpdate(INSERT_BUSINESSUNIT, list);
-		
-		try {
-			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		if (save.length > 0) {
 			b = true;
 			
 		}
+			
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
+		
 		return b;
 	}
 	@Override
-	public Boolean updateBusinessUnit(BusinessUnitRequest businessUnitRequest) {
+	public Boolean updateBusinessUnit(BusinessUnitRequest businessUnitRequest) throws SQLException {
+		try {
 		List<BusinessUnit> businessUnitList = businessUnitRequest.getBusinessUnit();
 		boolean b = false;
 		int[] update;
@@ -60,44 +60,45 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 			list.add(bus);
 		}
 		update = jdbcTemplate.batchUpdate(UPDATE_BUSINESSUNIT, list);
-		try {
+		
+			
+			if (update.length > 0) {
+				b = true;
+			} 
+		} finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		if (update.length > 0) {
-			b = true;
-		} 
-		return b;
+		
+		return false;
 	}
 	
 
 	
 	@Override
-	public List<BusinessUnit> getAllBussinessDetails(BusinessUnitRequest request) {
+	public List<BusinessUnit> getAllBussinessDetails(BusinessUnitRequest request) throws SQLException {
+		try {
 		logger.debug("Inside getAllEducationDetails DAO .***");
 		List<BusinessUnit> list = jdbcTemplate.query(SELECT_BUSINESSUNIT, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
-		try {
-			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return list;
+			
+		} 
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
 	}
 	@Override
-	public List<BusinessUnit> getById(BusinessUnitRequest request) {
+	public List<BusinessUnit> getById(BusinessUnitRequest request) throws SQLException {
+		try {
 		Integer id = request.getBusinessUnit().get(0).getId();
 		Object[] param = {id};
 		List<BusinessUnit> list= jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
-		try {
-			jdbcTemplate.getDataSource().getConnection().close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return list;
+			
+		} 
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 }

@@ -84,7 +84,7 @@ public class CostCenterFacadeImpl implements CostCenterFacade {
 	}
 
 	@Override
-	public ResponseEntity<Object> get(CostCenterRequest costReq) throws Exception {
+	public ResponseEntity<Object> get(CostCenterRequest costReq) throws Exception,SQLException {
 		CostCenterResponse response = new CostCenterResponse();
 		logger.debug("Enter the service get method...");
 

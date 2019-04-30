@@ -3,8 +3,7 @@ package com.ojas.obs.controller;
 import static com.ojas.obs.constants.Constants.GET;
 import static com.ojas.obs.constants.Constants.SET;
 
-
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,72 +35,82 @@ public class CostCenterController {
 	@PostMapping(SET)
 	public ResponseEntity<Object> set(@RequestBody CostCenterRequest codeCenterRequest, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		logger.debug("Enter the controller set method...");
-	
-		ResponseEntity<Object> responseEntity = null;
-		ErrorResponse error = new ErrorResponse();
-		String sessionId = null;
+		try {
+			logger.debug("Enter the controller set method...");
 
-		logger.debug("conrverting the JSON object to String object...");
+			ResponseEntity<Object> responseEntity = null;
+			ErrorResponse error = new ErrorResponse();
+			String sessionId = null;
 
-		if (codeCenterRequest == null) {
-			error = new ErrorResponse();
-			logger.debug("checking object is null or not...");
+			logger.debug("conrverting the JSON object to String object...");
 
-			error.setMessage("Requestobj is not valid");
-			error.setStatusCode("422");
-			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+			if (codeCenterRequest == null) {
+				error = new ErrorResponse();
+				logger.debug("checking object is null or not...");
 
-		}
-		List<CostCenter> costCenter = codeCenterRequest.getCostCenter();
-		sessionId = codeCenterRequest.getSessionId();
-		if (!codeCenterRequest.getTransactionType().equalsIgnoreCase("DELETE")) {
-			for (CostCenter costCenter2 : costCenter) {
+				error.setMessage("Requestobj is not valid");
+				error.setStatusCode("422");
+				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 
-				if (costCenter2.getCostCenterCode() == 0) {
-					logger.debug("checking costcentercode is zero or ...");
+			}
+			List<CostCenter> costCenter = codeCenterRequest.getCostCenter();
+			sessionId = codeCenterRequest.getSessionId();
+			if (!codeCenterRequest.getTransactionType().equalsIgnoreCase("DELETE")) {
+				for (CostCenter costCenter2 : costCenter) {
 
-					error = new ErrorResponse();
-					error.setMessage("Request is  invalid????");
-					return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+					if (costCenter2.getCostCenterCode() == 0) {
+						logger.debug("checking costcentercode is zero or ...");
+
+						error = new ErrorResponse();
+						error.setMessage("Request is  invalid????");
+						return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+					}
 				}
 			}
-		}
-		if (null == codeCenterRequest.getTransactionType() || codeCenterRequest.getTransactionType().isEmpty()) {
-			logger.debug("checking transactiontype equal to null or empty...");
+			if (null == codeCenterRequest.getTransactionType() || codeCenterRequest.getTransactionType().isEmpty()) {
+				logger.debug("checking transactiontype equal to null or empty...");
 
-			error = new ErrorResponse();
-			error.setMessage("transationType is not valid");
-			error.setStatusCode("422");
-			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
+				error = new ErrorResponse();
+				error.setMessage("transationType is not valid");
+				error.setStatusCode("422");
+				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
 
-		List<CostCenter> costCenterObj = codeCenterRequest.getCostCenter();
+			List<CostCenter> costCenterObj = codeCenterRequest.getCostCenter();
 
-		if ((codeCenterRequest.getTransactionType().equalsIgnoreCase("SAVE")||codeCenterRequest.getTransactionType().equalsIgnoreCase("UPDATE")
-				|| codeCenterRequest.getTransactionType().equalsIgnoreCase("DELETE"))) {
+			if ((codeCenterRequest.getTransactionType().equalsIgnoreCase("SAVE")
+					|| codeCenterRequest.getTransactionType().equalsIgnoreCase("UPDATE")
+					|| codeCenterRequest.getTransactionType().equalsIgnoreCase("DELETE"))) {
 				ResponseEntity<Object> set2 = costCenterService.set(codeCenterRequest);
 
-			return set2;
+				return set2;
 
+			} else {
+				error = new ErrorResponse();
+				error.setMessage("Request is  invalid....");
+				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 
-		} else {
-			error = new ErrorResponse();
-			error.setMessage("Request is  invalid....");
-			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		
+			}
+		} catch (SQLException exception) {
+			logger.debug("inside CostCenterController-SQLException catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("SQLException is  invalid");
+			error.setMessage(exception.getCause().getLocalizedMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
 	@PostMapping(GET)
 	public ResponseEntity<Object> get(@RequestBody CostCenterRequest costCenterRequest, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		logger.debug("Enter the controller get method...");
+		try {
 
-		ResponseEntity<Object> responseEntity = null;
-		// CostCenterRequest costCenterRequestObject = null;
-		String sessionId = null;
-		ErrorResponse error = null;
+			logger.debug("Enter the controller get method...");
+
+			ResponseEntity<Object> responseEntity = null;
+			// CostCenterRequest costCenterRequestObject = null;
+			String sessionId = null;
+			ErrorResponse error = null;
 
 			if (costCenterRequest == null) {
 				error = new ErrorResponse();
@@ -120,8 +129,14 @@ public class CostCenterController {
 
 			costCenterService.get(costCenterRequest);
 
-		
-		return costCenterService.get(costCenterRequest);
+			return costCenterService.get(costCenterRequest);
+		} catch (SQLException exception) {
+			logger.debug("inside CostCenterController-SQLException catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("SQLException is  invalid");
+			error.setMessage(exception.getCause().getLocalizedMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 	}
 
 }

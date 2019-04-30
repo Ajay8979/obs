@@ -7,6 +7,7 @@ import static com.obs.businessunit.constants.UserConstants.SAVE;
 import static com.obs.businessunit.constants.UserConstants.SUCCESS;
 import static com.obs.businessunit.constants.UserConstants.UPDATE;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,15 @@ public class BusinessUnitFacadeImpl implements BusinessUnitFacade{
 					return new ResponseEntity<>(businessUnitResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 			}
-		} catch (DuplicateKeyException exception) {
+		}
+		 catch (SQLException exception) {
+				logger.debug("inside EmployeeEducationFacde-SQLException catch block.****");
+				ErrorResponse error = new ErrorResponse();
+				logger.debug("SQLException is  invalid");
+				error.setMessage(exception.getCause().getLocalizedMessage());
+				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
+		catch (DuplicateKeyException exception) {
 			logger.debug("inside EmployeeEducationFacde catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
@@ -80,6 +89,7 @@ public class BusinessUnitFacadeImpl implements BusinessUnitFacade{
 	}
 	@Override
 	public ResponseEntity<Object> getBusinessUnit(BusinessUnitRequest businessUnitRequest) {
+		try {
 		BusinessUnitResponse businessUnitResponse = new BusinessUnitResponse();
 		List<BusinessUnit> allBusinessUnitDetails=null;
 		logger.debug("inside getAllEducationDetails in EmployeeEducationFacde.***");
@@ -98,5 +108,13 @@ public class BusinessUnitFacadeImpl implements BusinessUnitFacade{
 				businessUnitResponse.setStatusMessage(SUCCESS);
 			}
 		return new ResponseEntity<Object>(businessUnitResponse, HttpStatus.OK);
+		}
+		 catch (SQLException exception) {
+				logger.debug("inside EmployeeEducationFacde-SQLException catch block.****");
+				ErrorResponse error = new ErrorResponse();
+				logger.debug("SQLException is  invalid");
+				error.setMessage(exception.getCause().getLocalizedMessage());
+				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
 	}
 }

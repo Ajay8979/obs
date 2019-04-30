@@ -22,7 +22,7 @@ import com.ojas.obs.request.DesignationRequest;
 public class DesignationDaoImpl implements DesignationDao {
 
 	@Autowired
-	private JdbcTemplate jdbc;
+	private JdbcTemplate jdbcTemplate;
 	Logger logger = Logger.getLogger(this.getClass());
 
 	public static final String SAVEDesignation = "Insert into obs_designation(designation) values(?)";
@@ -56,14 +56,20 @@ public class DesignationDaoImpl implements DesignationDao {
 				 * if (n > 0) { return true; } return false;
 				 */
 			}
-			int[] batchUpdate = jdbc.batchUpdate(SAVEDesignation, inputList);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(SAVEDesignation, inputList);
 			if (batchUpdate.length > 0) {
 				return true;
 			}
 			return false;
 	}finally {
-		jdbc.getDataSource().getConnection().close();
-	}
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 }
 /*		}
 
@@ -108,7 +114,7 @@ public class DesignationDaoImpl implements DesignationDao {
 				inputList.add(obj);
 
 			}
-			int[] batchUpdate = jdbc.batchUpdate(UPDATEDesignation, inputList);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEDesignation, inputList);
 
 			if (batchUpdate.length > 0) {
 				return true;
@@ -180,7 +186,7 @@ public class DesignationDaoImpl implements DesignationDao {
 	@Override
 	public int getAllDesignationCount() throws SQLException {
 			try {
-		return jdbc.queryForObject(DESIGNATIONCOUNTDesignation, Integer.class);
+		return jdbcTemplate.queryForObject(DESIGNATIONCOUNTDesignation, Integer.class);
 	}finally {
 					if (jdbcTemplate != null) {
 						try {
@@ -203,11 +209,11 @@ public class DesignationDaoImpl implements DesignationDao {
 			try {
 		logger.debug("Inside getAllDesignationDetails DAO .***");
 
-		List<Designation> designation = jdbc.query(SELECTDesignation, new BeanPropertyRowMapper<>(Designation.class));
+		List<Designation> designation = jdbcTemplate.query(SELECTDesignation, new BeanPropertyRowMapper<>(Designation.class));
 
 		return designation;
 	}finally {
-		jdbc.getDataSource().getConnection().close();
+		jdbcTemplate.getDataSource().getConnection().close();
 	}
 	}
 	public List<Designation> getById(DesignationRequest designationRequest) throws SQLException {
@@ -215,7 +221,7 @@ public class DesignationDaoImpl implements DesignationDao {
 		List<Designation> designationList = new ArrayList<>();
 		List<Designation> insuranceList = designationRequest.getDesignation();
 		for (Designation designation : insuranceList) {
-			List<Designation> query = jdbc.query(getbyid + designation.getId(),
+			List<Designation> query = jdbcTemplate.query(getbyid + designation.getId(),
 					new BeanPropertyRowMapper<>(Designation.class));
 			designationList.addAll(query);
 		}

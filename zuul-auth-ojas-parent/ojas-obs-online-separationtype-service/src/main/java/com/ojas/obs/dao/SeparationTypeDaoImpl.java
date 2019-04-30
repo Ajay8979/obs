@@ -27,7 +27,7 @@ import com.ojas.obs.request.SeparationTypeRequest;
 public class SeparationTypeDaoImpl implements SeparationTypeDao  {  
 	
 	@Autowired 
-	private JdbcTemplate jdbc;
+	private JdbcTemplate jdbcTemplate;
 	Logger logger = Logger.getLogger(this.getClass());
 	
 	public static final String SAVESeparationTtype = "Insert into obs_separationtype(separationType) values(?)";
@@ -58,7 +58,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 				 * if (n > 0) { return true; } return false;
 				 */
 			}
-			int[] batchUpdate = jdbc.batchUpdate(SAVESeparationTtype, inputList);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(SAVESeparationTtype, inputList);
 			if (batchUpdate.length > 0) { 
 				return true;
 			}
@@ -128,7 +128,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 				inputList.add(obj);
 
 			}
-			int[] batchUpdate = jdbc.batchUpdate(UPDATESeparationTtype, inputList);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATESeparationTtype, inputList);
 
 			if (batchUpdate.length > 0) {
 				return true;
@@ -193,7 +193,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 		try {
 		logger.debug("Inside getAllSeparationTypeDetails DAO .***");
 
-		List<SeparationType> separationType = jdbc.query(SELECTSeparationTtype, new BeanPropertyRowMapper<>(SeparationType.class));
+		List<SeparationType> separationType = jdbcTemplate.query(SELECTSeparationTtype, new BeanPropertyRowMapper<>(SeparationType.class));
 
 		return separationType;
 		}finally {
@@ -219,7 +219,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 		List<SeparationType> separationTypeList = new ArrayList<>();
 		List<SeparationType> insuranceList = separationTypeRequest.getSeparationType();
 		for (SeparationType separationType : insuranceList) {
-			List<SeparationType> query = jdbc.query(Getbyid + separationType.getSeparationTypeId(),
+			List<SeparationType> query = jdbcTemplate.query(Getbyid + separationType.getSeparationTypeId(),
 					new BeanPropertyRowMapper<>(SeparationType.class));
 			separationTypeList.addAll(query);
 		}

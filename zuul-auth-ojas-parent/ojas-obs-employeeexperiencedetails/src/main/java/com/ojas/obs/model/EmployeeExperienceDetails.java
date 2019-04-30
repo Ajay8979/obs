@@ -182,12 +182,7 @@ public class EmployeeExperienceDetails {
 
 	public void setUpdated_date(Timestamp updated_date) {
 		this.updated_date = updated_date;
-	}
-
-	
-	
-
-}
+	}}
 	
 
 	

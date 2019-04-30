@@ -1,6 +1,7 @@
 package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.UrlConstants.GET;
+import static com.ojas.obs.constants.UrlConstants.*;
 import static com.ojas.obs.constants.UrlConstants.SET;
 import static com.ojas.obs.constants.UserConstants.EMPLOYEEEXPERINCEDETAILSOBJECTNULL;
 import static com.ojas.obs.constants.UserConstants.REQUESTOBJECTNULL;
@@ -27,7 +28,7 @@ import com.ojas.obs.facade.ExperienceFacade;
 import com.ojas.obs.model.ErrorResponse;
 import com.ojas.obs.request.ExperienceRequest;
 import com.ojas.obs.response.ExperienceResponse;
-
+//@RequestMapping(EMPLOYEEEXPERIENCEDETAILS)
 @RestController
 public class ExprienceController {
 

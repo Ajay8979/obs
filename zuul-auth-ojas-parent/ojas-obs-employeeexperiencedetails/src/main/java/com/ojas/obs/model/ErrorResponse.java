@@ -57,8 +57,4 @@ public class ErrorResponse {
 		} else if (!statusMessage.equals(other.statusMessage))
 			return false;
 		return true;
-	}
-
-	
-	
-}
+	}}

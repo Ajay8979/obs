@@ -42,14 +42,19 @@ public class ExperienceDaoImpl implements ExperienceDao {
 					employeeExperienceDetails.getFirst_Reference_Contact(),
 					employeeExperienceDetails.getSecond_Reference_Name(),
 					employeeExperienceDetails.getSecond_Reference_Contact(), false,
-					employeeExperienceDetails.getCreated_by()};
+					employeeExperienceDetails.getCreated_by() };
 			inputList.add(params);
 
 		}
-		int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("insert_employee_experience_details"),
-				inputList);
-		if (batchUpdate.length > 0) {
-			return 1;
+		try {
+
+			int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("insert_employee_experience_details"),
+					inputList);
+			if (batchUpdate.length > 0) {
+				return 1;
+			}
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
 
 		return 0;
@@ -59,7 +64,7 @@ public class ExperienceDaoImpl implements ExperienceDao {
 	// -------------------------UPDATE METHOD------------------------------------
 
 	@Override
-	public int updateEmployeeExperienceDetails(ExperienceRequest experienceRequestObject) {
+	public int updateEmployeeExperienceDetails(ExperienceRequest experienceRequestObject) throws SQLException {
 		List<EmployeeExperienceDetails> employeeExperienceDetailsList = experienceRequestObject
 				.getEmployeeExperienceDetails();
 		List<Object[]> inputList = new ArrayList<Object[]>();
@@ -80,17 +85,21 @@ public class ExperienceDaoImpl implements ExperienceDao {
 					employeeExperienceDetails.getUpdated_by(), employeeExperienceDetails.getId() };
 			inputList.add(params);
 		}
+		try {
+			int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("update_employee_experience_details"),
+					inputList);
+			/*
+			 * int[] batchUpdate =
+			 * jdbcTemplate.batchUpdate("update_employee_experience_details", inputList);
+			 */
 
-		int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("update_employee_experience_details"),
-				inputList);
-		/*
-		 * int[] batchUpdate =
-		 * jdbcTemplate.batchUpdate("update_employee_experience_details", inputList);
-		 */
-
-		if (batchUpdate.length > 0) {
-			return 1;
+			if (batchUpdate.length > 0) {
+				return 1;
+			}
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
+
 		return 0;
 	}
 
@@ -107,15 +116,17 @@ public class ExperienceDaoImpl implements ExperienceDao {
 					employeeExperienceDetails.getId() };
 			inputList.add(params);
 		}
-
-		int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("delete_employee_experience_details"),
-				inputList);
+		try {
+			int[] batchUpdate = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("delete_employee_experience_details"),
+					inputList);
 
 //		int[] batchUpdate = jdbcTemplate.batchUpdate("delete_employee_experience_details", inputList);
-		if (batchUpdate.length > 0) {
-			return 1;
+			if (batchUpdate.length > 0) {
+				return 1;
+			}
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-
 		return 0;
 	}
 
@@ -124,32 +135,40 @@ public class ExperienceDaoImpl implements ExperienceDao {
 	@Override
 	public List<EmployeeExperienceDetails> getById(Integer id) throws SQLException {
 		Object[] params = new Object[] { id };
+		try {
+			List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate.query(
+					propsReaderUtil.getValue("getById_employee_experience_details"), params,
+					new ExperienceRowMappers());
 
-		List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate.query(
-				propsReaderUtil.getValue("getById_employee_experience_details"), params, new ExperienceRowMappers());
+			/*
+			 * List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
+			 * .query("getById_employee_experience_details", params, new
+			 * ExperienceRowMappers());
+			 */
 
-		/*
-		 * List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
-		 * .query("getById_employee_experience_details", params, new
-		 * ExperienceRowMappers());
-		 */
-
-		return employeeExperienceDetailsList;
+			return employeeExperienceDetailsList;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
-
 	// -------------------------GETALL METHOD------------------------------------
 
 	@Override
 	public List<EmployeeExperienceDetails> getAll() throws SQLException {
+		try {
+			List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
+					.query(propsReaderUtil.getValue("getAll_employee_experience_details"), new ExperienceRowMappers());
 
-		List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
-				.query(propsReaderUtil.getValue("getAll_employee_experience_details"), new ExperienceRowMappers());
+			/*
+			 * List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
+			 * .query("getAll_employee_experience_details", new ExperienceRowMappers());
+			 */
+			return employeeExperienceDetailsList;
+		}
 
-		/*
-		 * List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
-		 * .query("getAll_employee_experience_details", new ExperienceRowMappers());
-		 */
-		return employeeExperienceDetailsList;
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 }

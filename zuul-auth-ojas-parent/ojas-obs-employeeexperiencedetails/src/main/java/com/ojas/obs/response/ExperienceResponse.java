@@ -54,6 +54,4 @@ public class ExperienceResponse {
 	 * (statusMessage == null) { if (other.statusMessage != null) return false; }
 	 * else if (!statusMessage.equals(other.statusMessage)) return false; return
 	 * true; }
-	 */
-	
-}
+	 */}

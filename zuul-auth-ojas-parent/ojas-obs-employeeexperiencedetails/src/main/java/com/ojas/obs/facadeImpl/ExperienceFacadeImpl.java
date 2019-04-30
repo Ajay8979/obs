@@ -149,6 +149,4 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 			}
 		}
 		return experienceResponse;
-	}
-
-}
+	}}

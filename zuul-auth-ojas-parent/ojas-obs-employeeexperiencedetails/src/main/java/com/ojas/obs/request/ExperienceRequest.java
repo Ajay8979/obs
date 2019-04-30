@@ -60,6 +60,4 @@ public class ExperienceRequest {
 	 * (transactionType == null) { if (other.transactionType != null) return false;
 	 * } else if (!transactionType.equals(other.transactionType)) return false;
 	 * return true; }
-	 */
-	
-}
+	 */}

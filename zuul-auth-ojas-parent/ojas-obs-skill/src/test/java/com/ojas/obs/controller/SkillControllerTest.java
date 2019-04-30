@@ -72,11 +72,11 @@ public class SkillControllerTest {
 		ArrayList<Skill> arrayList = new ArrayList<>();
 		Skill skill = new Skill();
 		skill.setId(1);
-		skill.setSkill_id(123);
+		//skill.setSkill_id(123);
 		skill.setSkill_name("java");
 		Skill skill1 = new Skill();
 		skill1.setId(2);
-		skill1.setSkill_id(124);
+		//skill1.setSkill_id(124);
 		skill1.setSkill_name("c");
 
 		arrayList.add(skill);
@@ -86,7 +86,7 @@ public class SkillControllerTest {
 	
 	//----------nullTransaction---------
 	@Test
-	public void nullTransaction() {
+	public void nullTransaction() throws SQLException {
 		skillRequest.setListOfSkill(this.getSkill());
 		String s=null;
 		skillRequest.setTransactionType(s);
@@ -101,7 +101,7 @@ public class SkillControllerTest {
 	
 	//---------nullRequestTest------------
 	@Test
-	public void nullRequest() {
+	public void nullRequest() throws SQLException {
 		skillRequest=null;
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;

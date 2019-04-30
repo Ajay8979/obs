@@ -34,6 +34,7 @@
 		<module>ojas-obs-resource-type</module>
 		<module>ojas-obs-designation</module> 
 		<module>ojas-obs-online-separationtype-service</module>
+		<module>ojas-obs-skill</module> 
        <!-- <module>ojas-obs-project-details</module>
         <module>ojas-obs-employment-details</module>
 		<module>ojas-obs-bankdetails</module>
@@ -57,7 +58,7 @@
 		<module> ojas-obs-insurance</module>
 	
 		<module>ojas-obs-title</module>
-		<module>ojas-obs-skill</module> 
+		
 		 -->
 		
     </modules>

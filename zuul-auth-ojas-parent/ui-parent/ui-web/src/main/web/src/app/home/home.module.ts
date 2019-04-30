@@ -42,6 +42,7 @@ import { BusinessUnitComponent } from './employee/employeeedit/business-unit/bus
 import { EmployeeTitleComponent } from './employee/employeeedit/employee-title/employee-title.component';
 import { ProjectComponent } from './employee/employeeedit/project/project.component';
 import { DependentComponent } from './employee/employeeedit/dependent/dependent.component';
+import { SkillMasterComponent } from './skill-master/skill-master.component';
 @NgModule({
   declarations: 
   [
@@ -79,7 +80,8 @@ import { DependentComponent } from './employee/employeeedit/dependent/dependent.
     BusinessUnitComponent, 
     EmployeeTitleComponent, 
     ProjectComponent, 
-    DependentComponent
+    DependentComponent, 
+    SkillMasterComponent
   ],
   imports: [
     RouterModule,

@@ -88,6 +88,12 @@ services:
    - auth-center
    ports:
    - "8014:8014"
+  ojas-obs-skill:
+    image : ojas-obs-skill
+    depends_on:
+     - auth-center
+    ports:
+     - "8023:8023"
   ui-server:
      image: ui-server
      ports:

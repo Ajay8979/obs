@@ -36,6 +36,7 @@ import { BusinessUnitComponent } from './employee/employeeedit/business-unit/bus
 import { EmployeeTitleComponent } from './employee/employeeedit/employee-title/employee-title.component';
 import { ProjectComponent } from './employee/employeeedit/project/project.component';
 import { DependentComponent } from './employee/employeeedit/dependent/dependent.component';
+import { SkillMasterComponent } from './skill-master/skill-master.component';
 
 export const HomeRoutes: Routes = [
     {path:'',component:HomeComponent,canActivate:[AuthGuard],
@@ -60,6 +61,7 @@ export const HomeRoutes: Routes = [
     {path:'gpa',component:GpaComponent},
     {path:'role',component:RoleComponent},
     {path:'system',component:SystemComponent},
+    {path:'Empskill',component:SkillMasterComponent},
     {path:'help',component:HelpComponent},
     {path:'employeeedit',component:EmployeeeditComponent,
     children:

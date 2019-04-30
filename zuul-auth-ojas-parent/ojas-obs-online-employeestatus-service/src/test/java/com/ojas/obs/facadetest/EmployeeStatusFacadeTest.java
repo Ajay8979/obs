@@ -1,11 +1,12 @@
 package com.ojas.obs.facadetest;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -43,7 +45,7 @@ public class EmployeeStatusFacadeTest {
 	@Spy
 	EmployeeStatusResponse empstatusResponse;
 	@Spy
-	ErrorResponse errorResponse;
+	ErrorResponse errorResponse = new ErrorResponse();
 
 	@Before
 	public void init() throws Exception {
@@ -60,7 +62,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testSave() {
+	public void testSave() throws SQLException {
 		EmployeeStatusRequest empstatusRequest = new EmployeeStatusRequest();
 		empstatusRequest.setTransactionType("save");
 		when(empStatusDaoImpl.saveEmployeeStatus(empstatusRequest)).thenReturn(true);
@@ -70,7 +72,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testSaveNegative() {
+	public void testSaveNegative() throws SQLException {
 		EmployeeStatusRequest empstatusRequest = new EmployeeStatusRequest();
 		empstatusRequest.setTransactionType("save");
 		when(empStatusDaoImpl.saveEmployeeStatus(empstatusRequest)).thenReturn(false);
@@ -80,7 +82,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testUpdate() {
+	public void testUpdate() throws SQLException {
 		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
 		empstatusReques.setTransactionType("update");
 		when(empStatusDaoImpl.updateEmployeeStatus(empstatusReques)).thenReturn(true);
@@ -90,7 +92,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testUpdateNegative() {
+	public void testUpdateNegative() throws SQLException {
 		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
 		empstatusReques.setTransactionType("update");
 		when(empStatusDaoImpl.updateEmployeeStatus(empstatusReques)).thenReturn(false);
@@ -117,17 +119,39 @@ public class EmployeeStatusFacadeTest {
 	 * }
 	 */
 	@Test
-	public void testSetNullCheck() {
+	public void testSetNullCheck() throws SQLException {
 		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
 		empstatusReques.setTransactionType("");
 		when(empStatusDaoImpl.saveEmployeeStatus(empstatusReques)).thenReturn(false);
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.setEmployeeStatus(empstatusReques);
+		// HttpStatus statusCode = saveStatus.getStatusCode();
+		assertEquals(null, saveStatus);
+	}
+
+	@Test
+	public void testSetCatch() throws SQLException {
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		// empstatusReques.setTransactionType("");
+		when(empStatusDaoImpl.saveEmployeeStatus(empstatusReques)).thenThrow(new RuntimeException());
+		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.setEmployeeStatus(empstatusReques);
+		HttpStatus statusCode = saveStatus.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+	}
+
+	@Test()
+	public void testSetDupCatch() throws SQLException {
+		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
+		empstatusReques.setTransactionType("save");
+		Throwable cause = new Throwable(); 
+		when(empStatusDaoImpl.saveEmployeeStatus(empstatusReques))
+				.thenThrow(new DuplicateKeyException("Duplicate entry", cause));
 		ResponseEntity<Object> saveStatus = empStatusFacadeImpl.setEmployeeStatus(empstatusReques);
 		HttpStatus statusCode = saveStatus.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
 
 	@Test
-	public void testGet() {
+	public void testGet() throws SQLException {
 		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
 		EmployeeStatus status = new EmployeeStatus();
 		status.setId(1);
@@ -141,7 +165,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testGetNegative() {
+	public void testGetNegative() throws SQLException {
 		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
 		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
 		empstatusReques.setTransactionType("getall");
@@ -152,7 +176,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testGetById() {
+	public void testGetById() throws SQLException {
 		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
 		EmployeeStatus status = new EmployeeStatus();
 		status.setId(1);
@@ -171,7 +195,7 @@ public class EmployeeStatusFacadeTest {
 	}
 
 	@Test
-	public void testGetByIdNegative() {
+	public void testGetByIdNegative() throws SQLException {
 		List<EmployeeStatus> employeeStatusList = new ArrayList<EmployeeStatus>();
 		EmployeeStatusRequest empstatusReques = new EmployeeStatusRequest();
 		empstatusReques.setTransactionType("getall");

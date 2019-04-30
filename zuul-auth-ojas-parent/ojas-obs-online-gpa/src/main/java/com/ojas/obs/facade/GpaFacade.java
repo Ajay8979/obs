@@ -78,7 +78,8 @@ public class GpaFacade {
 			logger.debug("inside gpaFacade catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
-			error.setMessage(exception.getMessage());
+			error.setStatusMessage(exception.getCause().getLocalizedMessage()); 
+			//error.setMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		return null;
@@ -93,6 +94,12 @@ public class GpaFacade {
 	public ResponseEntity<Object> getAllGpaDetails(GpaRequest gpaRequest) throws SQLException {
 		GpaResponse gpaResponse = new GpaResponse();
 
+
+
+		try {
+		
+		if (gpaRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
+		
 		logger.debug("inside getAllGpaDetails in gpaFacade.***");
 
 		List<GpaPlan> allGpaDetails = gpaPlanDaoImpl.getAllGpaDetails(gpaRequest);
@@ -107,12 +114,14 @@ public class GpaFacade {
 			gpaResponse.setTotalCount(0);
 			return new ResponseEntity<>(gpaResponse, HttpStatus.CONFLICT);
 		} else {
+			  
 		//	if (gpaRequest.getPageNum() == 0 || gpaRequest.getPageSize() == 0) {
 				int count = gpaPlanDaoImpl.getAllGpaDetailsCount();
+				
 				gpaResponse.setGpa(allGpaDetails);
 				gpaResponse.setStatusMessage("Success");
 				gpaResponse.setTotalCount(count);
-
+				return new ResponseEntity<>(gpaResponse, HttpStatus.OK);
 			} /*else {
 				int count = gpaPlanDaoImpl.getAllGpaDetailsCount();
 				gpaResponse.setGpa(recordsPerPage);
@@ -123,10 +132,38 @@ public class GpaFacade {
 				gpaResponse.setTotalCount(count);
 			}
 
-*/		
+*/		//return new ResponseEntity<>(gpaResponse, HttpStatus.OK);
 
-		return new ResponseEntity<>(gpaResponse, HttpStatus.OK);
+		}
+		if (gpaRequest.getTransactionType().equalsIgnoreCase(GETID)) {
+			
+			logger.debug("inside getByidGpaDetails in gpaFacade.***");
+            // System.out.println("Inside facade"+gpaRequest.getGpaPlan().get(0).getGpaPlanId());
+			List<GpaPlan> allGpaDetails = gpaPlanDaoImpl.getById(gpaRequest.getGpaPlan().get(0).getGpaPlanId());
+			if (allGpaDetails == null || allGpaDetails .isEmpty()) {
+				gpaResponse.setGpa(new ArrayList<>());
+				gpaResponse.setStatusMessage("No records found");
+				gpaResponse.setTotalCount(0);
+				return new ResponseEntity<>(gpaResponse, HttpStatus.CONFLICT);
+			}
+			else {
+				int count = gpaPlanDaoImpl.getAllGpaDetailsCount();
+				gpaResponse.setGpa(allGpaDetails);
+				gpaResponse.setStatusMessage("Success");
+				gpaResponse.setTotalCount(count);
+				return new ResponseEntity<>(gpaResponse, HttpStatus.OK);
+			}
+			//return new ResponseEntity<>(gpaResponse, HttpStatus.OK);
+			
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return null;
+		
+		
 	}
 
-	
 }

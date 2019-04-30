@@ -2,6 +2,7 @@ package com.ojas.obs.controller;
 
 //import static com.ojas.obs.constants.GpaServiceConstants.DELETE;
 import static com.ojas.obs.constants.GpaServiceConstants.GET;
+//import static com.ojas.obs.constants.GpaServiceConstants.GPA;
 import static com.ojas.obs.constants.GpaServiceConstants.SAVE;
 import static com.ojas.obs.constants.GpaServiceConstants.SET;
 import static com.ojas.obs.constants.GpaServiceConstants.UPDATE;
@@ -23,6 +24,7 @@ import com.ojas.obs.model.GpaPlan;
 import com.ojas.obs.request.GpaRequest;
 
 @RestController
+//@RequestMapping(GPA)
 public class GpaController {
 
 	@Autowired

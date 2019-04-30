@@ -347,16 +347,18 @@ public class EmployeeStatusControllerTest {
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
 		employeeStatusRequest.setTransactionType("getbyid");
-		employeeStatusRequest.setEmployeeStatus(getEmpStatusList());
+		List<EmployeeStatus> empList = getEmpStatusList();
+		empList.get(0).setId(null);
+		employeeStatusRequest.setEmployeeStatus(empList);
 		when(employeeStatusFacadeImpl.getEmployeeStatus(employeeStatusRequest)).thenReturn(successResponse);
 		ResponseEntity<Object> saveStatus = statusController.getEmployeeStatus(employeeStatusRequest,
 				httpServletRequest, httpServletResponse);
 		HttpStatus status = saveStatus.getStatusCode();
-		assertEquals(HttpStatus.OK, status);
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, status);
 	}
 	
 	@Test
-	public void testGetEmployeeStatusTypeEmpty() {
+	public void testGetEmployeeStatusTypeEmpty() throws SQLException {
 		HttpServletRequest httpServletRequest = null;
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
@@ -369,7 +371,7 @@ public class EmployeeStatusControllerTest {
 	}
 	
 	@Test
-	public void testGetEmployeeStatusTypeNull() {
+	public void testGetEmployeeStatusTypeNull() throws SQLException {
 		HttpServletRequest httpServletRequest = null;
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();
@@ -382,7 +384,7 @@ public class EmployeeStatusControllerTest {
 	}
 
 	@Test
-	public void testGetEmployeeStatusCatch() {
+	public void testGetEmployeeStatusCatch() throws SQLException {
 		HttpServletRequest httpServletRequest = null;
 		HttpServletResponse httpServletResponse = null;
 		employeeStatusRequest = new EmployeeStatusRequest();

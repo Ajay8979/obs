@@ -1,5 +1,7 @@
 package com.ojas.obs.facade;
 
+import java.sql.SQLException;
+
 import org.springframework.http.ResponseEntity;
 
 import com.ojas.obs.request.EmployeeStatusRequest;
@@ -10,6 +12,6 @@ import com.ojas.obs.request.EmployeeStatusRequest;
  */
 public interface EmployeeStatusFacade {
 	public ResponseEntity<Object> setEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
-	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest);
+	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException;
 
 }

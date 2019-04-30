@@ -1,5 +1,6 @@
 package com.ojas.obs.daoimpl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean saveEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) {
+	public boolean saveEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
 		boolean b = false;
 		int[] save;
 		List<EmployeeStatus> employeeStatusList = employeeStatusRequest.getEmployeeStatus();
@@ -37,15 +38,20 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 			Object[] emp = new Object[] { employeeStatus.getStatus() };
 			list.add(emp);
 		}
-		save = jdbcTemplate.batchUpdate(INSERTEMPLOYEESTATUSSTMT, list);
-		if (save.length > 0) {
-			b = true;
+		try {
+			save = jdbcTemplate.batchUpdate(INSERTEMPLOYEESTATUSSTMT, list);
+			if (save.length > 0) {
+				b = true;
+
+			}
+			return b;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		return b;
 	}
 
 	@Override
-	public boolean updateEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) {
+	public boolean updateEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
 		List<EmployeeStatus> employeeStatusList = employeeStatusRequest.getEmployeeStatus();
 		boolean b = false;
 		int[] update;
@@ -54,12 +60,16 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 			Object[] emp = new Object[] { employeeStatus.getStatus(), employeeStatus.getId() };
 			list.add(emp);
 		}
-		update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
+		try {
+			update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
 
-		if (update.length > 0) {
-			b = true;
+			if (update.length > 0) {
+				b = true;
+			}
+			return b;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		return b;
 	}
 
 	/*
@@ -76,13 +86,21 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 	 */
 
 	@Override
-	public List<EmployeeStatus> getAllStatus() {
+	public List<EmployeeStatus> getAllStatus() throws SQLException {
+		try {
 		return jdbcTemplate.query(GETTOTALSTMT, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 	@Override
-	public List<EmployeeStatus> getById(Integer id) {
+	public List<EmployeeStatus> getById(Integer id) throws SQLException {
 		Object[] param = { id };
+		try {
 		return jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 }

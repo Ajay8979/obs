@@ -21,7 +21,25 @@ services:
    depends_on:
    - auth-center
    ports:
-   - "8087:8087"
+   - "8015:8015"
+  ojas-obs-online-passport :
+    image : ojas-obs-online-passport
+    depends_on:
+    - auth-center
+    ports:
+    - "8012:8012"
+  ojas-obs-online-gpa:
+    image : ojas-obs-online-gpa
+    depends_on:
+    - auth-center
+    ports:
+    - "8018:8018"
+  ojas-obs-online-employeestatus-service :
+    image : ojas-obs-online-employeestatus-service
+    depends_on:
+    - auth-center
+    ports:
+    - "8017:8017"
   ui-server:
      image: ui-server
      ports:

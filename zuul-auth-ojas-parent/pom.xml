@@ -23,6 +23,9 @@
         <module>ui-parent</module>
 		<module>ojas-obs-cost-center</module>
 	    <module>ojas-obs-businessunit</module>
+		<module>ojas-obs-online-gpa</module>
+		<module>ojas-obs-online-passport</module>
+		<module>ojas-obs-online-employeestatus-service</module>
        <!-- <module>ojas-obs-project-details</module>
         <module>ojas-obs-employment-details</module>
 		<module>ojas-obs-bankdetails</module>
@@ -39,10 +42,10 @@
 		<module>ojas-obs-designation</module> 
 	
 		<module>ojas-obs-states</module>
-		<module>ojas-obs-online-passport</module>
+		
 		<module>ojas-obs-educationtype</module>
-		<module>ojas-obs-online-employeestatus-service</module>
-		<module>ojas-obs-online-gpa</module>
+		
+		
 		<module>ojas-obs-online-separationtype-service</module>
 		<module>ojas-obs-rolemanagement</module>
 		<module>ojas-obs-subbusinessunit</module>

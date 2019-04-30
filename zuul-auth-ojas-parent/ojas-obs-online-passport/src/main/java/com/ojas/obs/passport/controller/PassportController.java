@@ -1,6 +1,7 @@
 package com.ojas.obs.passport.controller;
 
 import static com.ojas.obs.passport.utility.Constants.GET;
+
 import static com.ojas.obs.passport.utility.Constants.PASSPOROTBJECTFIELDNULL;
 import static com.ojas.obs.passport.utility.Constants.PASSPOROTBJECTNULL;
 import static com.ojas.obs.passport.utility.Constants.REQUESTOBJECTNULL;
@@ -24,7 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ojas.obs.passport.Request.PassportRequest;

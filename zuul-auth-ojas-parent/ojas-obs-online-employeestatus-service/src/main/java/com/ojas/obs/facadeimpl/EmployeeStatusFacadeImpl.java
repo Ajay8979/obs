@@ -7,6 +7,7 @@ import static com.ojas.obs.constants.UserConstants.UPDATE;
 import static com.ojas.obs.constants.UserConstants.GETALL;
 import static com.ojas.obs.constants.UserConstants.GETBYID;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -93,7 +94,7 @@ public class EmployeeStatusFacadeImpl implements EmployeeStatusFacade {
 
 	}
 
-	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) {
+	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
 		logger.debug("*****inside  getEmployeeStatus method in EmployeeStatusFacade*****");
 		EmployeeStatusResponse statusResponse = new EmployeeStatusResponse();
 		List<EmployeeStatus> allEmpStatus = null;

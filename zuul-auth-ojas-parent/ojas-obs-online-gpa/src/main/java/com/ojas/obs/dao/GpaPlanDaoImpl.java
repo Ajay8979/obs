@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ojas.obs.model.GpaPlan;
 import com.ojas.obs.request.GpaRequest;
+import com.ojas.obs.response.GpaResponse;
+
 import static com.ojas.obs.constants.GpaServiceConstants.*;
 
 @Repository
@@ -33,7 +35,8 @@ public class GpaPlanDaoImpl implements GpaPlanDao {
 
 			for (GpaPlan plan : gpaPlan.getGpaPlan()) {
 				logger.debug("Inside save Gpa..getConnection()");
-				Object[] obj = new Object[] { plan.getGpaPlanType(), plan.getGpaPremium(), plan.getTotalPremium() };
+				Object[] obj = new Object[] { plan.getGpaPlanId(), plan.getGpaPlanType(), plan.getGpaPremium(),
+						plan.getTotalPremium() };
 
 				inputList.add(obj);
 
@@ -46,12 +49,10 @@ public class GpaPlanDaoImpl implements GpaPlanDao {
 				return true;
 			}
 			return false;
+		} finally {
+			jdbcTemplaeObject.getDataSource().getConnection().close();
 		}
 
-		catch (Exception e) {
-			logger.debug("Inside saveGpa..DAO catch block" + e.getMessage());
-		}
-		return false;
 	}
 
 	@Override
@@ -81,20 +82,23 @@ public class GpaPlanDaoImpl implements GpaPlanDao {
 			}
 			return false;
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			jdbcTemplaeObject.getDataSource().getConnection().close();
 		}
-		return false;
+
 	}
 
 	@Override
 	public List<GpaPlan> getAllGpaDetails(GpaRequest gpaRequest) throws SQLException {
+		try {
+			logger.debug("Inside getAllGpaDetails DAO .***");
+			System.out.println("Inside getall");
+			List<GpaPlan> gpa = jdbcTemplaeObject.query(GETGPAPLAN, new BeanPropertyRowMapper<>(GpaPlan.class));
 
-		logger.debug("Inside getAllGpaDetails DAO .***");
-
-		List<GpaPlan> gpa = jdbcTemplaeObject.query(GETGPAPLAN, new BeanPropertyRowMapper<>(GpaPlan.class));
-
-		return gpa;
+			return gpa;
+		} finally {
+			jdbcTemplaeObject.getDataSource().getConnection().close();
+		}
 	}
 
 	// @Override
@@ -135,13 +139,30 @@ public class GpaPlanDaoImpl implements GpaPlanDao {
 			}
 		}
 		return gpaDetails;
+
 	}
 
 	@Override
 	public int getAllGpaDetailsCount() throws SQLException {
+		try {
+			return jdbcTemplaeObject.queryForObject(GETGPACOUNT, Integer.class);
+		} finally {
+			jdbcTemplaeObject.getDataSource().getConnection().close();
+		}
 
-		return jdbcTemplaeObject.queryForObject(GETGPACOUNT, Integer.class);
+	}
 
+	@Override
+	public List<GpaPlan> getById(Integer gpaPlanid) throws SQLException {
+		try {
+			logger.debug("Inside getByIdGpaDetails DAO .***");
+			// Object[] obj = new Object[] { gpaPlanid };
+			List<GpaPlan> gpa = jdbcTemplaeObject.query(GETBYID + gpaPlanid,
+					new BeanPropertyRowMapper<>(GpaPlan.class));
+			return gpa;
+		} finally {
+			jdbcTemplaeObject.getDataSource().getConnection().close();
+		}
 	}
 
 }

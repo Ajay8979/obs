@@ -13,8 +13,16 @@ zuul:
       url: http://192.168.6.186:8013/
     ojas-obs-businessunit :
       path : /obs/businessUnit/**
-      url : http://192.168.6.186:8087/
-   
+      url : http://192.168.6.186:8015/
+    ojas-obs-online-passport:
+      path : /obs/passportService/**
+      url : http://192.168.6.186:8012/
+    ojas-obs-online-gpa:
+     path : /obs/gpa/**
+     url : http://192.168.6.186:8018/
+    ojas-obs-online-employeestatus-service:
+     path : /obs/EmployeeStatus/**
+     url : http://192.168.6.186:8017/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

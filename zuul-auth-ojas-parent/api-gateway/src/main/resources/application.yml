@@ -50,6 +50,9 @@ zuul:
     ojas-obs-skill:
       path : /obs/skill/**
       url : http://192.168.6.186:8023/
+    ojas-obs-bankdetails:
+      path: /obs/BankDetails/**
+      url: http://192.168.6.186:9000/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

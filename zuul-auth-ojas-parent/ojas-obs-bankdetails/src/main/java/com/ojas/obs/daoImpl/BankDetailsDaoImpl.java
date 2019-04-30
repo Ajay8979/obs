@@ -5,6 +5,7 @@ import static com.ojas.obs.constants.UserConstants.DELETEBANKDETAILS;
 import static com.ojas.obs.constants.UserConstants.RECORDSCOUNT;
 import static com.ojas.obs.constants.UserConstants.SAVEBANKDETAILS;
 import static com.ojas.obs.constants.UserConstants.UPDATEBANKDETAILS;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	Logger logger = Logger.getLogger(this.getClass());
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -49,18 +51,28 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 
 		for (BankDetails employeeBankDetails : bankDetails) {
 			employeeBankDetails.setFlag(true);
-			
+
 			Object[] object = { employeeBankDetails.getBank_account_no(), employeeBankDetails.getBank_name(),
 					employeeBankDetails.getBank_city(), employeeBankDetails.getBank_branch(),
 					employeeBankDetails.getBank_ifsc_code(), employeeBankDetails.getBank_account_status(),
 					employeeBankDetails.getEmployee_id(), employeeBankDetails.isIs_active(),
 					employeeBankDetails.getCreated_by(), timestamp, employeeBankDetails.isFlag() };
-			logger.debug("Number of records in Object[] : " +object.length);
+			logger.debug("Number of records in Object[] : " + object.length);
 			list.add(object);
 		}
-		int[] batchsave = jdbcTemplate.batchUpdate(SAVEBANKDETAILS, list);
-		if (batchsave.length > 0) {
-			return true;
+		try {
+			int[] batchsave = jdbcTemplate.batchUpdate(SAVEBANKDETAILS, list);
+			if (batchsave.length > 0) {
+				return true;
+			}
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
 		}
 		return false;
 	}
@@ -86,9 +98,19 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 					employeeBankDetails.isFlag(), employeeBankDetails.getEmployee_id() };
 			list.add(object);
 		}
-		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEBANKDETAILS, list);
-		if (batchUpdate.length > 0) {
-			return true;
+		try {
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEBANKDETAILS, list);
+			if (batchUpdate.length > 0) {
+				return true;
+			}
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
 		}
 		return false;
 	}
@@ -103,11 +125,21 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 		int delete = 0;
 		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
 		boolean flag = false;
-		for (BankDetails employeeBankDetails : bankDetails) {
-			delete = jdbcTemplate.update(DELETEBANKDETAILS, flag, employeeBankDetails.getId());
-		}
-		if (delete > 0) {
-			return true;
+		try {
+			for (BankDetails employeeBankDetails : bankDetails) {
+				delete = jdbcTemplate.update(DELETEBANKDETAILS, flag, employeeBankDetails.getId());
+			}
+			if (delete > 0) {
+				return true;
+			}
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
 		}
 		return false;
 	}
@@ -119,26 +151,32 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	 */
 	@Override
 	public List<BankDetails> getAllBankDetails(BankDetailsRequest bankDetailsRequest) throws SQLException {
-		
+
 		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
-		
+
 		List<BankDetails> list = new ArrayList<BankDetails>();
-		
+		try {
 			List<BankDetails> query = jdbcTemplate.query(ALLRECORDS.toString(),
-						new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+					new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
 			for (BankDetails bankDetails2 : query) {
 				for (BankDetails bankDetails3 : bankDetails) {
-					if(bankDetails2.getId() == bankDetails3.getId()) {
+					if (bankDetails2.getId() == bankDetails3.getId()) {
 						list.add(bankDetails2);
 						return list;
 					}
 				}
 			}
-			return query;
-		
-		
-		 
 
+			return query;
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
+		}
 	}
 
 	/*
@@ -148,8 +186,19 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	 */
 	@Override
 	public int getAllEmployeeBankDetailsCount() {
-		Integer queryForObject = jdbcTemplate.queryForObject(RECORDSCOUNT, Integer.class);
-		return queryForObject;
+		try {
+			return jdbcTemplate.queryForObject(RECORDSCOUNT, Integer.class);
+			 
+		}finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
+		}
+		
 	}
 
 }

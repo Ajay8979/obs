@@ -94,6 +94,12 @@ services:
      - auth-center
     ports:
      - "8023:8023"
+  ojas-obs-bankdetails:
+    image: ojas-obs-bankdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "9000:9000"
   ui-server:
      image: ui-server
      ports:

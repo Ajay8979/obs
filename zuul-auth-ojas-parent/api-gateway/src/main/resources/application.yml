@@ -68,6 +68,9 @@ zuul:
     ojas-obs-employeeexperiencedetails:
       path: /obs/EmployeeExperienceDetails/**
       url: http://192.168.6.186:8092/ 
+    ojas-obs-employeecontactinfo:
+      path: /obs/employeecontactinfo/**
+      url: http://192.168.6.186:8091/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

@@ -129,7 +129,13 @@ services:
      depends_on:
      - auth-center
      ports:
-     - "8092:8092"    
+     - "8092:8092"  
+  ojas-obs-employeecontactinfo:
+    image: ojas-obs-employeecontactinfo
+    depends_on:
+    - auth-center
+    ports:
+    - "8091:8091"     
   ui-server:
      image: ui-server
      ports:

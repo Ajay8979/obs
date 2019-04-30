@@ -3,11 +3,11 @@ package com.ojas.obs.emp_edu.utility;
 public class Constants {
 
 	// =================================query constants===========================
-	public static final String INSERT_STMT = "insert into ojas_obs.employee_education_details (employeeId,qualification,year_of_passing,percentage_marks,institution_name,flag,createdBy,updatedBy,createdDate,updatedDate) values (?,?,?,?,?,?,?,?,now(),now())";
-	public static final String DELETE_STMT = "update ojas_obs.employee_education_details set flag = 0 where id = ?;";
-	public static final String UPDATE_STMT = "update ojas_obs.employee_education_details set employeeId = ?,qualification =?,year_of_passing =? ,percentage_marks= ?,institution_name = ?,flag = ? ,createdBy = ?, updatedBy = ?,createdDate = now(), updatedDate = now() where id = ?";
-	public static final String GETALL_STMT = "select * from ojas_obs.employee_education_details where flag = 1";
-	public static final String GETBYID_STMT = "select * from ojas_obs.employee_education_details where flag = 1 and id = ?;";
+	public static final String INSERT_STMT = "insert into ojas_obs.obs_education_details (employeeId,qualification,year_of_passing,percentage_marks,institution_name,flag,createdBy,updatedBy,createdDate,updatedDate) values (?,?,?,?,?,?,?,?,now(),now())";
+	public static final String DELETE_STMT = "update ojas_obs.obs_education_details set flag = 0 where id = ?;";
+	public static final String UPDATE_STMT = "update ojas_obs.obs_education_details set employeeId = ?,qualification =?,year_of_passing =? ,percentage_marks= ?,institution_name = ?,flag = ? ,createdBy = ?, updatedBy = ?,createdDate = now(), updatedDate = now() where id = ?";
+	public static final String GETALL_STMT = "select * from ojas_obs.obs_education_details where flag = 1";
+	public static final String GETBYID_STMT = "select * from ojas_obs.obs_education_details where flag = 1 and id = ?;";
 	// =================================url constants===========================
 	/*
 	 * public static final String EMP_EDU_DETAILS = "/obs/employeeEducationDetails";

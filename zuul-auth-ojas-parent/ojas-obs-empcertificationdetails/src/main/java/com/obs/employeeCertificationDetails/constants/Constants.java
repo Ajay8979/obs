@@ -18,7 +18,7 @@ public class Constants {
 	public static final String ID_NULL="id is not provided";
 	public static final String REQUEST_DATA_MISSING="some data is missing";
 	//===================================url patterns============================
-	 /*public static final String CERTIFICATION="/obs/certifications";*/  ///service/employeeCertifications/setEmployeeCertifications
+	/*public static final String CERTIFICATION="/obs/certifications";*/  ///service/employeeCertifications/setEmployeeCertifications
 	public static final String SETCERTIFICATION="/setCertificationDetails";
 	public static final String GETCERTIFICATION="/getCertificationDetails";
 	 //=================================query constants===========================

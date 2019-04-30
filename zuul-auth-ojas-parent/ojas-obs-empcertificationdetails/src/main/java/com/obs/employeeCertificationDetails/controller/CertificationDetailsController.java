@@ -11,6 +11,7 @@ import static com.obs.employeeCertificationDetails.constants.Constants.SAVE;
 import static com.obs.employeeCertificationDetails.constants.Constants.SESSIONID_NULL;
 import static com.obs.employeeCertificationDetails.constants.Constants.SETCERTIFICATION;
 import static com.obs.employeeCertificationDetails.constants.Constants.UPDATE;
+//import static com.obs.employeeCertificationDetails.constants.Constants.CERTIFICATION;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.obs.employeeCertificationDetails.error.ErrorResponse;
@@ -29,7 +31,7 @@ import com.obs.employeeCertificationDetails.model.CertificationDetails;
 import com.obs.employeeCertificationDetails.request.CertificationDetailsRequest;
 
 @RestController
-//@RequestMapping(CERTIFICATION)
+
 public class CertificationDetailsController {
 	@Autowired
 	private CertificationDetailsFacade CertificationDetailsFacadeImpl;

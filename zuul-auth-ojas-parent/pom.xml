@@ -39,6 +39,7 @@
 		<module>ojas-obs-employee-education-details</module>
 		<module>ojas-obs-dependentdetails</module> 
 		<module>ojas-obs-employeebu</module>
+		<module>ojas-obs-empcertificationdetails</module>
        <!-- <module>ojas-obs-project-details</module>
         <module>ojas-obs-employment-details</module>
 		<module>ojas-obs-bankdetails</module>
@@ -48,7 +49,7 @@
 		<module>ojas-obs-employee-education-details</module>
 	    
 		
-		<module>ojas-obs-empcertificationdetails</module>
+		
 		<module>ojas-obs-employeecontactinfo</module>
 		<module>ojas-obs-employeeinfo</module>
 		

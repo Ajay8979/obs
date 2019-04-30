@@ -118,6 +118,12 @@ services:
     - auth-center
     ports:
     - "8087:8087"
+  ojas-obs-empcertificationdetails:
+    image: ojas-obs-empcertificationdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8888:8888"  
   ui-server:
      image: ui-server
      ports:

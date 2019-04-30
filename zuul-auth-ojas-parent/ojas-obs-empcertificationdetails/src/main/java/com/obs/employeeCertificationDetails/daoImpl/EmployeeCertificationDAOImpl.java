@@ -32,22 +32,30 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<Object[]> list= new ArrayList<Object[]>();
 		int count=0;
 		boolean flag=true;
-		for(CertificationDetails details :modelList) {
-			Object[] model= new Object[] { details.getCertificationName(), details.getIssuedBy(),details.getDateOfIssue(), details.getEmployeeId(), details.getCreatedBy(),flag};
-		    list.add(model);
+		try {
+			for (CertificationDetails details : modelList) {
+				Object[] model = new Object[] { details.getCertificationName(), details.getIssuedBy(),
+						details.getDateOfIssue(), details.getEmployeeId(), details.getCreatedBy(), flag };
+				list.add(model);
+			}
+			// count =
+			// jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERTCertificationDetails"),list);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT, list);
+			int len = batchUpdate.length;
+			for (int i : batchUpdate) {
+				if (i > 0) {
+					count++;
+				}
+			}
+			if (count == len) {
+				logger.debug("saved successfully through DaoImpl");
+				return true;
+			}
+		} finally {
+			if(jdbcTemplate!=null)
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-       // count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERTCertificationDetails"),list);
-		int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT,list);
-		int len=batchUpdate.length;
-        for (int i : batchUpdate) {
-			if (i > 0) {
-				count++;
-			 }
-		}
-        if(count==len) {
-        	logger.debug("saved successfully through DaoImpl");
-			return true;
-        }
+
 		logger.debug("failed to save through daoImpl Method");
 		return false;
 	}
@@ -57,22 +65,28 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
 		List<Object[]> list= new ArrayList<Object[]>();
 		int count = 0;
-		for(CertificationDetails details :modelList) {
-			Object[] model= new Object[] { details.getCertificationName(), details.getIssuedBy(),details.getDateOfIssue(), details.getCreatedBy(), details.getUpdatedBy(),details.getId()};
-		    list.add(model);
-		}
-        //count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATECertificationDetailsBYID"),list);
-		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEQ,list);
-		int len=batchUpdate.length;
-		 for (int i : batchUpdate) {
-				if (i > 0) {
-					count++;
-				 }
+		try {
+			for(CertificationDetails details :modelList) {
+				Object[] model= new Object[] { details.getCertificationName(), details.getIssuedBy(),details.getDateOfIssue(), details.getCreatedBy(), details.getUpdatedBy(),details.getId()};
+			    list.add(model);
 			}
-	        if(count==len) {
-	        	logger.debug("updated successfully through DaoImpl");
-				return true;
-	        }
+	        //count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATECertificationDetailsBYID"),list);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEQ,list);
+			int len=batchUpdate.length;
+			 for (int i : batchUpdate) {
+					if (i > 0) {
+						count++;
+					 }
+				}
+		        if(count==len) {
+		        	logger.debug("updated successfully through DaoImpl");
+					return true;
+		        }
+		}finally {
+			if(jdbcTemplate!=null)
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
 		logger.debug("failed to update through daoImpl Method");
 		return false;
 	}
@@ -82,33 +96,55 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
 		List<Object[]> list= new ArrayList<Object[]>();
 		int[] count = null;
-		for(CertificationDetails details :modelList) {
-			Object[] model= new Object[] {details.getUpdatedBy(),details.getId()};
-		    list.add(model);
-		}
-		//count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("DELETECertificationDetails"), list);
-		count = jdbcTemplate.batchUpdate(DELETECertificationDetails, list);
-
-		 for (int i : count) {
+		try {
+			for (CertificationDetails details : modelList) {
+				Object[] model = new Object[] { details.getUpdatedBy(), details.getId() };
+				list.add(model);
+			}
+			// count =
+			// jdbcTemplate.batchUpdate(propsReaderUtil.getValue("DELETECertificationDetails"),
+			// list);
+			count = jdbcTemplate.batchUpdate(DELETECertificationDetails, list);
+            for (int i : count) {
 				if (i > 0) {
 					logger.debug("updated successfully through DaoImpl" + i);
 					return true;
-	            }
-		 }
-			logger.debug("failed to update through daoImpl Method");
-			return false;
+				}
+			}
+		} finally {
+			if(jdbcTemplate!=null)
+			 jdbcTemplate.getDataSource().getConnection().close();
+		}
+
+		logger.debug("failed to update through daoImpl Method");
+		return false;
 	}
 
 	@Override
 	public List<CertificationDetails> getAllCertificationDetails() throws SQLException{
 	    //return jdbcTemplate.query(propsReaderUtil.getValue("GETCertificationDetails"),new BeanPropertyRowMapper<CertificationDetails>(CertificationDetails.class));
-		return jdbcTemplate.query(GETCertificationDetails,new BeanPropertyRowMapper<CertificationDetails>(CertificationDetails.class));
+		List<CertificationDetails> list=null;
+		try {
+			list=jdbcTemplate.query(GETCertificationDetails,new BeanPropertyRowMapper<CertificationDetails>(CertificationDetails.class));
+		}finally{
+			if(jdbcTemplate!=null)
+			 jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
+		return list;
 	}
 
 	@Override
-	public int getAllCertificationDetailsCount() {
+	public int getAllCertificationDetailsCount() throws SQLException {
 		//return jdbcTemplate.queryForObject(propsReaderUtil.getValue("GETCertificationDetailsCOUNT"), Integer.class);
-		return jdbcTemplate.queryForObject(GETCertificationDetailsCOUNT, Integer.class);
+		int count=0;
+		try {
+			count=jdbcTemplate.queryForObject(GETCertificationDetailsCOUNT, Integer.class);
+		}finally{
+			if(jdbcTemplate!=null)
+			 jdbcTemplate.getDataSource().getConnection().close();
+		}
+		return count;
 	}
 
 	@Override
@@ -135,13 +171,18 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
 		List<Object[]> list= new ArrayList<Object[]>();
 		Object[] param=null;
-		for(CertificationDetails details :modelList) {
-			param	 = new Object[] { details.getId() };
-			list.add(param);
-
+		List<CertificationDetails> query=null;
+		try {
+			for(CertificationDetails details :modelList) {
+				param	 = new Object[] { details.getId() };
+				list.add(param);
+			}
+		   query = jdbcTemplate.query(GETCertificationDetailById,param,new BeanPropertyRowMapper<>(CertificationDetails.class));
+		}finally {
+			if(jdbcTemplate!=null)
+			 jdbcTemplate.getDataSource().getConnection().close();
 		}
-		List<CertificationDetails> query = jdbcTemplate.query(GETCertificationDetailById,param,
-				new BeanPropertyRowMapper<>(CertificationDetails.class));
+		
 		return query;
 	}
 

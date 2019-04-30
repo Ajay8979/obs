@@ -100,6 +100,18 @@ services:
     - auth-center
     ports:
     - "9000:9000"
+  ojas-obs-employee-education-details:
+    image: ojas-obs-employee-education-details
+    depends_on:
+    - auth-center
+    ports:
+    - "8525:8525"
+  ojas-obs-dependentdetails:
+    image: ojas-obs-dependentdetails
+    depends_on:
+    - auth-center
+    ports:
+    - "8090:8090"
   ui-server:
      image: ui-server
      ports:

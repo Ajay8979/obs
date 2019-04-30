@@ -53,6 +53,12 @@ zuul:
     ojas-obs-bankdetails:
       path: /obs/BankDetails/**
       url: http://192.168.6.186:9000/
+    ojas-obs-employee-education-details:
+      path: /obs/employeeEducationDetails/**
+      url: http://192.168.6.186:8525/
+    ojas-obs-dependentdetails:
+      path: /obs/DependentDetailsService/**
+      url: http://192.168.6.186:8090/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

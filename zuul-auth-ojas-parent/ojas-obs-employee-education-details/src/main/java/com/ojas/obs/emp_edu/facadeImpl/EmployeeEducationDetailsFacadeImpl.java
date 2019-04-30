@@ -1,11 +1,9 @@
 package com.ojas.obs.emp_edu.facadeImpl;
 
 import static com.ojas.obs.emp_edu.utility.Constants.DELETE;
-import static com.ojas.obs.emp_edu.utility.Constants.EXCEPTION;
 import static com.ojas.obs.emp_edu.utility.Constants.GETALL;
 import static com.ojas.obs.emp_edu.utility.Constants.ID_NULL;
 import static com.ojas.obs.emp_edu.utility.Constants.SAVE;
-import static com.ojas.obs.emp_edu.utility.Constants.SQL_EXCEPTION;
 import static com.ojas.obs.emp_edu.utility.Constants.UPDATE;
 import static com.ojas.obs.emp_edu.utility.Constants.VALID_TRANSACTIONTYPE;
 import static com.ojas.obs.emp_edu.utility.Constants.TRANSACTIONTYPE_NULL;
@@ -35,7 +33,6 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 	@Autowired
 	EmployeeEducationDetailsDao employeeEducationDetailsDaoImpl;
 	ResponseEntity<Object> responseEntity = null;
-	private List<EmployeeEducationDetails> idValidation;
 
 // set cluster transaction for EmployeeEducationDetails
 	@Override
@@ -64,64 +61,57 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 
 	// get cluster transaction for EmployeeEducationDetails
 	@Override
-	public ResponseEntity<Object> getEmployeeEducationDetails(
-			EmployeeEducationDetailsRequest emplEduDetailsRequestObj) {
+	public ResponseEntity<Object> getEmployeeEducationDetails(EmployeeEducationDetailsRequest emplEduDetailsRequestObj)
+			throws SQLException {
 		List<EmployeeEducationDetails> employeeEducationDetailsList = null;
 		EmployeeEducationResponse employeeEducationResponse = null;
-		try {
-			if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(GETALL)) {
-				if (emplEduDetailsRequestObj.getEmployeeEducationDetailsList().size() > 0) {
-					idValidation = this.getIdValidation(emplEduDetailsRequestObj);
-					if (idValidation.isEmpty()) {
-						employeeEducationDetailsList = employeeEducationDetailsDaoImpl
-								.getEmployeeEducationDetailsById(emplEduDetailsRequestObj);
-					} else {
-						employeeEducationResponse = new EmployeeEducationResponse();
-						employeeEducationResponse.setEmployeeEducationDetailsList(idValidation);
-						employeeEducationResponse.setStatusCode("422");
-						employeeEducationResponse.setStatusMessage(ID_NULL);
-						return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-					}
+		List<EmployeeEducationDetails> idValidation = null;
+		List<EmployeeEducationDetails> empIdValidation = null;
 
-				} else {
+		if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(GETALL)) {
+			if (null != emplEduDetailsRequestObj.getEmployeeEducationDetailsList()
+					&& emplEduDetailsRequestObj.getEmployeeEducationDetailsList().size() > 0) {
+				idValidation = this.getIdValidation(emplEduDetailsRequestObj);
+				empIdValidation = this.getEmpIdValidation(emplEduDetailsRequestObj);
+
+				if ((null != idValidation && idValidation.isEmpty())
+						|| (null != empIdValidation && empIdValidation.isEmpty())) {
 					employeeEducationDetailsList = employeeEducationDetailsDaoImpl
-							.getEmployeeEducationDetails(emplEduDetailsRequestObj);
-				}
-
-				if (employeeEducationDetailsList.size() > 0) {
-					employeeEducationResponse = new EmployeeEducationResponse();
-					employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
-					employeeEducationResponse.setStatusCode("200");
-					employeeEducationResponse.setStatusMessage(LIST_OBTAINED);
-					return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
+							.getEmployeeEducationDetailsById(emplEduDetailsRequestObj);
 				} else {
 					employeeEducationResponse = new EmployeeEducationResponse();
-					employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
-					employeeEducationResponse.setStatusCode("200");
-					employeeEducationResponse.setStatusMessage("There are no records");
-					return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
+					employeeEducationResponse.setEmployeeEducationDetailsList(idValidation);
+					employeeEducationResponse.setStatusCode("422");
+					employeeEducationResponse.setStatusMessage(ID_NULL);
+					return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 
 			} else {
-				ErrorResponse error = new ErrorResponse();
-				error.setStatuscode("422");
-				error.setStatusMessage(VALID_TRANSACTIONTYPE);
-				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+				employeeEducationDetailsList = employeeEducationDetailsDaoImpl
+						.getEmployeeEducationDetails(emplEduDetailsRequestObj);
 			}
-		} catch (SQLException se) {
+
+			if (employeeEducationDetailsList.size() > 0) {
+				employeeEducationResponse = new EmployeeEducationResponse();
+				employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
+				employeeEducationResponse.setStatusCode("200");
+				employeeEducationResponse.setStatusMessage(LIST_OBTAINED);
+				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
+			} else {
+				employeeEducationResponse = new EmployeeEducationResponse();
+				employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
+				employeeEducationResponse.setStatusCode("200");
+				employeeEducationResponse.setStatusMessage("There are no records");
+				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
+			}
+
+		} else {
 			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode(String.valueOf(se.getErrorCode()));
-			error.setStatusMessage(se.getMessage());
-			error.setMessage(SQL_EXCEPTION);
-			responseEntity = new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
-		} catch (Exception e) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode(String.valueOf(e.getStackTrace()));
-			error.setStatusMessage(e.getMessage());
-			error.setMessage(EXCEPTION);
-			responseEntity = new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
+			error.setStatuscode("422");
+			error.setStatusMessage(VALID_TRANSACTIONTYPE);
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		return responseEntity;
+
 	}
 
 // id validations for update and delete and getbyid
@@ -131,6 +121,18 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 		for (EmployeeEducationDetails employeeEducationDetails : employeeEducationDetailsRequest
 				.getEmployeeEducationDetailsList()) {
 			if (null == employeeEducationDetails.getId()) {
+				employeeEducationDetailslist.add(employeeEducationDetails);
+			}
+		}
+		return employeeEducationDetailslist;
+	}
+
+	public List<EmployeeEducationDetails> getEmpIdValidation(
+			EmployeeEducationDetailsRequest employeeEducationDetailsRequest) {
+		List<EmployeeEducationDetails> employeeEducationDetailslist = new ArrayList<>();
+		for (EmployeeEducationDetails employeeEducationDetails : employeeEducationDetailsRequest
+				.getEmployeeEducationDetailsList()) {
+			if (null == employeeEducationDetails.getEmployeeId()) {
 				employeeEducationDetailslist.add(employeeEducationDetails);
 			}
 		}

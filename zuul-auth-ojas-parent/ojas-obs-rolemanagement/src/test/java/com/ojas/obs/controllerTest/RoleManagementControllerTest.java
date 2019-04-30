@@ -85,12 +85,8 @@ public class RoleManagementControllerTest {
 		RoleManagement roleManagement2 = new RoleManagement();
 		roleManagement2.setId(2);
 		roleManagement2.setRoleName("user");
-		RoleManagement roleManagement3 = new RoleManagement();
-		roleManagement3.setId(3);
-		roleManagement3.setRoleName("user");
 		List<RoleManagement> roleManagementList = new ArrayList<>();
 		roleManagementList.add(roleManagement1);
-		roleManagementList.add(roleManagement2);
 		roleManagementList.add(roleManagement2);
 		roleManagementRequest.setTransactionType("save");
 		roleManagementRequest.setRoleManagement(roleManagementList);
@@ -237,7 +233,20 @@ public class RoleManagementControllerTest {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		roleManagementRequest = new RoleManagementRequest();
-		roleManagementRequest.setTransactionType("get");
+		roleManagementRequest.setTransactionType("getAll");
+		when(roleManagementFacade.getRoleManagement(roleManagementRequest)).thenReturn(sucessResponse);
+		ResponseEntity<Object> saveRole = roleManagementController.getRoleManagement(roleManagementRequest, request,
+				response);
+		HttpStatus statusCode = saveRole.getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+	public void getByIdRolemanagementSuccess() throws SQLException {
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+		roleManagementRequest = new RoleManagementRequest();
+		roleManagementRequest.setTransactionType("getById");
 		when(roleManagementFacade.getRoleManagement(roleManagementRequest)).thenReturn(sucessResponse);
 		ResponseEntity<Object> saveRole = roleManagementController.getRoleManagement(roleManagementRequest, request,
 				response);

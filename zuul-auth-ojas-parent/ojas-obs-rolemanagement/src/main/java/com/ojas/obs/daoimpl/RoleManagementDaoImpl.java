@@ -29,53 +29,75 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public boolean saveRoleManagement(RoleManagementRequest roleManagementRequest) {
-		int[] save;
-		List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
-		List<Object[]> list = new ArrayList<>();
-		for (RoleManagement roleManagementItem : roleManagementList) {
-			Object[] role = new Object[] {roleManagementItem.getRoleName()};
-			list.add(role);
+	public boolean saveRoleManagement(RoleManagementRequest roleManagementRequest) throws SQLException {
+		try {
 
-		}
+			int[] save;
+			List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
+			List<Object[]> list = new ArrayList<>();
+			for (RoleManagement roleManagementItem : roleManagementList) {
+				Object[] role = new Object[] { roleManagementItem.getRoleName() };
+				list.add(role);
+
+			}
 			save = jdbcTemplate.batchUpdate(SAVEROLE, list);
-		if (save.length > 0) {
-			return true;
-		} else {
+			if (save.length > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} finally {
+
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+	}
+
+	@Override
+	public boolean updateRoleManagement(RoleManagementRequest roleManagementRequest) throws SQLException {
+		try {
+
+			int[] update;
+			List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
+			List<Object[]> list = new ArrayList<>();
+
+			for (RoleManagement roleManagementItem : roleManagementList) {
+				Object[] role = new Object[] { roleManagementItem.getRoleName(), roleManagementItem.getId() };
+				list.add(role);
+			}
+			update = jdbcTemplate.batchUpdate(UPDATEROLE, list);
+
+			if (update.length > 0) {
+				return true;
+			}
 			return false;
+		} finally {
+
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
 	}
 
 	@Override
-	public boolean updateRoleManagement(RoleManagementRequest roleManagementRequest) {
-		int[] update;
-		List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
-		List<Object[]> list = new ArrayList<>();
-		
-		for (RoleManagement roleManagementItem : roleManagementList) {
-			Object[] role = new Object[] {roleManagementItem.getRoleName(), roleManagementItem.getId()};
-			list.add(role);
-		}
-		update = jdbcTemplate.batchUpdate(UPDATEROLE, list);
-		
-
-		if (update.length > 0) {
-			return true;
-		}
-		return false;
-	}
-
-
-	@Override
-	public List<RoleManagement> getAllRollManagements() throws SQLException{
+	public List<RoleManagement> getAllRollManagements() throws SQLException {
+		try {
+			
 		return jdbcTemplate.query(GETALLRECORDS, new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
+		}
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 	@Override
 	public List<RoleManagement> getByIdRollManagement(Integer id) throws SQLException {
+		try {
+			
 		Object[] params = new Object[] { id };
-		return jdbcTemplate.query(GETBYIDRECORDS, params, new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
+		return jdbcTemplate.query(GETBYIDRECORDS, params,
+				new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
+		}
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
-
 
 }

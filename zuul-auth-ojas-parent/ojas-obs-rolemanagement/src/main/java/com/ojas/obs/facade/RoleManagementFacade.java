@@ -43,7 +43,7 @@ public class RoleManagementFacade {
 
 	public ResponseEntity<Object> setRoleManagement(RoleManagementRequest roleManagementRequest) {
 
-		logger.debug("inside setRoleManagement method : " + roleManagementRequest);
+		logger.info("inside setRoleManagement method : " + roleManagementRequest);
 		RoleManagementResponse roleManagementResponse = new RoleManagementResponse();
 
 		try {
@@ -78,13 +78,13 @@ public class RoleManagementFacade {
 		}catch (DuplicateKeyException exception) {
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getCause().getLocalizedMessage());
-			logger.debug("data is  invalid");
+			logger.error("data is  invalid. DuplicateKeyException");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		catch (Exception exception) {
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
-			logger.debug("data is  invalid");
+			logger.error("data is  invalid");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(null, HttpStatus.CONFLICT);
@@ -102,7 +102,7 @@ public class RoleManagementFacade {
 
 		
 		RoleManagementResponse roleManagementResponse = new RoleManagementResponse();
-		logger.debug("inside getRoleManagement in RoleManagementFacade.***");
+		logger.info("inside getRoleManagement in RoleManagementFacade.***");
 
 		try {
 			List<RoleManagement> getAllRoleManagements = null;
@@ -123,7 +123,7 @@ public class RoleManagementFacade {
 				return new ResponseEntity<>(roleManagementResponse, HttpStatus.OK);
 			}
 		} catch (Exception exception) {
-			logger.debug("data is  invalid");
+			logger.error("data is  invalid");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);

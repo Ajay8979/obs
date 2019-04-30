@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,7 +29,7 @@ import com.ojas.obs.model.RoleManagement;
 import com.ojas.obs.request.RoleManagementRequest;
 import com.ojas.obs.response.RoleManagementResponse;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class RoleManagementFacadeTest {
 
 	@Mock
@@ -139,12 +140,50 @@ public class RoleManagementFacadeTest {
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
 	
+	@Test
+	public void setRolemanagementEmptyTransaction() throws SQLException {
+		roleManagementRequest = roleManagementRequest();
+		roleManagementRequest.setTransactionType("");
+		when(roleManagementDaoImpl.updateRoleManagement(roleManagementRequest)).thenReturn(false);
+		ResponseEntity<Object> saveRole = roleManagementFacade.setRoleManagement(roleManagementRequest);
+		HttpStatus statusCode = saveRole.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+	}
+	
+	@Test
+	public void setRolemanagementDuplicateKeyException() throws SQLException {
+		roleManagementRequest = roleManagementRequest();
+		Throwable cause = new Throwable();
+		when(roleManagementDaoImpl.saveRoleManagement(roleManagementRequest)).thenThrow(new DuplicateKeyException(null, cause));
+		ResponseEntity<Object> saveRole = roleManagementFacade.setRoleManagement(roleManagementRequest);
+		HttpStatus statusCode = saveRole.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+	}
+	
+	@Test
+	public void setRolemanagementException() throws SQLException {
+		roleManagementRequest = roleManagementRequest();
+		when(roleManagementDaoImpl.saveRoleManagement(roleManagementRequest)).thenThrow(new RuntimeException());
+		ResponseEntity<Object> saveRole = roleManagementFacade.setRoleManagement(roleManagementRequest);
+		HttpStatus statusCode = saveRole.getStatusCode();
+		assertEquals(HttpStatus.CONFLICT, statusCode);
+	}
 	
 	@Test
 	public void getRolemanagementSuccess() throws SQLException {
 		roleManagementRequest = roleManagementRequest();
-		roleManagementRequest.setTransactionType("get");
+		roleManagementRequest.setTransactionType("getAll");
 		when(roleManagementDaoImpl.getAllRollManagements()).thenReturn(roleManagementList);
+		ResponseEntity<Object> saveRole = roleManagementFacade.getRoleManagement(roleManagementRequest);
+		HttpStatus statusCode = saveRole.getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+	public void getByIdRolemanagementSuccess() throws SQLException {
+		roleManagementRequest = roleManagementRequest();
+		roleManagementRequest.setTransactionType("getById");
+		when(roleManagementDaoImpl.getByIdRollManagement(1)).thenReturn(roleManagementList);
 		ResponseEntity<Object> saveRole = roleManagementFacade.getRoleManagement(roleManagementRequest);
 		HttpStatus statusCode = saveRole.getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
@@ -153,7 +192,7 @@ public class RoleManagementFacadeTest {
 	@Test
 	public void getRolemanagementNullList() throws SQLException {
 		roleManagementRequest = roleManagementRequest();
-		roleManagementRequest.setTransactionType("get");
+		roleManagementRequest.setTransactionType("getAll");
 		when(roleManagementDaoImpl.getAllRollManagements()).thenReturn(null);
 		ResponseEntity<Object> saveRole = roleManagementFacade.getRoleManagement(roleManagementRequest);
 		HttpStatus statusCode = saveRole.getStatusCode();
@@ -163,7 +202,7 @@ public class RoleManagementFacadeTest {
 	@Test
 	public void getRolemanagementEmptyList() throws SQLException {
 		roleManagementRequest = roleManagementRequest();
-		roleManagementRequest.setTransactionType("get");
+		roleManagementRequest.setTransactionType("getAll");
 		when(roleManagementDaoImpl.getAllRollManagements()).thenReturn(Collections.emptyList());
 		ResponseEntity<Object> saveRole = roleManagementFacade.getRoleManagement(roleManagementRequest);
 		HttpStatus statusCode = saveRole.getStatusCode();

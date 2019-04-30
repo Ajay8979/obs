@@ -51,13 +51,20 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 				try {
 					Object[] inputArgs = { resourceType.getResourceTypeName() };
 					int save = jdbcTemplate.update(queryUtil.getQuery("INSERT_RESOURCE_TYPES_STMT"), inputArgs);
-					if(save >= 1) {
+					if (save >= 1) {
 						return true;
 					}
 				} catch (DataAccessException e) {
 					LOGGER.debug("Resource Types are not saved ");
-					throw new DataNotInsertedException(
-							"failed to save resource type with id " + resourceType.getId());
+					throw new DataNotInsertedException("failed to save resource type with id " + resourceType.getId());
+				} finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
 				}
 			}
 		}
@@ -82,18 +89,24 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 				try {
 					Object[] inputArgs = { resourceType.getResourceTypeName(), resourceType.getId() };
 					int update = jdbcTemplate.update(queryUtil.getQuery("UPDATE_RESOURCE_TYPES_STMT"), inputArgs);
-					if(update > 0) {
+					if (update > 0) {
 						return true;
 					}
 				} catch (DataAccessException e) {
 					LOGGER.debug("Resource Types  records not get updated ");
-					throw new DataNotInsertedException(
-							"failed to update record with id " + resourceType.getId());
+					throw new DataNotInsertedException("failed to update record with id " + resourceType.getId());
+				} finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
 				}
 			} else {
 				LOGGER.debug("Resource Types  records not get updated ");
-				throw new DataNotInsertedException(
-						"Resource Type not found  with  id " + resourceType.getId());
+				throw new DataNotInsertedException("Resource Type not found  with  id " + resourceType.getId());
 			}
 		}
 
@@ -102,12 +115,22 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 	}
 
 	private boolean isResourceTypeExits(Integer id) {
-		int count = jdbcTemplate.queryForObject("select count(*) from obs_resourcetype where resourcetype_id=?", Integer.class,
-				id);
-		if (count == 0) {
-			return false;
-		} else {
-			return true;
+		try {
+			int count = jdbcTemplate.queryForObject("select count(*) from obs_resourcetype where resourcetype_id=?",
+					Integer.class, id);
+			if (count == 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
 		}
 	}
 
@@ -127,15 +150,21 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 					Object[] inputArgs = { resourceType.getId() };
 					jdbcTemplate.update(queryUtil.getQuery("DELETE_RESOURCE_TYPES_STMT"), inputArgs);
 				} catch (DataAccessException e) {
-					LOGGER.debug("Resource Type with id "
-							+ resourceType.getId() + " is not found");
-					throw new DataNotInsertedException(
-							"failed to update record with id " + resourceType.getId());
+					LOGGER.debug("Resource Type with id " + resourceType.getId() + " is not found");
+					throw new DataNotInsertedException("failed to update record with id " + resourceType.getId());
+				} finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
 				}
 			} else {
 				LOGGER.debug("All requested Employee  records not get deleted ");
-				throw new DataNotInsertedException("Employee details not found for employee with employee id "
-						+  resourceType.getId());
+				throw new DataNotInsertedException(
+						"Employee details not found for employee with employee id " + resourceType.getId());
 			}
 		}
 
@@ -150,21 +179,39 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 	public List<ResourceType> getAllResourceTypes() {
 
 		RowMapper<ResourceType> rowMapper = new ResourceTypeRowMapper();
-		List<ResourceType> employmentDetailsList = jdbcTemplate.query(queryUtil.getQuery("GET_RESOURCE_TYPES_STMT"),
-				rowMapper);
-		LOGGER.debug("Employee  details list " + employmentDetailsList);
-		return employmentDetailsList;
+		try {
+			List<ResourceType> employmentDetailsList = jdbcTemplate.query(queryUtil.getQuery("GET_RESOURCE_TYPES_STMT"),
+					rowMapper);
+			LOGGER.debug("Employee  details list " + employmentDetailsList);
+			return employmentDetailsList;
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
+		}
 	}
 
 	@Override
 	public List<ResourceType> getResourceTypeById(Integer id) {
 
 		RowMapper<ResourceType> rowMapper = new ResourceTypeRowMapper();
-		List<ResourceType> employmentDetailsList = jdbcTemplate
-				.query(queryUtil.getQuery("GET_RESOURCE_TYPES_BY_ID_STMT"), new Object[] { id }, rowMapper);
-		LOGGER.debug("Employee  details list " + employmentDetailsList);
-		return employmentDetailsList;
-
+		try {
+			List<ResourceType> employmentDetailsList = jdbcTemplate
+					.query(queryUtil.getQuery("GET_RESOURCE_TYPES_BY_ID_STMT"), new Object[] { id }, rowMapper);
+			LOGGER.debug("Employee  details list " + employmentDetailsList);
+			return employmentDetailsList;
+		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception exception) {
+					exception.getMessage();
+				}
+			}
+		}
 	}
-
 }

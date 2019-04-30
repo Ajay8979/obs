@@ -1,7 +1,7 @@
 package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.RoleServiceConstants.GET;
-import static com.ojas.obs.constants.RoleServiceConstants.ROLEMANAGEMENT;
+//import static com.ojas.obs.constants.RoleServiceConstants.ROLEMANAGEMENT;
 import static com.ojas.obs.constants.RoleServiceConstants.SET;
 import static com.ojas.obs.constants.RoleServiceConstants.UPDATE;
 import static com.ojas.obs.constants.RoleServiceConstants.GETALL;
@@ -32,7 +32,7 @@ import com.ojas.obs.request.RoleManagementRequest;
  *
  */
 @RestController
-@RequestMapping(ROLEMANAGEMENT)
+//@RequestMapping(ROLEMANAGEMENT)
 public class RoleManagementController {
 
 	@Autowired
@@ -50,7 +50,7 @@ public class RoleManagementController {
 	public ResponseEntity<Object> setRoleManagement(@RequestBody RoleManagementRequest roleManagementRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
 
-		logger.debug("roleRequest request " + roleManagementRequest);
+		logger.info("roleRequest request " + roleManagementRequest);
 		try {
 
 			List<RoleManagement> roleManagement = roleManagementRequest.getRoleManagement();
@@ -87,7 +87,7 @@ public class RoleManagementController {
 			return roleManagementFacade.setRoleManagement(roleManagementRequest);
 
 		} catch (Exception exception) {
-			logger.debug("inside catch block.*******");
+			logger.error("inside catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");
@@ -122,7 +122,7 @@ public class RoleManagementController {
 
 		} catch (Exception exception) {
 
-			logger.debug("inside catch block.*******");
+			logger.error("inside catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");

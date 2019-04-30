@@ -2,7 +2,7 @@ package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.SubBusinessUnitConstants.GET;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SET;
-import static com.ojas.obs.constants.SubBusinessUnitConstants.SUBBUSINESSUNIT;
+//import static com.ojas.obs.constants.SubBusinessUnitConstants.SUBBUSINESSUNIT;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.UPDATE;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.GETALL;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.GETBYID;
@@ -29,7 +29,7 @@ import com.ojas.obs.request.SubBusinessUnitRequest;
  * @author asuneel
  *
  */
-@RequestMapping(SUBBUSINESSUNIT)
+//@RequestMapping(SUBBUSINESSUNIT)
 @Controller
 public class SubBusinessUnitController {
 
@@ -48,7 +48,7 @@ public class SubBusinessUnitController {
 	public ResponseEntity<Object> setSubBusinessUnit(@RequestBody SubBusinessUnitRequest subBusinessUnitRequest,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws SQLException {
 
-		logger.debug("incoming requests " + subBusinessUnitRequest);
+		logger.info("incoming requests " + subBusinessUnitRequest);
 
 		try {
 			List<SubBusinessUnit> subBusinessUnitList = subBusinessUnitRequest.getSubBusinessUnitModel();
@@ -89,7 +89,7 @@ public class SubBusinessUnitController {
 			return subBusinessUnitFacade.setSubBusinessUnit(subBusinessUnitRequest);
 
 		} catch (Exception exception) {
-			logger.debug("inside catch block.*******");
+			logger.error("inside catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");
@@ -124,7 +124,7 @@ public class SubBusinessUnitController {
 
 		} catch (Exception exception) {
 
-			logger.debug("inside getSubBusinessUnit catch block in controller.*******");
+			logger.error("inside getSubBusinessUnit catch block in controller.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");

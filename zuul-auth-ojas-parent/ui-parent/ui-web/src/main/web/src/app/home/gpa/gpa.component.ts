@@ -149,11 +149,11 @@ export class GpaComponent implements OnInit {
     // }
     setGpa(){
       var data = {
-        "gpaPlan":{
+        "gpaPlan":[{
                 "gpaPlanType":this.gpaPlanType,
                 "gpaPremium":this.gpaPremium,
                 "totalPremium":this.totalPremium
-        },
+        }],
         "sessionId":1221,
                 "transactionType":"save"
 }
@@ -169,8 +169,8 @@ this.hrms.setGpaData(data).subscribe(res=>{
     }
     getGpa(){
       var request = {
-        "gpaPlan":{
-        },
+        "gpaPlan":[{
+        }],
         "sessionId":1221,
         "pageSize":8,
         "pageNum" :1
@@ -183,14 +183,14 @@ this.hrms.setGpaData(data).subscribe(res=>{
     }
     saveUpdatedValues(gpalist){
       var request ={
-        "gpaPlan":{
+        "gpaPlan":[{
                 "gpaPlanId":gpalist.gpaPlanId,
                 "gpaPlanType":gpalist.gpaPlanType,
                 "gpaPremium":gpalist.gpaPremium,
                 "totalPremium":gpalist.totalPremium
 
                 
-        },
+        }],
         "sessionId":1221,
                 "transactionType":"update"
 }
@@ -205,9 +205,9 @@ this.hrms.updateGpaData(request).subscribe(res =>{
     }
     deleteGpa(gpalist){
       var request ={
-        "gpaPlan":{
+        "gpaPlan":[{
                 "gpaPlanId":gpalist.gpaPlanId
-        },
+        }],
         "sessionId":1221,
                 "transactionType":"delete"
 }

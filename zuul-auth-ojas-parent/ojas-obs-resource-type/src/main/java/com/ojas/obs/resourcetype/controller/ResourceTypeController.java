@@ -3,7 +3,6 @@ package com.ojas.obs.resourcetype.controller;
 
 import static com.ojas.obs.resourcetype.constant.ResourceTypesConstants.GET;
 import static com.ojas.obs.resourcetype.constant.ResourceTypesConstants.SET;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ojas.obs.resourcetype.exception.DataNotInsertedException;
 import com.ojas.obs.resourcetype.exception.EmploymentDetailsException;
 import com.ojas.obs.resourcetype.facade.ResourceTypeFacade;
@@ -24,7 +21,7 @@ import com.ojas.obs.resourcetype.model.ResourceTypeResponse;
  * resource class inserts,updates,deletes and retrieves data into/from
  * employment_details table
  * 
- * @author vjithin
+ * @author akrishna
  *
  */
 @RestController

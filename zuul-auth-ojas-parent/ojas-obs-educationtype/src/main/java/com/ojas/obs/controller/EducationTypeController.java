@@ -1,22 +1,23 @@
 package com.ojas.obs.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ojas.obs.constants.UserConstants;
 import com.ojas.obs.error.ErrorResponse;
 import com.ojas.obs.facade.EmployeeEducationFacade;
+import com.ojas.obs.model.EmployeeEducation;
 import com.ojas.obs.modelrequest.EmployeeEducationRequest;
 
 /**
@@ -25,7 +26,6 @@ import com.ojas.obs.modelrequest.EmployeeEducationRequest;
  *
  */
 @RestController
-//@RequestMapping("/obseducationdetails")
 public class EducationTypeController {
 
 	@Autowired
@@ -43,56 +43,49 @@ public class EducationTypeController {
 	public ResponseEntity<Object> setEmployeeEductaionInfo(
 			@RequestBody EmployeeEducationRequest employeeEducationRequestObject, HttpServletRequest httpServletRequest,
 			HttpServletResponse servletresponse) {
-		ResponseEntity<Object> responseEntity = null;
-		if(null == employeeEducationRequestObject) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage("please  check Request objecct");
-			error.setStatusCode("422");
-			error.setStatusMessage("Request objecct is null");
-			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-		if(null == employeeEducationRequestObject.getTransactionType()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage("please  check Request transactiontype");
-			error.setStatusCode("422");
-			error.setStatusMessage("Transaction type is null");
-			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY); 
-		}
-		if(null == employeeEducationRequestObject.getListEmployeeEducations()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage("please  check Request objecct");
-			error.setStatusCode("422");
-			error.setStatusMessage("List  objecct is null");
-			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY); 
-		}
-		
-		boolean  b =  ( employeeEducationRequestObject.getTransactionType().equalsIgnoreCase("save")|| employeeEducationRequestObject.getTransactionType().equalsIgnoreCase("update") || employeeEducationRequestObject.getTransactionType().equalsIgnoreCase("delete"));
-		
-		if ( !(b || employeeEducationRequestObject.getTransactionType().equalsIgnoreCase("create")) ) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage("please  check Request Transaction Type");
-			error.setStatusCode("422");
-			error.setStatusMessage("Transaction Typeis null");
-			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY); 
-		}
+
 		try {
-			 responseEntity = employeeEducationFacade.setEmployeeEducationInfo(employeeEducationRequestObject);
-		}catch(DuplicateKeyException dke) {
+			List<EmployeeEducation> listEmployeeEducations = employeeEducationRequestObject.getListEmployeeEducations();
+			if (null == listEmployeeEducations || listEmployeeEducations.isEmpty()) {
+
+				ErrorResponse error = new ErrorResponse();
+				logger.debug("logger is not valid");
+				error.setMessage("Request is not valid");
+				error.setStatusCode("422");
+				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
+
+			for (EmployeeEducation employeeEducation : listEmployeeEducations) {
+
+				if (!employeeEducationRequestObject.getTransactionType().equalsIgnoreCase(UserConstants.DELETE)) {
+					if (((null == employeeEducation.getEducationType()
+							|| employeeEducation.getEducationType().isEmpty()))) {
+						ErrorResponse error = new ErrorResponse();
+						logger.debug("this employeeEducation contains null values");
+						error.setMessage("Request is  invalid");
+						error.setStatusCode("422");
+						return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+					}
+				}
+				if ((employeeEducationRequestObject.getTransactionType().equalsIgnoreCase(UserConstants.UPDATE)
+						|| employeeEducationRequestObject.getTransactionType().equalsIgnoreCase(UserConstants.DELETE))
+						&& (employeeEducation.getId() == null)) {
+					logger.debug("request object id is null");
+					ErrorResponse error = new ErrorResponse();
+					error.setMessage("Request is Invalid");
+					error.setStatusCode("422");
+					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+				}
+			}
+			return employeeEducationFacade.setEmployeeEducationInfo(employeeEducationRequestObject);
+
+		} catch (Exception exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage("duplicates are not alowed");
-			error.setStatusCode("422");
-			error.setStatusMessage(dke.getMessage());
-			responseEntity = new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
-		}catch (Exception e) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatusCode("409");
-			error.setStatusMessage(e.getCause().getMessage());
-			responseEntity = new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
-		
+			error.setMessage(exception.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		
-		return responseEntity;
-		}
+
+	}
 
 	/**
 	 * 
@@ -106,7 +99,6 @@ public class EducationTypeController {
 	public ResponseEntity<Object> getEductionDetails(@RequestBody EmployeeEducationRequest employeeEducationRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
 
-		ResponseEntity<Object> responseEntity = null;
 		String sessionId = null;
 		try {
 			logger.debug("requestObject received = " + employeeEducationRequest);
@@ -131,5 +123,4 @@ public class EducationTypeController {
 			error.setStatusMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-	}
-}
+	}}

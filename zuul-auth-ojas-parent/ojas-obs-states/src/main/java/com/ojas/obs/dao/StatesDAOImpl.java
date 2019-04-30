@@ -33,29 +33,41 @@ public class StatesDAOImpl implements StatesDao {
 		List<States> states = statesRequestObj.getStates();
 		List<Object[]> list = new ArrayList<Object[]>();
 		int count=0;
-		for (States states1 : states) {
-			Object[] params = new Object[] { states1.getStateName() };
-			list.add(params);
-		}
-		//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_STATES"), list);
-		int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_STATES, list);
-		int len=batchUpdate.length;
-		for (int i : batchUpdate) {
-			if (i > 0) {
-				count++;
+		try {
+			for (States states1 : states) {
+				Object[] params = new Object[] { states1.getStateName() };
+				list.add(params);
 			}
+			//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_STATES"), list);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_STATES, list);
+			int len=batchUpdate.length;
+			for (int i : batchUpdate) {
+				if (i > 0) {
+					count++;
+				}
+			}
+			if (len == count) {
+				logger.debug("saved successfully through DaoImpl");
+				return true;
+			}
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		if (len == count) {
-			logger.debug("saved successfully through DaoImpl");
-			return true;
-		}
+		
 		logger.debug("failed to save through daoImpl Method");
 		return false;
 	}
 
 	@Override
 	public int getAllStatesCount() throws SQLException {
-		return jdbcTemplate.queryForObject(STATESCOUNT,Integer.class);
+		int count=0;
+		try {
+			count=jdbcTemplate.queryForObject(STATESCOUNT,Integer.class);
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
+		return count;
 	}
 
 	@Override
@@ -64,22 +76,28 @@ public class StatesDAOImpl implements StatesDao {
 		List<States> states1=statesRequestObj.getStates();
 		List<Object[]> list=new ArrayList<Object[]>();
 		int count=0;
-		for(States states:states1) {
-			Object[] params=new Object[] {states.getStateName(),states.getId()};
-			list.add(params);
-		}
-		//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_STATES"),list );
-		int[] batchUpdate=jdbcTemplate.batchUpdate(UPDATE_STATES,list );
-		int len=batchUpdate.length;
-		for (int i : batchUpdate) {
-			if (i > 0) {
-				count++;
+		try {
+			for(States states:states1) {
+				Object[] params=new Object[] {states.getStateName(),states.getId()};
+				list.add(params);
 			}
+			//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_STATES"),list );
+			int[] batchUpdate=jdbcTemplate.batchUpdate(UPDATE_STATES,list );
+			int len=batchUpdate.length;
+			for (int i : batchUpdate) {
+				if (i > 0) {
+					count++;
+				}
+			}
+			if (len == count) {
+				logger.debug("updated successfully through DaoImpl");
+				return true;
+			}
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+
 		}
-		if (len == count) {
-			logger.debug("updated successfully through DaoImpl");
-			return true;
-		}
+		
 			logger.debug("failed to save through daoImpl Method");
 			return false;
 	}
@@ -103,7 +121,14 @@ public class StatesDAOImpl implements StatesDao {
 	public List<States> getAll(StatesRequest statesRequestObj) throws SQLException {
 		logger.debug("Inside getAllstates..DAO *****");
         //return jdbcTemplate.query(propsReaderUtil.getValue("SELECT_STATES"), new BeanPropertyRowMapper<States>(States.class));
-		return jdbcTemplate.query(SELECT_STATES, new BeanPropertyRowMapper<States>(States.class));
+		 List<States> list=null;
+		 try { 
+			 list=jdbcTemplate.query(SELECT_STATES, new BeanPropertyRowMapper<States>(States.class));
+			 }finally {
+				 jdbcTemplate.getDataSource().getConnection().close(); 
+			 }
+		
+		return list;
 	}
       
 	@Override
@@ -127,13 +152,20 @@ public class StatesDAOImpl implements StatesDao {
 	public List<States>getStateById(StatesRequest statesRequestObj) throws SQLException {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		Object[] stateId=null;
-		List<States> statesList=statesRequestObj.getStates();
-		for(States state:statesList) {
-		   stateId=new Object[] {state.getId()};
-			inputList.add(stateId);
+		List<States> list=null;
+		try {
+			List<States> statesList=statesRequestObj.getStates();
+			for(States state:statesList) {
+			   stateId=new Object[] {state.getId()};
+				inputList.add(stateId);
+			}
+			list=jdbcTemplate.query(SELECT_STATES_BY_ID,stateId, new
+					BeanPropertyRowMapper<>(States.class));
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		return jdbcTemplate.query(SELECT_STATES_BY_ID,stateId, new
-				BeanPropertyRowMapper<>(States.class));
+		
+		return list; 
 	
 	}
 

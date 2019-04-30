@@ -39,16 +39,16 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 	@Override
 	public ResponseEntity<Object> setSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
 
-		logger.debug("inside saveSubBusinessUnit method : " + subBusinessUnitRequest);
+		logger.info("inside saveSubBusinessUnit method : " + subBusinessUnitRequest);
 		SubBusinessUnitResponse subBusinessUnitResponse = null;
 		try {
 
 			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				subBusinessUnitResponse = new SubBusinessUnitResponse();
 				boolean saveSubBusinessUnit = subBusinessDAO.saveSubBusinessUnit(subBusinessUnitRequest);
-				logger.debug("inside  save condition.****** : " + saveSubBusinessUnit);
+				logger.info("inside  save condition.****** : " + saveSubBusinessUnit);
 				if (saveSubBusinessUnit) {
-					subBusinessUnitResponse.setMessage("Success fully record added");
+					subBusinessUnitResponse.setMessage("Successfully record added");
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
@@ -61,9 +61,9 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				subBusinessUnitResponse = new SubBusinessUnitResponse();
 				boolean updateSubBusinessUnit = subBusinessDAO.updateSubBusinessUnit(subBusinessUnitRequest);
-				logger.debug("inside  update condition.****** : " + updateSubBusinessUnit);
+				logger.info("inside  update condition.****** : " + updateSubBusinessUnit);
 				if (updateSubBusinessUnit) {
-					subBusinessUnitResponse.setMessage("Success fully record updated");
+					subBusinessUnitResponse.setMessage("Successfully record updated");
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
@@ -76,19 +76,19 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(FAILED);
 			error.setStatusCode("409");
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			
 		}catch (DuplicateKeyException exception) {
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getCause().getLocalizedMessage());
-			logger.debug("data is  invalid");
+			logger.error("DuplicateKeyException");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		
 		catch (Exception exception) {
-			logger.debug("inside SubBusinessUnitFacade catch block.****");
+			logger.error("inside SubBusinessUnitFacade catch block.****");
 			ErrorResponse error = new ErrorResponse();
-			logger.debug("data is  invalid");
+			logger.error("data is  invalid");
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
@@ -100,7 +100,7 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 	public ResponseEntity<Object> getSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
 
 		SubBusinessUnitResponse subBusinessUnitResponse = new SubBusinessUnitResponse();
-		logger.debug("inside getSubBusinessUnit in SubBusinessUnitFacade.***");
+		logger.info("inside getSubBusinessUnit in SubBusinessUnitFacade.***");
 
 		try {
 			List<SubBusinessUnit> allSubBusinessUnitDetails = null;
@@ -122,7 +122,7 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			}
 
 		} catch (Exception exception) {
-			logger.debug("inside getSubBusinessUnit catch block in SubBusinessUnitFacade.***");
+			logger.error("inside getSubBusinessUnit catch block in SubBusinessUnitFacade.***");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");

@@ -27,52 +27,64 @@ public class GenderDAOImpl implements GenderDAO {
      
 	/**
 	 * method to save the record from database
+	 * @throws SQLException 
 	 */
 	@Override
-	public boolean saveGender(GenderRequest genderRequest) {
+	public boolean saveGender(GenderRequest genderRequest) throws SQLException {
 		int count = 0;
 		List<Genders> genders=genderRequest.getGender();
 		List<Object[]> list= new ArrayList<Object[]>();
-	    for(Genders gender:genders) {
-		Object[] model=new Object[]{gender.getGender()};
-		list.add(model);
-	    }
-		//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_GENDER"), list);
-	    int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_GENDER, list);
-	    int noOfrecAdded=batchUpdate.length;
-		for (int i : batchUpdate) {
-			if (i > 0) 
-			 count ++;
+		try {
+			 for(Genders gender:genders) {
+					Object[] model=new Object[]{gender.getGender()};
+					list.add(model);
+				    }
+					//int[] count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERT_GENDER"), list);
+				    int[] batchUpdate = jdbcTemplate.batchUpdate(INSERT_GENDER, list);
+				    int noOfrecAdded=batchUpdate.length;
+					for (int i : batchUpdate) {
+						if (i > 0) 
+						 count ++;
+					}
+					if(count==noOfrecAdded)
+						return true;
+					
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		if(count==noOfrecAdded)
-			return true;
-		
+	   
 		logger.debug("failed to save through daoImpl Method");
 		return false;
 	}
     
 	/**
 	 * method to update the record from database
+	 * @throws SQLException 
 	 */
 	@Override
-	public boolean updateGender(GenderRequest genderRequest) {
+	public boolean updateGender(GenderRequest genderRequest) throws SQLException {
 		List<Genders> genders = genderRequest.getGender();
 		List<Object[]> list = new ArrayList<Object[]>();
 		int count=0;
-		for (Genders gender : genders) {
-			Object[] model = new Object[] { gender.getGender() ,gender.getId() };
-			list.add(model);
+		try {
+			for (Genders gender : genders) {
+				Object[] model = new Object[] { gender.getGender() ,gender.getId() };
+				list.add(model);
+			}
+			//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_GENDER"), list);
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATE_GENDER, list);
+			int len=batchUpdate.length;
+			for (int i : batchUpdate) {
+				if (i > 0) 
+				 count ++;
+			}
+			if(count==len) {
+				return true;
+			}
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		//int[] count = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATE_GENDER"), list);
-		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATE_GENDER, list);
-		int len=batchUpdate.length;
-		for (int i : batchUpdate) {
-			if (i > 0) 
-			 count ++;
-		}
-		if(count==len) {
-			return true;
-		}
+		
 		logger.debug("failed to updated through daoImpl Method");
 		return false;
 	}
@@ -95,19 +107,33 @@ public class GenderDAOImpl implements GenderDAO {
 	 
     /**
      * method will get count of all record from database
+     * @throws SQLException 
      */
 	@Override
-	public int getAllCount(GenderRequest genderRequest) {
-	   return jdbcTemplate.queryForObject(GENDERCOUNT, Integer.class);
+	public int getAllCount(GenderRequest genderRequest) throws SQLException {
+		int count=0;
+		try {
+			count=jdbcTemplate.queryForObject(GENDERCOUNT, Integer.class);
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+	   return count;
 	}
 	/**
 	 * method to get all the record from database
+	 * @throws SQLException 
 	 */
 
 	@Override
-	public List<Genders> getAll(GenderRequest genderRequest) {
+	public List<Genders> getAll(GenderRequest genderRequest) throws SQLException {
 		//return jdbcTemplate.query(propsReaderUtil.getValue("SELECT_GENDER"), new BeanPropertyRowMapper<Genders>(Genders.class));
-		return jdbcTemplate.query(SELECT_GENDER, new BeanPropertyRowMapper<Genders>(Genders.class));
+		List<Genders> list=null;
+		try {
+			list=jdbcTemplate.query(SELECT_GENDER, new BeanPropertyRowMapper<Genders>(Genders.class));
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		return list;
 	}
 
 	@Override
@@ -132,12 +158,18 @@ public class GenderDAOImpl implements GenderDAO {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		Object[] stateId=null;
 		List<Genders> genderList=genderRequest.getGender();
-		for(Genders gender:genderList) {
-		   stateId=new Object[] {gender.getId()};
-			inputList.add(stateId);
+		List<Genders> list=null;
+		try {
+			for(Genders gender:genderList) {
+				   stateId=new Object[] {gender.getId()};
+					inputList.add(stateId);
+			}
+			list=jdbcTemplate.query(GENDER_BY_ID,stateId, new BeanPropertyRowMapper<>(Genders.class));
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		return jdbcTemplate.query(GENDER_BY_ID,stateId, new
-				BeanPropertyRowMapper<>(Genders.class));
+		
+		return list;
 	
 	}
 

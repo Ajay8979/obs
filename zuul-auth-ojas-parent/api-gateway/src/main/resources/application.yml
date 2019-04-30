@@ -23,6 +23,25 @@ zuul:
     ojas-obs-online-employeestatus-service:
      path : /obs/EmployeeStatus/**
      url : http://192.168.6.186:8017/
+    ojas-obs-educationtype:
+     path : /obs/educationdetails/**
+     url : http://192.168.6.186:8016/
+    ojas-obs-rolemanagement:
+     path : /obs/RoleManagement/**
+     url : http://192.168.6.186:8020/
+    ojas-obs-subbusinessunit:
+     path : /obs/subbusinessunit/**
+     url : http://192.168.6.186:8021/
+    ojas-obs-gender:
+      path: /obs/genders/**
+      url: http://192.168.6.186:8010/
+    ojas-obs-states :
+      path : /obs/states/**
+      url : http://192.168.6.186:8014/
+    ojas-obs-resource-type:
+       path : /obs/resourceType/**
+       url : http://192.168.6.186:8022/  
+     
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

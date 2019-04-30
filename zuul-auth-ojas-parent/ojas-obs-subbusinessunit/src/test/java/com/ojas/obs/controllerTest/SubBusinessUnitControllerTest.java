@@ -97,45 +97,59 @@ public class SubBusinessUnitControllerTest {
 	}
 	
 	@Test
-	public void setRolemanagementSuccess() throws SQLException {
+	public void setSubBusinessUnitSuccess() throws SQLException {
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
+		subBusinessUnitRequest.setTransactionType("update");
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementNullTransactionTest() throws SQLException {
+	public void setSubBusinessUnitEmptyTransaction() throws SQLException {
+		subBusinessUnitRequest = subBusinessUnitRequest();
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+		subBusinessUnitRequest.setTransactionType("");
+		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+				response);
+		HttpStatus statusCode = saveSBU.getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+	public void setSubBusinessUnitNullTransactionTest() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		subBusinessUnitRequest.setTransactionType(null);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementNullListTest() throws SQLException {
+	public void setSubBusinessUnitNullListTest() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		subBusinessUnitRequest.setSubBusinessUnitModel(null);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 
 	@Test
-	public void setRolemanagementSaveTransactionTest1() throws SQLException {
+	public void setSubBusinessUnitSaveTransactionTest1() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
@@ -146,14 +160,14 @@ public class SubBusinessUnitControllerTest {
 		list.add(subBusinessUnit);
 		subBusinessUnitRequest.setSubBusinessUnitModel(list);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementSaveTransactionTest2() throws SQLException {
+	public void setSubBusinessUnitSaveTransactionTest2() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
@@ -164,14 +178,14 @@ public class SubBusinessUnitControllerTest {
 		list.add(subBusinessUnit);
 		subBusinessUnitRequest.setSubBusinessUnitModel(list);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementSaveTransactionTest3() throws SQLException {
+	public void setSubBusinessUnitSaveTransactionTest3() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
@@ -183,14 +197,14 @@ public class SubBusinessUnitControllerTest {
 		list.add(subBusinessUnit);
 		subBusinessUnitRequest.setSubBusinessUnitModel(list);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementSaveTransactionTest4() throws SQLException {
+	public void setSubBusinessUnitSaveTransactionTest4() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
@@ -203,14 +217,14 @@ public class SubBusinessUnitControllerTest {
 		list.add(subBusinessUnit);
 		subBusinessUnitRequest.setSubBusinessUnitModel(list);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementUpdateTransactionTest1() throws SQLException {
+	public void setSubBusinessUnitUpdateTransactionTest1() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
@@ -223,91 +237,87 @@ public class SubBusinessUnitControllerTest {
 		list.add(subBusinessUnit);
 		subBusinessUnitRequest.setSubBusinessUnitModel(list);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementDeleteTransactionTest() throws SQLException {
-		HttpServletRequest request = null;
-		HttpServletResponse response = null;
-		subBusinessUnitRequest = subBusinessUnitRequest();
-		subBusinessUnitRequest.setTransactionType("delete");
-		subBusinessUnit = new SubBusinessUnit();
-		subBusinessUnit.setId(null);
-		List<SubBusinessUnit> list = new ArrayList<>();
-		list.add(subBusinessUnit);
-		subBusinessUnitRequest.setSubBusinessUnitModel(list);
-		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
-				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
-		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
-	}
-	
-	@Test
-	public void setRolemanagementUpdateTransactionTest() throws SQLException {
+	public void setSubBusinessUnitUpdateTransactionTest() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		subBusinessUnitRequest.setTransactionType("update");
+		subBusinessUnitRequest.getSubBusinessUnitModel().get(0).setId(null);
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
-		assertEquals(HttpStatus.OK, statusCode);
+		HttpStatus statusCode = saveSBU.getStatusCode();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void setRolemanagementExceptionTest() throws SQLException {
+	public void setSubBusinessUnitExceptionTest() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		when(subBusinessUnitFacadeImpl.setSubBusinessUnit(subBusinessUnitRequest)).thenThrow(new RuntimeException());
-		ResponseEntity<Object> saveRole = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> saveSBU = subBusinessUnitController.setSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = saveSBU.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
 	
 	@Test
-	public void getRolemanagementSuccess() throws SQLException {
+	public void getSubBusinessUnitSuccess() throws SQLException {
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
-		subBusinessUnitRequest.setTransactionType("get");
+		subBusinessUnitRequest.setTransactionType("getAll");
 		when(subBusinessUnitFacadeImpl.getSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> getSBU = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = getSBU.getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
 	}
 	
 	@Test
-	public void getRolemanagementFail() throws SQLException {
+	public void getByIdSubBusinessUnitSuccess() throws SQLException {
+		subBusinessUnitRequest = subBusinessUnitRequest();
+		HttpServletRequest request = null;
+		HttpServletResponse response = null;
+		subBusinessUnitRequest.setTransactionType("getById");
+		when(subBusinessUnitFacadeImpl.getSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
+		ResponseEntity<Object> getSBU = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
+				response);
+		HttpStatus statusCode = getSBU.getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+	public void getSubBusinessUnitFail() throws SQLException {
 		subBusinessUnitRequest = subBusinessUnitRequest();
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest.setTransactionType("");
 		when(subBusinessUnitFacadeImpl.getSubBusinessUnit(subBusinessUnitRequest)).thenReturn(sucessResponse);
-		ResponseEntity<Object> saveRole = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> getSBU = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = getSBU.getStatusCode();
 		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, statusCode);
 	}
 	
 	@Test
-	public void getRolemanagementExceptionTest() throws SQLException {
+	public void getSubBusinessUnitExceptionTest() throws SQLException {
 		HttpServletRequest request = null;
 		HttpServletResponse response = null;
 		subBusinessUnitRequest = subBusinessUnitRequest();
-		subBusinessUnitRequest.setTransactionType("get");
+		subBusinessUnitRequest.setTransactionType("getAll");
 		when(subBusinessUnitFacadeImpl.getSubBusinessUnit(subBusinessUnitRequest)).thenThrow(new RuntimeException());
-		ResponseEntity<Object> saveRole = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
+		ResponseEntity<Object> getSBU = subBusinessUnitController.getSubBusinessUnit(subBusinessUnitRequest, request,
 				response);
-		HttpStatus statusCode = saveRole.getStatusCode();
+		HttpStatus statusCode = getSBU.getStatusCode();
 		assertEquals(HttpStatus.CONFLICT, statusCode);
 	}
 }

@@ -1,7 +1,7 @@
 package com.ojas.obs.daoimpl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import static com.ojas.obs.constants.UserConstants.UPDATESTMT;
 import static com.ojas.obs.constants.UserConstants.DELETEEDUCATION;
 import static com.ojas.obs.constants.UserConstants.COUNTRECORDS;
 import static com.ojas.obs.constants.UserConstants.TOTALRECORDS;
+
 /**
  * 
  * @author mpraneethguptha
@@ -39,20 +40,27 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 */
 
 	@Override
-	public boolean saveEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) {
+	public boolean saveEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) throws SQLException {
 		List<EmployeeEducation> employeeEducations = employeeEducationRequest.getListEmployeeEducations();
 		int[] batchSave = null;
 		List<Object[]> input = new ArrayList<Object[]>();
 		for (EmployeeEducation employeeEducation : employeeEducations) {
-			Object[] saveList = { employeeEducation.getEducationType()};
+			Object[] saveList = { employeeEducation.getEducationType() };
 			input.add(saveList);
 		}
-		batchSave = jdbcTemplate.batchUpdate(INSERTEMPLOYEEEDUCATIONINFOSTMT, input);
-		if (batchSave.length > 0)
-			return true;
-		else {
-			return false;
+		try {
+			batchSave = jdbcTemplate.batchUpdate(INSERTEMPLOYEEEDUCATIONINFOSTMT, input);
+
+			if (batchSave.length > 0)
+				return true;
+		} finally {
+			if (jdbcTemplate != null) {
+				jdbcTemplate.getDataSource().getConnection().close();
+			}
 		}
+
+		return false;
+
 	}
 
 	/*
@@ -63,7 +71,7 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 * modelrequest.EmployeeEducationRequest)
 	 */
 	@Override
-	public boolean updateEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) {
+	public boolean updateEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) throws SQLException {
 		List<EmployeeEducation> employeeEducations = employeeEducationRequest.getListEmployeeEducations();
 		int[] batchSave = null;
 		List<Object[]> input = new ArrayList<Object[]>();
@@ -72,11 +80,16 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 			input.add(saveList);
 		}
 		batchSave = jdbcTemplate.batchUpdate(UPDATESTMT, input);
-		if (batchSave.length > 0)
-			return true;
-		else {
-			return false;
+		try {
+			if (batchSave.length > 0)
+				return true;
+		} finally {
+			if (jdbcTemplate != null) {
+				jdbcTemplate.getDataSource().getConnection().close();
+			}
 		}
+		return false;
+
 	}
 	/*
 	 * (non-Javadoc)
@@ -85,13 +98,16 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 */
 
 	@Override
-	public boolean deleteEmployeeEducation(int id) {
-		int delete = jdbcTemplate.update(DELETEEDUCATION, id);
+	public boolean deleteEmployeeEducation(int id) throws SQLException {
+		try {
+			int delete = jdbcTemplate.update(DELETEEDUCATION, id);
 
-		if (delete > 0)
-			return true;
-		else
-			return false;
+			if (delete > 0)
+				return true;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+		return false;
 	}
 	/*
 	 * (non-Javadoc)
@@ -102,10 +118,16 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 */
 
 	@Override
-	public List<EmployeeEducation> getAllEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) {
-		List<EmployeeEducation> employeeEducations = jdbcTemplate.query(TOTALRECORDS,
-				new BeanPropertyRowMapper<EmployeeEducation>(EmployeeEducation.class));
-		return employeeEducations;
+	public List<EmployeeEducation> getAllEmployeeEducation(EmployeeEducationRequest employeeEducationRequest)
+			throws SQLException {
+		try {
+			return jdbcTemplate.query(TOTALRECORDS,
+					new BeanPropertyRowMapper<EmployeeEducation>(EmployeeEducation.class));
+		} finally {
+
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+
 	}
 	/*
 	 * (non-Javadoc)
@@ -114,9 +136,12 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 */
 
 	@Override
-	public int getAllRecordsCount() {
-		int records = jdbcTemplate.queryForObject(COUNTRECORDS, Integer.class);
-		return records;
+	public int getAllRecordsCount() throws SQLException {
+		try {
+			return jdbcTemplate.queryForObject(COUNTRECORDS, Integer.class);
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 }

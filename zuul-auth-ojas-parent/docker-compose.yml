@@ -40,6 +40,36 @@ services:
     - auth-center
     ports:
     - "8017:8017"
+  ojas-obs-educationtype :
+   image : ojas-obs-educationtype
+   depends_on:
+   - auth-center
+   ports:
+   - "8016:8016"
+  ojas-obs-rolemanagement:
+   image : ojas-obs-rolemanagement
+   depends_on:
+   - auth-center
+   ports:
+   - "8020:8020"
+  ojas-obs-subbusinessunit :
+   image : ojas-obs-subbusinessunit
+   depends_on:
+   - auth-center
+   ports:
+   - "8021:8021"
+  ojas-obs-gender:
+    image : ojas-obs-gender
+    depends_on:
+    - auth-center
+    ports:
+    - "8010:8010"
+  ojas-obs-resource-type:
+   image : ojas-obs-resource-type
+   depends_on:
+   - auth-center
+   ports:
+   - "8022:8022"
   ui-server:
      image: ui-server
      ports:

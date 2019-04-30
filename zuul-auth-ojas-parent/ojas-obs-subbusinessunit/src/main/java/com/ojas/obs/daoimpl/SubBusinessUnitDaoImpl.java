@@ -1,5 +1,6 @@
 package com.ojas.obs.daoimpl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,23 +37,28 @@ public class SubBusinessUnitDaoImpl implements SubBusinessUnitDao {
 	 * SubBusinessUnitRequest)
 	 */
 	@Override
-	public boolean saveSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
+	public boolean saveSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) throws SQLException {
 
-		boolean flag = false;
-		int[] save;
-		List<SubBusinessUnit> subBusinessUnitList = subBusinessUnitRequest.getSubBusinessUnitModel();
-		List<Object[]> list = new ArrayList<>();
-		for (SubBusinessUnit subBusinessUnit : subBusinessUnitList) {
+		try {
 
-			Object[] subBusiness = new Object[] { subBusinessUnit.getName(), subBusinessUnit.getBusinessUnitId(),
-					subBusinessUnit.getCostCenterId() };
-			list.add(subBusiness);
+			boolean flag = false;
+			int[] save;
+			List<SubBusinessUnit> subBusinessUnitList = subBusinessUnitRequest.getSubBusinessUnitModel();
+			List<Object[]> list = new ArrayList<>();
+			for (SubBusinessUnit subBusinessUnit : subBusinessUnitList) {
+
+				Object[] subBusiness = new Object[] { subBusinessUnit.getName(), subBusinessUnit.getBusinessUnitId(),
+						subBusinessUnit.getCostCenterId() };
+				list.add(subBusiness);
+			}
+			save = jdbcTemplate.batchUpdate(SAVEBUSINESSUNIT, list);
+			if (save.length > 0) {
+				flag = true;
+			}
+			return flag;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		save = jdbcTemplate.batchUpdate(SAVEBUSINESSUNIT, list);
-		if (save.length > 0) {
-			flag = true;
-		}
-		return flag;
 	}
 
 	/*
@@ -62,49 +68,67 @@ public class SubBusinessUnitDaoImpl implements SubBusinessUnitDao {
 	 * request.SubBusinessUnitRequest)
 	 */
 	@Override
-	public boolean updateSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
+	public boolean updateSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) throws SQLException {
 
-		boolean flag = false;
-		int[] update;
-		List<SubBusinessUnit> subBusinessUnitList = subBusinessUnitRequest.getSubBusinessUnitModel();
-		List<Object[]> list = new ArrayList<>();
-		for (SubBusinessUnit subBusinessUnit : subBusinessUnitList) {
+		try {
 
-			Object[] subBusiness = new Object[] { subBusinessUnit.getName(), subBusinessUnit.getBusinessUnitId(),
-					subBusinessUnit.getCostCenterId(), subBusinessUnit.getId() };
-			list.add(subBusiness);
+			boolean flag = false;
+			int[] update;
+			List<SubBusinessUnit> subBusinessUnitList = subBusinessUnitRequest.getSubBusinessUnitModel();
+			List<Object[]> list = new ArrayList<>();
+			for (SubBusinessUnit subBusinessUnit : subBusinessUnitList) {
+
+				Object[] subBusiness = new Object[] { subBusinessUnit.getName(), subBusinessUnit.getBusinessUnitId(),
+						subBusinessUnit.getCostCenterId(), subBusinessUnit.getId() };
+				list.add(subBusiness);
+			}
+			update = jdbcTemplate.batchUpdate(UPDATEBUSINESSUNITID, list);
+			if (update.length > 0) {
+				flag = true;
+			}
+			return flag;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
 		}
-		update = jdbcTemplate.batchUpdate(UPDATEBUSINESSUNITID, list);
-		if (update.length > 0) {
-			flag = true;
-		}
-		return flag;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.ojas.obs.dao.SubBusinessUnitDao#getAllSubBusinessUnitDetails()
 	 */
 	@Override
-	public List<SubBusinessUnit> getAllSubBusinessUnitDetails() {
+	public List<SubBusinessUnit> getAllSubBusinessUnitDetails() throws SQLException {
 
-		return jdbcTemplate.query(GETALLBUSINESSUNITS,
-				new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
+		try {
+
+			return jdbcTemplate.query(GETALLBUSINESSUNITS,
+					new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see com.ojas.obs.dao.SubBusinessUnitDao#getByIdSubBusinessUnitDetails(java.lang.Integer)
+	 * 
+	 * @see
+	 * com.ojas.obs.dao.SubBusinessUnitDao#getByIdSubBusinessUnitDetails(java.lang.
+	 * Integer)
 	 */
 	@Override
-	public List<SubBusinessUnit> getByIdSubBusinessUnitDetails(Integer id) {
+	public List<SubBusinessUnit> getByIdSubBusinessUnitDetails(Integer id) throws SQLException {
 
-		Object[] params = new Object[] { id };
-		return jdbcTemplate.query(GETBYIDBUSINESSUNITS, params,
-				new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
+		try {
+
+			Object[] params = new Object[] { id };
+			return jdbcTemplate.query(GETBYIDBUSINESSUNITS, params,
+					new BeanPropertyRowMapper<SubBusinessUnit>(SubBusinessUnit.class));
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 
 	}
-	
+
 }

@@ -7,11 +7,11 @@ import com.ojas.obs.model.Genders;
 import com.ojas.obs.request.GenderRequest;
 
 public interface GenderDAO {
-  public boolean saveGender(GenderRequest genderRequest);
-  public boolean updateGender(GenderRequest genderRequest);
+  public boolean saveGender(GenderRequest genderRequest) throws SQLException;
+  public boolean updateGender(GenderRequest genderRequest) throws SQLException;
   //public boolean deleteGender(GenderRequest genderRequest);
-  public int getAllCount(GenderRequest genderRequest);
-  public List<Genders> getAll(GenderRequest genderRequest);
-  public List<Genders> getCountPerPage(List<Genders> certificationList, int pageSize,int pageNo); 
+  public int getAllCount(GenderRequest genderRequest) throws SQLException;
+  public List<Genders> getAll(GenderRequest genderRequest) throws SQLException;
+  public List<Genders> getCountPerPage(List<Genders> certificationList, int pageSize,int pageNo) ; 
   public List<Genders> getGenderById(GenderRequest genderRequest) throws SQLException;
 }

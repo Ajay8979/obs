@@ -59,6 +59,9 @@ zuul:
     ojas-obs-dependentdetails:
       path: /obs/DependentDetailsService/**
       url: http://192.168.6.186:8090/
+    ojas-obs-employeebu:
+     path: /obs/employeebu/**
+     url: http://192.168.6.186:8087/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

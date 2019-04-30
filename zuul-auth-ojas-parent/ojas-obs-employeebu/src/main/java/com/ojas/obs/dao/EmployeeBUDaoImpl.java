@@ -40,6 +40,7 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	 */
 	@Override
 	public boolean saveEmployeebu(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
+		try {
 		Timestamp timestamp = new Timestamp(new Date().getTime());
 		boolean flag = true;
 		int count = 0;
@@ -54,6 +55,9 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 			return true;
 		else
 			return status;
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -64,7 +68,11 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	 */
 	@Override
 	public List<EmployeeBUDetails> getAllEmployeebu(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
+		try {
 		return jdbcTemplate.query(GETEMPLOYEBU, new BeanPropertyRowMapper<EmployeeBUDetails>(EmployeeBUDetails.class));
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -75,6 +83,7 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	 */
 	@Override
 	public boolean updateEmployeebu(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
+		try {
 		int count = 0;
 		Timestamp timestamp = new Timestamp(new Date().getTime());
 		List<EmployeeBUDetails> budetails = employeebuRequest.getEmployeeBUDeatils();
@@ -87,6 +96,9 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 			return true;
 		else
 			return false;
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -96,6 +108,7 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	 */
 	@Override
 	public boolean deleteEmployeeRecord(Integer courseId) throws SQLException {
+		try {
 		int count = 0;
 		boolean status = false;
 		count = jdbcTemplate.update(DELETEBUDEAILS, courseId);
@@ -103,6 +116,9 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 			return true;
 		else
 			return status;
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -112,11 +128,16 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	 */
 	@Override
 	public int getAllRecordsCount() throws SQLException {
+		try {
 		return jdbcTemplate.queryForObject(GETBUDetailsCOUNT, Integer.class);
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	@Override
 	public List<EmployeeBUDetails> getById(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
+		try {
 		List<EmployeeBUDetails> modelList = employeebuRequest.getEmployeeBUDeatils();
 		List<Object[]> list = new ArrayList<Object[]>();
 		Object[] param = null;
@@ -127,6 +148,8 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 		}
 		List<EmployeeBUDetails> query = jdbcTemplate.query(GETBYID, param, new BeanPropertyRowMapper<>(EmployeeBUDetails.class));
 		return query;
+	}finally {
+		jdbcTemplate.getDataSource().getConnection().close();
 	}
-
+	}
 }

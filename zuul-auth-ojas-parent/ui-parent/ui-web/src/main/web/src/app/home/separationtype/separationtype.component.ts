@@ -44,24 +44,10 @@ separationDetails:any;
     var requestgetObj =
     {
       "separationType":[
-              {
-      
               
-              
-              },
-              {
-                      
-              
-              
-              },
-              {
-                      
-              
-              
-              }
               ],
               "sessionId":"1234",
-              "transactionType":"/getall"
+              "transactionType":"getall"
       }
     this.hrms.getSeperationType(requestgetObj).subscribe(res =>{
       this.separationDetails = res;
@@ -122,7 +108,7 @@ updateSeparation(separation){
             }
             ],
             "sessionId":"1234",
-            "transactionType":"/update"
+            "transactionType":"update"
     
     
     }

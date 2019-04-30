@@ -29,6 +29,7 @@
                 <table class="table  table-condensed tile" >
                   <thead>
             <tr>
+                <th>GPA Plan Id</th>
               <th
               [class.active]="order === 'gpaPlan'"
               (click)="setOrder('gpaPlan')"
@@ -38,11 +39,11 @@
               </span>
               
               </th>
-			  <th>GP Plan Id</th>
+			        
               <th>GPA premium</th>
               <th>Total premium</th>
               <th>Edit</th>
-              <th>Delete</th>
+              <!-- <th>Delete</th> -->
             </tr>
             </thead>
             <tbody>
@@ -51,7 +52,7 @@
                 <div *ngIf="!gpalist.isEditable">
                 {{gpalist.gpaPlanId}}
               </div>
-              <input type="text" [(ngModel)]="gpalist.gpaPlanType" *ngIf="gpalist.isEditable"/>
+              <input type="text" [(ngModel)]="gpalist.gpaPlanId" *ngIf="gpalist.isEditable"/>
               </td>
               <td>
                 <div *ngIf="!gpalist.isEditable">
@@ -83,7 +84,7 @@
                   <img src="assets/pe.png" width="30" (click)='gpalist.isEditable =!gpalist.isEditable'
                     *ngIf="!gpalist.isEditable">
                 </td>
-                <td><img src="assets/delete.png" width="20" (click)="deleteGpa(gpalist)" /></td>
+                <!-- <td><img src="assets/delete.png" width="20" (click)="deleteGpa(gpalist)" /></td> -->
             </tr>
              <tr>
 

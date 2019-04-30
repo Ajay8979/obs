@@ -55,7 +55,11 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 				return true;
 		} finally {
 			if (jdbcTemplate != null) {
-				jdbcTemplate.getDataSource().getConnection().close();
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 		}
 
@@ -72,6 +76,7 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 	 */
 	@Override
 	public boolean updateEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) throws SQLException {
+
 		List<EmployeeEducation> employeeEducations = employeeEducationRequest.getListEmployeeEducations();
 		int[] batchSave = null;
 		List<Object[]> input = new ArrayList<Object[]>();
@@ -85,7 +90,11 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 				return true;
 		} finally {
 			if (jdbcTemplate != null) {
-				jdbcTemplate.getDataSource().getConnection().close();
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return false;
@@ -105,9 +114,16 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 			if (delete > 0)
 				return true;
 		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return false;
+
 	}
 	/*
 	 * (non-Javadoc)
@@ -124,8 +140,14 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 			return jdbcTemplate.query(TOTALRECORDS,
 					new BeanPropertyRowMapper<EmployeeEducation>(EmployeeEducation.class));
 		} finally {
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 
-			jdbcTemplate.getDataSource().getConnection().close();
 		}
 
 	}
@@ -140,7 +162,14 @@ public class EmployeeEducationDaoImpl implements EmployeeEducationDao {
 		try {
 			return jdbcTemplate.queryForObject(COUNTRECORDS, Integer.class);
 		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+			if (jdbcTemplate != null) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 	}
 

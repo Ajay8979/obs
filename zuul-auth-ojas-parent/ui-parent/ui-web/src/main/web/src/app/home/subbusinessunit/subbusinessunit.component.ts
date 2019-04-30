@@ -118,6 +118,7 @@ export class SubbusinessunitComponent implements OnInit {
   // }
 
   setSubbusinessunit(){
+    
     var requestData = {
       "subBusinessUnitModel": [{
         "costCenterId" : this.costCenterId,
@@ -132,12 +133,13 @@ export class SubbusinessunitComponent implements OnInit {
       this.subbusinessunitRes = response;
       console.log(this.subbusinessunitRes);
       if(this.subbusinessunitRes.statusMessage == "Successfully record added"){
-        this.value = false;
         swal(this.subbusinessunitRes.statusMessage, "","success");
-        this.getSubBusinessUnit();
-        }
        
+        }
+        this.getSubBusinessUnit();
+        
     })
+    this.value=false;
   }
   getSubBusinessUnit(){
     var request = {
@@ -219,6 +221,7 @@ export class SubbusinessunitComponent implements OnInit {
          console.log(this.updateSubbusinessDetails);
          if(this.updateSubbusinessDetails.statusMessage == "Successfully record updated"){
           swal(this.updateSubbusinessDetails.statusMessage, "","success");
+          this.getSubBusinessUnit();
             
           }
        })

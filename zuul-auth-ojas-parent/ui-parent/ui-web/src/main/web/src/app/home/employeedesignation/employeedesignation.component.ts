@@ -140,17 +140,10 @@ setEmpDesignation(){
 getEmpDesignation(){
   var request = {
     "designation":[
-            {
-    
-            
-    },
-    {
-            
-            
-    }
+           
     ],
     "sessionId":"3121",
-    "transactionType":"/getall"
+    "transactionType":"getall"
 }
    this.hrms.getEmployeeDesignation(request).subscribe(res =>{
     this.empDesignationDetails = res;
@@ -175,7 +168,7 @@ saveUpdatedValues(bulist){
   this.hrms.updateEmpolyeeDesignation(updateRequestData).subscribe(res =>{
     this.updatedRes = res;
     console.log(this.updatedRes);
-    if(this.updatedRes.statusMessage == "record updated Successfully"){
+    if(this.updatedRes.statusMessage == "record updated Successfully "){
       swal(this.updatedRes.statusMessage , "","success");
      
     }

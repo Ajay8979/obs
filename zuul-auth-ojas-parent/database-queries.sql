@@ -343,3 +343,6 @@ CREATE TABLE obs_subbusinessunit (
   PRIMARY KEY (id)
 );
 
+//===========================obs_skill=======================================
+
+create table obs_skill(id int(10) not null auto_increment,skill_name varchar(30) not null unique,primary key(id))

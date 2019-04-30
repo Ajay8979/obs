@@ -76,14 +76,14 @@
           </div>
           <select id="costcenter" name="costcenter" [(ngModel)]="bulist.costCenterId" *ngIf="bulist.isEditable" class='form-control' >
               <option value="undefined" selected disabled >--Select--</option>
-              <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.costCenterCode}}</option>
+              <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.id}}</option>
             </select>
         </td> 
         <td>
             <div *ngIf="!bulist.isEditable">
             {{bulist.name}}
           </div>
-          <input type="text" [(ngModel)]="bulist.name" *ngIf="bulist.isEditable"/>
+          <input type="text" class="form-control" [(ngModel)]="bulist.name" *ngIf="bulist.isEditable"/>
         </td>
         <td>
           
@@ -99,7 +99,7 @@
             </select></td>
           <td><select id="costcenter" name="costcenter" [(ngModel)]="costCenterId" *ngIf="value" class='form-control' >
             <option value="undefined" selected disabled >--Select--</option>
-            <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.costCenterCode}}</option>
+            <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.id}}</option>
           </select></td> 
           <td><input id="subbusinessunit" name="subbusinessunit" [(ngModel)]="subbusinessunit" *ngIf="value" type="text" class="form-control" placeholder="Enter sub-BusinessUnit" required ></td>
           <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setSubbusinessunit()>Save</button>

@@ -21,7 +21,6 @@
   <table class="table table-condensed  tile">
       <thead class="two">
           <tr>
-            <th>Id</th>
             <th [class.active]="order === 'separationType'" (click)="setOrder('separationType')" style="cursor:pointer">
                 Separation type
                 </th>
@@ -45,7 +44,7 @@
               <div *ngIf="!separation.isEditable">
               {{separation.separationType}}
               </div>
-            <input type="text" [(ngModel)]="separation.separationType" *ngIf="separation.isEditable"/>
+            <input type="text" class="form-control" [(ngModel)]="separation.separationType" *ngIf="separation.isEditable"/>
           </td>
 
 

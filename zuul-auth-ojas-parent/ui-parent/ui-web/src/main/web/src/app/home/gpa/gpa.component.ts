@@ -3,6 +3,7 @@ import { Gpaplan, Gpapremium } from './gpa.model';
 import { NgForm} from '@angular/forms';
 import { OrderPipe } from 'ngx-order-pipe';
 import { HrmsService } from '../services/hrms.service';
+import swal from 'sweetalert';
 @Component({
   selector: 'app-gpa',
   templateUrl: './gpa.component.html',
@@ -111,10 +112,10 @@ export class GpaComponent implements OnInit {
     //   this.gpaplanlist.splice(index,1);
     //   }
     // }
-    // cancelgpalist(){
-    //   this.value=false;
+    cancelgpalist(){
+      this.value=false;
       
-    // }
+    }
 
     // setOrder(value: string) {
     //   if (this.order === value) {
@@ -148,18 +149,19 @@ export class GpaComponent implements OnInit {
     //   })
     // }
     setGpa(){
-      var data = {
-        "gpaPlan":[{
-				"gpaPlanId":this.gpaPlanId,
-                "gpaPlanType":this.gpaPlanType,
-                "gpaPremium":this.gpaPremium,
-                "totalPremium":this.totalPremium
-        }],
-        "sessionId":1221,
-                "transactionType":"save"
-}
+var request={
+  "gpaPlan" : [{
+      "gpaPlanId":this.gpaPlanId,
+  "gpaPlanType":this.gpaPlanType,
+  "gpaPremium":this.gpaPremium,
+  "totalPremium":this.totalPremium
+                     }], 
+                 "transactionType":"save",
+                "sessionId" : "any String" 
+  }
 
-this.hrms.setGpaData(data).subscribe(res=>{
+
+this.hrms.setGpaData(request).subscribe(res=>{
   this.gpasetDetails = res;
   console.log(this.gpasetDetails);
    if(this.gpasetDetails.statusMessage == "Success fully record added"){
@@ -170,13 +172,14 @@ this.hrms.setGpaData(data).subscribe(res=>{
 })
     }
     getGpa(){
-      var request = {
+     var request={
 		"gpaPlan" : [{
    
                    }], 
                "transactionType":"getall",
               "sessionId" : "any String" 
 		}
+
        this.hrms.getGpaData(request).subscribe(res =>{
         this.gpaDetails = res;
         this.gpalist = this.gpaDetails.gpa;

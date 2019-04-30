@@ -60,21 +60,8 @@ public class EmployeeSkillFacadeImpl implements EmployeeSkillFacade {
 	public ResponseEntity<Object> getEmployeeSkillInfo(EmployeeSkillInfoRequest employeeSkillInfoRequest)
 			throws SQLException {
 
-		/*
-		 * EmployeeSkillInfoResponse response = new EmployeeSkillInfoResponse(); if
-		 * (employeeSkillInfoRequest.getTransactionType().equalsIgnoreCase("getAll")) {
-		 * List<EmployeeSkillInfo> listOfSkillInfo =
-		 * employeeSkillDao.showEmployeeSkillInfo(employeeSkillInfoRequest); int count =
-		 * employeeSkillDao.getAllCount(); response.setTotalCount(count);
-		 * response.setGetSkillInfoList(listOfSkillInfo);
-		 * response.setStatusMessage("success"); return new
-		 * ResponseEntity<Object>(response, HttpStatus.OK); } return null;
-		 */
+		// -------------getById method call----------------------------//
 
-		
-		
-		//-------------getById method call----------------------------//
-		
 		EmployeeSkillInfoResponse response = new EmployeeSkillInfoResponse();
 		List<EmployeeSkillInfo> listEmployeeSkillInfo = employeeSkillInfoRequest.getSkillInfoModel();
 		if (employeeSkillInfoRequest.getTransactionType().equalsIgnoreCase("getById")) {
@@ -87,33 +74,22 @@ public class EmployeeSkillFacadeImpl implements EmployeeSkillFacade {
 				return new ResponseEntity<Object>(response, HttpStatus.OK);
 			}
 		}
-		/*int pageNo = employeeSkillInfoRequest.getPageNo();
-		int pageSize = employeeSkillInfoRequest.getPageSize();
-		response.setPageNo(pageNo);
-		response.setPageSize(pageSize);*/
-		List<EmployeeSkillInfo> listOfSkillInfo = employeeSkillDao.showEmployeeSkillInfo(employeeSkillInfoRequest);
-		/*List<EmployeeSkillInfo> listForPage = employeeSkillDao.getCountPerPage(listOfSkillInfo,
-				employeeSkillInfoRequest.getPageSize(), employeeSkillInfoRequest.getPageNo());*/
 
-		//if (listForPage == null || listOfSkillInfo == null) 
-		if (listOfSkillInfo == null){
+		List<EmployeeSkillInfo> listOfSkillInfo = employeeSkillDao.showEmployeeSkillInfo(employeeSkillInfoRequest);
+
+		// if (listForPage == null || listOfSkillInfo == null)
+		if (listOfSkillInfo == null) {
 			response.setGetSkillInfoList(new ArrayList<>());
 			response.setStatusMessage("No record Found");
 			response.setTotalCount(0);
 		} else {
-			/*
-			if (employeeSkillInfoRequest.getPageSize() == 0 || employeeSkillInfoRequest.getPageNo() == 0) {
-				response.setTotalCount(count);
-				response.setGetSkillInfoList(listOfSkillInfo);
-				response.setStatusMessage("success");
-			} else {*/
-				int count = employeeSkillDao.getAllCount();
-				response.setTotalCount(count);
-				response.setGetSkillInfoList(listOfSkillInfo);
-				response.setStatusMessage("success");
-			}
-			//System.out.println(response.getPageNo());
-		
+			int count = employeeSkillDao.getAllCount();
+			response.setTotalCount(count);
+			response.setGetSkillInfoList(listOfSkillInfo);
+			response.setStatusMessage("success");
+		}
+		// System.out.println(response.getPageNo());
+
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 
 	}

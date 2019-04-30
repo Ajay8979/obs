@@ -44,11 +44,15 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 				new Timestamp(new Date().getTime()) };
 			inputList.add(save);
 	}
+		try {
 		int[] batchUpdate = jdbcTemplate.batchUpdate(saveEmployeeSkillInfoStmt, inputList );
 		if(batchUpdate.length > 0) {
 			return 1;
 		}
 		return 0;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 	
 		
@@ -73,11 +77,15 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 				skillDetails.getId()};
 	inputList.add(update);
 		}
+		try {
 		int[] batchUpdate = jdbcTemplate.batchUpdate(updateSkillDetailsById, inputList );
 		if(batchUpdate.length>0) {
 			return 1;
 		}
 		return 0;
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		} 
 	}
 
 	// retrieving the list of data
@@ -97,14 +105,22 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		}
 		return null;*/
 
-		
+		try {
 		return jdbcTemplate.query(getAll, new BeanPropertyRowMapper(EmployeeSkillInfo.class));
+	
+	}finally {
+		jdbcTemplate.getDataSource().getConnection().close();
 	}
+}
 
 	@Override
 	
 	public int getAllCount() throws SQLException {
+		try {
 		return jdbcTemplate.queryForObject(getCount, Integer.class);
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 	/*@Override
@@ -131,9 +147,12 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 
 	@Override
 	public List<EmployeeSkillInfo> getById(Integer id) throws SQLException {
+		try {
 		List<EmployeeSkillInfo> list = jdbcTemplate.query(getById + id, new BeanPropertyRowMapper<>(EmployeeSkillInfo.class));
 		return list;
-
+		}finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 		//List<EmployeeSkillInfo> employeeExperienceDetailsList = jdbcTemplate.query("getById"), params, new ExperienceRowMappers());
 		
 		

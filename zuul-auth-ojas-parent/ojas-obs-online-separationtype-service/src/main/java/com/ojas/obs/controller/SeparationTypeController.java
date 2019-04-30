@@ -1,7 +1,8 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.SeparationTypeConstants.DELETE;
+//import static com.ojas.obs.constants.SeparationTypeConstants.DELETE;
 import static com.ojas.obs.constants.SeparationTypeConstants.GET;
+//import static com.ojas.obs.constants.SeparationTypeConstants.SEPARATIONTYPE;
 import static com.ojas.obs.constants.SeparationTypeConstants.SET;
 import static com.ojas.obs.constants.SeparationTypeConstants.UPDATE;
 
@@ -36,8 +37,9 @@ import com.ojas.obs.utility.ErrorResponse;
  *
  */
 @RestController
+//@RequestMapping(SEPARATIONTYPE) 
 public class SeparationTypeController {   
-
+ 
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
@@ -142,7 +144,7 @@ public class SeparationTypeController {
 	public ResponseEntity<Object> getAllSeparationType(@RequestBody SeparationTypeRequest separationTypeRequest,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws SQLException {
 		logger.info("Inside getAllSeparationType()");
-		ErrorResponse errorResponse = null; 
+		ErrorResponse errorResponse = null;  
 		// Gson gson = new Gson();
 		// SeparationTypeRequest separationTypeReq =
 		// gson.fromJson(separationTypeRequest, SeparationTypeRequest.class);

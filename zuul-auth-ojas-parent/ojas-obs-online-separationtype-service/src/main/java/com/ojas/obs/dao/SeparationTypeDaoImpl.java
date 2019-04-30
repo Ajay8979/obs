@@ -43,7 +43,7 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
  */
 	@Override
 	public boolean saveSeparationType(SeparationTypeRequest separationTypeReq) throws SQLException { 
-		//try {
+		try {
 
 			List<Object[]> inputList = new ArrayList<Object[]>();
 
@@ -63,7 +63,16 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 				return true;
 			}
 			return false;
-		}
+		}finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
+}
 	/*
 	 * catch (Exception e) {
 	 * logger.debug("Inside saveSeparationType..DAO catch block" + e.getMessage());
@@ -125,16 +134,19 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 				return true;
 			}
 			return false;
-
-		} catch (Exception e) {
+		} finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
+		/*catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
-		
-		
-		
-		
-		
+		return false;*/	
 	}
 		
 		/*
@@ -178,12 +190,21 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 
 	@Override
 	public List<SeparationType> getAllSeparationType() throws SQLException {
-		
+		try {
 		logger.debug("Inside getAllSeparationTypeDetails DAO .***");
 
 		List<SeparationType> separationType = jdbc.query(SELECTSeparationTtype, new BeanPropertyRowMapper<>(SeparationType.class));
 
 		return separationType;
+		}finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 
 		/*
 		 * List<SeparationType> query = jdbc.query(SELECTSeparationTtype, new
@@ -193,8 +214,8 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 	}
 	
 	
-	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest) {
-
+	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest) throws SQLException {
+			try {
 		List<SeparationType> separationTypeList = new ArrayList<>();
 		List<SeparationType> insuranceList = separationTypeRequest.getSeparationType();
 		for (SeparationType separationType : insuranceList) {
@@ -203,8 +224,16 @@ public class SeparationTypeDaoImpl implements SeparationTypeDao  {
 			separationTypeList.addAll(query);
 		}
 		return separationTypeList;
+	}finally {
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
+	
 	}
-	
-	
 
 }

@@ -41,7 +41,12 @@ zuul:
     ojas-obs-resource-type:
        path : /obs/resourceType/**
        url : http://192.168.6.186:8022/  
-     
+    ojas-obs-designation:
+      path: /obs/designation/**
+      url: http://192.168.6.186:8011/
+    ojas-obs-online-separationtype-service :
+     path : /obs/separationType/**
+     url : http://192.168.6.186:8019/  
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

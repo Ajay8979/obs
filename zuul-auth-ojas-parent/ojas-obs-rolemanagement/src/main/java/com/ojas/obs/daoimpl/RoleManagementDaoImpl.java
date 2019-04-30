@@ -21,10 +21,10 @@ import com.ojas.obs.request.RoleManagementRequest;
 @Repository
 public class RoleManagementDaoImpl implements RoleManagementDao {
 
-	public static final String SAVEROLE = "insert into obs_RoleManagement(rolename) values(?)";
-	public static final String UPDATEROLE = "update obs_RoleManagement set rolename = ? where id = ?";
-	public static final String GETALLRECORDS = "select * from obs_RoleManagement";
-	public static final String GETBYIDRECORDS = "select * from obs_RoleManagement where id = ?";
+	public static final String SAVEROLE = "insert into obs_rolemanagement(rolename) values(?)";
+	public static final String UPDATEROLE = "update obs_rolemanagement set rolename = ? where id = ?";
+	public static final String GETALLRECORDS = "select * from obs_rolemanagement";
+	public static final String GETBYIDRECORDS = "select * from obs_rolemanagement where id = ?";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 

@@ -70,6 +70,24 @@ services:
    - auth-center
    ports:
    - "8022:8022"
+  ojas-obs-designation:
+    image : ojas-obs-designation
+    depends_on:
+    - auth-center
+    ports:
+    - "8011:8011"
+  ojas-obs-online-separationtype-service:
+   image : ojas-obs-online-separationtype-service
+   depends_on:
+   - auth-center
+   ports:
+   - "8019:8019"
+  ojas-obs-states :
+   image : ojas-obs-states
+   depends_on:
+   - auth-center
+   ports:
+   - "8014:8014"
   ui-server:
      image: ui-server
      ports:

@@ -153,22 +153,37 @@ export class SubbusinessunitComponent implements OnInit {
       console.log(this.subbusinessunitDetails);
      })
   }
-  //bulist getdata
+
   getBusinessunit() {
     var request = {
       "businessUnit" :[{
               
       }],
        "transactionType":"getAll"
-}
-   
+  }
      
-  this.hrms.getSubbusinessinfo(request).subscribe(res =>{
+  this.hrms.getBusinesinfo(request).subscribe(res =>{
     this.businessunitDetails = res;
     this.businessUnitList = this.businessunitDetails.businessUnitList;
     console.log(this.businessunitDetails);
   })
     }
+  //bulist getdata
+//   getBusinessunit() {
+//     var request = {
+//       "businessUnit" :[{
+              
+//       }],
+//        "transactionType":"getAll"
+// }
+   
+     
+//   this.hrms.getSubbusinessinfo(request).subscribe(res =>{
+//     this.businessunitDetails = res;
+//     this.businessUnitList = this.businessunitDetails.businessUnitList;
+//     console.log(this.businessunitDetails);
+//   })
+//     }
     //costcenter get
     getCostCenter() {
       var request = {

@@ -2,7 +2,9 @@ package com.ojas.obs.response;
 
 import java.util.List;
 
-import com.ojas.model.Designation;
+import com.ojas.obs.model.Designation;
+
+
 
 /**
  * 

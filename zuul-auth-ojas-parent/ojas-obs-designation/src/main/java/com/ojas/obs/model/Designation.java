@@ -1,4 +1,4 @@
-package com.ojas.model;
+package com.ojas.obs.model;
 
 /**
  * 

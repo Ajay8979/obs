@@ -1,29 +1,27 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.DesignationServiceConstants.SET;
-import static com.ojas.obs.constants.DesignationServiceConstants.DESIGNATION;
 import static com.ojas.obs.constants.DesignationServiceConstants.GET;
+import static com.ojas.obs.constants.DesignationServiceConstants.SET;
 
-//import java.awt.peer.DesktopPeer;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.apache.log4j.Logger;
-
-import com.ojas.model.Designation;
-//import com.google.gson.Gson;
 import com.ojas.obs.facade.DesignationFacade;
+import com.ojas.obs.model.Designation;
 import com.ojas.obs.request.DesignationRequest;
-import com.ojas.utility.ErrorResponse;
+import com.ojas.obs.utility.ErrorResponse;
+
 
 /**
  * 
@@ -48,7 +46,7 @@ public class DesignationController {
 	 * @throws SQLException
 	 */
 
-	@PostMapping(SET)
+	@RequestMapping(SET)
 	public ResponseEntity<Object> setDesignation(@RequestBody DesignationRequest designationRequest,
 			HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String sessionId = null;
@@ -98,7 +96,7 @@ public class DesignationController {
 	 * @throws SQLException
 	 */
 
-	@PostMapping(GET)
+	@RequestMapping(GET)
 	public ResponseEntity<Object> getDesignation(@RequestBody DesignationRequest designationRequest,
 			HttpServletRequest request, HttpServletResponse response) throws SQLException {
 

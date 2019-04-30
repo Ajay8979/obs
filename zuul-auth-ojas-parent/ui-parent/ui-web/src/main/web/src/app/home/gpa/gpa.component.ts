@@ -150,6 +150,7 @@ export class GpaComponent implements OnInit {
     setGpa(){
       var data = {
         "gpaPlan":[{
+				"gpaPlanId":this.gpaPlanId,
                 "gpaPlanType":this.gpaPlanType,
                 "gpaPremium":this.gpaPremium,
                 "totalPremium":this.totalPremium
@@ -157,6 +158,7 @@ export class GpaComponent implements OnInit {
         "sessionId":1221,
                 "transactionType":"save"
 }
+
 this.hrms.setGpaData(data).subscribe(res=>{
   this.gpasetDetails = res;
   console.log(this.gpasetDetails);
@@ -169,12 +171,12 @@ this.hrms.setGpaData(data).subscribe(res=>{
     }
     getGpa(){
       var request = {
-        "gpaPlan":[{
-        }],
-        "sessionId":1221,
-        "pageSize":8,
-        "pageNum" :1
-       }
+		"gpaPlan" : [{
+   
+                   }], 
+               "transactionType":"getall",
+              "sessionId" : "any String" 
+		}
        this.hrms.getGpaData(request).subscribe(res =>{
         this.gpaDetails = res;
         this.gpalist = this.gpaDetails.gpa;

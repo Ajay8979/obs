@@ -18,11 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ojas.model.Designation;
+
 import com.ojas.obs.dao.DesignationDao;
+import com.ojas.obs.model.Designation;
 import com.ojas.obs.request.DesignationRequest;
 import com.ojas.obs.response.DesignationResponse;
-import com.ojas.utility.ErrorResponse;
+import com.ojas.obs.utility.ErrorResponse;
+
 
 @Service
 public class DesignationFacadeImpl implements DesignationFacade {

@@ -21,7 +21,7 @@ boolean saveSeparationType(SeparationTypeRequest separationTypeReq) throws SQLEx
 	boolean updateSeparationType(SeparationTypeRequest separationType) throws SQLException;
 	
 	//boolean deleteSeparationType(int separationTypeId) throws SQLException;
-	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest);
+	public List<SeparationType> getById(SeparationTypeRequest separationTypeRequest) throws SQLException;
 	
 	List<SeparationType> getAllSeparationType() throws SQLException;
 

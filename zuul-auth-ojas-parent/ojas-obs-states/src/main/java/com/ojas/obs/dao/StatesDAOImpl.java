@@ -51,8 +51,14 @@ public class StatesDAOImpl implements StatesDao {
 				return true;
 			}
 		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 		
 		logger.debug("failed to save through daoImpl Method");
 		return false;
@@ -64,8 +70,14 @@ public class StatesDAOImpl implements StatesDao {
 		try {
 			count=jdbcTemplate.queryForObject(STATESCOUNT,Integer.class);
 		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 		
 		return count;
 	}
@@ -94,9 +106,14 @@ public class StatesDAOImpl implements StatesDao {
 				return true;
 			}
 		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-
-		}
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 		
 			logger.debug("failed to save through daoImpl Method");
 			return false;
@@ -125,8 +142,14 @@ public class StatesDAOImpl implements StatesDao {
 		 try { 
 			 list=jdbcTemplate.query(SELECT_STATES, new BeanPropertyRowMapper<States>(States.class));
 			 }finally {
-				 jdbcTemplate.getDataSource().getConnection().close(); 
-			 }
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 		
 		return list;
 	}
@@ -162,8 +185,14 @@ public class StatesDAOImpl implements StatesDao {
 			list=jdbcTemplate.query(SELECT_STATES_BY_ID,stateId, new
 					BeanPropertyRowMapper<>(States.class));
 		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+					if (jdbcTemplate != null) {
+						try {
+							jdbcTemplate.getDataSource().getConnection().close();
+						} catch (Exception exception) {
+							exception.getMessage();
+						}
+					}
+				}
 		
 		return list; 
 	

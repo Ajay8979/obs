@@ -1,4 +1,4 @@
-package com.ojas.utility;
+package com.ojas.obs.utility;
 
 
 /**

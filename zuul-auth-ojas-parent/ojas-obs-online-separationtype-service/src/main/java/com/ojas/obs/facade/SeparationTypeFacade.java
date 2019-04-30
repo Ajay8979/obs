@@ -13,6 +13,7 @@ import static com.ojas.obs.constants.SeparationTypeConstants.GETALL;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import com.ojas.obs.dao.SeparationTypeDao;
 import com.ojas.obs.model.SeparationType;
 import com.ojas.obs.request.SeparationTypeRequest;
 import com.ojas.obs.response.SeparationTypeResponse;
+import com.ojas.obs.utility.ErrorResponse;
 
 /**
  *  
@@ -87,11 +89,19 @@ public class SeparationTypeFacade {
 			 */
 			 
 		 }
+		 catch (DuplicateKeyException exception) {
+				logger.debug("inside designationService catch block.****"); 
+				ErrorResponse error = new ErrorResponse();
+				logger.debug("data is  invalid");
+				error.setStatusMessage(exception.getCause().getLocalizedMessage());
+				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+			}
 		 catch(Exception e) {
-				logger.info("Inside setSeparationTypeDetails() catch block:"); 
-				separationTypeResponse.setStatusMessage(e.getCause().getLocalizedMessage());
-				//return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
-				 return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
+			 logger.debug("inside designationService catch block.****"); 
+				ErrorResponse error = new ErrorResponse();
+				logger.debug("data is  invalid");
+				error.setStatusMessage(e.getMessage());
+				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 			}
 		return null; 
 		 
@@ -106,7 +116,8 @@ public class SeparationTypeFacade {
 		SeparationTypeResponse separationTypeResponse = new SeparationTypeResponse();
 
 		
-		logger.info("Inside getAllSeparationType():");
+		logger.info("Inside getAllSeparationType():"); 
+		try {
 		
 		if (separationTypeRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
 		List<SeparationType> separationTypeList = separationTypeDao.getAllSeparationType();
@@ -137,6 +148,14 @@ public class SeparationTypeFacade {
 	}
 		return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
 		
-	}	
+	}	catch (Exception exception) {
+		logger.debug("inside designationService catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("data is  invalid");
+		 error.setStatusMessage(exception.getMessage());
+		error.setStatusMessage("409");
+		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+}
+	}
 	
 }

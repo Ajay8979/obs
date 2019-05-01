@@ -5,6 +5,7 @@ import static com.ojas.obs.utility.Constants.GET;
 import static com.ojas.obs.utility.Constants.SAVE;
 import static com.ojas.obs.utility.Constants.SET;
 import static com.ojas.obs.utility.Constants.UPDATE;
+//import static com.ojas.obs.utility.Constants.KYE;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ojas.obs.facade.KyeFacade;
@@ -31,6 +33,7 @@ import com.ojas.obs.utility.ErrorResponse;
  */
 
 @RestController
+//@RequestMapping(KYE)
 public class KyeController {
 
 	@Autowired

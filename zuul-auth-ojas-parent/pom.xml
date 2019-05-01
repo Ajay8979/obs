@@ -43,9 +43,14 @@
 		<module>ojas-obs-employeeexperiencedetails</module>
 		<module>ojas-obs-employeecontactinfo</module>
 		<module>ojas-obs-employeeskills</module> 
-       <!-- <module>ojas-obs-project-details</module>
-        <module>ojas-obs-employment-details</module>
+		<module>ojas-obs-employment-details</module>
+		<module>ojas-obs-project-details</module>
 		<module>ojas-obs-kye</module>
+		<module>ojas-obs-employeeinfo</module>
+		<module>ojas-obs-title</module>
+       <!-- 
+        
+		
 		
 		 
 	
@@ -53,18 +58,14 @@
 		
 		
 		
-		<module>ojas-obs-employeeinfo</module>
 		
-		<module>ojas-obs-designation</module> 
 	
 		
-		
-		<module>ojas-obs-online-separationtype-service</module>
 		
 		
 		<module> ojas-obs-insurance</module>
 	
-		<module>ojas-obs-title</module>
+		
 		
 		 -->
 		

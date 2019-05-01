@@ -1,5 +1,5 @@
  <!-- dependent starts -->
- <!-- <div class="tab-pane fade" id="nav-dependent" role="tabpanel" aria-labelledby="nav-dependent-tab"> -->
+
   <br>
   <div class="row ">
     <div class="col-md-11 " style="margin-bottom: 25px;">
@@ -14,7 +14,7 @@
     <div class="col-md-1 " style="padding-left:40px">
       <div class="input-group add">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModaldependent" 
-        (click)="Onsavedep()" >
+        (click)="addnewdepartment(newUserFormDependent)" >
           Add
         </button>
       </div>
@@ -91,23 +91,7 @@
                     </div>
                   </div>
                 </div>
-              <!-- <div class="col-md-6" *ngIf="!createdByDependent">
-                 <div class="form-group">
-                  <label>updated_By: </label>
-                  <input type="text" class="form-control" [(ngModel)]="dependentdetailss.updated_By" name="updated_By" required placeholder="updated_By" #update="ngModel">
-                  <span style="color:red" *ngIf="update.invalid && update.touched ">
-
-                    <span *ngIf="update.errors.required">
-                      updated-by is mandatory.
-                    </span>
-
-                  </span>
-
-                </div> 
-              </div> -->
-
-          
-
+             
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -136,7 +120,7 @@
                   <span style="color:red" *ngIf="user2.invalid && user2.touched ">
 
                     <span *ngIf="user2.errors.required">
-                      give relation.
+                      Relation is required.
                     </span>
 
                   </span>
@@ -153,31 +137,17 @@
                   <span style="color:red" *ngIf="user3.invalid && user3.touched ">
 
                     <span *ngIf="user3.errors.required">
-                      enter DOB
+                      Enter DOB
                     </span>
 
                   </span>
                 </div>
 
               </div>
-
-              <!-- <div class="col-md-6" *ngIf="createdByDependent">
-                  <div class="form-group">
-                  <label>created:by</label>
-                  <input type="text" class="form-control" [(ngModel)]="dependentdetailss.created_By" name="created_By" placeholder="created_By" #created="ngModel">
-                  <span style="color:red" *ngIf="created.invalid && created.touched ">
-
-                    <span *ngIf="created.errors.required">
-                      created by
-                    </span>
-
-                  </span>
-                </div>  
-              </div> -->
               
             </div>
             <!-- <button class="btn btn-primary  float-right margin" (click)="savecustomer()">Save</button> -->
-            <button  class="btn btn-primary  float-right margin" type="submit"  [disabled]="newUserFormDependent.form.invalid" *ngIf="!isupdateDependent" 
+            <button  class="btn btn-primary  float-right margin" type="submit"  [disabled]="newUserFormDependent.form.invalid" *ngIf="createdByDependent" 
             (click)="onsavedependentdata()" data-dismiss="modal" >
               Save
             </button>
@@ -186,7 +156,7 @@
               update
             </button>
             <button class="btn btn-primary  float-right" (click)="newUserFormDependent.reset()">Clear</button>
-            <button class="btn btn-info"  (click)="savedata();" data-dismiss="modal" aria-label="Close">Back</button>
+            <button class="btn btn-info"  (click)="savedata()" data-dismiss="modal" aria-label="Close">Back</button>
 
           </form>
         </div>

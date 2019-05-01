@@ -34,75 +34,127 @@ public class ProjectDetailsDaoImpl implements ProjectDetailsDao {
 		List<Object[]> list = new ArrayList<>();
 
 		logger.debug(" Received input to ProjectDetailsDaoImpl / saveProjectDetails :" + projectDetailsRequestObject);
+		try {
+			for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
+				Object[] params = new Object[] { projectDetails.getProjectName(), projectDetails.getContractId(),
+						projectDetails.getRateId(), projectDetails.getStartDate(), projectDetails.getEndDate(),
+						projectDetails.getBillingId(), projectDetails.getEmployeeId(),
+						projectDetails.getProjectTechStack(), projectDetails.getCustomer(),
+						projectDetails.getLocation(), projectDetails.isGstApplicable(), projectDetails.getProjectType(),
+						projectDetails.getProjectStatus(), projectDetails.getBdmContact(),
+						projectDetails.isIsInternal(), true, projectDetails.getCreatedBy() };
+				list.add(params);
+			}
 
-		for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
-			Object[] params = new Object[] { projectDetails.getProjectName(), projectDetails.getContractId(),
-					projectDetails.getRateId(), projectDetails.getStartDate(), projectDetails.getEndDate(),
-					projectDetails.getBillingId(), projectDetails.getEmployeeId(), projectDetails.getProjectTechStack(),
-					projectDetails.getCustomer(), projectDetails.getLocation(), projectDetails.isGstApplicable(),
-					projectDetails.getProjectType(), projectDetails.getProjectStatus(), projectDetails.getBdmContact(),
-					projectDetails.isIsInternal(), true, projectDetails.getCreatedBy() };
-			list.add(params);
+			int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("insert_ProjectDetails"), list);
+			logger.debug(" output in ProjectDetailsDaoImpl / saveProjectDetails :" + response);
+
+			return response.length;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+					logger.debug("Closing the connection :" + jdbcTemplate.getDataSource().getConnection().isClosed());
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
 		}
-
-		int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("insert_ProjectDetails"), list);
-		logger.debug(" output in ProjectDetailsDaoImpl / saveProjectDetails :" + response);
-
-		return response.length;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Integer updateProjectDetails(ProjectDetailsRequest projectDetailsRequestObject) {
+	public Integer updateProjectDetails(ProjectDetailsRequest projectDetailsRequestObject) throws SQLException {
 		logger.debug(" Received input to ProjectDetailsDaoImpl / updateProjectDetails :" + projectDetailsRequestObject);
-		List<Object[]> list = new ArrayList<>();
-		for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
-			Object[] params = new Object[] { projectDetails.getProjectName(), projectDetails.getContractId(),
-					projectDetails.getRateId(), projectDetails.getStartDate(), projectDetails.getEndDate(),
-					projectDetails.getBillingId(), projectDetails.getEmployeeId(), projectDetails.getProjectTechStack(),
-					projectDetails.getCustomer(), projectDetails.getLocation(), projectDetails.isGstApplicable(),
-					projectDetails.getProjectType(), projectDetails.getProjectStatus(), projectDetails.getBdmContact(),
-					projectDetails.isIsInternal(), projectDetails.getUpdatedBy(), projectDetails.getId() };
+		try {
+			List<Object[]> list = new ArrayList<>();
+			for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
+				Object[] params = new Object[] { projectDetails.getProjectName(), projectDetails.getContractId(),
+						projectDetails.getRateId(), projectDetails.getStartDate(), projectDetails.getEndDate(),
+						projectDetails.getBillingId(), projectDetails.getEmployeeId(),
+						projectDetails.getProjectTechStack(), projectDetails.getCustomer(),
+						projectDetails.getLocation(), projectDetails.isGstApplicable(), projectDetails.getProjectType(),
+						projectDetails.getProjectStatus(), projectDetails.getBdmContact(),
+						projectDetails.isIsInternal(), projectDetails.getUpdatedBy(), projectDetails.getId() };
 
-			list.add(params);
+				list.add(params);
+			}
+			int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("update_ProjectDetails"), list);
+			logger.debug(" output in ProjectDetailsDaoImpl / updateProjectDetails :" + response);
+			return response.length;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
 		}
-		int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("update_ProjectDetails"), list);
-		logger.debug(" output in ProjectDetailsDaoImpl / updateProjectDetails :" + response);
-		return response.length;
 	}
 
 	@Override
 	public List<ProjectDetails> getAll() throws SQLException {
 		logger.debug(" entered into ProjectDetailsDaoImpl / getAll ");
-		List<ProjectDetails> projectDetailsList = jdbcTemplate.query(propsReaderUtil.getValue("getAll_projectDetails"),
-				new ProjectDetailsRowMappers());
-		logger.debug(" output in ProjectDetailsDaoImpl / getAll :" + projectDetailsList);
-		return projectDetailsList;
+		try {
+			List<ProjectDetails> projectDetailsList = jdbcTemplate
+					.query(propsReaderUtil.getValue("getAll_projectDetails"), new ProjectDetailsRowMappers());
+			logger.debug(" output in ProjectDetailsDaoImpl / getAll :" + projectDetailsList);
+			return projectDetailsList;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
+		}
 	}
 
 	@Override
 	public List<ProjectDetails> getById(Integer id) throws SQLException {
 		logger.debug(" Received input to ProjectDetailsDaoImpl / getById :" + id);
-		Object[] params = new Object[] { id };
-		List<ProjectDetails> projectDetailsList = jdbcTemplate.query(propsReaderUtil.getValue("getById_projectDetails"),
-				params, new ProjectDetailsRowMappers());
-		logger.debug(" output in ProjectDetailsDaoImpl / getById :" + projectDetailsList);
-		return projectDetailsList;
+		try {
+			Object[] params = new Object[] { id };
+			List<ProjectDetails> projectDetailsList = jdbcTemplate
+					.query(propsReaderUtil.getValue("getById_projectDetails"), params, new ProjectDetailsRowMappers());
+			logger.debug(" output in ProjectDetailsDaoImpl / getById :" + projectDetailsList);
+			return projectDetailsList;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
+		}
 	}
 
 	@Transactional(rollbackFor = TransactionException.class)
 	@Override
 	public Integer deleteProjectDetails(ProjectDetailsRequest projectDetailsRequestObject) throws SQLException {
 		logger.debug(" Received input to ProjectDetailsDaoImpl / deleteProjectDetails :" + projectDetailsRequestObject);
-		List<Object[]> list = new ArrayList<>();
-		for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
-			Object[] params = new Object[] { false, projectDetails.getUpdatedBy(), projectDetails.getId() };
+		try {
+			List<Object[]> list = new ArrayList<>();
+			for (ProjectDetails projectDetails : projectDetailsRequestObject.getProjectDetailsList()) {
+				Object[] params = new Object[] { false, projectDetails.getUpdatedBy(), projectDetails.getId() };
 
-			list.add(params);
+				list.add(params);
+			}
+			int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("delete_ProjectDetails"), list);
+			logger.debug(" output in ProjectDetailsDaoImpl / getById :" + response);
+			return response.length;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
 		}
-		int[] response = jdbcTemplate.batchUpdate(propsReaderUtil.getValue("delete_ProjectDetails"), list);
-		logger.debug(" output in ProjectDetailsDaoImpl / getById :" + response);
-		return response.length;
 	}
 
 }

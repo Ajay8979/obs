@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ojas.obs.employmentdetails.exception.DataNotInsertedException;
 import com.ojas.obs.employmentdetails.exception.EmploymentDetailsException;
@@ -26,6 +27,7 @@ import com.ojas.obs.employmentdetails.model.EmploymentDetailsResponse;
  *
  */
 @RestController
+//@RequestMapping("/obs/EmploymentDetails")
 public class EmploymentDetailsController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmploymentDetailsController.class);

@@ -57,10 +57,7 @@ public bankdetailss ={
 
  getbankdetails(){
  var bankdetails={
-  "bankDetails":[{
-         
-  
-}],
+  "bankDetails":[],
 "transactionType":"getall"
 
 }
@@ -183,7 +180,8 @@ this.hrms.updatebankdetails(updatebankdetails).subscribe(res =>{
 })
 
 }
-//bank details ends
+
 
 }
 
+//bank details ends

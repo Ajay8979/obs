@@ -40,6 +40,7 @@ public class TitleDaoImpl implements TitleDao {
 	 */
 	@Override
 	public boolean saveTitle(Request request) throws SQLException {
+		try {
 		Timestamp timestamp = new Timestamp(new Date().getTime());
 		int count = 0;
 		boolean status = false;
@@ -52,6 +53,9 @@ public class TitleDaoImpl implements TitleDao {
 			return true;
 		else
 			return status;
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -61,8 +65,12 @@ public class TitleDaoImpl implements TitleDao {
 	 */
 	@Override
 	public List<Model> getAllTitle(Request request) throws SQLException {
+		try {
 		return jdbcTemplate.query(GET, new BeanPropertyRowMapper<Model>(Model.class));
 
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 	/*
@@ -72,6 +80,7 @@ public class TitleDaoImpl implements TitleDao {
 	 */
 	@Override
 	public boolean updateTitle(Request request) throws SQLException {
+		try {
 		Timestamp timestamp = new Timestamp(new Date().getTime());
 		int count = 0;
 		List<Model> modellist = request.getModel();
@@ -83,8 +92,10 @@ public class TitleDaoImpl implements TitleDao {
 			return true;
 		else
 			return false;
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
 	}
-
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -92,6 +103,7 @@ public class TitleDaoImpl implements TitleDao {
 	 */
 	@Override
 	public boolean deleteEmployeeRecord(Integer courseId) throws SQLException {
+		try {
 		int count = 0;
 		boolean status = false;
 		count = jdbcTemplate.update(DELETE, courseId);
@@ -99,7 +111,9 @@ public class TitleDaoImpl implements TitleDao {
 			return true;
 		else
 			return status;
-
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
 	}
 
 	/*
@@ -109,11 +123,16 @@ public class TitleDaoImpl implements TitleDao {
 	 */
 	@Override
 	public int getAllRecordsCount() throws SQLException {
+		try {
 		return jdbcTemplate.queryForObject(GETCOUNT, Integer.class);
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
 	}
+		}
 
 	@Override
 	public List<Model> getById(Request request) throws SQLException {
+		try {
 		List<Model> modelList = request.getModel();
 		List<Object[]> list = new ArrayList<Object[]>();
 		Object[] param = null;
@@ -125,6 +144,9 @@ public class TitleDaoImpl implements TitleDao {
 		List<Model> query = jdbcTemplate.query(GETBYID, param, new BeanPropertyRowMapper<>(Model.class));
 		return query;
 //		return jdbcTemplate.query(GETBYID, new BeanPropertyRowMapper<Model>(Model.class));
+	} finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
 	}
 
 }

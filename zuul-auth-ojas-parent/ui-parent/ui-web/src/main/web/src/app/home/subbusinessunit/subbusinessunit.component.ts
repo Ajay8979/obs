@@ -132,11 +132,15 @@ export class SubbusinessunitComponent implements OnInit {
     this.hrms.setSubbusinessunit(requestData).subscribe(response =>{
       this.subbusinessunitRes = response;
       console.log(this.subbusinessunitRes);
-      if(this.subbusinessunitRes.statusMessage == "Successfully record added"){
-        swal(this.subbusinessunitRes.statusMessage, "","success");
+      // if(this.subbusinessunitRes.statusMessage == "Successfully record added"){
+      //   swal(this.subbusinessunitRes.statusMessage, "","success");
        
-        }
+      //   }
+      if(this.subbusinessunitRes.message == "Successfully record added"){
+        swal(this.subbusinessunitRes.message, "","success");
         this.getSubBusinessUnit();
+        
+        }
         
     })
     this.value=false;
@@ -219,8 +223,8 @@ export class SubbusinessunitComponent implements OnInit {
        this.hrms.updateSubbusinessUnit(request).subscribe(res =>{
          this.updateSubbusinessDetails = res;
          console.log(this.updateSubbusinessDetails);
-         if(this.updateSubbusinessDetails.statusMessage == "Successfully record updated"){
-          swal(this.updateSubbusinessDetails.statusMessage, "","success");
+         if(this.updateSubbusinessDetails.message == "Successfully record updated"){
+          swal(this.updateSubbusinessDetails.message, "","success");
           this.getSubBusinessUnit();
             
           }

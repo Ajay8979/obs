@@ -22,12 +22,12 @@ import com.ojas.obs.request.EmployeeBUDetailsRequest;
  */
 @Repository
 public class EmployeeBUDaoImpl implements EmployeeBUDao {
-	private static final String INSERTEMPLOYEBU = "Insert into obs_bu_details(EmployeeId, sbu, status, Createdby, Createddate,flag) values(?,?,?,?,?,?)";
-	private static final String GETEMPLOYEBU = "Select * from obs_bu_details where flag='1' ";
-	private static final String GETBYID = "Select * from obs_bu_details where flag = 1 and id = ? ";
-	private static final String UPDATEBUDETAILS = "Update obs_bu_details set EmployeeId=?, sbu=?, status=?, Updatedby=?, Updateddate=? WHERE Id=?";
-	private static final String DELETEBUDEAILS = "Update obs_bu_details set flag='0' where Id = ?";
-	private static final String GETBUDetailsCOUNT = "select count(*) from obs_bu_details where flag = '1' ";
+	private static final String INSERTEMPLOYEBU = "Insert into obs_budetails(EmployeeId, sbu, status, Createdby, Createddate,flag) values(?,?,?,?,?,?)";
+	private static final String GETEMPLOYEBU = "Select * from obs_budetails where flag='1' ";
+	private static final String GETBYID = "Select * from obs_budetails where flag = 1 and id = ? ";
+	private static final String UPDATEBUDETAILS = "Update obs_budetails set EmployeeId=?, sbu=?, status=?, Updatedby=?, Updateddate=? WHERE Id=?";
+	private static final String DELETEBUDEAILS = "Update obs_budetails set flag='0' where Id = ?";
+	private static final String GETBUDetailsCOUNT = "select count(*) from obs_budetails where flag = '1' ";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	Logger logger = Logger.getLogger(this.getClass());

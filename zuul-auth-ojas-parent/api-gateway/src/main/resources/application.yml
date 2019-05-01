@@ -73,7 +73,22 @@ zuul:
       url: http://192.168.6.186:8091/
     ojas-obs-employeeskills:
       path: /obs/employeeskillsdetails/** 
-      url: http://192.168.6.186:8094/  
+      url: http://192.168.6.186:8094/ 
+    ojas-obs-employment-details :
+       path: /obs/employmentDetails/**
+       url: http://192.168.6.186:8084/   
+    ojas-obs-project-details:
+       path: /obs/projectDetails/**
+       url: http://192.168.6.186:8083/  
+    ojas-obs-kye:
+       path: /obs/kye/**
+       url: http://192.168.6.186:7070/   
+    ojas-obs-employeeinfo:
+      path: /obs/employeeInfo/**
+      url: http://192.168.6.186:8093/    
+    ojas-obs-title:
+      path: /obs/employeetitle/**
+      url: http://192.168.6.186:8095/      
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

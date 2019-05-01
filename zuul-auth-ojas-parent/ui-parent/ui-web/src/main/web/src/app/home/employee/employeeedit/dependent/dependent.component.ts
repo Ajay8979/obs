@@ -13,6 +13,7 @@ export class DependentComponent implements OnInit {
   constructor(private hrms:HrmsService) { }
 
   ngOnInit() {
+    this.getdependentData();
   }
   
   public dependent_details:any;
@@ -31,15 +32,9 @@ export class DependentComponent implements OnInit {
   dependent_dtdetails:any
   
 
-//dependent details starts
-OnSave(newUserFormonboard)
-{
-  newUserFormonboard.reset();
- this.createdByDependent=true;
-  this.isupdateDependent=false;
-}
-Onsavedep(newUserFormDependent){
-  newUserFormDependent.rest();
+
+addnewdepartment(newUserFormDependent){
+  newUserFormDependent.reset();
   this.createdByDependent=true;
   this.isupdateDependent=false;
 
@@ -114,7 +109,7 @@ getdependentData(){
  }
 
  updatedependentdata(){
-
+  
  var user="user";
   var updatedependentdataobj ={
     "dependentDetails" : [

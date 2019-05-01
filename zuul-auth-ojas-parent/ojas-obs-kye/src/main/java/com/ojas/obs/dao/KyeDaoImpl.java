@@ -6,6 +6,7 @@ import static com.ojas.obs.utility.Constants.GETALL_KYE_COUNT;
 import static com.ojas.obs.utility.Constants.SAVE_KYE;
 import static com.ojas.obs.utility.Constants.UPDATE_KYE;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,25 +41,31 @@ public class KyeDaoImpl implements KyeDao {
 	 * @see com.ojas.obs.dao.KyeDao#saveKYE(com.ojas.obs.request.KYERequest)
 	 */
 	@Override
-	public boolean saveKYE(KYERequest kyeRequest) {
+	public boolean saveKYE(KYERequest kyeRequest) throws SQLException {
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		for (KYE kye : kyeList) {
-			java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
-			java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
-			Object[] save = { kye.getkYE_Type(), kye.getUan(), kye.getkYE_address(), kye.getPassport_no(), issueDate,
-					expireDate, kye.getPlace_of_issue(), kye.getPassport_address(), kye.getEmployee_Id(), false,
-					kye.getCreated_by(), new Timestamp(new Date().getTime()) };
-			inputList.add(save);
+		try {
+			for (KYE kye : kyeList) {
+				java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
+				java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
+				Object[] save = { kye.getkYE_Type(), kye.getUan(), kye.getkYE_address(), kye.getPassport_no(), issueDate,
+						expireDate, kye.getPlace_of_issue(), kye.getPassport_address(), kye.getEmployee_Id(), false,
+						kye.getCreated_by(), new Timestamp(new Date().getTime()) };
+				inputList.add(save);
 
+			}
+			int[] batchUpdate = jdbcTemplate.batchUpdate(SAVE_KYE, inputList);
+			if (batchUpdate.length > 0) {
+				return true;
+			}
+			return status;
+		}finally {
+			if(jdbcTemplate!=null)
+				jdbcTemplate.getDataSource().getConnection().close();
 		}
-		int[] batchUpdate = jdbcTemplate.batchUpdate(SAVE_KYE, inputList);
-		if (batchUpdate.length > 0) {
-			return true;
-		}
-		return status;
+		
 	}
 
 	/*
@@ -67,26 +74,32 @@ public class KyeDaoImpl implements KyeDao {
 	 * @see com.ojas.obs.dao.KyeDao#updateKYE(com.ojas.obs.request.KYERequest)
 	 */
 	@Override
-	public boolean updateKYE(KYERequest kyeRequest) {
+	public boolean updateKYE(KYERequest kyeRequest) throws SQLException {
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		for (KYE kye : kyeList) {
-			java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
-			java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
+		try {
+			for (KYE kye : kyeList) {
+				java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
+				java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
 
-			Object[] update = { kye.getkYE_Type(), kye.getUan(), kye.getkYE_address(), kye.getPassport_no(), issueDate,
-					expireDate, kye.getPlace_of_issue(), kye.getPassport_address(), false, kye.getUpdated_by(),
-					new Timestamp(new Date().getTime()), kye.getId() };
-			inputList.add(update);
+				Object[] update = { kye.getkYE_Type(), kye.getUan(), kye.getkYE_address(), kye.getPassport_no(), issueDate,
+						expireDate, kye.getPlace_of_issue(), kye.getPassport_address(), false, kye.getUpdated_by(),
+						new Timestamp(new Date().getTime()), kye.getId() };
+				inputList.add(update);
 
+			}
+			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATE_KYE, inputList);
+			if (batchUpdate.length > 0) {
+				return true;
+			}
+			return status;
+		}finally {
+			if(jdbcTemplate!=null)
+				jdbcTemplate.getDataSource().getConnection().close();
 		}
-		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATE_KYE, inputList);
-		if (batchUpdate.length > 0) {
-			return true;
-		}
-		return status;
+		
 	}
 
 	/*
@@ -96,29 +109,35 @@ public class KyeDaoImpl implements KyeDao {
 	 */
 
 	@Override
-	public boolean deleteKYE(KYERequest kyeRequest) {
+	public boolean deleteKYE(KYERequest kyeRequest) throws SQLException {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
-		for (KYE kye : kyeList) {
-			/*
-			 * kyeRequest.getTransactionType().equalsIgnoreCase(GETALL); List<KYE> allKYE =
-			 * getAllKYE(kyeRequest); for (KYE kye1 : allKYE) { boolean flag =
-			 * kye1.isFlag(); if ((kye.getId() == kye1.getId()) && (flag)) { return false; }
-			 * }
-			 */
+		try {
+			for (KYE kye : kyeList) {
+				/*
+				 * kyeRequest.getTransactionType().equalsIgnoreCase(GETALL); List<KYE> allKYE =
+				 * getAllKYE(kyeRequest); for (KYE kye1 : allKYE) { boolean flag =
+				 * kye1.isFlag(); if ((kye.getId() == kye1.getId()) && (flag)) { return false; }
+				 * }
+				 */
 
-			Object[] delete = { true, kye.getUpdated_by(), new Timestamp(new Date().getTime()), kye.getId() };
-			inputList.add(delete);
+				Object[] delete = { true, kye.getUpdated_by(), new Timestamp(new Date().getTime()), kye.getId() };
+				inputList.add(delete);
+			}
+
+			int[] batchUpdate = jdbcTemplate.batchUpdate(DELETE_KYE, inputList);
+
+			if (batchUpdate.length > 0) {
+				return true;
+			}
+			return status;
+		}finally {
+			if(jdbcTemplate!=null)
+				jdbcTemplate.getDataSource().getConnection().close();
 		}
-
-		int[] batchUpdate = jdbcTemplate.batchUpdate(DELETE_KYE, inputList);
-
-		if (batchUpdate.length > 0) {
-			return true;
-		}
-		return status;
+		
 	}
 
 	/*
@@ -127,18 +146,24 @@ public class KyeDaoImpl implements KyeDao {
 	 * @see com.ojas.obs.dao.KyeDao#getAllKYE(com.ojas.obs.request.KYERequest)
 	 */
 	@Override
-	public List<KYE> getAllKYE(KYERequest kyeRequest) {
+	public List<KYE> getAllKYE(KYERequest kyeRequest) throws SQLException {
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
-		for (KYE kye : kyeList) {
-			StringBuilder buffer = new StringBuilder();
-			buffer.append(GETALL_KYE);
-			if (kye.getId() != 0) {
-				buffer.append(" and id = " + kye.getId());
+		try {
+			for (KYE kye : kyeList) {
+				StringBuilder buffer = new StringBuilder();
+				buffer.append(GETALL_KYE);
+				if (kye.getId() != 0) {
+					buffer.append(" and id = " + kye.getId());
+				}
+				return jdbcTemplate.query(buffer.toString(), new BeanPropertyRowMapper<>(KYE.class));
 			}
-			return jdbcTemplate.query(buffer.toString(), new BeanPropertyRowMapper<>(KYE.class));
+			return null;
+		}finally {
+			if(jdbcTemplate!=null)
+				jdbcTemplate.getDataSource().getConnection().close();
 		}
-		return null;
+		
 	}
 
 	/*
@@ -147,8 +172,13 @@ public class KyeDaoImpl implements KyeDao {
 	 * @see com.ojas.obs.dao.KyeDao#getAllKYECount()
 	 */
 	@Override
-	public int getAllKYECount() {
-		return jdbcTemplate.queryForObject(GETALL_KYE_COUNT, Integer.class);
+	public int getAllKYECount() throws SQLException {
+		try {
+			return jdbcTemplate.queryForObject(GETALL_KYE_COUNT, Integer.class);
+		}finally {
+				jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
 	}
 
 	/*

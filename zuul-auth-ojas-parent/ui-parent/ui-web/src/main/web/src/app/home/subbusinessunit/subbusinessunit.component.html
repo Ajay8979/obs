@@ -67,7 +67,7 @@
           </div>
           <select id="businessunit" name="costcenter" [(ngModel)]="bulist.id" *ngIf="bulist.isEditable" class='form-control' >
               <option value="undefined" selected disabled >--Select--</option>
-              <option value="{{bUlist.id}}" *ngFor="let bUlist of businessUnitList">{{bUlist.id}}</option>
+              <option value="{{bUlist.businessUnitName}}" *ngFor="let bUlist of businessUnitList">{{bUlist.businessUnitName}}</option>
             </select>
         </td>
         <td>
@@ -76,7 +76,7 @@
           </div>
           <select id="costcenter" name="costcenter" [(ngModel)]="bulist.costCenterId" *ngIf="bulist.isEditable" class='form-control' >
               <option value="undefined" selected disabled >--Select--</option>
-              <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.id}}</option>
+              <option value="{{CostCenter.costCenterCode}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.costCenterCode}}</option>
             </select>
         </td> 
         <td>
@@ -95,11 +95,11 @@
          <tr>
           <td><select id="businessunit" name="costcenter" [(ngModel)]="businessUnitId" *ngIf="value" class='form-control' >
               <option value="undefined" selected disabled >--Select--</option>
-              <option value="{{bUlist.id}}" *ngFor="let bUlist of businessUnitList">{{bUlist.id}}</option>
+              <option value="{{bUlist.businessUnitName}}" *ngFor="let bUlist of businessUnitList">{{bUlist.businessUnitName}}</option>
             </select></td>
           <td><select id="costcenter" name="costcenter" [(ngModel)]="costCenterId" *ngIf="value" class='form-control' >
             <option value="undefined" selected disabled >--Select--</option>
-            <option value="{{CostCenter.id}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.id}}</option>
+            <option value="{{CostCenter.costCenterCode}}" *ngFor="let CostCenter of coscentergetlist">{{CostCenter.costCenterCode}}</option>
           </select></td> 
           <td><input id="subbusinessunit" name="subbusinessunit" [(ngModel)]="subbusinessunit" *ngIf="value" type="text" class="form-control" placeholder="Enter sub-BusinessUnit" required ></td>
           <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setSubbusinessunit()>Save</button>

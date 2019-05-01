@@ -133,10 +133,15 @@ var requestData = {
   "costCenter" : [{
           
   
-          "costCenterCode":this.costCenterCode
+          "costCenterCode":123
   
-  }
-  ],
+  },
+  {
+  
+  "costCenterCode":456
+          
+  
+  }],
           
   "sessionId" : "124",
   

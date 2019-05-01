@@ -23,9 +23,9 @@ public class Constants {
 	public static final String GETCERTIFICATION="/getCertificationDetails";
 	 //=================================query constants===========================
 	public static final String INSERT="insert into obs_certificationdetails( certification_name, Issued_by, Date_of_issue, employee_id,created_by,flag,created_date) values(?,?,?,?,?,?,now())";
-	public static final String UPDATEQ="update obs_CertificationDetails set certification_name=?, Issued_by=?, Date_of_issue=? ,created_by=?, updated_by=?,updated_date=now() where id = ?";
-	public static final String DELETECertificationDetails = "update obs_CertificationDetails set flag = false ,updated_by=? where id = ?";
-	public static final String GETCertificationDetailsCOUNT = "select count(*) from obs_CertificationDetails where flag= true";
-	public static final String GETCertificationDetails="Select * from obs_CertificationDetails where flag=1";
-	public static final String GETCertificationDetailById="Select * from obs_CertificationDetails where flag = 1 and id = ?";
+	public static final String UPDATEQ="update obs_certificationdetails set certification_name=?, Issued_by=?, Date_of_issue=? ,created_by=?, updated_by=?,updated_date=now() where id = ?";
+	public static final String DELETECertificationDetails = "update obs_certificationdetails set flag = false ,updated_by=? where id = ?";
+	public static final String GETCertificationDetailsCOUNT = "select count(*) from obs_certificationdetails where flag= true";
+	public static final String GETCertificationDetails="Select * from obs_certificationdetails where flag=1";
+	public static final String GETCertificationDetailById="Select * from obs_certificationdetails where flag = 1 and id = ?";
 }

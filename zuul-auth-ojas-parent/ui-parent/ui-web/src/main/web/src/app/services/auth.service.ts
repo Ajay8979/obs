@@ -24,7 +24,8 @@ export class AuthService {
     return false;
     }
   }
-  url:any="http://192.168.7.64:8089/login";
+  url:any="http://192.168.6.186:8089/login";
+  //url:any="http://192.168.7.64:8089/login";
 
   public async loginAction(postData){
 

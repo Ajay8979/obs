@@ -3,6 +3,9 @@
 </p> -->
 <!--skill data starts -->    
 <!-- <div class="tab-pane fade" id="nav-skill" role="tabpanel" aria-labelledby="nav-skill-tab"> -->
+   
+<!--skill data starts -->    
+
   <br>
        <div class="modal right fade" id="myModalskill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
         <div class="modal-dialog" role="document">
@@ -162,7 +165,7 @@
                
                 </tr>
                 </thead>
-                <tr *ngFor="let tableData of skillInfoList | filter:key | paginate: { itemsPerPage: 100, currentPage:skillpage }; let i=index">
+                <tr *ngFor="let tableData of skillInfoList | filter:key | paginate: { itemsPerPage: 20, currentPage:skillpage }; let i=index">
                   <td>{{tableData.employee_id}}</td>
                   <td>{{tableData.skill_id}} </td>
               
@@ -173,6 +176,7 @@
                 </table>
       </div>
 
-      <!-- <pagination-controls class="pull-right" (pageChange)="skillpage = $event"></pagination-controls>  -->
+    <pagination-controls class="pull-right" (pageChange)="skillpage = $event"></pagination-controls> 
 
 <!--skill data ends -->  
+

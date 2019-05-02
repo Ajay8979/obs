@@ -101,7 +101,7 @@ public class BankDetailsController {
 		try {
 			
 			logger.debug("incoming request in getmethod" + bankDetailsRequest);
-			if (!(bankDetailsRequest.getTransactionType().equalsIgnoreCase("GETLL"))
+			if (!(bankDetailsRequest.getTransactionType().equalsIgnoreCase("GETALL"))
 					&& (bankDetailsRequest.getTransactionType().isEmpty())) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Data must not be null");

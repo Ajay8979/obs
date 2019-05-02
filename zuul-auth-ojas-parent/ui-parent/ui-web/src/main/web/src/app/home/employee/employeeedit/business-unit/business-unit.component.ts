@@ -13,7 +13,7 @@ export class BusinessUnitComponent implements OnInit {
 
   ngOnInit() {
     this.getSubBusinessUnit();
-    this.getbusines();
+    this.getEmployeeStatusData();
     this.getgenderdata();
   }
   // bu starts-------
@@ -62,33 +62,36 @@ public businessUnitObj=
 
 
 getgenderdata:any;
-getbusines(){
-var businesinfo = {
-  "employeeBUDeatils": [{
+// getbusines(){
+// var businesinfo = {
+//   "employeeBUDeatils": [{
 
-  }],
-    "transactionType" :"getall"
-}
- this.hrms.getBusinessunit(businesinfo).subscribe(res =>{
-this.empbu =res;
-this.empbuinfo= this.empbu.listCourse;
- console.log(this.empbu);
- for(let i=0;i<=this.empbuinfo.length;i++){
+//   }],
+//     "transactionType" :"getall"
+// }
+//  this.hrms.getBusinessunit(businesinfo).subscribe(res =>{
+// this.empbu =res;
+// this.empbuinfo= this.empbu.listCourse;
+//  console.log(this.empbu);
+//  for(let i=0;i<=this.empbuinfo.length;i++){
 
-  for(let j=0;j<this.subBusinessUnitlist.length;j++){
-  if(this.empbuinfo[i].gender==this.subBusinessUnitlist[j].id){
-  this.getgenderdata=this.subBusinessUnitlist[j].gender;
-  console.log("GEnder details");
-  console.log(this.getgenderdata);
-  } 
-  }
-  this.empbuinfo[i].gender=this.getgenderdata;
-  console.log("Final Educational Details Array");
-  console.log(this.empbuinfo);
-  }
- })
+//   for(let j=0;j<this.subBusinessUnitlist.length;j++){
+//   if(this.empbuinfo[i].gender==this.subBusinessUnitlist[j].id){
+//   this.getgenderdata=this.subBusinessUnitlist[j].gender;
+//   console.log("GEnder details");
+//   console.log(this.getgenderdata);
+//   } 
+//   }
+//   this.empbuinfo[i].gender=this.getgenderdata;
+//   console.log("Final Educational Details Array");
+//   console.log(this.empbuinfo);
+//   }
+//  })
 
-}
+// }
+employee_Status:any;
+employee_statuslist:any;
+
 savebusinesunit(){
 
 var savebusines={
@@ -110,7 +113,7 @@ if(this.businesinfo.statusMessage == "Successfully BusinessUnit record saved"){
   swal(this.businesinfo.statusMessage, "","success");
 }
 
-  this.getbusines();
+  this.getEmployeeStatusData();
 
  })
 
@@ -129,7 +132,7 @@ this.hrms.deletebusinessunit(delrequest).subscribe(response=>{
   if(this.business_data.statusMessage =="Successfully BusinessUnit record deleted"){
      swal(this.business_data.statusMessage, "","success");
 
-     this.getbusines();
+     this.getEmployeeStatusData();
    }
 })
 
@@ -156,7 +159,7 @@ updatebusinesunitint(){
        if(this.updatebusines.statusMessage == "Successfully BusinessUnit record updated"){
          swal(this.updatebusines.statusMessage, "","success");
         
-       this.getbusines();
+       this.getEmployeeStatusData();
        }
   })
  }
@@ -177,6 +180,19 @@ updatebusinesunitint(){
       this.subBusinessUnitlist = this.subbusinessunitDetails.subBusinessUnitList;
       console.log(this.subbusinessunitDetails);
      })
+  }
+  getEmployeeStatusData(){
+    var request={
+   
+      "transactionType": "getall"
+  }
+  this.hrms.getEmployeeStatusMaster(request).subscribe(response=>{
+    this.employee_Status = response; 
+    this.employee_statuslist= this.employee_Status.employeeStatusList;
+    console.log("Employee Status");
+    console.log(this.employee_statuslist);
+  })
+  
   }
  
  getbusiness_data_byid(empbu){

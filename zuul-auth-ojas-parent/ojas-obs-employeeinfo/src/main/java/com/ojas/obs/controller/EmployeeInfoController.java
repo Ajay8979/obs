@@ -1,6 +1,6 @@
 package com.ojas.obs.controller;
 
-import static com.ojas.obs.constants.URLconstants.EMPLOYEEINFO;
+
 import static com.ojas.obs.constants.URLconstants.GET;
 import static com.ojas.obs.constants.URLconstants.SET;
 import static com.ojas.obs.constants.UserConstants.DELETE;
@@ -33,7 +33,7 @@ import com.ojas.obs.request.EmployeeInfoRequest;
  */
 
 @RestController
-//@RequestMapping(EMPLOYEEINFO)
+
 public class EmployeeInfoController {
 
 	@Autowired
@@ -88,7 +88,8 @@ public class EmployeeInfoController {
 								|| (null == empInfo.getGender() || empInfo.getGender().isEmpty())
 								|| (null == empInfo.getDob() || empInfo.getDob().isEmpty())
 								|| (null == empInfo.getStatus() || empInfo.getStatus().isEmpty())
-								|| (null == empInfo.getPassword() || empInfo.getPassword().isEmpty())
+								//|| (null == empInfo.getPassword() || empInfo.getPassword().isEmpty())
+								|| (null == empInfo.getTitle())
 								|| null == empInfo.getEmployeeId() || empInfo.getEmployeeId().isEmpty()
 								|| (employeeInfoRequest.getTransactionType() == null
 										|| (employeeInfoRequest.getTransactionType().isEmpty())))) {
@@ -101,8 +102,7 @@ public class EmployeeInfoController {
 
 				}
 
-				if ((transactionType.equalsIgnoreCase(UPDATE) || transactionType.equalsIgnoreCase(DELETE))
-						&& null == empInfo.getId()) {
+				if ((transactionType.equalsIgnoreCase(UPDATE) && null == empInfo.getId()) || (transactionType.equalsIgnoreCase(DELETE) && null == empInfo.getEmployeeId())) {
 
 					ErrorResponse errorResponse = new ErrorResponse();
 					errorResponse = new ErrorResponse();

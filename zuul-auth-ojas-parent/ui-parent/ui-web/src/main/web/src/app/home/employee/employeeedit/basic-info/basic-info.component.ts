@@ -9,30 +9,96 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./basic-info.component.scss']
 })
 export class BasicInfoComponent implements OnInit {
+  isupdate: boolean;
+  createdby: boolean;
+  update: boolean;
 
   constructor(private hrms:HrmsService) { }
 
   ngOnInit() {
+    this.getempdata();
+    this.getEmployeeStatusData();
+    this.getEmployeeStatusData();
+    this.getRole();
   }
+ 
+  // emp basic starts //
+  isUpdate:boolean;
+ emp_fname:any;
+ emp_mname:any;
+ emp_lname:any;
+ emp_dob:any;
+ emp_status:any;
+ emp_id:any;
+ emp_password:any;
+ emp_created:any;
+ emp_gender:any;
+ basicinfo:any;
+ delete_data:any;
+ emp_basic:any;
+ basicInfobyid:any;
+ updateempdata:any;
+ basicInfoDetails:any;
+ basicUnitObj:any;
+ created:any;
+ CREATEDBY2:any;
+ createdby2:any;
+ isUpdate1:boolean;
+ basicempstatus:any;
+ empbasicstatus:any;
+ empgender:any;
+ empgenderinfo:any;
+ createdby1:any;
+ employee_Status:any;
+ isUPDATEDBY:any;
+ employee_statuslist:any;
+ isupdateDependent:boolean;
+ isactive:boolean;
+ isave:any;
+ getRoleDetails:any;
+ roleManagemenList:any;
+
+ addSkillvalue(newUserForminfo){
+  newUserForminfo.reset();
+//this.isUPDATEDBY=false;
+this.isave=true;
+this.update=false;
+
+ }
+
+
+ public empinobj=
+{
+            "id":"",
+                "firstname" : "",
+                "middlename" : "",
+                "lastname" : "",
+                "status" : "",
+             "dob":"",
+                "gender" : "",
+                "password" : "",
+                "employeeId" : "",
+                        "updatedBy" : "",
+                        "createdBy":""
+
+}
 
 //Get Employee Basic Info
-empbasic:any
-empbasicinfo:any
-empgenderinfo:any;
 getgenderdata:any;
 getstatusdata:any;
-empbasicstatus:any;
+empbasic:any;
+empbasicinfo:any
+
  getempdata(){
-  var empinfo = {
-  
-    "employeeInfo" :[{
-         
-
-    }],
-    "transactionType" : "getall"
-
-    
-} 
+  //this.isupdate=false;
+  var empinfo = 
+  {
+  "employeeInfo" :[{
+   
+  }],
+                  "transactionType":"getall"
+                 
+  }
    this.hrms.getempinfo(empinfo).subscribe(res =>{
   this.empbasic =res;
   this.empbasicinfo= this.empbasic.employeeInfo;
@@ -68,15 +134,10 @@ empbasicstatus:any;
    })
   
 }
-//--Save Basic info--------------------
-empinobj:any;
-basicinfo:any;
+
 saveemployeeInfo(){
   var request={
     "employeeInfo" :[{
-         
-           
-                   
                     "firstname" : this.empinobj.firstname,
                     "middlename" : this.empinobj.middlename,
                     "lastname" : this.empinobj.lastname,
@@ -105,9 +166,8 @@ saveemployeeInfo(){
     
   }
 
-//--Delete--------------
-delete_data:any
-  deleteemp(empbasic){
+
+  deleteemp(empbasic: { id: any; }){
     var reguest1={
       "employeeInfo" :[{
              "id":empbasic.id
@@ -128,13 +188,9 @@ delete_data:any
       })
       
       }
-
-      //---Update------------------
-      isupdate:boolean
-      updateempdata:any;
       updateempinfo(){
-        this.isupdate = false;
-        var updateempinfo={
+        // this.isupdate = false;
+        var updateempreq={
           "employeeInfo" :[{
                  "id":this.empinobj.id,
                   "firstname" : this.empinobj.firstname,
@@ -151,7 +207,7 @@ delete_data:any
   
           
   }
-        this.hrms.updateempinfo(updateempinfo).subscribe(res =>{
+        this.hrms.updateempinfoser(updateempreq).subscribe(res =>{
           this.updateempdata = res;
           console.log(this.updateempdata);
            if(this.updateempdata.statusMessage == "Success fully record updated")
@@ -171,15 +227,8 @@ delete_data:any
       //  {
          
       //  }
-//--Add Button--------
-createdby:boolean;
-isUpdate:boolean;
 
-basicInfobyid:any
-basicInfoDetails:any;
-
-
-       getbyIdbasicdata(empbasic){
+       getbyIdbasicdata(empbasic: { id: any; }){
 
         this.createdby=false;
         this.isUpdate = true;
@@ -210,38 +259,15 @@ basicInfoDetails:any;
          console.log("this.basicUnitObj",this.empinobj);
         })
         }
-
-//Get employee----------
-basicempstatus:any;
-getemplostatus(){
-          var empstatus = {
-            "employeeStatus": [
-                {
-                        
-                }
-         
-            ],
-            "transactionType": "getall"
-         }
-           this.hrms.getempstatus(empstatus).subscribe(res =>{
-          this.basicempstatus =res;
-          this.empbasicstatus= this.basicempstatus.employeeStatusList;
-           console.log(this.empbasicstatus);
-           })
-          
-        }
-        //--get Gender------------------
-        empgender:any;
         getgender(){
           var genderinfo={
        
             "gender":[
              {
              
+             }
+            ],
             
-             }],
-                  
-            "sessionId":"1234",
              "transactionType": "getall"
             }
             this.hrms.getGenderinfo(genderinfo).subscribe(res =>{
@@ -252,11 +278,34 @@ getemplostatus(){
           
 
         }
+        getEmployeeStatusData(){
+          var request={
+         
+            "transactionType": "getall"
+        }
+        this.hrms.getEmployeeStatusMaster(request).subscribe(response=>{
+          this.employee_Status = response; 
+          this.employee_statuslist= this.employee_Status.employeeStatusList;
+          console.log("Employee Status");
+          console.log(this.employee_statuslist);
+        })
+        
+        }
+        getRole(){
+          var request = {
+                
+            "transactionType" : "getAll"
+        }
+        
+        this.hrms.getRoleManagement(request).subscribe(res=>{
+          this.getRoleDetails = res;
+          this.roleManagemenList = this.getRoleDetails.roleManagementList;
+          console.log(this.getRoleDetails);
+        })
+        }
+        
     
 
  //emp Basic ends//
-    
-
-
 
 }

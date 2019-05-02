@@ -52,11 +52,11 @@ public class BankDetailsController {
 
 			if (listBankDetails.isEmpty() || listBankDetails == null) {
 				ErrorResponse error = new ErrorResponse();
-				error.setMessage("Data must not be null");
+				error.setMessage("Data is null from request obj");
 				error.setStatusCode("422");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			for (BankDetails bankDetails : listBankDetails) {
+			for (BankDetails bankDetails : listBankDetails) { 
 				if (bankDetailsRequest.getTransactionType().equalsIgnoreCase("UPDATE")
 						|| bankDetailsRequest.getTransactionType().equalsIgnoreCase("SAVE")) {
 					if ((null == bankDetails.getBank_account_no() || bankDetails.getBank_account_no().isEmpty())
@@ -68,7 +68,7 @@ public class BankDetailsController {
 									|| bankDetails.getBank_account_status().isEmpty())
 							|| (null == bankDetails.getEmployee_id())) {
 						ErrorResponse error = new ErrorResponse();
-						error.setMessage("Data must not be null");
+						error.setMessage("Data must not be null...");
 						error.setStatusCode("422");
 						return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 					}

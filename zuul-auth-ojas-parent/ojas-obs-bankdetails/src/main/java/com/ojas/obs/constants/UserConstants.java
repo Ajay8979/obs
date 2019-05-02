@@ -14,7 +14,7 @@ public class UserConstants {
 	public static final String SUCCESS = "Success";
 	public static final String SET = "/set";
 	public static final String GET = "/getAll";
-	public static final String GETALL = "/getAll";
+	public static final String GETALL = "/getall";
 	/* public static final String BANKDETAILS ="/obs/BankDetails"; */
 	
 	//--------------------Bank Details------------------//

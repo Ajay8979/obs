@@ -53,6 +53,10 @@
 			<artifactId>gson</artifactId>
 		
 		</dependency>
+		<dependency>
+				<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-web</artifactId>
+			</dependency>	
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -70,7 +74,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 
                 <groupId>com.spotify</groupId>
 
@@ -86,7 +90,7 @@
 
                     <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 
-            <!--    copy the service's jar file from target into the root directory of the image -->
+               copy the service's jar file from target into the root directory of the image
 
                     <resources>
 
@@ -122,7 +126,7 @@
 
                 </executions>
 
-            </plugin> 
+            </plugin>  -->
 		</plugins>
 	</build>
 

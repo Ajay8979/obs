@@ -8,6 +8,8 @@ spring:
 
 
 
+
+
     url: jdbc:mysql://192.168.6.186:3306/ojas_obs
     username: dbubora
     password: Ojas-1525

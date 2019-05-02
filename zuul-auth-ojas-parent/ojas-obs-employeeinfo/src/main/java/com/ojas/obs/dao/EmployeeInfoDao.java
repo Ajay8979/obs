@@ -52,8 +52,9 @@ public interface EmployeeInfoDao {
 	 * @param pageSize
 	 * @param pageNum
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<EmployeeInfo> getPageRecords(List<EmployeeInfo> allemployeeDetails, int pageSize, int pageNum);
+	public List<EmployeeInfo> getPageRecords(List<EmployeeInfo> allemployeeDetails, int pageSize, int pageNum) throws SQLException;
 
 	/**
 	 * 
@@ -65,7 +66,7 @@ public interface EmployeeInfoDao {
 
 	List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 
-	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest);
+	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 	
 	
 	

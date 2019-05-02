@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -95,11 +96,19 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 					return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
 				}
 			}
-		} catch (Exception exception) {
+		}catch (DuplicateKeyException exception) {
+			logger.debug("**DuplicateKeyException-inside employeeInfoFacade catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("data is  invalid-DuplicateKeyException ");
+			error.setMessage(exception.getCause().getLocalizedMessage());
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		} 
+		catch (Exception exception) {
 			logger.debug("**inside employeeInfoFacade catch block.****");
 			ErrorResponse error = new ErrorResponse();
 			logger.debug("data is  invalid");
 			error.setMessage(exception.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		return null;
 
@@ -135,6 +144,7 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 				return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
 			}
 		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+			System.out.println("Inside getbyid");
 			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getById(employeeInfoRequest);
 			int count = employeeInfoDao.getAllEmployeeDetailsCount();
 			employeeResponse.setEmployeeInfo(allEmployeeDetails);

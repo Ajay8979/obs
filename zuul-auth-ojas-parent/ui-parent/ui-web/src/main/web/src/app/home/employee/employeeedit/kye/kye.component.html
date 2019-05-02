@@ -14,11 +14,11 @@
        
          <!-- <h4 class="modal-title" id="myModalLabel2">Employee Experience</h4> -->
          <h3>Employee KYE</h3>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newUserFormExp.reset()"><span aria-hidden="true">&times;</span></button> 
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newUserFormKye.reset()"><span aria-hidden="true">&times;</span></button> 
        </div>
 
        <div class="modal-body">
-         <form class="tile"  #newUserFormExp="ngForm" (ngSubmit)="onSubmitbu(newUserFormExp)">
+         <form class="tile"  #newUserFormKye="ngForm" (ngSubmit)="onSubmitbu(newUserFormKye)">
            <div class="row">
              <div class="col-md-6">
                 
@@ -56,24 +56,7 @@
 
                    
 
-                    <div class="col-md-6">
-                       <div class="form-group">
-                           <label> Place Of Issue: </label>
-                           <select class="form-control" [(ngModel)]="empkyedetails.place_of_issue" name="empkyedetails.place_of_issue" 
-                           required placeholder=" Place Of Issue"  #empkye3="ngModel">
-                          <option *ngFor="let passport of passportCenterList" [value]="passport.id"> {{passport.centerName}}</option>
-                        </select>
-                           <!-- <input type="number" class="form-control" [(ngModel)]="empkyedetails.place_of_issue" name="empname8" 
-                           required placeholder=" Place Of Issue"  #empid9="ngModel">-->
-                           <span style="color:red" *ngIf="empkye3.invalid && empkye3.touched ">
-                           
-                              <span *ngIf="empkye3.errors.required">
-                                Place of issue is required.
-                              </span>
-                              
-                            </span> 
-                         </div>
-                        </div>
+                  
            </div>
                  
                  
@@ -83,7 +66,7 @@
                    <div class="form-group">
                        <label> UAN: </label>
                        <input type="text" class="form-control" [(ngModel)]="empkyedetails.uan" name="empkyedetails.uan"
-                       required placeholder="UAN" #empkye4="ngModel"  minlength="12">
+                       required placeholder="UAN" #empkye4="ngModel"  minlength="12" pattern="^[0-9]*$">
                        <span style="color:red" *ngIf="empkye4.invalid && empkye4.touched ">
                        
                           <span *ngIf="empkye4.errors.required">
@@ -93,6 +76,10 @@
                           <span *ngIf="empkye4.errors.minlength">
                               Minimum 12 numbers are required.
                             </span>
+                            
+                          <!-- <span *ngIf="empkye4.errors.pattern">
+                              Only numbers are required.
+                            </span> -->
                           
                         </span>
                      </div>
@@ -112,9 +99,35 @@
                         
                       </span>
                    </div> -->
-                   <div class="form-group" *ngIf=isUpdate>
+
+
+
+                 
+                    <div class="form-group">
+                        <label> Place Of Issue: </label>
+                        <select class="form-control" [(ngModel)]="empkyedetails.place_of_issue" name="empkyedetails.place_of_issue" 
+                        required placeholder=" Place Of Issue"  #empkye3="ngModel">
+                       <option *ngFor="let passport of passportCenterList" [value]="passport.id"> {{passport.centerName}}</option>
+                     </select>
+                        <!-- <input type="number" class="form-control" [(ngModel)]="empkyedetails.place_of_issue" name="empname8" 
+                        required placeholder=" Place Of Issue"  #empid9="ngModel">-->
+                        <span style="color:red" *ngIf="empkye3.invalid && empkye3.touched ">
+                        
+                           <span *ngIf="empkye3.errors.required">
+                             Place of issue is required.
+                           </span>
+                           
+                         </span> 
+                      </div>
+                  
+
+
+                   
+
+
+                   <!-- <div class="form-group" *ngIf=isUpdate> -->
                      <!-- <label> Updated by: </label> -->
-                     <input type="hidden" class="form-control" [(ngModel)]="empkyedetails.updated_by" name="empkyedetails.updated_by" 
+                     <!-- <input type="hidden" class="form-control" [(ngModel)]="empkyedetails.updated_by" name="empkyedetails.updated_by" 
                      required placeholder=" Updated by"   #empkye6="ngModel">
                      <span style="color:red" *ngIf="empkye6.invalid && empkye6.touched ">
                      
@@ -123,8 +136,14 @@
                         </span>
                         
                       </span>
-                   </div>
+                   </div> -->
                  </div>
+
+
+
+                 
+
+
               
             </div>
 
@@ -133,8 +152,8 @@
                <div class="col-md-6">
                    <div class="form-group">
                        <label> Passport No: </label>
-                       <input type="number" class="form-control" [(ngModel)]="empkyedetails.passport_no" name="empkyedetails.passport_no" 
-                       required placeholder="Passport No" pattern="^[0-9]+(.[0-9]{0,2})?$" #empkye7="ngModel">
+                       <input type="text" class="form-control" [(ngModel)]="empkyedetails.passport_no" name="empkyedetails.passport_no" 
+                       required placeholder="A1234567" pattern=  "^[A-Z0-9]{7}$" #empkye7="ngModel">
                        <span style="color:red" *ngIf="empkye7.invalid && empkye7.touched ">
                        
                           <span *ngIf="empkye7.errors.required">
@@ -249,7 +268,7 @@
 
                     <!-- <button class="btn btn-primary  float-right margin" >Save</button> -->
                     <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close"
-                    *ngIf = !isUpdate (click)="saveEmpKye()">
+                    *ngIf = !isUpdate (click)="saveEmpKye()" [disabled]="newUserFormKye.invalid">
                      Save
                     </button>
 
@@ -258,9 +277,9 @@
                      Update
                     </button>
 
-                    <button class="btn btn-primary  float-right" (click)="newUserFormExp.reset()" >Clear</button>
+                    <button class="btn btn-primary  float-right" (click)="newUserFormKye.reset()" >Clear</button>
                    
-                    <button class="btn btn-info" data-dismiss="modal" aria-label="Close" routerLink="/save" >Cancel</button> 
+                    <button class="btn btn-info" data-dismiss="modal" aria-label="Close">Cancel</button> 
                   </form> 
        </div>
 
@@ -282,7 +301,8 @@
    </div> 
    <div class="col-md-1 " style="padding-left:40px">
    <div class="input-group add">
-     <button type="button" (click)="addeditkye(newUserFormExp)" class="btn btn-primary" data-toggle="modal" data-target="#myModal02">Add</button>
+     <button type="button" (click)="addeditkye(newUserFormKye)" class="btn btn-primary" data-toggle="modal" 
+     data-target="#myModal02">Add</button>
      </div>
    </div>
 </div>

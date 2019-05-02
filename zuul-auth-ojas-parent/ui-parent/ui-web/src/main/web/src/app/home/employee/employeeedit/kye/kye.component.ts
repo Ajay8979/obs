@@ -12,6 +12,8 @@ export class KyeComponent implements OnInit {
   constructor(private hrms:HrmsService) { }
 
   ngOnInit() {
+    this.getEmpKye();
+    this.getPassportCenter();
   }
 
 //---Employee KYE details starts--------------
@@ -98,7 +100,7 @@ place_of_issue:any;
 passport_address:any;
 //employee_Id:any;
 ///created_by:any;
-//value:boolean
+value:boolean
 
 
 
@@ -139,7 +141,7 @@ if(this.savekyeres.statusMessage == "record added successfully")
 //--- deleting Employee KYE details-------------------
 deleteKye;any;
 deleteKyearr:any;
-isCreated:boolean;
+isCreated:boolean=false
 deleteEmpKye(kye)
 {
 var deleteReqKye = 
@@ -167,16 +169,17 @@ this.deleteKyearr = this.deleteKye.kye;
 }
 
 //--- Updating Employee KYE details-------------------
-isUpdate:boolean=false;
+
 editkye:any;
 editkyearr:any;
 kye:any;
+isUpdate:boolean
 
-addeditkye(newUserFormExp)
+
+addeditkye(newUserFormKye)
 {
-  newUserFormExp.reset();
-this.isUpdate=false;
-
+newUserFormKye.reset();
+this.isUpdate = false;
 this.isCreated = true;
 
 }
@@ -203,6 +206,7 @@ editkyeDetails:any;
 editkyebyid(kye)
 {
 this.isUpdate = true;
+this.isCreated = false;
 var kyeid = kye.id;
 var editempkyeobj = 
 {

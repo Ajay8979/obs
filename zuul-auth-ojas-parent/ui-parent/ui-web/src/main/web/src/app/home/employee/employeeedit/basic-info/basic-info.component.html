@@ -1,7 +1,3 @@
-<!-- <p>
-  basic-info works!
-</p> -->
-
 <!-- empbasic starts-->
 <div class="tab-pane fade show active" id="nav-empbasic" role="tabpanel" aria-labelledby="nav-empbasic-tab">
   <br>
@@ -178,65 +174,24 @@
                         </span>
                       </div>
                     </div> 
-                    <!-- <div class="col-md-4">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="sel1">Status:</label>
-                        <input type="number" class="form-control" [(ngModel)]="empinobj. status" name="status" required placeholder="Status" #status="ngModel">
-
-                        <span style="color:red" *ngIf="status.invalid && status.touched ">
-
-                          <span *ngIf="status.errors.required">
-
-                            Status is required.
-                          </span>
-
-                        </span>
-                         <select class="form-control" id="sel1" placeholder="Institution Name" [(ngModel)]="emp_status">
-
-                          <option>Active</option>
-                          <option>In-Active</option>
-                        </select>
-
-                      </div> 
-
-                    </div> -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                        <label>Status:</label>
-                        <select class="form-control" [(ngModel)]="empinobj.status" (change)="selectOption($event.target.value)" placeholder="Select Status" name="emp02" 
-                        required placeholder="Qualification"
-                        #status="ngModel">
-                        <option>Select Status</option>
-                        <option *ngFor="let estatus of empbasicstatus"  [value]="estatus.id">{{ estatus.status }}</option>
-                        </select>
-                        <span style="color:red" *ngIf="status.invalid && status.touched ">
-                        <span *ngIf="status.errors.required">
-                            Status  is mandatory.
-                        </span> 
-                        </span>
-                        </div>
-                        </div>
-                    <div class="col-md-4">
-                      <!-- <div class="form-group">
-                      <label>Gender:</label><br>
-                     
-                       <input type="number" class="form-control" [(ngModel)]="empinobj.gender" name="emp3" required placeholder="Gender" #gender="ngModel">
-
-                        <span style="color:red" *ngIf="gender.invalid && gender.touched ">
-
-                          <span *ngIf="gender.errors.required">
-
-                            Gender is required.
-                          </span>
-
-                        </span>
-                     
-                    </div> -->
-                   
+                            <label>Status:</label>
+                            <select class="form-control" [(ngModel)]="empinobj.status" (change)="selectOption($event.target.value)" placeholder="Select SBU" name="emp02" 
+                            required placeholder="Qualification"
+                            #status="ngModel">
+                            <option>Select Status</option>
+                            <option *ngFor="let estatus of employee_statuslist" [value]="estatus.status">{{ estatus.status }}</option>
+                            </select>
+                            <span style="color:red" *ngIf="status.invalid && status.touched ">
+                            <span *ngIf="status.errors.required">
+                                Status is mandatory.
+                            </span> 
+                            </span>
+                            </div>
+  
                   </div>
-
-
-                  </div>
+                   </div>
                   <div class="row">
                       <div class="col-md-4">
                       <div class="form-group">
@@ -252,54 +207,31 @@
                               Gender is mandatory.
                           </span> 
                           </span>
-                          </div>
                         </div>
 
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label> Password: </label>
-                        <input type="password" class="form-control" [(ngModel)]="empinobj.password" name="emp6" required placeholder="Enter Password" #password="ngModel">
-
-                        <span style="color:red" *ngIf="password.invalid && password.touched ">
-
-                          <span *ngIf="password.errors.required">
-
-                            Password is required.
-                          </span>
-
-                        </span>
-                      </div>
-                    </div>
-                    <!-- <div class="col-md-4"  *ngIf="createdby1">
-                        <div class="form-group" >
-                          <label> CreatedBy: </label>
-                          <input type="text" class="form-control" [(ngModel)]=" empinobj.createdBy" name="emp6" required placeholder="Enter Created By" #password="ngModel">
-  
-                          <span style="color:red" *ngIf="password.invalid && password.touched ">
-  
-                            <span *ngIf="password.errors.required">
-  
-                              Password is required.
+                        </div>
+                        <div class="col-md-4">
+                    
+                          <div class="form-group">
+                            <label>Title:</label>
+                            <select class="form-control" [(ngModel)]="empinobj.Title" (change)="selectOption($event.target.value)" placeholder="Select SBU" name="Title" 
+                            required placeholder="Qualification"
+                            #title="ngModel">
+                            <option>Select Status</option>
+                            <option *ngFor="let etitle of roleManagemenList" [value]="etitle.roleName">{{ etitle.roleName }}</option>
+                            </select>
+                            <span style="color:red" *ngIf="title.invalid && title.touched ">
+                            <span *ngIf="title.errors.required">
+                                Title is mandatory.
+                            </span> 
                             </span>
+                            </div>
   
-                          </span>
-                        </div>
-                      </div> -->
-                      <!-- <div class="col-md-4"  *ngIf="!createdby1">
-                        <div class="form-group">
-                          <label> updatedBy: </label>
-                          <input type="text" class="form-control" [(ngModel)]=" empinobj.createdBy" name="emp6" required placeholder="Enter Updated By" #password="ngModel">
-  
-                          <span style="color:red" *ngIf="password.invalid && password.touched ">
-  
-                            <span *ngIf="password.errors.required">
-  
-                              Password is required.
-                            </span>
-  
-                          </span>
-                        </div>
-                      </div> -->
+                  </div>
+                        
+
+                   
+            
                   </div>
                   <button class="btn btn-primary  float-right margin"  *ngIf="!isUpdate" (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close">Save</button>
                   <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close"  *ngIf="isUpdate" (click)="  updateempinfo()">

@@ -17,6 +17,7 @@ public class EmployeeInfo {
 	private String dob;
 	private String gender;
 	private String password;
+	private Integer title;
 	private String employeeId;
 	private boolean flag;
 
@@ -32,6 +33,14 @@ public class EmployeeInfo {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getTitle() {
+		return title;
+	}
+
+	public void setTitle(Integer title) {
+		this.title = title;
 	}
 
 	public String getFirstname() {
@@ -155,6 +164,7 @@ public class EmployeeInfo {
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((middlename == null) ? 0 : middlename.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
 		result = prime * result + ((updatedOn == null) ? 0 : updatedOn.hashCode());
@@ -222,6 +232,11 @@ public class EmployeeInfo {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -240,12 +255,6 @@ public class EmployeeInfo {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "EmployeeInfo [id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname="
-				+ lastname + ", status=" + status + ", dob=" + dob + ", gender=" + gender + ", password=" + password
-				+ ", employeeId=" + employeeId + ", flag=" + flag + ", createdOn=" + createdOn + ", updatedOn="
-				+ updatedOn + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
-	}
+
 
 }

@@ -136,29 +136,46 @@ CREATE TABLE `obs_certificationdetails` (
 
 //===========================obs_employeeinfo=======================================
 
-CREATE TABLE  obs_employeeinfo (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  firstname varchar(50) DEFAULT NULL,
-  middlename  varchar(50) DEFAULT NULL,
-  lastname  varchar(50) DEFAULT NULL,
-  status  int(11) DEFAULT NULL,
-  dob date DEFAULT NULL,
-  gender int(10) DEFAULT NULL,
-  password  varchar(100) DEFAULT NULL,
-  employeeId  varchar(50) DEFAULT NULL,
-  flag  tinyint(4) DEFAULT NULL,
-  createdOn  timestamp NULL DEFAULT NULL,
-  updatedOn  timestamp NULL DEFAULT NULL,
-  createdBy  varchar(20) DEFAULT NULL,
-  updatedBy varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `obs_employeeinfo` (
+
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+
+  `firstname` varchar(50) DEFAULT NULL,
+
+  `middlename` varchar(50) DEFAULT NULL,
+
+  `lastname` varchar(50) DEFAULT NULL,
+
+  `status` int(11) DEFAULT NULL,
+
+  `dob` date DEFAULT NULL,
+
+  `gender` int(10) DEFAULT NULL,
+
+  `title` int(11) DEFAULT NULL,
+
+  `employeeId` varchar(50) DEFAULT NULL,
+
+  `flag` tinyint(4) DEFAULT NULL,
+
+  `createdOn` timestamp NULL DEFAULT NULL,
+
+  `updatedOn` timestamp NULL DEFAULT NULL,
+
+  `createdBy` varchar(20) DEFAULT NULL,
+
+  `updatedBy` varchar(20) DEFAULT NULL,
+
+  PRIMARY KEY (`id`),
+
+  UNIQUE KEY `employeeId_UNIQUE` (`employeeId`)
 );
 
 //===========================obs_employeeinfo_insertQuery=======================================
 
-INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`password`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
-(16,'ojas','kumar','sriram',1,'2015-03-31',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
-(17,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
+//INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`password`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
+//(16,'ojas','kumar','sriram',1,'2015-03-31',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
+//(17,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
 
 //===========================obs_experiencedetails=======================================
 
@@ -342,7 +359,37 @@ CREATE TABLE obs_subbusinessunit (
   businessUnitId varchar(30) DEFAULT NULL,
   PRIMARY KEY (id)
 );
+//=============================obs_employeeSkillDetails================================
+CREATE TABLE obs_employeeSkillDetails(
+id INT(10) AUTO_INCREMENT,
+skill_id INT(10) NOT NULL,
+level_id INT(10) NOT NULL,
+employee_id VARCHAR(10) NOT NULL UNIQUE,
+created_date TIMESTAMP NOT NULL,
+updated_date TIMESTAMP  NULL,
+created_by VARCHAR(10) NOT NULL,
+update_by VARCHAR(10) NULL,
+PRIMARY KEY(id),
+flag TINYINT(1)
+);
 
 //===========================obs_skill=======================================
 
 create table obs_skill(id int(10) not null auto_increment,skill_name varchar(30) not null unique,primary key(id))
+
+//===========================obs_employee_login=======================================
+
+CREATE TABLE `obs_employee_login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employeeId` varchar(100) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `createdBy` varchar(45) DEFAULT NULL,
+  `createdOn` timestamp NULL DEFAULT NULL,
+  `updatedBy` varchar(100) DEFAULT NULL,
+  `updatedOn` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `employeeId_UNIQUE` (`employeeId`)
+)
+
+
+

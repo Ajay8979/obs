@@ -11,7 +11,7 @@ export class HrmsService {
   }
   constructor(private http:HttpClient) { }
 
-host_url:any="http://192.168.6.186:";
+host_url:any="http://192.168.7.64:";
 //ankamma rao services
 
 

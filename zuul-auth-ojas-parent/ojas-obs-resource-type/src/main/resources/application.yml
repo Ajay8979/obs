@@ -5,7 +5,7 @@ server:
   
 spring:
   datasource:
-    url: jdbc:mysql://192.168.6.186:3306/ojas_obs
+    url: jdbc:mysql://192.168.7.64:3306/ojas_obs
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver

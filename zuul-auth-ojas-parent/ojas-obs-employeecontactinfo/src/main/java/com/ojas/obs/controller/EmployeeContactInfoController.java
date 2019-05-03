@@ -141,6 +141,27 @@ public class EmployeeContactInfoController {
 						}
 					 
 				 }
+				 else if(empRequest.getEmpInfo().get(0).getId() !=0) {
+					    
+						logger.debug("@block to get particular employee contact info based on his empid");
+						EmployeeContactInfo emp=empFacade.showEmployeeContactInfoById(empRequest);
+						if(emp!=null) { 
+						   EmployeeContactInfoResponse resp=new EmployeeContactInfoResponse();
+						   List empList=new ArrayList();
+						   empList.add(emp);
+						   resp.setEmpContacts(empList);
+						   
+						   resp.setStatusCode("200");
+						   resp.setStatusMessage("success");
+						   return new ResponseEntity<Object>(resp,HttpStatus.OK);
+						}else {
+							EmployeeContactInfoResponse resp=new EmployeeContactInfoResponse(); 
+							resp.setStatusCode("422");
+							resp.setStatusMessage("No data");
+							return new ResponseEntity<Object>(resp,HttpStatus.OK);
+						}
+					 
+				 }
 				 
 				 else {
 					 EmployeeContactInfoResponse resp=new EmployeeContactInfoResponse();

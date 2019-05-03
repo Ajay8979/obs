@@ -131,6 +131,25 @@ public class ProjectDetailsDaoImpl implements ProjectDetailsDao {
 			}
 		}
 	}
+	@Override
+	public List<ProjectDetails> getByEmpId(String id) throws SQLException {
+		logger.debug(" Received input to ProjectDetailsDaoImpl / getById :" + id);
+		try {
+			Object[] params = new Object[] { id };
+			List<ProjectDetails> projectDetailsList = jdbcTemplate
+					.query(propsReaderUtil.getValue("getByEmpId_projectDetails"), params, new ProjectDetailsRowMappers());
+			logger.debug(" output in ProjectDetailsDaoImpl / getById :" + projectDetailsList);
+			return projectDetailsList;
+		} finally {
+			if (null != jdbcTemplate) {
+				try {
+					jdbcTemplate.getDataSource().getConnection().close();
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
+		}
+	}
 
 	@Transactional(rollbackFor = TransactionException.class)
 	@Override

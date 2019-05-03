@@ -183,26 +183,53 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 		}
 	}
 
+
 	@Override
 	public List<EmploymentDetails> getEmploymentDetailsByEmploymentId(
 			EmploymentDetailsRequest employmentDetailsRequest) {
-		List<EmploymentDetails> employmentDetails = employmentDetailsRequest.getEmploymentDetails();
+//		List<EmploymentDetails> employmentDetails = employmentDetailsRequest.getEmploymentDetails();
+//		List<EmploymentDetails> list = new ArrayList<EmploymentDetails>();
+//		try {
+//			List<EmploymentDetails> employmentDetailsList = jdbcTemplate.query(
+//					queryUtil.getQuery("GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT"),
+//					new BeanPropertyRowMapper<EmploymentDetails>(EmploymentDetails.class));
+//			for (EmploymentDetails employmentDetails2 : employmentDetails) {
+//				for (EmploymentDetails employmentDetail : employmentDetailsList) {
+//					if (employmentDetail.getId() == employmentDetails2.getId()) {
+//						list.add(employmentDetail);
+//						return list;
+//					}
+//					if (employmentDetails2.getEmployeeId().equals(employmentDetail.getEmployeeId())) {
+//						list.add(employmentDetail);
+//						return list;
+//					}
+//				}
+//			}
+//
+//			LOGGER.debug("Employee  details list " + employmentDetailsList);
+//			return employmentDetailsList;
+		
+		
+		List<EmploymentDetails> bankDetails = employmentDetailsRequest.getEmploymentDetails();
+
 		List<EmploymentDetails> list = new ArrayList<EmploymentDetails>();
 		try {
-			List<EmploymentDetails> employmentDetailsList = jdbcTemplate.query(
-					queryUtil.getQuery("GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT"),
+			List<EmploymentDetails> query = jdbcTemplate.query(
+				queryUtil.getQuery("GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT"),
 					new BeanPropertyRowMapper<EmploymentDetails>(EmploymentDetails.class));
-			for (EmploymentDetails employmentDetails2 : employmentDetails) {
-				for (EmploymentDetails employmentDetail : employmentDetailsList) {
-					if (employmentDetails2.getId() == employmentDetail.getId()) {
-						list.add(employmentDetail);
+			for (EmploymentDetails bankDetails2 : query) {
+				for (EmploymentDetails bankDetails3 : bankDetails) {
+					if (bankDetails2.getId() == bankDetails3.getId()) {
+						list.add(bankDetails2);
+						return list;
+					}else if (bankDetails2.getEmployeeId().equals(bankDetails3.getEmployeeId())) {
+						list.add(bankDetails2);
 						return list;
 					}
 				}
 			}
 
-			LOGGER.debug("Employee  details list " + employmentDetailsList);
-			return employmentDetailsList;
+			return query;
 		} finally {
 			if (null != jdbcTemplate) {
 				try {

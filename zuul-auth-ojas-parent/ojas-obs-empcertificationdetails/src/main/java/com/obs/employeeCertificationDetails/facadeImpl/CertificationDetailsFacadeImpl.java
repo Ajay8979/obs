@@ -136,7 +136,14 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 		}
 		if(certificationDetailsRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 			certificationDetailsResponse = new CertificationDetailsResponse();
-			List<CertificationDetails> list=employeeCertificationDAOImpl.getDetailById(certificationDetailsRequest);
+			List<CertificationDetails> list=null;
+			String empId=certificationDetailsRequest.getCertificationDetailsModel().get(0).getEmployee_id();
+			Integer id=certificationDetailsRequest.getCertificationDetailsModel().get(0).getId();
+			if(id!=null)
+				list=employeeCertificationDAOImpl.getDetailById(certificationDetailsRequest);
+			else if(empId!=null)
+				list=employeeCertificationDAOImpl.getDetailByEmpId(certificationDetailsRequest);
+			
 			logger.debug("inside  get_count condition.****** : ");
 			if(list.size()==0) {
 				certificationDetailsResponse.setStatusMassage("No record Present");

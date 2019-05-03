@@ -5,6 +5,8 @@ import static com.ojas.obs.constants.UserConstants.getCount;
 import static com.ojas.obs.constants.UserConstants.saveEmployeeSkillInfoStmt;
 import static com.ojas.obs.constants.UserConstants.updateSkillDetailsById;
 import static com.ojas.obs.constants.UserConstants.getById;
+import static com.ojas.obs.constants.UserConstants.getByEmpId;
+
 
 import java.util.Date;
 import java.sql.SQLException;
@@ -156,6 +158,18 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		//List<EmployeeSkillInfo> employeeExperienceDetailsList = jdbcTemplate.query("getById"), params, new ExperienceRowMappers());
 		
 		
+	}
+
+    @Override
+	public List<EmployeeSkillInfo> getByEmpId(String empId) throws SQLException {
+    	try {
+    		List<EmployeeSkillInfo> list = jdbcTemplate.query(getByEmpId + empId, new BeanPropertyRowMapper<>(EmployeeSkillInfo.class));
+    		return list;
+    		}finally {
+    			jdbcTemplate.getDataSource().getConnection().close();
+    		}
+    		//List<EmployeeSkillInfo> employeeExperienceDetailsList = jdbcTemplate.query("getById"), params, new ExperienceRowMappers());
+    		
 	}
 
 }

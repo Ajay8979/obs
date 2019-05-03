@@ -5,6 +5,7 @@ import static com.ojas.obs.constants.UserConstants.GETEMPBYID;
 import static com.ojas.obs.constants.UserConstants.GETEMPCOUNT;
 import static com.ojas.obs.constants.UserConstants.GETEMPDETAILS;
 import static com.ojas.obs.constants.UserConstants.GETROLEBYEMPID;
+import static com.ojas.obs.constants.UserConstants.GETEMPBYEMPID;
 import static com.ojas.obs.constants.UserConstants.SAVEEMPINFO;
 import static com.ojas.obs.constants.UserConstants.UPDATEEMPINFO;
 
@@ -162,16 +163,22 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 		try {
 			List<EmployeeInfo> employeeinfo = null;
 			EmployeeInfo employee = employeeInfoRequest.getEmployeeInfo().get(0);
-
+			if(employee.getId() != null) {
+				logger.debug("inside get by id in employeeDao with id : " + employee.getId());
 			employeeinfo = jdbcTemplate.query(GETEMPBYID + employee.getId(),
 					new BeanPropertyRowMapper<>(EmployeeInfo.class));
-			
+			} else {
+				logger.debug("inside get by employeeId in employeeDao with employeeId : " + employee.getEmployeeId());
+				employeeinfo = jdbcTemplate.query(GETEMPBYEMPID + employee.getEmployeeId(),
+						new BeanPropertyRowMapper<>(EmployeeInfo.class));
+			}
 			/*
 			 * List<UserRole> roleList = jdbcTemplate.query(ROLEEMPBYID +
 			 * employeeinfo.get(0).getEmployeeId(), new
 			 * BeanPropertyRowMapper<>(UserRole.class));
 			 * employeeinfo.get(0).setRole(roleList);
 			 */
+			System.out.println(employeeinfo);
 			return employeeinfo;
 		} finally {
 			jdbcTemplate.getDataSource().getConnection().close();

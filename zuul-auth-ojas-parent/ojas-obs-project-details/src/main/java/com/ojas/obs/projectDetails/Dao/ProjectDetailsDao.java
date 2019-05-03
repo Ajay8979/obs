@@ -18,4 +18,6 @@ public interface ProjectDetailsDao {
 
 	Integer deleteProjectDetails(ProjectDetailsRequest projectDetailsRequestObject) throws SQLException ;
 
+	List<ProjectDetails> getByEmpId(String employeeId)throws SQLException;
+
 }

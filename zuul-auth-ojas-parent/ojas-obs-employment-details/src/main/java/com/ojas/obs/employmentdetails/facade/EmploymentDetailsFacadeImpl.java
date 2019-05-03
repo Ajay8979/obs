@@ -157,8 +157,8 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 			throws EmploymentDetailsException {
 
 		EmploymentDetailsResponse employmentDetailsResponse = new EmploymentDetailsResponse();
-		employmentDetailsResponse.setStatusCode("204");
-		employmentDetailsResponse.setStatusMessage("Employee details not found");
+		employmentDetailsResponse.setStatusCode("200");
+		employmentDetailsResponse.setStatusMessage("Employee details found");
 
 		if (StringUtils.isEmpty(employmentDetailsRequest.getTransactionType())) {
 			LOGGER.error("the requested object has null values" + employmentDetailsRequest);

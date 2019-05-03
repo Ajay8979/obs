@@ -14,7 +14,8 @@ public interface ExperienceDao {
 	public int updateEmployeeExperienceDetails(ExperienceRequest employeeExperienceDetailsRequestObject)
 			throws SQLException;
 
-	public List<EmployeeExperienceDetails> getById(Integer employeeId) throws SQLException;
+	public List<EmployeeExperienceDetails> getById(Integer id) throws SQLException;
+	public List<EmployeeExperienceDetails> getByEmpId(String employeeId) throws SQLException;
 
 	public List<EmployeeExperienceDetails> getAll() throws SQLException;
 

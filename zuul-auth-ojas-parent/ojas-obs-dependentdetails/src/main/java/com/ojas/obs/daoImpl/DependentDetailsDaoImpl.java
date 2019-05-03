@@ -5,15 +5,14 @@ import static com.ojas.obs.constants.DependentDetailsContants.GETALLDEPENDENTDET
 import static com.ojas.obs.constants.DependentDetailsContants.GETDEPENDENTDETAILSBYID;
 import static com.ojas.obs.constants.DependentDetailsContants.INSERTDEPENDENTDETAILS;
 import static com.ojas.obs.constants.DependentDetailsContants.UPDATEDEPENDENTDETAILS;
+import static com.ojas.obs.constants.DependentDetailsContants.GETID;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.ojas.obs.dao.DependentDetailsDao;
@@ -119,6 +118,20 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 		Object[] obj = new Object[] { id }; 
 		
 		List<DependentDetails> projectDetailsList = jdbcTemplate.query(GETDEPENDENTDETAILSBYID, obj,new RowMap());
+
+		return projectDetailsList;
+	}
+		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+	}
+	@Override
+	public List<DependentDetails> getByEmpId(String s) throws SQLException {
+		try {
+		
+		Object[] obj = new Object[] { s }; 
+		
+		List<DependentDetails> projectDetailsList = jdbcTemplate.query(GETID, obj,new RowMap());
 
 		return projectDetailsList;
 	}

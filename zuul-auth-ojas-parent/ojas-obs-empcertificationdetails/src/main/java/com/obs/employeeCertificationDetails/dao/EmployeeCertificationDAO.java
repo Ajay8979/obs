@@ -15,4 +15,6 @@ public interface EmployeeCertificationDAO {
   public int getAllCertificationDetailsCount()throws SQLException;
   public List<CertificationDetails> getCountPerPage(List<CertificationDetails> certificationList, int pageSize, int pageNo)throws SQLException;
   public List<CertificationDetails> getDetailById(CertificationDetailsRequest  certificationDetailsRequest) throws SQLException;
+List<CertificationDetails> getDetailByEmpId(CertificationDetailsRequest certificationDetailsRequest)
+		throws SQLException;
 }

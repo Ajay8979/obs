@@ -24,5 +24,7 @@ public interface EmployeeBUDao {
 
 	public int getAllRecordsCount() throws SQLException;
 
+	List<EmployeeBUDetails> getByEmpId(EmployeeBUDetailsRequest employeebuRequest) throws SQLException;
+
 
 }

@@ -64,8 +64,8 @@ public interface EmployeeInfoDao {
 	 */
 	public int getAllEmployeeDetailsCount() throws SQLException;
 
-	List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
-
+	public List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
+	
 	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 	
 	

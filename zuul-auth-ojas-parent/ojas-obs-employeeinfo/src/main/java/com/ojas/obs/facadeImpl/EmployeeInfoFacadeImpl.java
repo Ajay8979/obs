@@ -144,7 +144,7 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 				return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
 			}
 		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
-			System.out.println("Inside getbyid");
+			logger.debug("Inside getbyid in facade");
 			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getById(employeeInfoRequest);
 			int count = employeeInfoDao.getAllEmployeeDetailsCount();
 			employeeResponse.setEmployeeInfo(allEmployeeDetails);

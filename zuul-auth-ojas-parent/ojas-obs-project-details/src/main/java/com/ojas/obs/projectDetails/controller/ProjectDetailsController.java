@@ -127,17 +127,16 @@ public class ProjectDetailsController {
 			error.setMessage(TRANSACTIONTYPENULL);
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		if (projectDetailsRequestObject.getTransactionType().equalsIgnoreCase(GETALL)
-				&& (projectDetailsRequestObject.getProjectDetailsList() != null
-						&& projectDetailsRequestObject.getProjectDetailsList().size() > 0
-						&& projectDetailsRequestObject.getProjectDetailsList().stream()
-								.anyMatch(projectDetails -> projectDetails.getId() == null))) {
-			logger.error(" In ProjectDetailsController/getProjectDetails :" + IDISNULL);
-			ErrorResponse error = new ErrorResponse();
-			error.setStatusCode("422");
-			error.setMessage(IDISNULL);
-			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
+//		if (projectDetailsRequestObject.getTransactionType().equalsIgnoreCase(GETALL)
+//				&& (projectDetailsRequestObject.getProjectDetailsList() != null
+//						&& projectDetailsRequestObject.getProjectDetailsList().size() > 0
+//						&& projectDetailsRequestObject.getProjectDetailsList().stream().anyMatch(projectDetails -> projectDetails.getId() == null) )) {
+//			logger.error(" In ProjectDetailsController/getProjectDetails :" + IDISNULL);
+//			ErrorResponse error = new ErrorResponse();
+//			error.setStatusCode("422");
+//			error.setMessage(IDISNULL);
+//			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+//		}
 
 		try {
 			ProjectDetailsResponse setPassport = projectDetailsFacade.getProjectDetails(projectDetailsRequestObject);

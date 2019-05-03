@@ -17,6 +17,7 @@ public interface EmployeeSkillDao {
 	public int getAllCount() throws SQLException;
 	
 	public List<EmployeeSkillInfo> getById(Integer id) throws SQLException;
+	public List<EmployeeSkillInfo> getByEmpId(String empId) throws SQLException;
 
 	//public List<EmployeeSkillInfo> getCountPerPage(List<EmployeeSkillInfo> list, int pageSize, int pageNo) throws SQLException;
 

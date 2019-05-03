@@ -65,6 +65,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 			if (batchsave.length > 0) {
 				return true;
 			}
+			return false;
 		} finally {
 			if (jdbcTemplate != null) {
 				try {
@@ -74,7 +75,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		return false;
+		
 	}
 
 	/*
@@ -103,6 +104,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 			if (batchUpdate.length > 0) {
 				return true;
 			}
+			return false;
 		} finally {
 			if (jdbcTemplate != null) {
 				try {
@@ -112,7 +114,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		return false;
+		
 	}
 
 	/*
@@ -132,6 +134,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 			if (delete > 0) {
 				return true;
 			}
+			return false;
 		} finally {
 			if (jdbcTemplate != null) {
 				try {
@@ -141,7 +144,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		return false;
+		
 	}
 
 	/*
@@ -161,6 +164,9 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 			for (BankDetails bankDetails2 : query) {
 				for (BankDetails bankDetails3 : bankDetails) {
 					if (bankDetails2.getId() == bankDetails3.getId()) {
+						list.add(bankDetails2);
+						return list;
+					}else if (bankDetails2.getEmployee_id().equals(bankDetails3.getEmployee_id())) {
 						list.add(bankDetails2);
 						return list;
 					}

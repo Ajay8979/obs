@@ -64,9 +64,13 @@ public class EmployeeSkillFacadeImpl implements EmployeeSkillFacade {
 
 		EmployeeSkillInfoResponse response = new EmployeeSkillInfoResponse();
 		List<EmployeeSkillInfo> listEmployeeSkillInfo = employeeSkillInfoRequest.getSkillInfoModel();
+		List<EmployeeSkillInfo> byId=null;
 		if (employeeSkillInfoRequest.getTransactionType().equalsIgnoreCase("getById")) {
 			for (EmployeeSkillInfo skillDetails : listEmployeeSkillInfo) {
-				List<EmployeeSkillInfo> byId = employeeSkillDao.getById(skillDetails.getId());
+				if(skillDetails.getId()==null)
+					byId = employeeSkillDao.getByEmpId(skillDetails.getEmployee_id());	
+				else
+					byId = employeeSkillDao.getById(skillDetails.getId());
 				int count = employeeSkillDao.getAllCount();
 				response.setTotalCount(count);
 				response.setGetSkillInfoList(byId);

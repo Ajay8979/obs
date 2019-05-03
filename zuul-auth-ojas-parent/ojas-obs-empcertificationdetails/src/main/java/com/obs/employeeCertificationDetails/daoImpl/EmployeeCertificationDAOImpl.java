@@ -9,6 +9,7 @@ import static com.obs.employeeCertificationDetails.constants.Constants.DELETECer
 import static com.obs.employeeCertificationDetails.constants.Constants.GETCertificationDetailsCOUNT;
 import static com.obs.employeeCertificationDetails.constants.Constants.GETCertificationDetails;
 import static com.obs.employeeCertificationDetails.constants.Constants.GETCertificationDetailById;
+import static com.obs.employeeCertificationDetails.constants.Constants.GETByEmpId;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -35,7 +36,7 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		try {
 			for (CertificationDetails details : modelList) {
 				Object[] model = new Object[] { details.getCertificationName(), details.getIssuedBy(),
-						details.getDateOfIssue(), details.getEmployeeId(), details.getCreatedBy(), flag };
+						details.getDateOfIssue(), details.getEmployee_id(), details.getCreatedBy(), flag };
 				list.add(model);
 			}
 			// count =
@@ -181,6 +182,25 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		}finally {
 			if(jdbcTemplate!=null)
 			 jdbcTemplate.getDataSource().getConnection().close();
+		}
+		
+		return query;
+	}
+	@Override
+	public List<CertificationDetails> getDetailByEmpId(CertificationDetailsRequest certificationDetailsRequest)throws SQLException {
+		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
+		List<Object[]> list= new ArrayList<Object[]>();
+		Object[] param=null;
+		List<CertificationDetails> query=null;
+		try {
+			for(CertificationDetails details :modelList) {
+				param	 = new Object[] { details.getEmployee_id()};
+				list.add(param);
+			}
+		   query = jdbcTemplate.query(GETByEmpId,param,new BeanPropertyRowMapper<>(CertificationDetails.class));
+		}finally {
+			//if(jdbcTemplate!=null)
+			 //jdbcTemplate.getDataSource().getConnection().close();
 		}
 		
 		return query;

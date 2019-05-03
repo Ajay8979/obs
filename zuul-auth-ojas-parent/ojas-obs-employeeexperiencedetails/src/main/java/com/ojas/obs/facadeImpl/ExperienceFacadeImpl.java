@@ -111,20 +111,39 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 
 			ExperienceResponse experienceResponse = new ExperienceResponse();
 			if (experienceRequestObject.getTransactionType().equalsIgnoreCase(GETBYID)) {
-				List<EmployeeExperienceDetails> employeeExperienceDetailsListById = employeeExperienceDetailsDao
-						.getById(employeeExperienceDetails.getId());
-				logger.debug(
-						"received at service by calling the getById method is" + employeeExperienceDetailsListById);
-				if (!employeeExperienceDetailsListById.isEmpty()) {
-					experienceResponse.setStatusCode("200");
-					experienceResponse.setStatusMessage("you got employeeExperienceDetails successfully");
-					experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsListById);
-					
-				} else {
-					experienceResponse.setStatusCode("422");
-					experienceResponse.setStatusMessage("Employee ID is null");
-				}
+				List<EmployeeExperienceDetails> employeeExperienceDetailsListById =null;
+				if(employeeExperienceDetails.getId()==null) {
+					employeeExperienceDetailsListById = employeeExperienceDetailsDao
+							.getByEmpId(employeeExperienceDetails.getEmployee_Id());
+					logger.debug(
+							"received at service by calling the getById method is" + employeeExperienceDetailsListById);
+					if (!employeeExperienceDetailsListById.isEmpty()) {
+						experienceResponse.setStatusCode("200");
+						experienceResponse.setStatusMessage("you got employeeExperienceDetails successfully");
+						experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsListById);
+						
+					} else {
+						experienceResponse.setStatusCode("422");
+						experienceResponse.setStatusMessage("Employee ID is null");
+					}
 
+				}else {
+					employeeExperienceDetailsListById = employeeExperienceDetailsDao
+							.getById(employeeExperienceDetails.getId());
+					logger.debug(
+							"received at service by calling the getById method is" + employeeExperienceDetailsListById);
+					if (!employeeExperienceDetailsListById.isEmpty()) {
+						experienceResponse.setStatusCode("200");
+						experienceResponse.setStatusMessage("you got employeeExperienceDetails successfully");
+						experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsListById);
+						
+					} else {
+						experienceResponse.setStatusCode("422");
+						experienceResponse.setStatusMessage("Employee ID is null");
+					}
+
+				}
+				     
 				return experienceResponse;
 			}
 

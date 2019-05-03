@@ -152,8 +152,15 @@ public class EmpoyeeBUFacade {
 
 		if (employeeRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 			employeeburesponse = new EmployeeBUDeatailsResponse();
-			List<EmployeeBUDetails> list = employeebuDao.getById(employeeRequest);
+			List<EmployeeBUDetails> list =null;
 			logger.debug("inside  get_count condition.****** : ");
+			String EmpId=employeeRequest.getEmployeeBUDeatils().get(0).getEmployeeId();
+//			Integer id=employeeRequest.getEmployeeBUDeatils().get(0).getId();
+			if(EmpId==null) {
+				list= employeebuDao.getById(employeeRequest);
+			}else {
+				list= employeebuDao.getByEmpId(employeeRequest);
+			}
 			if (list.size() == 0) {
 				employeeburesponse.setStatusMessage("No record Present");
 				employeeburesponse.setTotalCount(0);

@@ -157,8 +157,18 @@ public class TitleFacade {
 
 		if (request.getTransactionType().equalsIgnoreCase(GETBYID)) {
 			response = new Response();
-			List<Model> list = titleDao.getById(request);
+			List<Model> list = null;
 			logger.debug("inside  get_count condition.****** : ");
+			String EmpId=request.getModel().get(0).getEmployeeId();
+			if(EmpId == null) {
+				list = titleDao.getById(request);
+			}
+			else {
+				list = titleDao.getByEmpId(request);
+			
+			}
+			
+			
 			if (list.size() == 0) {
 				response.setStatusMessage("No record Present");
 				response.setTotalCount(0);

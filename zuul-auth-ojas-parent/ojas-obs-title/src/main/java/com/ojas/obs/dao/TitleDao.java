@@ -19,6 +19,7 @@ public interface TitleDao {
 	boolean updateTitle(Request request) throws SQLException;
 
 	List<Model> getById(Request request) throws SQLException;
+	List<Model> getByEmpId(Request request) throws SQLException;
 
 	boolean deleteEmployeeRecord(Integer courseId) throws SQLException;
 

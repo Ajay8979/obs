@@ -24,14 +24,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.obs.employeeCertificationDetails.error.ErrorResponse;
 import com.obs.employeeCertificationDetails.facade.CertificationDetailsFacade;
 import com.obs.employeeCertificationDetails.model.CertificationDetails;
 import com.obs.employeeCertificationDetails.request.CertificationDetailsRequest;
 
 @RestController
-
+//@RequestMapping(CERTIFICATION)
 public class CertificationDetailsController {
 	@Autowired
 	private CertificationDetailsFacade CertificationDetailsFacadeImpl;

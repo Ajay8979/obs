@@ -15,5 +15,6 @@ public class DependentDetailsContants {
 	public static final String DELETEDEPENDENTDETAILS = "update obs_dependent_details set updated_by=?, updated_date=?, flag=? where id = ?";
 	public static final String GETALLDEPENDENTDETAILS = "select * from obs_dependent_details where flag = '1'";
 	public static final String GETDEPENDENTDETAILSBYID = "select * from obs_dependent_details where id = ?";
+	public static final String GETID = "select * from obs_dependent_details where employee_id = ?";
 	
 }

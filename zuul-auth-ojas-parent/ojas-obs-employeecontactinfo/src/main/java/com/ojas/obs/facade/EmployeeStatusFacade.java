@@ -15,5 +15,6 @@ EmployeeContactInfoResponse setEmployeeContactInfo(EmployeeContactInfoRequest em
 	EmployeeContactInfo showEmployeeContactInfo(EmployeeContactInfoRequest empRequest);
 
 	EmployeeContactInfo showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest);
+	EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest);
 	
 }

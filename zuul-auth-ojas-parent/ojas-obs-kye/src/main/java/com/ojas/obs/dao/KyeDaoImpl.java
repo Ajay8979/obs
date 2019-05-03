@@ -155,6 +155,8 @@ public class KyeDaoImpl implements KyeDao {
 				buffer.append(GETALL_KYE);
 				if (kye.getId() != 0) {
 					buffer.append(" and id = " + kye.getId());
+				} else if (kye.getEmployee_Id()!=null) {
+					buffer.append(" and employee_Id = " + kye.getEmployee_Id());
 				}
 				return jdbcTemplate.query(buffer.toString(), new BeanPropertyRowMapper<>(KYE.class));
 			}

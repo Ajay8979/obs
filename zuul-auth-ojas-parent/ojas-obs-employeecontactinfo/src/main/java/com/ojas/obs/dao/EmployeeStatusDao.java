@@ -19,6 +19,7 @@ public interface EmployeeStatusDao {
 	String deleteEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo);
 
 	EmployeeContactInfo showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest);
+	EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest);
 	
 	
 	

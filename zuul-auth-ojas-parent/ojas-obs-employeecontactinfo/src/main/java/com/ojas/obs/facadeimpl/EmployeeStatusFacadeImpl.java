@@ -199,6 +199,13 @@ public class EmployeeStatusFacadeImpl implements EmployeeStatusFacade {
 		// TODO Auto-generated method stub
 		return empDao.showEmployeeContactInfoByEmpId(empRequest);
 	}
+
+
+	@Override
+	public EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest) {
+		// TODO Auto-generated method stub
+		return empDao.showEmployeeContactInfoById(empRequest);
+	}
 	
 	
 	

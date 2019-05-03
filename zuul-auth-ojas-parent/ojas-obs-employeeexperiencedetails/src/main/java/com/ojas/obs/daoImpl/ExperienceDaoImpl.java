@@ -31,7 +31,7 @@ public class ExperienceDaoImpl implements ExperienceDao {
 		List<EmployeeExperienceDetails> employeeExperienceDetailsList = experienceRequestObject
 				.getEmployeeExperienceDetails();
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		boolean flag = true;
+		//boolean flag = true;
 		for (EmployeeExperienceDetails employeeExperienceDetails : employeeExperienceDetailsList) {
 
 			Object[] params = new Object[] { employeeExperienceDetails.getCompany_name(),
@@ -167,6 +167,26 @@ public class ExperienceDaoImpl implements ExperienceDao {
 		}
 
 		finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+	}
+
+	@Override
+	public List<EmployeeExperienceDetails> getByEmpId(String employeeId) throws SQLException {
+		Object[] params = new Object[] { employeeId };
+		try {
+			List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate.query(
+					propsReaderUtil.getValue("getByEmpId_employee_experience_detailss"), params,
+					new ExperienceRowMappers());
+
+			/*
+			 * List<EmployeeExperienceDetails> employeeExperienceDetailsList = jdbcTemplate
+			 * .query("getById_employee_experience_details", params, new
+			 * ExperienceRowMappers());
+			 */
+
+			return employeeExperienceDetailsList;
+		} finally {
 			jdbcTemplate.getDataSource().getConnection().close();
 		}
 	}

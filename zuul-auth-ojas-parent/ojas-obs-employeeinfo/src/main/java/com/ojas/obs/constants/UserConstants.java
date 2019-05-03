@@ -39,7 +39,7 @@ public class UserConstants {
 	
 	public static final String ROLEEMPBYID ="select role_id from user_role where  employee_id= ";
 			
-	public static final String GETEMPBYEMPID ="select * from ojas_employeeinfo where flag = true and employeeId= ";
+	public static final String GETEMPBYEMPID ="select * from obs_employeeinfo where flag = true and employeeId= ";
 	
 	public static final String GETROLEBYEMPID ="SELECT a.role_name,a.role_id, e.employeeId,e.firstname,e.middlename,e.lastname FROM obs_employeeinfo e, user_role u , app_role a where e.employeeId =u.employeeId and u.role_id =a.role_id and e.employeeId = ? ";
 	

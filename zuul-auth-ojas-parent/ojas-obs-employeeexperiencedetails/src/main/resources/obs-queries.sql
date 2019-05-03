@@ -11,5 +11,6 @@
  getAll_employee_experience_details = select * from ojas_obs.obs_experiencedetails where flag=false
    
 getById_employee_experience_details =  select * from obs_experiencedetails where id =?
+getByEmpId_employee_experience_detailss =  select * from obs_experiencedetails where employee_id =?
 delete_employee_experience_details  = update obs_experiencedetails set flag =? ,updated_by=?, updated_date =now()  where id=?                                    
                                                                 

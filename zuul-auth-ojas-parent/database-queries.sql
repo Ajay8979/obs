@@ -173,9 +173,9 @@ CREATE TABLE `obs_employeeinfo` (
 
 //===========================obs_employeeinfo_insertQuery=======================================
 
-//INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`password`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
-//(16,'ojas','kumar','sriram',1,'2015-03-31',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
-//(17,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,'$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO','1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
+//INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`title`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
+//(16,'ojas','kumar','sriram',1,'2015-03-31',1,1,'1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
+//(17,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,1,'1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
 
 //===========================obs_experiencedetails=======================================
 

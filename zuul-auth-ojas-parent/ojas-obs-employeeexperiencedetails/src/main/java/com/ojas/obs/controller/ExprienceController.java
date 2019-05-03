@@ -1,35 +1,29 @@
 package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.UrlConstants.GET;
-import static com.ojas.obs.constants.UrlConstants.*;
 import static com.ojas.obs.constants.UrlConstants.SET;
 import static com.ojas.obs.constants.UserConstants.EMPLOYEEEXPERINCEDETAILSOBJECTNULL;
 import static com.ojas.obs.constants.UserConstants.REQUESTOBJECTNULL;
 import static com.ojas.obs.constants.UserConstants.SESSIONIDNULL;
 import static com.ojas.obs.constants.UserConstants.TRANSACTIONTYPENULL;
-
 import java.sql.SQLException;
-
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ojas.obs.facade.ExperienceFacade;
 import com.ojas.obs.model.ErrorResponse;
 import com.ojas.obs.request.ExperienceRequest;
 import com.ojas.obs.response.ExperienceResponse;
 //@RequestMapping(EMPLOYEEEXPERIENCEDETAILS)
 @RestController
+//@RequestMapping("obs/EmployeeExperienceDetails")
 public class ExprienceController {
 
 	ResponseEntity<Object> responseEntity = null;
@@ -127,6 +121,7 @@ public class ExprienceController {
 			  responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT); }
 			  catch (Exception e) {
 			ErrorResponse error = new ErrorResponse();
+			e.printStackTrace();
 			error.setMessage(e.getMessage());
 			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}

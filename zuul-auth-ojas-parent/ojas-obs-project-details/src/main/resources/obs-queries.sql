@@ -3,3 +3,4 @@ update_ProjectDetails= update obs_projectdetails set project_name=?,contract_id=
 getAll_projectDetails = select * from obs_projectdetails where flag = '1'
 getById_projectDetails =  select * from obs_projectdetails where id =?
 delete_ProjectDetails = update obs_projectdetails set flag =?,updated_by=?,updated_date=now() where id=?
+getByEmpId_projectDetails =  select * from obs_projectdetails where employee_id =?

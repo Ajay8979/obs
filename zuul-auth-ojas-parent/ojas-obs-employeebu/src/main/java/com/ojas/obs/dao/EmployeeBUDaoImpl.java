@@ -28,6 +28,8 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 	private static final String UPDATEBUDETAILS = "Update obs_budetails set EmployeeId=?, sbu=?, status=?, Updatedby=?, Updateddate=? WHERE Id=?";
 	private static final String DELETEBUDEAILS = "Update obs_budetails set flag='0' where Id = ?";
 	private static final String GETBUDetailsCOUNT = "select count(*) from obs_budetails where flag = '1' ";
+	private static final String GETEMP = "Select * from obs_budetails where flag = 1 and EmployeeId = ? ";
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	Logger logger = Logger.getLogger(this.getClass());
@@ -147,6 +149,23 @@ public class EmployeeBUDaoImpl implements EmployeeBUDao {
 
 		}
 		List<EmployeeBUDetails> query = jdbcTemplate.query(GETBYID, param, new BeanPropertyRowMapper<>(EmployeeBUDetails.class));
+		return query;
+	}finally {
+		jdbcTemplate.getDataSource().getConnection().close();
+	}
+	}
+	@Override
+	public List<EmployeeBUDetails> getByEmpId(EmployeeBUDetailsRequest employeebuRequest) throws SQLException {
+		try {
+		List<EmployeeBUDetails> modelList = employeebuRequest.getEmployeeBUDeatils();
+		List<Object[]> list = new ArrayList<Object[]>();
+		Object[] param = null;
+		for (EmployeeBUDetails details : modelList) {
+			param = new Object[] { details.getEmployeeId() };
+			list.add(param);
+
+		}
+		List<EmployeeBUDetails> query = jdbcTemplate.query(GETEMP, param, new BeanPropertyRowMapper<>(EmployeeBUDetails.class));
 		return query;
 	}finally {
 		jdbcTemplate.getDataSource().getConnection().close();

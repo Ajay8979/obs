@@ -122,6 +122,24 @@ public class ProjectDetailsFacadeImpl implements ProjectDetailsFacade {
 
 			return projectDetailsResponse;
 		}
+		else if(null != projectDetailsRequestObject.getProjectDetailsList().get(0).getEmployeeId()) {
+			logger.debug(" Received input data in ProjectDetailsServiceImpl/getByEmpId :" + projectDetailsRequestObject);
+
+			List<ProjectDetails> projectDetailsListById = projectDetailsDao
+					.getByEmpId(projectDetailsRequestObject.getProjectDetailsList().get(0).getEmployeeId());
+			logger.debug("received at service by calling the getByIdmethod is" + projectDetailsListById);
+			if (!projectDetailsListById.isEmpty()) {
+				projectDetailsResponse.setStatusCode("200");
+				projectDetailsResponse.setStatusMessage("you got projectDetails successfully");
+				projectDetailsResponse.setProjectDetailsList(projectDetailsListById);
+			} else {
+				projectDetailsResponse.setProjectDetailsList(projectDetailsListById);
+				projectDetailsResponse.setStatusCode("200");
+				projectDetailsResponse.setStatusMessage("no records found");
+			}
+
+			return projectDetailsResponse;
+		}
 		
 		return projectDetailsResponse;
 		

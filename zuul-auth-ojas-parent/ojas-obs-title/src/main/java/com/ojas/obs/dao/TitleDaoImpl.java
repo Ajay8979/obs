@@ -28,6 +28,7 @@ public class TitleDaoImpl implements TitleDao {
 	private static final String DELETE = "Update obs_title set flag='0' where Id = ?";
 	private static final String GETCOUNT = "select count(*) from obs_title where flag='1'";
 	private static final String GETBYID = "Select * from obs_title where flag = 1 and id = ?";
+	private static final String GETEMP = "Select * from obs_title where flag = 1 and EmployeeId = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -149,4 +150,24 @@ public class TitleDaoImpl implements TitleDao {
 	}
 	}
 
+	@Override
+	public List<Model> getByEmpId(Request request) throws SQLException {
+		try {
+			List<Model> modelList = request.getModel();
+			List<Object[]> list = new ArrayList<Object[]>();
+			Object[] param = null;
+			for (Model details : modelList) {
+				param = new Object[] { details.getEmployeeId() };
+				list.add(param);
+
+			}
+			List<Model> query = jdbcTemplate.query(GETEMP, param, new BeanPropertyRowMapper<>(Model.class));
+			return query;
+//			return jdbcTemplate.query(GETBYID, new BeanPropertyRowMapper<Model>(Model.class));
+		} finally {
+			jdbcTemplate.getDataSource().getConnection().close();
+		}
+	}
 }
+
+

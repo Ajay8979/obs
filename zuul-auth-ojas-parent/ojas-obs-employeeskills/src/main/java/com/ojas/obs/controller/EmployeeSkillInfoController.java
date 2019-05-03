@@ -16,14 +16,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ojas.obs.facade.EmployeeSkillFacade;
 import com.ojas.obs.model.EmployeeSkillInfo;
 import com.ojas.obs.model.EmployeeSkillInfoRequest;
 import com.ojas.obs.utility.ErrorResponse;
 
 @RestController
+//@RequestMapping("/obs/employeeskillsdetails")
 public class EmployeeSkillInfoController {
 
 	@Autowired
@@ -62,7 +63,7 @@ public class EmployeeSkillInfoController {
 
 		List<EmployeeSkillInfo> listEmployeeSkillInfo = employeeSkillInfoRequest.getSkillInfoModel();
 
-		if (listEmployeeSkillInfo.isEmpty() || listEmployeeSkillInfo == null) {
+		if (listEmployeeSkillInfo == null || listEmployeeSkillInfo.isEmpty()) {
 			error = new ErrorResponse();
 			error.setMessage("Data must not be null");
 			error.setStatusCode("422");

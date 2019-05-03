@@ -7,4 +7,5 @@ public class UserConstants {
 	public static final String getById = "select * from  obs_employeeskilldetails where id =  ";
 	public static final String getCount = "select count(*) from  obs_employeeskilldetails";
 	public static final String updateSkillDetailsById = "update obs_employeeskilldetails set employee_id = ? ,skill_id=?, level_id =?, update_by=? ,updated_date =? where id = ? ";
+	public static final String getByEmpId =  "select * from  obs_employeeskilldetails where employee_id =  ";
 }

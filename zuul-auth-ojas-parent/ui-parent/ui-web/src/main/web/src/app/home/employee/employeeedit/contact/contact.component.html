@@ -43,7 +43,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let Cilist of contactList | filter:searchText | paginate: { itemsPerPage: 5, currentPage: contact };">
-                  <td>{{Cilist.id}}</td>
+                  <td>{{Cilist.emp_Id}}</td>
               <td>{{Cilist.email}}</td>
               <td>{{Cilist.personal_mobileNo}}</td>
             

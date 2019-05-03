@@ -17,4 +17,5 @@ public interface DependentDetailsDao {
 	public int deleteDependentDetails(DependentDetailsRequest dependentDetailsRequest) throws SQLException;
 	public List<DependentDetails> getAll(DependentDetailsRequest DependentDetailsRequest) throws SQLException;
 	public List<DependentDetails> getById(Integer id) throws SQLException;
+	List<DependentDetails> getByEmpId(String s) throws SQLException;
  }

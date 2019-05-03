@@ -27,7 +27,7 @@ import com.ojas.obs.employmentdetails.model.EmploymentDetailsResponse;
  *
  */
 @RestController
-//@RequestMapping("/obs/EmploymentDetails")
+//@RequestMapping("/obs/employmentDetails")
 public class EmploymentDetailsController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmploymentDetailsController.class);

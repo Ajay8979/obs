@@ -207,7 +207,7 @@ saveemployeeInfo(){
   
           
   }
-        this.hrms.updateempinfoser(updateempreq).subscribe(res =>{
+        this.hrms.updateempinfo(updateempreq).subscribe(res =>{
           this.updateempdata = res;
           console.log(this.updateempdata);
            if(this.updateempdata.statusMessage == "Success fully record updated")

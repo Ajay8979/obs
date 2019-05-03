@@ -460,9 +460,6 @@ getempinfo(basicempinfo){
 saveempinfo(saveempobj){
   return this.http.post(this.host_url+"8089/obs/employeeInfo/set",saveempobj);
 }
-updateempInfo(updateempobj){
- return this.http.post(this.host_url+"8089/obs/employeeInfo/set",updateempobj);
-}
 deleteempinfo(deleteempobj){
   return this.http.post(this.host_url+"8089/obs/employeeInfo/set",deleteempobj)
 }

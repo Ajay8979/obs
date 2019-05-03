@@ -59,7 +59,7 @@
 
                         <select class="form-control" placeholder="Select skill name" name="skill_id" (change)="selectOption($event.target.value)"   [(ngModel)]="SKILLinfo.skill_id"   required placeholder="skill name">
               <option>Select </option>
-              <option *ngFor="let skilltable of skillmasterArray "  [value]="skilltable.skill_id" >{{ skilltable.skill_name}}</option>
+              <option *ngFor="let skilltable of skillmasterArray "  [value]="skilltable.id" >{{ skilltable.skill_name}}</option>
 
             </select>
                    </div>

@@ -15,6 +15,11 @@ spring:
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-wait-millis: 20000
+      max-active: 3
+      max-idle: 2
+      min-idle: 1  
 
 #   url: jdbc:mysql://${OBS_DBURL}:3306/${OBS_DBNAME}
 #   username: ${OBS_DBUSERNAME}
@@ -26,4 +31,4 @@ spring:
 #   password: root
 #   driver-class-name: com.mysql.jdbc.Driver
 
-  
+ 

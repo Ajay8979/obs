@@ -7,6 +7,11 @@ spring:
     url: jdbc:mysql://192.168.7.64:3306/ojas_obs
     username: dbubora
     password: Ojas-1525
+    tomcat:
+      max-wait-millis: 20000
+      max-active: 3
+      max-idle: 2
+      min-idle: 1  
   
    
    

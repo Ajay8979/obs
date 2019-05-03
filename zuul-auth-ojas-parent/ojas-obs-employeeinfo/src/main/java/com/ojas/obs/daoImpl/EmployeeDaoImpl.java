@@ -1,15 +1,11 @@
 package com.ojas.obs.daoImpl;
 
 import static com.ojas.obs.constants.UserConstants.DELETEEMPINFO;
-import static com.ojas.obs.constants.UserConstants.DELETEEMPROLE;
 import static com.ojas.obs.constants.UserConstants.GETEMPBYID;
 import static com.ojas.obs.constants.UserConstants.GETEMPCOUNT;
 import static com.ojas.obs.constants.UserConstants.GETEMPDETAILS;
 import static com.ojas.obs.constants.UserConstants.GETROLEBYEMPID;
-import static com.ojas.obs.constants.UserConstants.ROLEEMPBYID;
 import static com.ojas.obs.constants.UserConstants.SAVEEMPINFO;
-import static com.ojas.obs.constants.UserConstants.SAVEEMPLOGININFO;
-import static com.ojas.obs.constants.UserConstants.SAVEEMPROLE;
 import static com.ojas.obs.constants.UserConstants.UPDATEEMPINFO;
 
 import java.sql.SQLException;
@@ -20,11 +16,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,13 +29,6 @@ import com.ojas.obs.response.RoleResponse;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeInfoDao {
-	@Autowired
-	private PasswordEncoder passwordEncode;
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -60,8 +46,6 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	public boolean saveEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 		try {
 			List<Object[]> employeeInfoList = new ArrayList<>();
-			List<Object[]> loginList = new ArrayList<>();
-			List<Object[]> roleList = new ArrayList<>();
 
 			for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
 				java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
@@ -70,16 +54,6 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 						employeeInfo.getTitle(), employeeInfo.getEmployeeId(), true,
 						new Timestamp(new Date().getTime()), employeeInfo.getCreatedBy() };
 				employeeInfoList.add(empinfo);
-				if (null != employeeInfo.getPassword()) {
-					Object[] empLogin = { employeeInfo.getEmployeeId(),
-							this.passwordEncode.encode(employeeInfo.getPassword()), new Timestamp(new Date().getTime()),
-							employeeInfo.getCreatedBy() };
-					loginList.add(empLogin);
-					Object[] empList = { employeeInfo.getEmployeeId(), 2};
-					roleList.add(empList);
-					jdbcTemplate.batchUpdate(SAVEEMPROLE, roleList );
-					jdbcTemplate.batchUpdate(SAVEEMPLOGININFO, loginList);
-				}
 			}
 			jdbcTemplate.batchUpdate(SAVEEMPINFO, employeeInfoList);
 			return true;
@@ -101,9 +75,6 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	public boolean updateEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 		try {
 			List<Object[]> inputList = new ArrayList<>();
-			List<Object[]> roleList = new ArrayList<>();
-			List<Object[]> roleListDel = new ArrayList<>();
-
 			for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
 				java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
 				Object[] emp = { employeeInfo.getFirstname(), employeeInfo.getMiddlename(), employeeInfo.getLastname(),
@@ -139,9 +110,8 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 	public boolean deleteEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
 		try {
 			List<Object[]> inputList = new ArrayList<Object[]>();
-			List<Object[]> roleList = new ArrayList<Object[]>();
 			EmployeeInfo employeeInfo = employeeInfoRequest.getEmployeeInfo().get(0);
-			Object[] emp = { false, new Timestamp(new Date().getTime()), employeeInfo.getEmployeeId() };
+			Object[] emp = { false, new Timestamp(new Date().getTime()), employeeInfo.getId() };
 			inputList.add(emp);
 			/*
 			 * Object[] empRole = { employeeInfo.getEmployeeId() }; roleList.add(empRole);

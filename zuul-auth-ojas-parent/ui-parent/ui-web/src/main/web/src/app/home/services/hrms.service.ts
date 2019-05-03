@@ -143,19 +143,19 @@ dleteRoleManagement(RoleDelete){
 
 //skill starts
 setSkill(skillReqObj){
-  return this.http.post(this.host_url+"8089/obs/employeeskilldetails/set",skillReqObj)
+  return this.http.post(this.host_url+"8089/obs/employeeskillsdetails/set",skillReqObj)
 }
 getSkill(getskillReqObj){
-  return this.http.post(this.host_url+"8089/obs/employeeskilldetails/get",getskillReqObj)
+  return this.http.post(this.host_url+"8089/obs/employeeskillsdetails/get",getskillReqObj)
 }
 updateSkill(updateskillReqObj){
-  return this.http.post(this.host_url+"8089/obs/employeeskilldetails/set",updateskillReqObj)
+  return this.http.post(this.host_url+"8089/obs/employeeskillsdetails/set",updateskillReqObj)
 }
 deleteSkill(deleteskillReqObj){
-  return this.http.post(this.host_url+"8089/obs/employeeskilldetails/set",deleteskillReqObj)
+  return this.http.post(this.host_url+"8089/obs/employeeskillsdetails/set",deleteskillReqObj)
 }
 getSkilbyId(editskillReg){
-  return this.http.post(this.host_url+"8089/obs/employeeskilldetails/get",editskillReg)
+  return this.http.post(this.host_url+"8089/obs/employeeskillsdetails/get",editskillReg)
 }
 
 //skill ends
@@ -461,7 +461,7 @@ saveempinfo(saveempobj){
   return this.http.post(this.host_url+"8089/obs/employeeInfo/set",saveempobj);
 }
 updateempInfo(updateempobj){
-  return this.http.post(this.host_url+"8089/obs/employeeInfo/set",updateempobj);
+ return this.http.post(this.host_url+"8089/obs/employeeInfo/set",updateempobj);
 }
 deleteempinfo(deleteempobj){
   return this.http.post(this.host_url+"8089/obs/employeeInfo/set",deleteempobj)
@@ -618,20 +618,20 @@ updatedependentdetails(updatedependentdetailsResObj){
 }
 //endsdependent details
 
-// //start bank deatils
-// getbankserverdetails(getbankdetailsResobj){
-//   return this.http.post(this.host_url+"9000/obs/BankDetails/getAll",getbankdetailsResobj);
-// }
-// savebankdetails(savebankdetailsResobj){
-//   return this.http.post(this.host_url+"8089/obs/BankDetails/set",savebankdetailsResobj);
-// }
-//  deletebankdetails(deletebankdetailsResObj){
-//   return this.http.post(this.host_url+"8089/obs/BankDetails/set",deletebankdetailsResObj);
-//  }
-//  updatebankdetails(updatebankdetailsResObj){
-//    return this.http.post(this.host_url+"8089/obs/BankDetails/set",updatebankdetailsResObj);
-//  }
-//  //ends bank details
+//start bank deatils
+getbankserverdetails(getbankdetailsResobj){
+  return this.http.post(this.host_url+"8089/obs/BankDetails/getAll",getbankdetailsResobj);
+}
+savebankdetails(savebankdetailsResobj){
+  return this.http.post(this.host_url+"8089/obs/BankDetails/set",savebankdetailsResobj);
+}
+ deletebankdetails(deletebankdetailsResObj){
+  return this.http.post(this.host_url+"8089/obs/BankDetails/set",deletebankdetailsResObj);
+ }
+ updatebankdetails(updatebankdetailsResObj){
+   return this.http.post(this.host_url+"8089/obs/BankDetails/set",updatebankdetailsResObj);
+ }
+ //ends bank details
  //onboarding details stars
   getonboardingdetails(onboardingdetailsResObj){
   return this.http.post(this.host_url+"8089/obs/employmentDetails/get",onboardingdetailsResObj);
@@ -828,20 +828,6 @@ deleteEmpEducationalQualification(deleteEmpQual){
   //--Resource type ends--------------
 
   
-  //start bank deatils
-getbankserverdetails(getbankdetailsResobj){
-  return this.http.post(this.host_url+"8089/obs/BankDetails/getAll",getbankdetailsResobj);
-}
-savebankdetails(savebankdetailsResobj){
-  return this.http.post(this.host_url+"8089/obs/BankDetails/set",savebankdetailsResobj);
-}
- deletebankdetails(deletebankdetailsResObj){
-  return this.http.post(this.host_url+"8089/obs/BankDetails/set",deletebankdetailsResObj);
- }
- updatebankdetails(updatebankdetailsResObj){
-   return this.http.post(this.host_url+"8089/obs/BankDetails/set",updatebankdetailsResObj);
- }
- //ends bank details
 
 
 

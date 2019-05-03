@@ -57,7 +57,7 @@ var reqData=
            
  "employee_id" :this.SKILLinfo.employee_id,
            
- "created_by" : this.SKILLinfo.created_by
+ "created_by" : "ojas344"
         
 }],
 
@@ -111,7 +111,7 @@ console.log(this.skillInfoList);
 for(let i=0;i<=this.skillInfoList.length;i++){
 
   for(let j=0;j<this.skillmasterArray.length;j++){
-  if(this.skillmasterArray[j].skill_id==this.skillInfoList[i].skill_id){
+  if(this.skillmasterArray[j].id==this.skillInfoList[i].skill_id){
   this.getSkillName=this.skillmasterArray[j].skill_name;
   console.log("Skill name details");
   console.log(this.getSkillName);
@@ -213,9 +213,9 @@ var updaterequestData={
     "level_id" :this.SKILLinfo.level_id,
              
    "employee_id" :this.SKILLinfo.employee_id,
-   "created_by" :this.SKILLinfo.created_by, 
-   "update_by" : this.SKILLinfo.update_by,
-   "flag":this.SKILLinfo.flag,
+   "created_by" :"ojas344", 
+   "update_by" : "ojas823",
+   "flag":true,
    "id":this.SKILLinfo.id
             
   }],

@@ -64,9 +64,9 @@ setCertificationDetails(){
         this.certificationReq = responce;
         console.log(this.certificationReq );
 
-        if(this.certificationReq.statusMessage =="Employee Certification detail saved successfuly"){
+        if(this.certificationReq.statusMassage =="Employee Certification detail saved successfuly"){
 
-          swal(this.certificationReq.statusMessage, "","success");
+          swal(this.certificationReq.statusMassage, "","success");
           this.getCertificationDetails();
          }
         this.certificationArr = this.certificationReq.certificationDetailsModel;
@@ -117,8 +117,8 @@ getCertificationDetails(){
             this.certificationDetailsListarr = this.deletedcertificationDetails.certificationDetailsList;
             console.log(this.deletedcertificationDetails);
 
-            if(this.deletedcertificationDetails.statusMessage == "Employee Certification detail deleted successfuly"){
-              swal(this.deletedcertificationDetails.statusMessage, "","success");
+            if(this.deletedcertificationDetails.statusMassage == "Employee Certification detail deleted successfuly"){
+              swal(this.deletedcertificationDetails.statusMassage, "","success");
               this.getCertificationDetails();
             }
            this.getCertificationDetails();
@@ -200,8 +200,8 @@ var updaterequestData= {
          this.updateRequest = res;
             
         console.log(this.updateRequest);
-        if(this.updateRequest.statusMessage == "Employee Certification detail updated successfuly"){
-          swal(this.updateRequest.statusMessage, "","success");
+        if(this.updateRequest.statusMassage == "Employee Certification detail updated successfuly"){
+          swal(this.updateRequest.statusMassage, "","success");
           this.getCertificationDetails();
         }
              this.getCertificationDetails();

@@ -30,7 +30,7 @@ public class UserConstants {
 		
 	public static final String UPDATEEMPINFO = "update obs_employeeinfo set  firstname =?,middlename=?,lastname=? ,status =?,dob=?,gender=?, title=?, employeeId=?,updatedOn =? ,updatedBy=? where id =?";
 
-	public static final String DELETEEMPINFO = "update ojas_obs.obs_employeeinfo set flag = ?,updatedOn = ? where employeeId =?";
+	public static final String DELETEEMPINFO = "update ojas_obs.obs_employeeinfo set flag = ?,updatedOn = ? where id =?";
 	public static final String GETEMPDETAILS = "select * from obs_employeeinfo where flag = true ";
 
 	public static final String GETEMPCOUNT = "select count(*) from obs_employeeinfo";

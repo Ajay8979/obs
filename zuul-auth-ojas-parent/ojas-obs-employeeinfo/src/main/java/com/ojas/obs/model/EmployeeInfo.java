@@ -16,7 +16,6 @@ public class EmployeeInfo {
 	private String status;
 	private String dob;
 	private String gender;
-	private String password;
 	private Integer title;
 	private String employeeId;
 	private boolean flag;
@@ -91,14 +90,6 @@ public class EmployeeInfo {
 		this.gender = gender;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getEmployeeId() {
 		return employeeId;
 	}
@@ -163,7 +154,6 @@ public class EmployeeInfo {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((middlename == null) ? 0 : middlename.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
@@ -227,11 +217,7 @@ public class EmployeeInfo {
 				return false;
 		} else if (!middlename.equals(other.middlename))
 			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
+		
 		if (title == null) {
 			if (other.title != null)
 				return false;

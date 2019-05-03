@@ -1,7 +1,3 @@
-#spring.datasource.driver-class-name= jdbc:mysql://localhost/ojas_obs
-#spring.datasource.data-username= root
-#spring.datasource.data-password= root
-#spring.datasource.url= com.mysql.jdbc.Driver
 
 
 # Here 'test' is the database name
@@ -11,12 +7,18 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.7.64:3306/ojas_obs
+
+    url: jdbc:mysql://192.168.6.186:3306/ojas_obs
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver
-  
-    #url: jdbc:mysql://localhost:3306/ojas_obs
-    #username: root
-  #  password: root
-   # driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-wait-millis: 20000
+      max-active: 3
+      max-idle: 2
+      min-idle: 1  
+
+#    url: jdbc:mysql://localhost:3306/ojas_obs
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.jdbc.Driver

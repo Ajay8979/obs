@@ -10,5 +10,10 @@ spring:
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-wait-millis: 20000
+      max-active: 3
+      max-idle: 2
+      min-idle: 1  
 server:
   port: 8094

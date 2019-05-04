@@ -3,7 +3,7 @@
 # Here 'test' is the database name
 
 server:
-  port: 8055
+  port: 8088
 
 spring:
   datasource:
@@ -12,7 +12,9 @@ spring:
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver
-
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2
 #    url: jdbc:mysql://localhost:3306/ojas_obs
 #    username: root
 #    password: root

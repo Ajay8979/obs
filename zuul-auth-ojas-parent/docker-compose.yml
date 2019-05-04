@@ -155,11 +155,11 @@ services:
      ports:
      - "8083:8083"
   ojas-obs-kye:
-    image : ojas-obs-kye
-    depends_on:
-    - auth-center
-    ports:
-    - "7070:7070"
+     image : ojas-obs-kye
+     depends_on:
+     - auth-center
+     ports:
+     - "7070:7070"
   ojas-obs-employeeinfo:
      image : ojas-obs-employeeinfo
      depends_on:
@@ -167,12 +167,20 @@ services:
      ports:
      - "8093:8093"
   ojas-obs-title:
-    image : ojas-obs-title
-    depends_on:
-    - auth-center
-    ports:
-    - "8095:8095"
-  ui-server:
-     image: ui-server
+     image : ojas-obs-title
+     depends_on:
+     - auth-center
      ports:
-     - "8000:8000"
+     - "8095:8095"
+  ojas-obs-resetpassword :
+     image : ojas-obs-resetpassword
+     ports:
+     - "8096:8096"
+  ojas-obs-reg-forgot : 
+     image : ojas-obs-reg-forgot
+     ports:
+     - "8088:8088"
+  ui-server:
+    image: ui-server
+    ports:
+    - "8000:8000"

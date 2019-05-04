@@ -8,11 +8,9 @@ spring:
     username: dbubora
     password: Ojas-1525
     driver-class-name: com.mysql.jdbc.Driver
-    tomcat:
-      max-wait-millis: 20000
-      max-active: 3
-      max-idle: 2
-      min-idle: 1  
+    hikari : 
+      connection-timeout : 500
+      maximum-pool-size : 2 
 #   url: jdbc:mysql://localhost:3306/ojas_obs?autoReconnect=true&useSSL=false
 #   username: root
 #   password: root

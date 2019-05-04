@@ -48,6 +48,8 @@
 		<module>ojas-obs-kye</module>
 		<module>ojas-obs-employeeinfo</module>
 		<module>ojas-obs-title</module>
+		<module>ojas-obs-resetpassword</module>
+		<module>ojas-obs-reg-forgot<module>
        <!-- 
         
 		

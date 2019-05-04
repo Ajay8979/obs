@@ -617,10 +617,13 @@ updatedependentdetails(updatedependentdetailsResObj){
 
 //start bank deatils
 getbankserverdetails(getbankdetailsResobj){
-  return this.http.post(this.host_url+"8089/obs/BankDetails/getAll",getbankdetailsResobj);
+ return this.http.post(this.host_url+"8089/obs/BankDetails/get",getbankdetailsResobj);
+
 }
 savebankdetails(savebankdetailsResobj){
-  return this.http.post(this.host_url+"8089/obs/BankDetails/set",savebankdetailsResobj);
+return this.http.post(this.host_url+"8089/obs/BankDetails/set",savebankdetailsResobj);
+
+
 }
  deletebankdetails(deletebankdetailsResObj){
   return this.http.post(this.host_url+"8089/obs/BankDetails/set",deletebankdetailsResObj);

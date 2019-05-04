@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ojas.obs.resetpassword</groupId>
-	<artifactId>ojas-obs-password</artifactId>
+	<artifactId>ojas-obs-resetpassword</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ojas-obs-resetpassword</name>
 	<description>obs-resetpassword</description>

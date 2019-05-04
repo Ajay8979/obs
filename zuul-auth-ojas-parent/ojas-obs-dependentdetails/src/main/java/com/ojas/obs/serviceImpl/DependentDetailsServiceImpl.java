@@ -1,21 +1,23 @@
 package com.ojas.obs.serviceImpl;
 
+import static com.ojas.obs.constants.DependentDetailsContants.DELETE;
+import static com.ojas.obs.constants.DependentDetailsContants.GETALL;
+import static com.ojas.obs.constants.DependentDetailsContants.GETBYID;
+import static com.ojas.obs.constants.DependentDetailsContants.SAVE;
+import static com.ojas.obs.constants.DependentDetailsContants.UPDATE;
+
+import java.sql.SQLException;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ojas.obs.dao.DependentDetailsDao;
-import com.ojas.obs.daoImpl.DependentDetailsDaoImpl;
 import com.ojas.obs.model.DependentDetails;
 import com.ojas.obs.request.DependentDetailsRequest;
 import com.ojas.obs.response.DependentDetailsResponse;
 import com.ojas.obs.service.DependentDetailsService;
-
-import static com.ojas.obs.constants.DependentDetailsContants.*;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -151,8 +153,18 @@ public class DependentDetailsServiceImpl implements DependentDetailsService {
 		}
 		
 		else if (dependentDetailsRequestObject.getTransactionType().equalsIgnoreCase(GETBYID)) {
-			List<DependentDetails> all = dependentDetailsDaoImpl.getById(dependentDetailsRequestObject.getDependentDetails().get(0).getId());
+			List<DependentDetails> all = null;
 			logger.debug("received at service by calling the getAllmethod is" + all);
+			String EmpId=dependentDetailsRequestObject.getDependentDetails().get(0).getEmployee_Id();
+			if(EmpId == null) {
+				all = dependentDetailsDaoImpl.getById(dependentDetailsRequestObject.getDependentDetails().get(0).getId());
+			}
+			else {
+				all = dependentDetailsDaoImpl.getByEmpId(dependentDetailsRequestObject.getDependentDetails().get(0).getEmployee_Id());
+			
+			}
+			
+			
 			if (!all.isEmpty()) {
 				dependentDetailsResponse.setStatusCode("200");
 				dependentDetailsResponse.setStatusMessage("you got the list of DependentDetails successfully");

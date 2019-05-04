@@ -41,7 +41,7 @@ public class BankDetailsFacade {
 	 * @return
 	 */
 	public ResponseEntity<Object> setBankDetails(BankDetailsRequest bankDetailsRequest) {
-		ResponseEntity<Object> responseEntity = null;
+		// ResponseEntity<Object> responseEntity = null;
 		BankDetailsResponse bankDetailsResponse = null;
 		logger.debug("incomming request in facade " + bankDetailsRequest);
 		try {
@@ -56,13 +56,8 @@ public class BankDetailsFacade {
 					bankDetailsResponse.setTotalCount(bankDetailsCount);
 					bankDetailsResponse.setStatusMessage("BankDetails record is saved Successfully");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
-				} else {
-					logger.debug("object not stored in db");
-					bankDetailsResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.CONFLICT);
 				}
 			}
-
 			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				logger.debug("Transactiontype is  " + UPDATE);
 				bankDetailsResponse = new BankDetailsResponse();
@@ -73,13 +68,8 @@ public class BankDetailsFacade {
 					bankDetailsResponse.setTotalCount(bankDetailsCount);
 					bankDetailsResponse.setStatusMessage("BankDetails record is updated Successfully");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
-				} else {
-					logger.debug("object not updated in db ");
-					bankDetailsResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.CONFLICT);
 				}
 			}
-
 			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
 				logger.debug("Transactiontype is  " + DELETE);
 				bankDetailsResponse = new BankDetailsResponse();
@@ -90,23 +80,20 @@ public class BankDetailsFacade {
 					logger.debug("object deleted in db " + deleteBank);
 					bankDetailsResponse.setStatusMessage("BankDetails record is deleted Successfully");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
-				} else {
-					logger.debug("object not deleted in db ");
-					bankDetailsResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.CONFLICT);
 				}
-
 			}
+			logger.debug("object not deleted in db ");
+			bankDetailsResponse.setStatusMessage(FAILED);
+			return new ResponseEntity<>(bankDetailsResponse, HttpStatus.CONFLICT);
+			
 		} catch (Exception exception) {
 			logger.debug("inside facade catch block ");
 			ErrorResponse error = new ErrorResponse();
 			exception.printStackTrace();
-			error.setMessage("Bank details object is null");
+			error.setMessage("BankDetails is not seved in DB");
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
-		return responseEntity;
-
 	}
 
 	/**
@@ -116,8 +103,10 @@ public class BankDetailsFacade {
 	 */
 	public ResponseEntity<Object> getBankDetails(BankDetailsRequest bankDetailsRequest) {
 		BankDetailsResponse bankDetailsResponse = null;
+		logger.debug("get request inside facade " + bankDetailsRequest);
 		try {
 			List<BankDetails> allBankDetails = bankDetailsDAO.getAllBankDetails(bankDetailsRequest);
+			logger.debug("response in facade " + allBankDetails);
 			if (null == allBankDetails || allBankDetails.isEmpty()) {
 				bankDetailsResponse = new BankDetailsResponse();
 				bankDetailsResponse.setStatusMessage(NORECORDS);
@@ -136,7 +125,7 @@ public class BankDetailsFacade {
 		} catch (Exception exception) {
 			logger.debug("inside facade catch block " + exception.getMessage());
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage("Data is null");
+			error.setMessage("inside facade. Data is null");
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}

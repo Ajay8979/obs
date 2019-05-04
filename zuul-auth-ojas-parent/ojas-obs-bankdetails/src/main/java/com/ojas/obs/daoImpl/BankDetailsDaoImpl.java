@@ -75,7 +75,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		
+
 	}
 
 	/*
@@ -114,7 +114,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		
+
 	}
 
 	/*
@@ -144,7 +144,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		
+
 	}
 
 	/*
@@ -154,25 +154,25 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	 */
 	@Override
 	public List<BankDetails> getAllBankDetails(BankDetailsRequest bankDetailsRequest) throws SQLException {
-
-		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
-
-		List<BankDetails> list = new ArrayList<BankDetails>();
+		logger.debug("incoming request in dao " + bankDetailsRequest);
+		StringBuilder builder = new StringBuilder();
+		builder.append(ALLRECORDS);
 		try {
-			List<BankDetails> query = jdbcTemplate.query(ALLRECORDS.toString(),
-					new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
-			for (BankDetails bankDetails2 : query) {
-				for (BankDetails bankDetails3 : bankDetails) {
-					if (bankDetails2.getId() == bankDetails3.getId()) {
-						list.add(bankDetails2);
-						return list;
-					}else if (bankDetails2.getEmployee_id().equals(bankDetails3.getEmployee_id())) {
-						list.add(bankDetails2);
-						return list;
-					}
+
+			List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
+			for (BankDetails bankObject : bankDetails) {
+				if (bankDetailsRequest.getTransactionType().equalsIgnoreCase("getall")
+						&& bankObject.getEmployee_id() != null) {
+					builder.append(" and employee_id = " + bankObject.getEmployee_id());
+					List<BankDetails> query = jdbcTemplate.query(builder.toString(),
+							new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+					logger.debug("response1 from dao dao " + query);
+					return query;
 				}
 			}
-
+			List<BankDetails> query = jdbcTemplate.query(builder.toString(),
+					new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+			logger.debug("response2 from dao dao " + query);
 			return query;
 		} finally {
 			if (jdbcTemplate != null) {
@@ -194,8 +194,8 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 	public int getAllEmployeeBankDetailsCount() {
 		try {
 			return jdbcTemplate.queryForObject(RECORDSCOUNT, Integer.class);
-			 
-		}finally {
+
+		} finally {
 			if (jdbcTemplate != null) {
 				try {
 					jdbcTemplate.getDataSource().getConnection().close();
@@ -204,7 +204,7 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 				}
 			}
 		}
-		
+
 	}
 
 }

@@ -80,7 +80,7 @@ public class BankDetailsController {
 		} catch (Exception exception) {
 			logger.debug("inside catch block " + exception.getMessage());
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage("Data is null ");
+			error.setMessage("Getting null Data in  get request");
 			exception.printStackTrace();
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -108,12 +108,14 @@ public class BankDetailsController {
 				error.setStatusCode("422");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-
-			return bankDetailsFacade.getBankDetails(bankDetailsRequest);
+			
+			 ResponseEntity<Object> bankDetails = bankDetailsFacade.getBankDetails(bankDetailsRequest);
+			 logger.debug("response in getmethod" + bankDetails);
+			return bankDetails;
 		} catch (Exception exception) {
 			logger.debug("inside get catch block " + exception.getMessage());
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage("Data is null");
+			error.setMessage("Getting null Data in  get request");
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}

@@ -121,19 +121,30 @@ CREATE TABLE `obs_employeecontactinfo` (
 //===========================obs_certificationdetails=======================================
 
 CREATE TABLE `obs_certificationdetails` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `certification_name` varchar(45) NOT NULL,
-  `Issued_by` varchar(45) NOT NULL,
-  `Date_of_issue` timestamp NOT NULL,
-  `employee_id` varchar(45) NOT NULL,
-  `created_by` varchar(45) NOT NULL,
-  `updated_by` varchar(45) DEFAULT NULL,
-  `created_date` timestamp NULL,
-  `updated_date` timestamp NULL DEFAULT NULL,
-  `flag` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-);
+  
+`id` int(11) NOT NULL AUTO_INCREMENT,
+ 
+ `certification_name` varchar(45) NOT NULL,
 
+  `Issued_by` varchar(45) NOT NULL,
+ 
+ `Date_of_issue` timestamp NOT NULL,
+  
+`employee_id` varchar(45) NOT NULL,
+  
+`created_by` varchar(45) NOT NULL,
+  
+`updated_by` varchar(45) DEFAULT NULL,
+ 
+ `created_date` timestamp NULL DEFAULT NULL,
+ 
+ `updated_date` timestamp NULL DEFAULT NULL,
+ 
+ `flag` varchar(45) NOT NULL,
+ 
+ PRIMARY KEY (`id`)
+
+);
 //===========================obs_employeeinfo=======================================
 
 CREATE TABLE `obs_employeeinfo` (
@@ -173,9 +184,9 @@ CREATE TABLE `obs_employeeinfo` (
 
 //===========================obs_employeeinfo_insertQuery=======================================
 
-//INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`title`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
-//(16,'ojas','kumar','sriram',1,'2015-03-31',1,1,'1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
-//(17,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,1,'1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
+INSERT  INTO `obs_employeeinfo`(`id`,`firstname`,`middlename`,`lastname`,`status`,`dob`,`gender`,`title`,`employeeId`,`flag`,`createdOn`,`updatedOn`,`createdBy`,`updatedBy`) VALUES 
+(1,'ojas','kumar','sriram',1,'2015-03-31',1,1,'1212',0,'2019-04-03 15:24:21','2019-04-03 15:27:07',12,121),
+(2,'ojasuser','ssdsriram','sfsaf',1,'2015-05-04',1,1,'1213',1,'2019-04-03 16:05:52','2019-04-04 15:44:57',1612,NULL);
 
 //===========================obs_experiencedetails=======================================
 
@@ -198,20 +209,20 @@ CREATE TABLE `obs_employeeinfo` (
     created_date timestamp  NOT NULL,
      updated_date timestamp  NULL,
    PRIMARY KEY (Id));
-
+   
 //===========================obs_dependent_details=======================================
-
-create table obs_dependent_details
-  (id	int(11) auto_increment PRIMARY KEY,
-dependent_name	varchar(45),
-relation	varchar(45),
-date_of_birth	date,
-employee_id	varchar(45),
-created_by	varchar(45),
-created_date	datetime,
-updated_by	varchar(45),
-updated_date	datetime,
-flag	tinyint(4)
+CREATE TABLE `obs_dependent_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dependent_name` varchar(45) DEFAULT NULL,
+  `relation` varchar(45) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `employee_id` varchar(20) DEFAULT NULL,
+  `created_by` varchar(45) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_by` varchar(45) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `flag` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 //===========================obs_budetails=======================================
@@ -253,7 +264,7 @@ CREATE TABLE `obs_resourcetype` (
 
 create table obs_designation(
 id int   PRIMARY KEY AUTO_INCREMENT,
-designation varchar(45)
+designation varchar(45) UNIQUE
 );
 
 
@@ -261,7 +272,7 @@ designation varchar(45)
 
 create table obs_separationtype(
 separationTypeId int  PRIMARY KEY AUTO_INCREMENT,
-separationType varchar(45)
+separationType varchar(45) UNIQUE
 );
 
 //===========================obs_empstatus=======================================
@@ -279,24 +290,35 @@ CREATE TABLE `obs_empstatus` (
 CREATE TABLE `obs_passport` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `centerName` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `centerName_UNIQUE` (`centerName`)
 );
 
 
 //===========================obs_genders=======================================
 
 CREATE TABLE `obs_genders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gender` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  
+`id` int(11) NOT NULL AUTO_INCREMENT,
+  
+`gender` varchar(45) DEFAULT NULL,
+ 
+ PRIMARY KEY (`id`),
+ 
+ UNIQUE KEY `gender_UNIQUE` (`gender`)
 );
 
 //===========================obs_states=======================================
 
 CREATE TABLE `obs_states` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `stateName` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+ 
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ 
+ `stateName` varchar(45) NOT NULL,
+ 
+ PRIMARY KEY (`id`),
+ 
+ UNIQUE KEY `stateName_UNIQUE` (`stateName`)
 );
 
 //===========================obs_costcenter=======================================
@@ -307,29 +329,26 @@ costcentercode int(20) not null,
 primary key(id)
 );
 
-
 //===========================obs_gpaplan=======================================
 
-
-CREATE TABLE obs_gpaplan (
-  gpaPlanId int(11) NOT NULL AUTO_INCREMENT,
-  gpaPlanType varchar(30) DEFAULT NULL,
-  gpaPremium double DEFAULT NULL,
-  totalPremium double DEFAULT NULL,
-  
-  PRIMARY KEY (gpaPlanId)
+CREATE TABLE `obs_gpaplan` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `gpaPlanId` int(11) NOT NULL,
+  `gpaPlanType` varchar(30) DEFAULT NULL,
+  `gpaPremium` double DEFAULT NULL,
+  `totalPremium` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `gpaPlanId` (`gpaPlanId`)
 );
+
 
 //===========================obs_educationtype=======================================
 
 CREATE TABLE `obs_educationtype` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `degree` VARCHAR(25) DEFAULT NULL,
-  `pg` VARCHAR(25) DEFAULT NULL,
-  `degree_stream` VARCHAR(25) DEFAULT NULL,
-  `pg_stream` VARCHAR(25) DEFAULT NULL,
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `educationType` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ;
+);
 
 //===========================obs_businessunit=======================================
 
@@ -340,6 +359,7 @@ businessUnitName  VARCHAR(100) DEFAULT NULL,
  costCenterId  INT(20) NOT NULL,
  primary key(id)
 ); 
+
 
 //===========================obs_rolemanagement=======================================
 
@@ -389,7 +409,58 @@ CREATE TABLE `obs_employee_login` (
   `updatedOn` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `employeeId_UNIQUE` (`employeeId`)
-)
+);
+
+INSERT  INTO `obs_employee_login`(`id`,`employeeId`,`password`,`createdBy`,`createdOn`) VALUES 
+(1,'1212','$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO',1212,'2019-04-03 15:24:21'),
+(2,'1213','$2a$12$nzbJzQutYiniDH0YLze7UOEgQGyPwOX5iCpeQoeDkhbIPMqcoJ6eO',1213,'2019-04-03 16:05:52');
+
+//===========================obs_education_details=======================================
+
+CREATE TABLE `obs_education_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employeeId` varchar(100) DEFAULT NULL,
+  `qualification` int(11) DEFAULT NULL,
+  `year_of_passing` varchar(100) DEFAULT NULL,
+  `percentage_marks` varchar(100) DEFAULT NULL,
+  `institution_name` varchar(100) DEFAULT NULL,
+  `flag` tinyint(1) DEFAULT NULL,
+  `createdBy` varchar(100) DEFAULT '0',
+  `updatedBy` varchar(100) DEFAULT '0',
+  `createdDate` timestamp NULL DEFAULT NULL,
+  `updatedDate` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
 
 
+//===========================obs_employeestatus=======================================
 
+CREATE TABLE `obs_employeestatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `status_UNIQUE` (`status`)
+);
+
+//=========================bank deatils=====================================
+
+
+CREATE TABLE obs_bankdetails 
+(
+ id int(15) NOT NULL AUTO_INCREMENT,
+  bank_account_no varchar(50) DEFAULT NULL,
+  bank_name varchar(50) DEFAULT NULL,
+  bank_city varchar(50) DEFAULT NULL,
+  bank_branch varchar(50) DEFAULT NULL,
+  bank_ifsc_code varchar(50) DEFAULT NULL,
+  bank_account_status varchar(25) DEFAULT NULL,
+  employee_id varchar(50) DEFAULT NULL,
+  Is_active tinyint(1) DEFAULT NULL,
+  updated_by varchar(50) DEFAULT NULL,
+  created_by varchar(50) DEFAULT NULL,
+  created_date datetime DEFAULT NULL,
+  updated_date datetime DEFAULT NULL,
+  flag tinyint(1) DEFAULT NULL,
+ PRIMARY KEY (id)
+
+);

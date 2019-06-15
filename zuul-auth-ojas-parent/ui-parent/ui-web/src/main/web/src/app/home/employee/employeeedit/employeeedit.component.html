@@ -1,83 +1,15 @@
- <!-- <div class="app-title">
-    <div>
-      <h1>
-        <i class="fa fa-th-list"></i> Employee</h1>
-    </div>
-    <ul class="app-breadcrumb breadcrumb">
-      <li class="breadcrumb-item">
-        <i class="fa fa-home fa-lg"></i>
-      </li>
-      <li class="breadcrumb-item">Masters</li>
-      <li class="breadcrumb-item active">
-        <a href="#">Dashboard</a>
-      </li>
-    </ul>
-  </div>
-  
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-          <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbarCollapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button> 
-     
-      
-    
-       <div class="collapse navbar-collapse navbarCollapse"> 
-          <ul class="nav navbar-nav navbar-left">
-              <li class="active">
-      
-        <li class="nav-item">
-            <a routerLink="kye">Kye</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="title">Title</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="experience">Experience</a>
-        </li>
-      </ul>
-          </div>
-          </div>
-      </div>
-  </nav>
-    
-     -->
-
-
-   <!-- <script>
-    $(".nav a").on("click", function(){
-   $(".nav").find(".active").removeClass("active");
-   $(this).parent().addClass("active");
-});
-    </script>
-
-
-
- <!-- <script>
-$( '#topheader .navbar-nav a' ).on( 'click', function () {
-	$( '#topheader .navbar-nav' ).find( 'li.active' ).removeClass( 'active' );
-	$( this ).parent( 'li' ).addClass( 'active' );
-});
-</script>  -->
-
-
-
-
-
+<!-- 
 <nav class="row">
   <div class="nav nav-tabs nav-fill left" id="nav-tab" role="tablist">
   
-  <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
-  aria-selected="false" routerLink="basicInfo" >
+  <a class="nav-item nav-link active"  data-toggle="tab" role="tab" aria-controls="nav-home" 
+  aria-selected="true" routerLink="basicInfo">
   <b>Basic Info</b>
   </a>
   
   
   <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
-  aria-selected="true" routerLink="onboardingdetails" >
+  aria-selected="false" routerLink="onboardingdetails" >
   <b>Onboarding</b>
   </a>
   
@@ -88,7 +20,7 @@ $( '#topheader .navbar-nav a' ).on( 'click', function () {
          
   
   <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
-   aria-selected="true" routerLink="experience" >
+   aria-selected="false" routerLink="experience" >
   <b>Experience</b>
   </a>
   
@@ -101,16 +33,16 @@ $( '#topheader .navbar-nav a' ).on( 'click', function () {
   
   
   <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
-  aria-selected="true" routerLink="certification" >
+  aria-selected="false" routerLink="certification" >
   <b>Certification</b>
   </a>
   
   
-  <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
+  <!-- <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
   aria-selected="true" routerLink="insurance" >
   <b>Insurance</b>
   </a>
-  
+   --
   
   
   <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-bankdetails"
@@ -120,7 +52,7 @@ $( '#topheader .navbar-nav a' ).on( 'click', function () {
   
   
   <a class="nav-item nav-link"  data-toggle="tab" role="tab" aria-controls="nav-home"
-  aria-selected="true" routerLink="contact" >
+  aria-selected="false" routerLink="contact" >
   <b>Contact</b>
   </a>
   
@@ -156,10 +88,69 @@ $( '#topheader .navbar-nav a' ).on( 'click', function () {
   <b>Dependent</b>
   </a>
   
+
+
+
         </div>
        </nav>
-  
-  
-  
-  
+   -->
+
+
+       <div id="topheader">
+       
+
+          <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+              <!-- Links -->
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" routerLink="basicInfo"> <b>Basic Info</b></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="onboardingdetails"> <b>Onboarding</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  routerLink="education" > <b>Education</b></a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" routerLink="experience"> <b>Experience</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="skill"><b>Skills</b></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" routerLink="certification"><b>Certification</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="bankdetails"><b>Bank Details</b></a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" routerLink="contact"><b>Contact </b></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="kye"><b>KYE</b></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" routerLink="title"><b>Title</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="projectdetails"><b>Project Details</b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" routerLink="dependentdetails"><b>Dependent</b></a>
+                                    </li>
+                                   
+              </ul>
+            
+            
+            </nav>
+        </div>
+
+
+
+
+
+
+
+
+
   <router-outlet></router-outlet>

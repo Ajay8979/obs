@@ -1,11 +1,11 @@
     <!-- onbording starts-->
-    <!-- <div class="tab-pane fade" id="nav-onbording" role="tabpanel" aria-labelledby="nav-onbording-tab" tile> -->
-      <br>
+    <div class="tab-pane fade show active" id="nav-onboarding" role="tabpanel" aria-labelledby="nav-onboarding-tab"></div>
+<br>
       <div class="row">
         <div class="col-md-11" style="margin-bottom: 25px;">
           <form class="form-inline ">
             <div class="input-group ">
-              <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+              <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
               <div class="input-group-btn">
                 <h1></h1>
               </div>
@@ -20,8 +20,28 @@
         </div>
       </div>
 
+<br>
 
-
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+<br>
       <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
         <table class="table table-condensed  tile">
           <thead class="two">
@@ -31,7 +51,7 @@
               <th>resourceType</th>
               <th>Bond Status</th>
               <th>Edit</th>
-              <th>delete</th>
+              <!-- <th>delete</th> -->
 
             </tr>
 
@@ -47,9 +67,9 @@
               <td>
                 <img src="assets/pe.png" width="30" data-toggle="modal" data-target="#myModal4" (click)="getboardingdetailsbyId(onboard)">
               </td>
-              <td>
+              <!-- <td>
                   <img src="assets/delete.png" width="20px"  (click)="deleteOnbording(onboard)">
-                </td>
+                </td> -->
 
      
             </tr>
@@ -75,7 +95,7 @@
 
               <div class="modal-body">
                 <form class="tile" #newUserFormOnboard="ngForm" (ngSubmit)="onSubmit1(newUserFormOnboard)" autocomplete="on">
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label> Emp Id: </label>
@@ -87,12 +107,30 @@
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+                  <div class="row">
+                    <div class="col-md-6"  *ngIf="createdByDependent">
+                        <div class="form-group">
+                            <label> Emp Id: <span [(ngModel)]="onboarddetailsss.employeeId" name="employeeId" #id="ngModel">{{eid}}</span></label>
+                            <!-- <input type="text" class="form-control" [(ngModel)]="onboarddetailsss.employeeId" name="employeeId" required placeholder="employeeId" > -->
+                         
+                          </div>
+                    
+                        </div>
+                      <div class="col-md-6" *ngIf="isupdateDependent">
+                          <div class="form-group">
+                              <label> Emp Id: <span [(ngModel)]="onboarddetailsss.employeeId" name="employeeId" #id="ngModel">{{onboarddetailsss.employeeId}}</span></label>
+          
+        
+                          </div>
+                        </div>
+                      </div>
+
 
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label>Joining Date: </label>
+                        <label>Joining Date<span class="starColor"> *</span> </label>
                         <input type="date" class="form-control" [(ngModel)]="onboarddetailsss.joiningDate" name="joiningDate" required placeholder="dd/mm/yyyy" #joining="ngModel">
                         <span style="color:red" *ngIf="joining.invalid && joining.touched ">
                           <span *ngIf="joining.errors.required">
@@ -104,7 +142,7 @@
                     </div>
                      <div class="col-md-4">
                       <div class="form-group">
-                        <label>resignationDate: </label>
+                        <label>resignationDate<span class="starColor"> *</span> </label>
                         <input type="date" class="form-control" [(ngModel)]="onboarddetailsss.resignationDate" name="resignationDate" required placeholder="dd/mm/yyyy" #registration="ngModel">
                         <span style="color:red" *ngIf="registration.invalid && registration.touched ">
                           <span *ngIf="registration.errors.required">
@@ -116,7 +154,7 @@
 
                     <div class="col-md-4">
                   <div class="form-group">
-                        <label>resourceType: </label>
+                        <label>resourceType<span class="starColor"> *</span> </label>
                       
                         <select class="form-control" placeholder="Select resource type"  name="resourceType" [(ngModel)]="onboarddetailsss.resourceType"  (change)="selectOption($event.target.value)"  required >
                           <option>Select </option>
@@ -131,7 +169,7 @@
                  <div class="row">
                    <div class="col-md-4">
                       <div class="form-group">
-                        <label> Separation Type: </label>
+                        <label> Separation Type<span class="starColor"> *</span> </label>
                         <select class="form-control" [(ngModel)]="onboarddetailsss. separationType" name="separationType"  required placeholder="Separation Type" #separation="ngModel">
                           <option>Select</option>
                           <option *ngFor="let separationlist of separationDetailsList" [value]="separationlist.separationTypeId"  >{{ separationlist.separationType}} </option>
@@ -148,7 +186,7 @@
                     </div> 
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label> Bond Status: </label>
+                        <label> Bond Status<span class="starColor"> *</span> </label>
                       
                         <select class="form-control" id="sel2" [(ngModel)]=" onboarddetailsss.bondStatus" name="bondStatus" required placeholder="bondStatus" #activ="ngModel">
                             <option>true</option>
@@ -170,7 +208,7 @@
                  
                         <div class="col-md-4">
                           <div class="form-group">
-                            <label>Exit Date: </label>
+                            <label>Exit Date<span class="starColor"> *</span> </label>
                             <input type="date" class="form-control" [(ngModel)]="onboarddetailsss.exitDate" name="exitDate" required placeholder="dd/mm/yyyy" #joiningg="ngModel">
                             <span style="color:red" *ngIf="joiningg.invalid && joiningg.touched ">
                               <span *ngIf="joiningg.errors.required">
@@ -211,6 +249,6 @@
       </div>
 
 
-    
+ 
     <!-- onbording ends-->
 

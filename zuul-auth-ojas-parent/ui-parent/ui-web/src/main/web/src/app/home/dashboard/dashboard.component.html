@@ -1,49 +1,111 @@
+<div  *ngIf="role=='ROLE_ADMIN'">
+<div class="app-title">
+  <div>
+  <h1><i class="fa fa-dashboard"></i>Admin Dashboard</h1>
+  <p>Ojas Bussness Suite</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+  <li class="breadcrumb-item pr-4"><a routerLink="/admin"><i class="fa fa-home fa-lg"></i></a></li>
+  <!-- <li class="breadcrumb-item"><a href="#">Dashboard</a></li> -->
+  </ul>
+  </div>
+  <div class="row">
+  <div class="col-md-6 col-lg-6">
+  <div class="widget-small primary coloured-icon"><i class="icon fa fa-user fa-3x"></i>
+  <div class="info">
+  <a routerLink="/admin"><h4>Role</h4></a>
+  <p><b></b></p>
+  </div>
+  </div>
+  </div>
+  <div class="col-md-6 col-lg-6">
+  <div class="widget-small info coloured-icon"><i class="icon fa fa-cog fa-3x"></i>
+  <div class="info">
+  <a routerLink="/admin"><h4>Config</h4></a>
+  <p><b></b></p>
+  </div>
+  </div>
+  </div>
+  </div>
 
+</div>
+
+
+
+
+<div  *ngIf="role=='ROLE_HR'">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
-      <p>Ojas Bussness Rules Application</p>
+      <h1><i class="fa fa-dashboard"></i>HR Dashboard</h1>
+      <p class="pl-2">Ojas Bussness Suite</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
-      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+      <li class="breadcrumb-item pr-4" ><a  routerLink="/hr"><i class="fa fa-home fa-lg"></i></a></li>
+      <!-- <li class="breadcrumb-item"><a  routerLink="/dashboard">Dashboard</a></li> -->
     </ul>
   </div>
   <div class="row">
-    <div class="col-md-6 col-lg-3">
-      <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-        <div class="info">
-          <h4>Users</h4>
-          <p><b>5</b></p>
+      <div class="row">
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small primary coloured-icon"><i class="icon fa fa-list-ul fa-3x"></i>
+              <div class="info">
+                <h4>Employee Info</h4>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small info coloured-icon"><i class="icon fa fa-sign-out fa-3x"></i>
+              <div class="info">
+                <h4>Exit Employee</h4>
+              
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
+              <div class="info">
+                <h4>Events</h4>
+              
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small danger coloured-icon"><i class="icon fa fa-list-alt fa-3x"></i>
+              <div class="info">
+                  <p class="len"><b>5</b></p>
+                <h4 class="mb-4">LMS</h4>
+              
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
+              <div class="info">
+                   <a routerLink="/hr_reports"><h4>Reports</h4></a>
+                 
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small warning coloured-icon"><i class="icon fa fa fa-calendar-o fa-3x"></i>
+              <div class="info">
+                <h4>Calender</h4>
+              
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+              <div class="info">
+                <a routerLink="/employee_role"><h4>Change Role</h4></a>
+              
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3">
-      <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
-        <div class="info">
-          <h4>Likes</h4>
-          <p><b>25</b></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3">
-      <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
-        <div class="info">
-          <h4>Uploades</h4>
-          <p><b>10</b></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3">
-      <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
-        <div class="info">
-          <h4>Stars</h4>
-          <p><b>500</b></p>
-        </div>
-      </div>
-    </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-6">
       <div class="tile">
         <h3 class="tile-title">Monthly Sales</h3>
@@ -60,8 +122,8 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
+  </div> -->
+  <!-- <div class="row">
     <div class="col-md-6">
       <div class="tile">
         <h3 class="tile-title">Features</h3>
@@ -89,7 +151,80 @@
         <p>The source code is available on GitHub. If anything is missing or weird please report it as an issue on <a href="https://github.com/pratikborsadiya/vali-admin" target="_blank">GitHub</a>. If you want to contribute to this theme pull requests are always welcome.</p>
       </div>
     </div>
+  </div> -->
+
+<!-- {{userData|json}} -->
+
+</div>
+
+
+
+<div *ngIf="role=='ROLE_USER'">
+
+  <div class="app-title">
+    <div>
+    <h1><i class="fa fa-dashboard"></i> Employee Dashboard</h1>
+    <p class="pl-4">Ojas Bussness Suite</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item pr-4"><i class="fa fa-home fa-lg"></i></li>
+    <!-- <li class="breadcrumb-item"><a a routerLink="/dashboard">Dashboard</a></li> -->
+    </ul>
+    </div>
+    <div class="row">
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small primary coloured-icon"><i class="icon fa fa-user fa-3x"></i>
+    <div class="info">
+    <a  routerLink="'employeeedit',empbasic.employeeId"><h4>Personal Details</h4></a>
+    
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small info coloured-icon"><i class="icon fa fa-file fa-3x"></i>
+    <div class="info">
+    <h4>Leaves</h4>
+   
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small warning coloured-icon"><i class="icon fa fa-clone fa-3x"></i>
+    <div class="info">
+    <h4>Payslips</h4>
+   
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small primary coloured-icon"><i class="icon fa fa-ticket fa-3x"></i>
+    <div class="info">
+        <p class="len"><b>5</b></p>
+    <h4 class="mb-4">Tickets</h4>
+    
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+   
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small info coloured-icon"><i class="icon fa fa-child fa-3x"></i>
+    <div class="info">
+    <a routerLink="/career"><h4>career </h4></a>
+    
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+    <div class="widget-small warning coloured-icon"><i class="icon fa fa-bus fa-3x"></i>
+    <div class="info">
+    <h4>Travel</h4>
+   
+    </div>
+    </div>
+    </div>
+    </div>
+    
   </div>
-
-{{userData|json}}
-
+  

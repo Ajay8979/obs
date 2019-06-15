@@ -4,7 +4,8 @@
   </div>
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item">Masters</li>
+        <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
       </ul>
 </div>
 
@@ -13,19 +14,20 @@
     <form class="form-inline ">
       <div class="input-group ">
         <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+      </div>&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="input-group ">
+          <button type="submit" (click)="value=!value"  class="btn btn-primary">Add</button>
       </div>
     </form>
   </div> 
   <div class="col-md-1" style="padding-left:40px;">
-      <div class="input-group ">
-          <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
-      </div>
+     
   </div>
 </div>
 
 
 <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
-  <table class="table table-condensed tile" >
+  <table class="table table-condensed tile" style="width:60%">
     <thead>
 
   <tr>                   
@@ -40,7 +42,7 @@
 
 <tbody>
 
-    <tr *ngFor="let skilltable of skillInfoList| filter:key |  paginate: { itemsPerPage: 5, currentPage: p }; let i=index ">
+    <tr *ngFor="let skilltable of skillInfoList| filter:key |  paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index ">
         <!-- <td>
             <div *ngIf="!skilltable.isEditable">
                 {{skilltable.id}}
@@ -58,7 +60,7 @@
             <div *ngIf="!skilltable.isEditable">
                 {{skilltable.skill_name}}
           </div>
-          <input type="text" [(ngModel)]="skilltable.skill_name" *ngIf="skilltable.isEditable"/>
+          <input type="text" [(ngModel)]="skilltable.skill_name" class="form-control" *ngIf="skilltable.isEditable"/>
         </td>
 
 
@@ -85,7 +87,20 @@
 
     
       <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
-   
+      <div class="row">
+          <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
+          
+              
+             <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+                <option [ngValue]="5">5</option>
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="15">15</option>
+                <option [ngValue]="20">20</option>
+            </select>
+           
+             </div>
+              <!-- private pageSize: number = 5; -->
+         
 </div>
 
 

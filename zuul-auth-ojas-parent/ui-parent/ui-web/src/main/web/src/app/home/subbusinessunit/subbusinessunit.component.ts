@@ -16,7 +16,7 @@ export class SubbusinessunitComponent implements OnInit {
   businessUnitId: any;
   coscentergetlist: any;
   costCenterList: any;
-  businessUnitList: any;
+  businessUnitList: any=[];
   businessunitDetails: any;
   subBusinessUnitlist: any;
   subbusinessunitDetails: any;
@@ -28,6 +28,7 @@ export class SubbusinessunitComponent implements OnInit {
   value: boolean;
   getSubbusinessinfo:any;
   id:any;
+  private pageSize: number = 5;
   
   // data: Businessunit; 
   // business: any;
@@ -39,6 +40,10 @@ export class SubbusinessunitComponent implements OnInit {
   // subbusinessunit: any;
   isEditable:boolean = false;
   reverse: boolean = false;
+  selectedBusinessunit: any;
+  savesbu: any;
+  businessUnitName: any;
+  getbusinessname: any;
   // costcenterlist: Costcenter[] = [
   //   {costCenter2: 13000},
   //   {costCenter2: 12000},
@@ -73,78 +78,61 @@ export class SubbusinessunitComponent implements OnInit {
     this.getSubBusinessUnit();
     this.getBusinessunit();
     this.getCostCenter(); 
-  }
-  // saveBu(){
-  //   debugger;
-  //   this.value = false;
-  //   this.data = {
-  //     "businessUnit":this.businessunit,
-  //     "costCenter":this.costcenter,
-  //     "subbusinessUnit":this.subbusinessunit,
-  //   }
-  //   this.businessunitlist.unshift(this.data);
-
-  //   this.businessUnit='';
-  //   this.costCenter='';
-  //   this.subbusinessUnit='';
-  
-  // }
-  // editData(blist: { businessUnit: any; costCenter: any;subbusinessUnit: any; }){
-  //   console.log(blist);
-  //   this.business = blist.businessUnit;
-  //   this.costCenter = blist.costCenter;
-  //   this.businessu = blist.subbusinessUnit;
-  // }
-  // saveData(){
-  //   var editD = {
-  //     "businessUnit":this.business,
-  //     "subbusinessUnit":this.businessu,
-  //     "costCenter":this.costCenter
-  //   }
-  //   console.log(editD);
-  // }
-  // deleterow(index){
-  //   debugger;
-  //   if(index !== -1){
-  //     this.businessunitlist.splice(0,1);
-  //   }
-  //   else {
-  //   this.businessunitlist.splice(index,1);
-  //   }
-  // }
-  // cancelbulist(){
-  //   this.value=false;
     
-  // }
+    
+  }
+  cancelbulist(){
+    this.value=false;
+    
+   }
 
-  setSubbusinessunit(){
+   savebu:any
+  setSubbusinessunit()
+  {
     
     var requestData = {
       "subBusinessUnitModel": [{
         "costCenterId" : this.costCenterId,
         "businessUnitId" : this.businessUnitId,
+        //"businessUnitName" : this.businessUnitName,
                   "name": this.subbusinessunit
                 }],
       
       "transactionType" : "save" 
      }
 
-    this.hrms.setSubbusinessunit(requestData).subscribe(response =>{
+    this.hrms.setSubbusinessunit(requestData).subscribe((response:any) =>{
       this.subbusinessunitRes = response;
       console.log(this.subbusinessunitRes);
+
       // if(this.subbusinessunitRes.statusMessage == "Successfully record added"){
       //   swal(this.subbusinessunitRes.statusMessage, "","success");
        
       //   }
+
       if(this.subbusinessunitRes.message == "Successfully record added"){
         swal(this.subbusinessunitRes.message, "","success");
+        //alert(this.subbusinessunitRes);
         this.getSubBusinessUnit();
         
         }
+
+      },
+      error => 
+  {
+  swal("Duplicates are not allowed","","error");
+   this.getSubBusinessUnit();
         
+
     })
+   
     this.value=false;
+    
+    this.costCenterId="",
+    this.businessUnitId="",
+    this.subbusinessunit=""
   }
+
   getSubBusinessUnit(){
     var request = {
          "subBusinessUnitModel": [
@@ -156,7 +144,23 @@ export class SubbusinessunitComponent implements OnInit {
      this.hrms.getSubbusinessUnit(request).subscribe(res =>{
       this.subbusinessunitDetails = res;
       this.subBusinessUnitlist = this.subbusinessunitDetails.subBusinessUnitList;
-      console.log(this.subbusinessunitDetails);
+console.log("subulistttttttt", this.subbusinessunitDetails);
+
+for(let i=0;i<=this.subBusinessUnitlist.length;i++){
+
+  for(let j=0;j<this.businessUnitList.length;j++){
+  if(this.businessUnitList[j].id==this.subBusinessUnitlist[i].businessUnitId){
+  this.getbusinessname=this.businessUnitList[j].businessUnitName;
+  console.log("Business Unit Name details");
+  console.log(this.getbusinessname);
+  } 
+  }
+  this.subBusinessUnitlist[i].businessUnitId=this.getbusinessname;
+  
+  console.log("Sub Business Unit Details Array",this.subBusinessUnitlist);
+  }
+
+      
      })
   }
 
@@ -171,7 +175,12 @@ export class SubbusinessunitComponent implements OnInit {
   this.hrms.getBusinesinfo(request).subscribe(res =>{
     this.businessunitDetails = res;
     this.businessUnitList = this.businessunitDetails.businessUnitList;
-    console.log(this.businessunitDetails);
+    console.log("businessUnitListiiiiiiiiiiiiii", this.businessunitDetails);
+   
+
+
+
+
   })
     }
   //bulist getdata
@@ -209,9 +218,10 @@ export class SubbusinessunitComponent implements OnInit {
       var request = {
         "subBusinessUnitModel": [{
           
-                  "id":bulist.id,
+                  "id":bulist.businessUnitId,
                 "name":bulist.name,
-                "businessUnitId":bulist.businessUnitId,
+                "businessUnitName" : bulist.businessUnitName,
+                //"businessUnitId":bulist.businessUnitId,
                 "costCenterId":bulist.costCenterId
                 
         
@@ -220,7 +230,7 @@ export class SubbusinessunitComponent implements OnInit {
        "transactionType":"update"
        
        }
-       this.hrms.updateSubbusinessUnit(request).subscribe(res =>{
+       this.hrms.updateSubbusinessUnit(request).subscribe((res:any) =>{
          this.updateSubbusinessDetails = res;
          console.log(this.updateSubbusinessDetails);
          if(this.updateSubbusinessDetails.message == "Successfully record updated"){
@@ -228,6 +238,17 @@ export class SubbusinessunitComponent implements OnInit {
           this.getSubBusinessUnit();
             
           }
+        },
+        error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getSubBusinessUnit();
        })
+    }
+
+    onSelectCostId(event:any){
+      this.selectedBusinessunit=event;
+      console.log(this.selectedBusinessunit);
+      
     }
 }

@@ -21,9 +21,10 @@
                 <div class="row">
                   <div class="col-md-6"*ngIf="CREATEDBY" >
                       <div class="form-group" >
-                          <label> Employee Id: </label>
+                          <label> Employee Id: </label><span ><b>{{eid}} </b></span>
+                          <!-- <label> Employee Id: </label>
                           
-                          <input type="text" class="form-control" name="key" [(ngModel)]="SKILLinfo.employee_id" name="employeeId" placeholder="employeeId">
+                          <input type="text" class="form-control" name="key" [(ngModel)]="SKILLinfo.employee_id" name="employeeId" placeholder="employeeId"> -->
                         </div>
                       
             </div>
@@ -38,7 +39,7 @@
             <div class="col-md-6">
 
               <div class="form-group">
-                  <label for="skill1">Skill name:</label>
+                  <label for="skill1">Skill name<span class="starColor"> *</span></label>
 
                   <!-- <input type="number" class="form-control"  [(ngModel)]="SKILLinfo.skill_id" name="skill_id" placeholder="skill Id"> -->
                         <!-- <select class="form-control" id="skill1" [(ngModel)]="skill_id" name="skill_id"
@@ -58,7 +59,7 @@
 
 
                         <select class="form-control" placeholder="Select skill name" name="skill_id" (change)="selectOption($event.target.value)"   [(ngModel)]="SKILLinfo.skill_id"   required placeholder="skill name">
-              <option>Select </option>
+                          <option value="" disabled selected>Select Your skill</option>
               <option *ngFor="let skilltable of skillmasterArray "  [value]="skilltable.id" >{{ skilltable.skill_name}}</option>
 
             </select>
@@ -71,7 +72,7 @@
                     
                     <div class="col-md-6">
                 <div class="form-group">
-                    <label for="skill1"> Level Id: </label>
+                    <label for="skill1"> Level Id<span class="starColor"> *</span> </label>
                     <input type="number"  class="form-control" [(ngModel)]="SKILLinfo.level_id" name="level_id" 
                     required placeholder="level Id" >
                     <!-- <option>Basic Level</option>
@@ -123,7 +124,7 @@
                 </button>
            
             <button class="btn btn-primary  float-right" (click)="newUserForm1.reset()" >Clear</button>
-            <button class="btn btn-info" data-dismiss="modal" aria-label="Close" routerLink="/save" >Back</button> 
+            <button class="btn btn-info" data-dismiss="modal" aria-label="Close" >Back</button> 
   
             </form>  
             </div>
@@ -138,7 +139,7 @@
         <div class="col-md-11" style="margin-bottom: 25px;">
           <form class="form-inline ">
             <div class="input-group ">
-              <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+              <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
               <div class="input-group-btn">
                 <h1></h1>
               </div>
@@ -152,6 +153,30 @@
           </div>
         </div>
         </div>
+<br>
+
+
+
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+     <br>
 
        <div class="row top table-responsive"style="margin-right: 0px; margin-left: 0px;">
         <table class="table table-condensed  tile">

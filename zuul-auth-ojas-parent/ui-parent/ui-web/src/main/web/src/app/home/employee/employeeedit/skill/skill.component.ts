@@ -4,20 +4,48 @@ import swal from 'sweetalert';
 import { HrmsService } from 'src/app/home/services/hrms.service';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { DataService } from 'src/app/home/services';
 @Component({
   selector: 'app-skill',
   templateUrl: './skill.component.html',
   styleUrls: ['./skill.component.scss']
 })
 export class SkillComponent implements OnInit {
+ public eid: any;
+  loggeduser: any;
 
-  constructor(private hrms:HrmsService,NgxPaginationModule:NgxPaginationModule,Ng2SearchPipeModule:Ng2SearchPipeModule) { }
+  constructor(private hrms:HrmsService,NgxPaginationModule:NgxPaginationModule,Ng2SearchPipeModule:Ng2SearchPipeModule, private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getSkillInfomaster();
     this.getSkillInfo();
+    this.getempdata();
   }
 
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
 
 //skill starts
 updateRes:any;
@@ -55,9 +83,9 @@ var reqData=
           
   "level_id" :this.SKILLinfo.level_id,
            
- "employee_id" :this.SKILLinfo.employee_id,
+ "employee_id" :this.eid,
            
- "created_by" : "ojas344"
+ "created_by" : this.loggeduser
         
 }],
 
@@ -73,9 +101,9 @@ var reqData=
 this.hrms.setSkill(reqData).subscribe(responce=>{
   this.skillReq = responce;
   console.log(this.skillReq);
-  if(this.skillReq.statusMessage =="Successfully record added"){
+  if(this.skillReq.message =="Successfully record added"){
    
-    swal(this.skillReq.statusMessage, "","success");
+    swal(this.skillReq.message, "","success");
    // this.getSkillInfo();
    }
    //this.SkillArr = this.skillReq.getSkillInfoList;
@@ -91,18 +119,28 @@ this.hrms.setSkill(reqData).subscribe(responce=>{
 getSkillName:any;
 getSkillInfo(){
 
-var Requestdata={
+var Requestdata=
+{
+  "skillInfoModel":[{
+          "employee_id" : this.eid
+           }],
+          "sessionId" :"1234",
+          
+  "transactionType" : "getById"
+  
+  }
+// {
       
-  "skillInfoModel" :[ {
+//   "skillInfoModel" :[ {
   
                   
   
-  }],
-          "sessionId" : "1234",
+//   }],
+//           "sessionId" : "1234",
   
-  "transactionType" : "getAll"
+//   "transactionType" : "getAll"
   
-  }
+//   }
 this.hrms.getSkill(Requestdata).subscribe(responce=>{
 this.skillinfolist=responce;
 this.skillInfoList=this.skillinfolist.getSkillInfoList;
@@ -175,6 +213,11 @@ getdatabyID(tableData){
 this.isUPDATEDBY=true;
 this.CREATEDBY=false;
 
+// this.SKILLinfo.employee_id=tableData.employee_id;
+// this.SKILLinfo.skill_id=tableData.skill_id;
+// this.SKILLinfo.level_id=tableData.level_id;
+// this.SKILLinfo.created_by=tableData.created_by;
+// this.SKILLinfo.update_by=tableData.update_by;
 console.log(tableData);
 
  var skillid= tableData.id;
@@ -213,9 +256,8 @@ var updaterequestData={
     "level_id" :this.SKILLinfo.level_id,
              
    "employee_id" :this.SKILLinfo.employee_id,
-   "created_by" :"ojas344", 
-   "update_by" : "ojas823",
-   "flag":true,
+   "created_by" :this.loggeduser, 
+   "update_by" : this.loggeduser,
    "id":this.SKILLinfo.id
             
   }],
@@ -234,8 +276,8 @@ var updaterequestData={
            this.updateRes= res;
               
           console.log(this.updateRes);
-          if(this.updateRes.statusMessage == "Successfully record updated"){
-            swal(this.updateRes.statusMessage, "","success");
+          if(this.updateRes.message == "Successfully record updated"){
+            swal(this.updateRes.message, "","success");
             this.getSkillInfo();
           }
                this.getSkillInfo();

@@ -4,7 +4,8 @@
   </div>
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item">Masters</li>
+    <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
       </ul>
 </div>
           <div class="row ">
@@ -15,22 +16,24 @@
                     <div class="input-group-btn">
                       <h1></h1>
                     </div>
-                  </div>
-                </form>
-              </div> 
-              <div class="col-md-1" style="padding-left:40px;">
+                  </div>&nbsp;&nbsp;&nbsp;&nbsp;
                   <div class="input-group ">
                       <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
                     </div>
+                </form>
+              </div> 
+              <div class="col-md-1" style="padding-left:40px;">
+                 
                   </div>
                 </div>
     <div class="table-responsive" style="margin-right: 0px; margin-left: 0px;">
-      <table class="table table-condensed tile" >
+      <table class="table table-condensed tile"  style="width:60%;" >
          <thead>
           <tr>
-            <th>Id</th>
+         
             <th>Education Type</th>
-            <th>Edit</th>
+            <!-- <th>Status</th> -->
+            <!-- <th>Edit</th> -->
             <!-- <th>Delete</th> -->
          </tr>
        </thead>
@@ -68,23 +71,24 @@
           </td>
           <td><img src="assets/delete.png" width = "20" (click)=" deleteEmpEdu(bulist)"/></td>
         </tr> -->
-        <tr *ngFor="let bulist of EmpQualArray| filter:key | paginate: { itemsPerPage: 5, currentPage: p }| orderBy: order:reverse:'case-insensitive'| filter:searchText;let i = index" >
-            <td>
-                <div *ngIf="!bulist.isEditable">
-                    {{i+1}}
-                </div>
-                <input type="text" [(ngModel)]="bulist.id" *ngIf="bulist.isEditable"/> 
-            </td>
+        <tr *ngFor="let bulist of EmpQualArray| filter:key | paginate: { itemsPerPage: pageSize, currentPage: p }| orderBy: order:reverse:'case-insensitive'| filter:searchText;let i = index" >
+            
             <td>
                 <div *ngIf="!bulist.isEditable">
                     {{bulist.educationType}}
                 </div>
                 <input type="text" [(ngModel)]="bulist.educationType" *ngIf="bulist.isEditable"/>
             </td>
-           
+            <!-- <select >
+            
+            <option *ngIf="!bulist.isEditable">Active</option>
+            <option *ngIf="!bulist.isEditable">Inactive</option>
+      
+            </select> -->
             <td>
-                <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="bulist.isEditable" (click)="bulist.isEditable=!bulist.isEditable;setEmpEducation(bulist);">Update</button>
-                <img src="assets/pe.png" width = "30" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable">
+                <!-- <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="bulist.isEditable" 
+                (click)="bulist.isEditable=!bulist.isEditable;setEmpEducation(bulist);">Update</button>
+                <img src="assets/pe.png" width = "30" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable"> -->
             </td>
             <!-- <td><img src="assets/delete.png" width = "20" (click)=" deleteEmpEdu(bulist)"/></td> -->
           </tr>
@@ -95,7 +99,8 @@
            
 
              <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)="saveEmpEducationalQual()">Save</button>
-               <button type="submit" class="btn btn-default " *ngIf="value" (click)="cancelbulist()">Cancel</button></td>
+               <button type="submit" class="btn btn-default " *ngIf="value" (click)="cancelbulist()">Cancel</button>
+              </td>
             </tr> 
       </tbody>
     </table>
@@ -104,6 +109,20 @@
   </div>
 
 <pagination-controls class="pull-right" (pageChange)="p = $event" background="#009688"></pagination-controls>
+<div class="row">
+    <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
+    
+        
+       <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="15">15</option>
+          <option [ngValue]="20">20</option>
+      </select>
+     
+       </div>
+       <!-- private pageSize: number = 5; -->
+
 
 
 <!-- end-->

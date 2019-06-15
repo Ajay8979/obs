@@ -21,6 +21,7 @@ export class EmployeedesignationComponent implements OnInit {
   empDesignationRes: any;
   designation:any;
   id:any;
+  private pageSize: number = 5;
 //   public data1=[];
 //   public show:boolean = false;
 //   public buttonName:any = 'Show';
@@ -127,15 +128,23 @@ setEmpDesignation(){
     "transactionType":"save"
 }
 
-  this.hrms.setEmployeeDesignation(requestData).subscribe(response =>{
+  this.hrms.setEmployeeDesignation(requestData).subscribe((response:any) =>{
     this.empDesignationRes = response;
     console.log(this.empDesignationRes);
-    if(this.empDesignationRes.statusMessage == "record added Successfully"){
-      this.value = false;
-      swal(this.empDesignationRes.statusMessage , "","success");
+    if(this.empDesignationRes.message == "record added Successfully"){
+      
+      swal(this.empDesignationRes.message , "","success");
       this.getEmpDesignation();
     }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
+
   })
+  this.id="",
+  this.employee="",
+  this.value = false;
 }
 getEmpDesignation(){
   var request = {
@@ -165,13 +174,17 @@ saveUpdatedValues(bulist){
     "sessionId":"3121",
     "transactionType":"update"
 }
-  this.hrms.updateEmpolyeeDesignation(updateRequestData).subscribe(res =>{
+  this.hrms.updateEmpolyeeDesignation(updateRequestData).subscribe((res:any) =>{
     this.updatedRes = res;
     console.log(this.updatedRes);
-    if(this.updatedRes.statusMessage == "record updated Successfully "){
-      swal(this.updatedRes.statusMessage , "","success");
+    if(this.updatedRes.message == "record updated Successfully "){
+      swal(this.updatedRes.message , "","success");
      
     }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
     this.getEmpDesignation();
   })
   

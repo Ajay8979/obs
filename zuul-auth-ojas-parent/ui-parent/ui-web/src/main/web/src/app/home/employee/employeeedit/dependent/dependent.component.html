@@ -5,7 +5,7 @@
     <div class="col-md-11 " style="margin-bottom: 25px;">
       <form class="form-inline ">
         <div class="input-group ">
-          <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+          <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
           <div class="input-group-btn">
           </div>
         </div>
@@ -20,7 +20,27 @@
       </div>
     </div>
   </div>
-
+<br>
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+     <br>
 
   <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
     <table class="table table-condensed  tile">
@@ -31,7 +51,7 @@
           <th>Relation</th>
           <th>Date of Birth</th>
           <th>Edit</th>
-          <th>delete</th>
+          <!-- <th>delete</th> -->
         </tr>
       </thead>
       <tr *ngFor="let dependent of dependents| filter:key | paginate: { itemsPerPage: 100, currentPage:skillpage }; let i=index">
@@ -48,9 +68,9 @@
         <td>
           <img src="/assets/pe.png" width="35px" data-toggle="modal" data-target="#myModaldependent"  (click)=getdependentdetailsById(dependent)>
         </td>
-        <td>
+        <!-- <td>
           <img src="assets/delete.png" width="20px" (click)="deletedependentdata(dependent);">
-        </td>
+        </td> -->
       </tr>
     </table>
   </div>
@@ -77,9 +97,11 @@
             <div class="row">
               <div class="col-md-6"  *ngIf="createdByDependent">
                   <div class="form-group">
-                      <label>Emp Id: </label>
+                      <!-- <label>Emp Id: </label>
                       <input type="text" class="form-control" [(ngModel)]="dependentdetailss.employee_Id" name="employee_Id" required placeholder="employee_Id" >
-                   
+                    -->
+                    <label> Emp Id: <span [(ngModel)]="dependentdetailss.employee_Id" name="employee_Id" #id="ngModel">{{eid}}</span></label>
+    
                     </div>
               
                   </div>
@@ -95,7 +117,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Dependent name: </label>
+                  <label>Dependent name<span class="starColor"> *</span> </label>
                   <input type="text" class="form-control" [(ngModel)]="dependentdetailss.dependent_Name" name="dependent_Name" required placeholder="Dependent name"
                     #dependent="ngModel">
                   <span style="color:red" *ngIf="dependent.invalid && dependent.touched ">
@@ -110,7 +132,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Relation: </label>
+                  <label>Relation<span class="starColor"> *</span> </label>
                   <select class="form-control" [(ngModel)]="dependentdetailss.relation" name="relation" required placeholder="Relation" #user2="ngModel">
                     <option>Father</option>
                     <option>Mother</option>
@@ -131,7 +153,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label> Date of birth: </label>
+                  <label> Date of birth<span class="starColor"> *</span> </label>
                   <input type="date" class="form-control" [(ngModel)]="dependentdetailss.date_Of_Birth" name="date_Of_Birth" required placeholder="Date of birth"
                     #user3="ngModel">
                   <span style="color:red" *ngIf="user3.invalid && user3.touched ">

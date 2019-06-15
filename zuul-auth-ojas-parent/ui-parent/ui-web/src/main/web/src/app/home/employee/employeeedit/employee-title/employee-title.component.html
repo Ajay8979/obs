@@ -25,6 +25,8 @@
             <div class="col-md-6">
                 <div class="form-group" *ngIf=!isUpdatedby>
                     <label> Emp Id: </label>
+                    <span>{{eid}}</span>
+                    <!-- <label> Emp Id: </label>
                      <input type="text" class="form-control" [(ngModel)]="edittitle.employeeId" name="edittitle.employeeId"
                     required placeholder="Employee Id" #emptitle1="ngModel">
                    <span style="color:red" *ngIf="emptitle1.invalid && emptitle1.touched ">
@@ -33,7 +35,7 @@
                           Emp Id  is mandatory.
                       </span>
                       
-                    </span> 
+                    </span>  -->
                   </div>
                   <div class="form-group" *ngIf=isUpdatedby>
                       <label> Emp Id: </label>
@@ -57,7 +59,7 @@
           <div class="row">
             <div class="col-md-6">
                  <div class="form-group">
-                    <label>Role:</label>
+                    <label>Role<span class="starColor"> *</span></label>
                           <select class="form-control"  [(ngModel)]="edittitle.role" name="edittitle.role" placeholder="--Select--"
                           required placeholder="Role" #emptitle3="ngModel">
                             <option>--Select--</option> 
@@ -81,7 +83,7 @@
     
  <div class="col-md-6">
           <div class="form-group">
-              <label> Title: </label>
+              <label> Title<span class="starColor"> *</span> </label>
               <input type="text" class="form-control" [(ngModel)]="edittitle.title" name="edittitle.title" 
               required placeholder="Title" #emptitle4="ngModel">
               <span style="color:red" *ngIf="emptitle4.invalid && emptitle4.touched ">
@@ -132,15 +134,15 @@
             
                   <div class="col-md-6">
                       <div class="form-group">
-                          <!-- <label> flag: </label> -->
+                          <!-- <label> flag: </label> 
                            <!-- <select type="text" class="form-control" [(ngModel)]="edittitle.flag" name="flag"  
                           required placeholder="flag " #empid04="ngModel"> 
                           <option value="true">true</option>
                           <option value="true">false</option>
-                          </select> -->
+                          </select> 
                           <input type="hidden" class="form-control" [(ngModel)]="edittitle.flag" name="edittitle.flag"  
                           required placeholder="flag " #empid04="ngModel">
-                         <!-- <span style="color:red" *ngIf="empid04.invalid && empid04.touched ">
+                         <span style="color:red" *ngIf="empid04.invalid && empid04.touched ">
                          
                             <span *ngIf="empid04.errors.required">
                            fh
@@ -155,7 +157,7 @@
       
        
       <button class="btn btn-primary  float-right margin" type="submit" *ngIf=!isUpdatedby data-dismiss="modal" aria-label="Close"
-      (click)="saveempTitle()"> Save </button>
+      (click)="saveempTitle()" [disabled]="newUserFormtitle.invalid"> Save </button>
    
        
 
@@ -165,7 +167,7 @@
             
       
       <button class="btn btn-primary  float-right" (click)="newUserFormtitle.reset()" >Clear</button>
-      <button class="btn btn-info" data-dismiss="modal" aria-label="Close" routerLink="/save">Cancel</button> 
+      <button class="btn btn-info" data-dismiss="modal" aria-label="Close" >Cancel</button> 
 
       </form>  
       </div>
@@ -182,7 +184,7 @@
 <div class="col-md-11" style="margin-bottom: 25px;">
   <form class="form-inline ">
     <div class="input-group ">
-      <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+      <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
       <div class="input-group-btn">
         <h1></h1>
       </div>
@@ -198,7 +200,28 @@
 </div>
 </div>
 
+<br>
 
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+     <br>
 
 <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
 <table class="table table-condensed  tile">
@@ -210,7 +233,7 @@
           <!-- <th>Created By</th>
           <th>Created Date</th> -->
           <th>Edit</th>
-          <th>Delete</th>
+          <!-- <th>Delete</th> -->
         </tr>
         </thead>
         <tr *ngFor = "let title of gettitlearr">
@@ -235,7 +258,7 @@
           <td><img src="/assets/pe.png" width="35px" data-toggle="modal" data-target="#myModal04" 
             (click)="editempTitleid(title)"></td> 
 
-          <td><img src = "/assets/delete.png" width="20px" (click)="deleteempTitle(title)"></td>
+          <!-- <td><img src = "/assets/delete.png" width="20px" (click)="deleteempTitle(title)"></td> -->
              
         </tr>
         </table>

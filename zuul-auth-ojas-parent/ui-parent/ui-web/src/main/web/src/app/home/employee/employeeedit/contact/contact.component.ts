@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 import { HrmsService } from './../../../services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 @Component({
   selector: 'app-contact',
@@ -8,13 +9,41 @@ import { HrmsService } from './../../../services/hrms.service';
   styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit {
+  public eid: any;
+  loggeduser: string;
 
-  constructor(private hrms:HrmsService) { }
+
+  constructor(private hrms:HrmsService,private dataservice: DataService) { 
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+  }
 
   ngOnInit() {
     this.getContactInformation();
     this.getStatus();
+    this. getempdata()
   }
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
   
   //contact info strats
   contactList:any;
@@ -24,7 +53,7 @@ export class ContactComponent implements OnInit {
   //updateRes:any;
   deletedcontactDetails:any;
   Email:any;
-  personal_mobileNo:any;
+  personalMobileNo:any;
   current_Address_Line2:any;
   current_Address_Line1:any;
   alternate_mobileNo:any;
@@ -56,25 +85,26 @@ export class ContactComponent implements OnInit {
 
         "empInfo" :  [{ 
                  "email":this.ContactInfo.email,
-                 "personal_mobileNo":this.ContactInfo.personal_mobileNo,
-                 "alternate_mobileNo": this.ContactInfo.alternate_mobileNo,
-                 "current_Address_Line1": this.ContactInfo.current_Address_Line1,
-                 "current_Address_Line2": this.ContactInfo.current_Address_Line2,
-                 "current_City": this.ContactInfo.current_City,
-                "current_State": this.ContactInfo.current_State,
-                 "current_Pin": this.ContactInfo.current_Pin,
-                 "permanent_Address_Line_1":this.ContactInfo.permanent_Address_Line_1,
-                 "emp_Id": this.ContactInfo.emp_Id,
-                 "created_By":"user"
+                 "personalMobileNo":this.ContactInfo.personalMobileNo,
+                 "alternateMobileNo": this.ContactInfo.alternateMobileNo,
+                 "currentAddressLine1": this.ContactInfo.currentAddressLine1,
+                 "currentAddressLine2": this.ContactInfo.currentAddressLine2,
+                 "currentCity": this.ContactInfo.currentCity,
+                "currentState": this.ContactInfo.currentState,
+                 "currentPin": this.ContactInfo.currentPin,
+                 "permanentAddressLine1":this.ContactInfo.permanentAddressLine1,
+                 "empId": this.eid,
+                 "createdBy":this.loggeduser
              }],
        "transactionType" : "save"
      }
 this.hrms.setContactInfo(RequestData).subscribe(responce=>{
   this.contactinfoReq = responce;
-  console.log(this.contactinfoReq);
-  if(this.contactinfoReq.statusMessage == "employee contact info saved successfully"){
+  //alert(this.contactinfoReq);
+  console.log("Conatct details Saved ", this.contactinfoReq);
+  if(this.contactinfoReq.message == "Successfully Record Saved"){
     
-    swal(this.contactinfoReq.statusMessage, "","success");
+    swal(this.contactinfoReq.message, "","success");
      this.getContactInformation();
    }
   this.contactinfoArr = this.contactinfoReq.empInfo;
@@ -84,9 +114,18 @@ this.hrms.setContactInfo(RequestData).subscribe(responce=>{
     }
 //method for get contact info
     getContactInformation() {
-      var request = {
-        "transactionType" : "getAll" 
+      var request = 
+      {
+        "empInfo" : [
+          {
+            "empId": this.eid
+          }
+          ],
+        "transactionType" : "getAll"
       }
+      // {
+      //   "transactionType" : "getAll" 
+      // }
       this.hrms.getContactInfo(request).subscribe(res =>{
      this.contactInfolist = res;
      this.contactList = this.contactInfolist.empContacts;
@@ -110,16 +149,6 @@ this.hrms.setContactInfo(RequestData).subscribe(responce=>{
       })
     }
 
-   
-   
-
-
-
-
-
-
-
- 
     isUpdate:boolean;
 //master get method for stateslist
 getStatus() {
@@ -128,15 +157,14 @@ getStatus() {
        
       "states":
        [{
-        "stateName":"Hariyana",
-        "id":4
+        
        }],
             
       "sessionId":"1234",
        "transactionType": "getall"
        
       }
-this.hrms.getStatusList(request).subscribe(res =>{
+this.hrms.getStateListMaster(request).subscribe(res =>{
   this.StateDetails = res;
   this.StateList = this.StateDetails.statesList;
   console.log(this.StateList);
@@ -155,17 +183,17 @@ valueAdd(newUserFormcontact){
      public ContactInfo= {
        "id":"",
        "email": "",
-       "personal_mobileNo":"",
-       "alternate_mobileNo": "",
-       "current_Address_Line1":"",
-       "current_Address_Line2": "",
-       "current_City":"",
-       "current_State": "",
-       "current_Pin":"",
-       "permanent_Address_Line_1": "",
-       "emp_Id": "",
-       "created_By": "",
-       "updated_By": "",
+       "personalMobileNo":"",
+       "alternateMobileNo": "",
+       "currentAddressLine1":"",
+       "currentAddressLine2": "",
+       "currentCity":"",
+       "currentState": "",
+       "currentPin":"",
+       "permanentAddressLine1": "",
+       "empId": "",
+       "createdBy": "",
+       "updatedBy": "",
        "created_date":"",
        "updated_date":"",
        "flag":""
@@ -209,18 +237,18 @@ updateContactdetails(){
 
       "empInfo" : [{
                "email" : this.ContactInfo.email ,
-              "personal_mobileNo" : this.ContactInfo.personal_mobileNo ,
-              "alternate_mobileNo" : this.ContactInfo.alternate_mobileNo,
-              "current_Address_Line1" : this.ContactInfo.current_Address_Line1,
-              "current_Address_Line2" :  this.ContactInfo.current_Address_Line2,
-              "current_City" : this.ContactInfo.current_City,
+              "personalMobileNo" : this.ContactInfo.personalMobileNo ,
+              "alternateMobileNo" : this.ContactInfo.alternateMobileNo,
+              "currentAddressLine1" : this.ContactInfo.currentAddressLine1,
+              "currentAddressLine2" :  this.ContactInfo.currentAddressLine2,
+              "currentCity" : this.ContactInfo.currentCity,
         
-        "current_Pin" :  this.ContactInfo.current_Pin,
-        "current_State" :this.ContactInfo.current_State,
-        "permanent_Address_Line_1" : this.ContactInfo.permanent_Address_Line_1 ,
-        "emp_Id" : this.ContactInfo.emp_Id ,
+        "currentPin" :  this.ContactInfo.currentPin,
+        "currentState" :this.ContactInfo.currentState,
+        "permanentAddressLine1" : this.ContactInfo.permanentAddressLine1 ,
+        "empId" : this.ContactInfo.empId ,
         "id" : this.ContactInfo.id,
-        "updated_By" : "user45"
+        "updatedBy" : this.loggeduser
       }],
          
         "transactionType" : "update"
@@ -230,8 +258,8 @@ updateContactdetails(){
              this.updateRes = res;
                 
             console.log(this.updateRes);
-            if(this.updateRes.statusMessage == "employee contact info updated successfully"){
-              swal(this.updateRes.statusMessage, "","success");
+            if(this.updateRes.message == "Successfully Record Updated"){
+              swal(this.updateRes.message, "","success");
               this.getContactInformation();
             }
                  this.getContactInformation();
@@ -247,7 +275,7 @@ updateContactdetails(){
  
         "empInfo" : [{
          "id" :Cilist.id,
-         "updated_By" : "ojas35"
+         "updatedBy" : this.loggeduser
         }
       ],
          
@@ -259,9 +287,9 @@ updateContactdetails(){
     this.deletedcontactDetails = res;
     this.empinfoarr = this.deletedcontactDetails.empInfo;
     console.log(this.deletedcontactDetails);
-    if(this.deletedcontactDetails.statusMessage == "employee contact info deleted successfully"){
-      swal(this.deletedcontactDetails.statusMessage, "","success");
-      this.getContactInformation();
+    if(this.deletedcontactDetails.message == "Successfully Record Deleted"){
+      swal(this.deletedcontactDetails.message, "","success");
+      //this.getContactInformation();
     }
     this.getContactInformation();
     })

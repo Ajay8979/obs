@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Resourcetype } from './resource.model';
 import swal from 'sweetalert';
 import { HrmsService } from '../services/hrms.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-resoucetype',
@@ -20,6 +21,7 @@ export class ResoucetypeComponent implements OnInit {
   value: boolean;
   data; 
   resource: any;
+  private pageSize: number = 5;
 
   
   
@@ -136,6 +138,7 @@ getResource()
 //--Set Resource--------------------
 res:any;
 setResourceTypeReq:any;
+
 setResource(){
   var requestsaveData = 
   {
@@ -149,18 +152,27 @@ setResource(){
     "transactionType":"save"
 }
   
-this.hrms.setResourceType(requestsaveData).subscribe(response =>
+this.hrms.setResourceType(requestsaveData).subscribe((response:any) =>
   {
 this.setResourceTypeReq = response;
-console.log(this.setResourceTypeReq); 
-if(this.setResourceTypeReq.statusMessage == "Resource Type saved successfully"){
-  
- swal(this.setResourceTypeReq.statusMessage, "","success");
+console.log(this.setResourceTypeReq);
+
+
+if(this.setResourceTypeReq.message == "Resource Type saved successfully")
+{
+ swal(this.setResourceTypeReq.message, "","success");
  this.getResource();
-} 
+}
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
 })
-//this.getResource();
+
+this.res="";
+this.getResource();
 this.value=false;
+
 }
 
 //----updateSeparation--------------------
@@ -182,17 +194,21 @@ updateResource(rtlist)
 }
 
  
-  this.hrms.updateResourceType(updateResRequestData).subscribe(res =>{
+  this.hrms.updateResourceType(updateResRequestData).subscribe((res:any) =>{
     this.updateResResp = res;
     this.updateResRespListArr=this.updateResResp.employmentDetailsList;
     console.log(this.updateResResp);
-    if(this.updateResResp.statusMessage == "Resource Type updated successfully"){
+    if(this.updateResResp.message == "Resource Type updated successfully"){
   
-      swal(this.updateResResp.statusMessage, "","success");
+      swal(this.updateResResp.message, "","success");
       this.getResource();
     }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
   })
-  //this.getResource();
+  this.getResource();
 }
 
 

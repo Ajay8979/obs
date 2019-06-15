@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NgForm} from '@angular/forms';
-import { Separationtype} from './separation.model';
-import { OrderPipe } from 'ngx-order-pipe';
+
+
 import { HrmsService } from '../services/hrms.service';
 import swal from 'sweetalert';
 
@@ -12,7 +11,7 @@ import swal from 'sweetalert';
   styleUrls: ['./separationtype.component.scss']
 })
 export class SeparationtypeComponent implements OnInit {
-  value: boolean;
+  value: boolean=false;
   data; 
   separation: any;
   separationType;
@@ -22,6 +21,7 @@ export class SeparationtypeComponent implements OnInit {
   isEditable:boolean = false;
   reverse: boolean = false;
   order: string = 'separationType';
+  private pageSize: number = 5;
 
   
   
@@ -53,7 +53,7 @@ separationDetails:any;
       this.separationDetails = res;
       console.log(this.separationDetails);
       this.separationDetailsList = this.separationDetails.separationTypeList;
-      console.log(this.separationDetailsList);
+      // console.log(this.separationDetailsList);
     })
   }
   
@@ -69,7 +69,7 @@ setSeparation(){
   {
     "separationType":[
             {
-            // "separationTypeId":this.separationtypeid,
+            "separationTypeId":this.separationtypeid,
             "separationType":this.separationtype
             
             }
@@ -79,17 +79,24 @@ setSeparation(){
     
     
     }
-this.hrms.saveSeperationType(requestsaveData).subscribe(response =>{
+this.hrms.saveSeperationType(requestsaveData).subscribe((response:any) =>{
 this.saveseparationReq = response;
-console.log(this.saveseparationReq); if(this.saveseparationReq.statusMessage == " Record Saved Successfully"){
-  this.value = false;
- swal(this.saveseparationReq.statusMessage, "","success");
- /// this.getPassportCenter();
+console.log(this.saveseparationReq); 
+
+ if(this.saveseparationReq.message == " Record Saved Successfully")
+ {
+ swal(this.saveseparationReq.message, "","success");
+ this.getSeparation();
 }
-this.getSeparation();
-})
-   this.getSeparation();
  
+},
+error => 
+{
+  swal("Duplicates are not allowed","","error");
+})
+  this.getSeparation();
+  this.separationtype="",
+  this.value = false;
 }
 
 //--Update Separation Type--------------------------------
@@ -112,19 +119,25 @@ updateSeparation(separation){
     
     
     }
-  this.hrms.updateSeperationType(updateRequestData).subscribe(res =>{
+  this.hrms.updateSeperationType(updateRequestData).subscribe((res:any) =>{
     this.updatedseparationRes = res;
     this.separationTypeListArr=this.updatedseparationRes.separationTypeList;
     console.log(this.updatedseparationRes);
 
-    if(this.updatedseparationRes.statusMessage == "Record Updated Successfully"){
-      swal(this.updatedseparationRes.statusMessage , "","success");
-      //this.getSeparation();
+    if(this.updatedseparationRes.message == "Record Updated Successfully"){
+      swal(this.updatedseparationRes.message , "","success");
+      this.getSeparation();
     }
+  },
+  error => 
+{
+  swal("Duplicates are not allowed","","error");
     this.getSeparation();
   })
 }
-
+cancelbulist(){
+  this.value=false;
+}
 
 //--End of Separation Type--------------------------------
 }

@@ -20,6 +20,7 @@ export class StatelistComponent implements OnInit {
   StateDetails: any;
   StateRes: any;
   value: boolean;
+  private pageSize: number = 5;
   constructor(private hrms:HrmsService)
    {
     // this.sortedCollection = orderpipe.transform(this.statelistarray, 'stateList');
@@ -64,11 +65,16 @@ updateStateData(state) {
 this.hrms.updateStateListMaster(requestData).subscribe(response =>{
   this.StateRes = response;
   console.log(this.StateRes);
-  if(this.StateRes.statusMessage == "Successfully record updated"){
+  if(this.StateRes.message == "Successfully record updated"){
     this.value = false;
-     swal(this.StateRes.statusMessage, "","success");
+     swal(this.StateRes.message, "","success");
      this.getStateListData();
   }
+},
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getStateListData();
 })
 }
 
@@ -150,10 +156,12 @@ this.hrms.updateStateListMaster(requestData).subscribe(response =>{
 //     this.statelistarray.splice(index,1);
 //     }
 //   }
-//   cancelstatelist()
-//   {
-//     this.value=false;
-//   }
+stateName:any;
+  cancelstatelist()
+  {
+    
+    this.value=false;
+  }
 
 //   setOrder(value: string) {
 //     if (this.order === value) {
@@ -176,69 +184,86 @@ setState() {
  "transactionType": "save"
  
 }
-this.hrms.saveStateListMaster(requestData).subscribe(response =>{
+this.hrms.saveStateListMaster(requestData).subscribe((response:any) =>{
   this.StateRes = response;
   console.log(this.StateRes);
-  if(this.StateRes.statusMessage == "Successfully record added"){
+  if(this.StateRes.message == "Successfully record added")
+  {
     this.value = false;
-     swal(this.StateRes.statusMessage, "","success");
+     swal("Record Added", "","success");
     this.getStateListData();
   }
+},
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+
+  this.statelist=""
+  this.getStateListData();
 })
+this.statelist=""
+this.value=false
 }
 
-getStatus() {
-  var request ={
-    "states" :{
-    }, 
-             "transactionType" : "getAll",
-    "sessionId" : "132"
-}
-this.hrms.getStatusList(request).subscribe(res =>{
-  this.StateDetails = res;
-  this.StateList = this.StateDetails.statesList;
-  console.log(this.StateDetails);
-})
-}
 
-saveUpdateValues(state){
-console.log(state);
-var updateRequestData = {
-  "states" :{
-          "id" : state.id,
-          "stateName" : state.stateName
-  },
-"transactionType" : "update",
-  "sessionId" : "132"
-}
-this.hrms.updateStateList(updateRequestData).subscribe(res =>{
-  this.updateRes = res;
-  console.log(this.updateRes);
-   if(this.updateRes.statusMessage == "Successfully record updated"){
-    //  swal(this.updateRes.statusMessage, "","success");
-    //  this.getStatus();
-   }
-})
-}
 
-deleteSate(state){
-  var deleteRequest = {
-    "states" :{
-            "id" : state.id,
-            "stateName" : state.stateName
-    },
-"transactionType" : "delete",
-    "sessionId" : "132"
-}
-this.hrms.deleteStateList(deleteRequest).subscribe(data => {
-  this.deleteStateRes = data;
-  if(this.deleteStateRes.statusMessage == "Successfully record deleted"){
-    // swal(this.deleteStateRes.statusMessage,"","success");
-    // this.getStatus();
-  }
-})
+// getStatus() {
+//   var request ={
+//     "states" :{
+//     }, 
+//              "transactionType" : "getAll",
+//     "sessionId" : "132"
+// }
+// this.hrms.getStatusList(request).subscribe(res =>{
+//   this.StateDetails = res;
+//   this.StateList = this.StateDetails.statesList;
+//   console.log(this.StateDetails);
+// })
+// }
 
-}
+// saveUpdateValues(state){
+// // console.log(state);
+// var updateRequestData = {
+//   "states" :{
+//           "id" : state.id,
+//           "stateName" : state.stateName
+//   },
+// "transactionType" : "update",
+//   "sessionId" : "132"
+// }
+// this.hrms.updateStateList(updateRequestData).subscribe((res:any) =>{
+//   this.updateRes = res;
+//   console.log(this.updateRes);
+//    if(this.updateRes.message =="Successfully record updated"){
+//       swal(this.updateRes.message, "","success");
+    
+//    }
+//   },
+//   error => 
+//   {
+//   swal("Duplicates are not allowed","","error");
+//   this.getStatus();
+// })
+// }
+
+// deleteSate(state){
+//   var deleteRequest = {
+//     "states" :{
+//             "id" : state.id,
+//             "stateName" : state.stateName
+//     },
+// "transactionType" : "delete",
+//     "sessionId" : "132"
+// }
+// this.hrms.deleteStateList(deleteRequest).subscribe(data => {
+//   this.deleteStateRes = data;
+//   if(this.deleteStateRes.statusMessage == "Successfully record deleted"){
+//     // swal(this.deleteStateRes.statusMessage,"","success");
+//     // this.getStatus();
+//   }
+// })
+
+// }
 
 
 }

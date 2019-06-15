@@ -1,11 +1,11 @@
 <div class="app-title">
     <div>
-      <h1><i class="fa fa-th-list"></i> Gpa</h1>
+      <h1><i class="fa fa-th-list"></i> GPA</h1>
     </div>
       <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
           <li class="breadcrumb-item">Masters</li>
-          <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
         </ul>
   </div>
       <div class="row">
@@ -16,44 +16,48 @@
             <div class="input-group-btn">
               <h1></h1>
             </div>
-          </div>
+          </div>&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="input-group ">
+              <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
+            </div>
         </form>
       </div> 
       <div class="col-md-1" style="padding-left:40px;">
-      <div class="input-group ">
-          <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
-        </div>
+     
       </div>
       </div>
               <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
-                <table class="table  table-condensed tile" >
+                <table class="table  table-condensed tile" style="width:70%">
                   <thead>
             <tr>
-                <th>GPA Plan Id</th>
+              <!-- <th>Id</th> -->
+                <!-- <th>GPA Plan Id</th> -->
               <th
               [class.active]="order === 'gpaPlan'"
               (click)="setOrder('gpaPlan')"
               class="mdl-data-table__cell--non-numeric">
               <span class="state">
-            Gpa plan
+            GPA Plan Type
               </span>
               
               </th>
 			        
-              <th>GPA premium</th>
-              <th>Total premium</th>
+              <th>GPA Premium</th>
+              <th>Total Premium</th>
               <th>Edit</th>
               <!-- <th>Delete</th> -->
             </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let gpalist of gpalist| orderBy: order:reverse:'case-insensitive' |  filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }; let i=index ">
-			    <td>
+              <tr *ngFor="let gpalist of gpalist| orderBy: order:reverse:'case-insensitive' 
+              |  filter:key | paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index ">
+                <!-- <td>{{i+1}}</td> -->
+			    <!-- <td>
                 <div *ngIf="!gpalist.isEditable">
                 {{gpalist.gpaPlanId}}
               </div>
               <input type="text" [(ngModel)]="gpalist.gpaPlanId" *ngIf="gpalist.isEditable"/>
-              </td>
+              </td> -->
               <td>
                 <div *ngIf="!gpalist.isEditable">
                 {{gpalist.gpaPlanType}}
@@ -79,17 +83,18 @@
                 </td>
              
                 <td>
-                  <button class="btn" style="background: #009ee2;border:#009ee2;color:white;"
-                    *ngIf="gpalist.isEditable" (click)="gpalist.isEditable=!gpalist.isEditable;saveUpdatedValues(gpalist);">Save</button>
+                  <!-- <button class="btn" style="background: #009ee2;border:#009ee2;color:white;"
+                    *ngIf="gpalist.isEditable" (click)="gpalist.isEditable=!gpalist.isEditable;saveUpdatedValues(gpalist);">Update</button>
                   <img src="assets/pe.png" width="30" (click)='gpalist.isEditable =!gpalist.isEditable'
-                    *ngIf="!gpalist.isEditable">
+                    *ngIf="!gpalist.isEditable"> -->
+                    Active
                 </td>
                 <!-- <td><img src="assets/delete.png" width="20" (click)="deleteGpa(gpalist)" /></td> -->
             </tr>
              <tr>
 
-            <td>
-              <input type="text" id="gpaPlanId" name="gpaPlanId" [(ngModel)]="gpaPlanId" *ngIf="value"class="form-control" placeholder="Enter gpaPlanId"   required></td>
+            
+            <!-- <td>  <input type="text" id="gpaPlanId" name="gpaPlanId" [(ngModel)]="gpaPlanId" *ngIf="value"class="form-control" placeholder="Enter gpaPlanId"  required></td> -->
   
               <td>
               <input type="text" id="gpaplan" name="gpaplan" [(ngModel)]="gpaPlanType" *ngIf="value"class="form-control" placeholder="Enter gpaplan"   required></td>
@@ -115,6 +120,21 @@
           
          </div>
         <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
-
+        <div class="row">
+            <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
+            
+                
+               <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="15">15</option>
+                  <option [ngValue]="20">20</option>
+              </select>
+             
+               </div>
+                <!-- private pageSize: number = 5; -->
+  
+  
+  
        
       

@@ -6,7 +6,7 @@
             <div class="col-md-11 " style="margin-bottom: 25px;">
               <form class="form-inline ">
                 <div class="input-group ">
-                  <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+                  <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
                   <div class="input-group-btn">
                   </div>
                 </div>
@@ -14,14 +14,35 @@
             </div> 
             <div class="col-md-1 " style="padding-left:40px">
             <div class="input-group add">
-              <button type="button" class="btn btn-primary" data-toggle="modal" (click)="valueAdd(newUserFormProject);" data-target="#myModalProject">
+              <button type="button" class="btn btn-primary" data-toggle="modal" (click)="valueAdd(newUserFormProject)" data-target="#myModalProject">
                 Add
               </button>
               </div>
             </div>
             </div>
 
+<br>
 
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  
+     <br>
            <div class="row top table-responsive"style="margin-right: 0px; margin-left: 0px;">
               <table  class="table  table-condensed tile" >
                   <thead>
@@ -47,7 +68,7 @@
                        <th>updated Date</th> -->
                        <th>isinternal</th>
                        <th>Edit</th>
-                       <th>Delete</th>
+                       <!-- <th>Delete</th> -->
                    </tr>
                   </thead>
                   <tbody>
@@ -190,7 +211,7 @@
                       <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="user.isEditable" (click)="user.isEditable=!user.isEditable">Save</button>
                       <img src="assets/pe.png" width="30px" data-toggle="modal" data-target="#myModalProject" (click) = "getdatabyId1(user);" >
                       </td>
-                     <td><img src="assets/delete.png" width="20px" (click)="deleteproj(user)"/></td>
+                     <!-- <td><img src="assets/delete.png" width="20px" (click)="deleteproj(user)"/></td> -->
                     </tr>
              
                   
@@ -217,8 +238,8 @@
             <div class="row">
                 <div class="col-md-6"  *ngIf="!isUpdate">
                     <div class="form-group">
-                        <label>Emp Id: </label>
-                        <input type="text" class="form-control" [(ngModel)]="projectDetailss.employeeId" name="employeeId" required placeholder="employeeId" >
+                        <label> Emp Id: <span [(ngModel)]="projectDetailss.employeeId" name="employeeId" #id="ngModel">{{eid}}</span></label>
+                        <!-- <input type="text" class="form-control" [(ngModel)]="projectDetailss.employeeId" name="employeeId" required placeholder="employeeId" > -->
                      
                       </div>
                 
@@ -234,7 +255,7 @@
           <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label>Project Name:</label>
+                      <label>Project Name<span class="starColor"> *</span></label>
                       <input type="text" class="form-control" [(ngModel)]="projectDetailss.projectName" name="projectName" 
                       required placeholder="Project Name"
                       #Project="ngModel">
@@ -248,7 +269,7 @@
               
            <div class="col-md-4">
             <div class="form-group">
-              <label>Contract Id:</label>
+              <label>Contract Id<span class="starColor"> *</span></label>
               <input type="number" class="form-control" [(ngModel)]="projectDetailss.contractId" name="contractId" 
               required placeholder="Contract Id"
               #contract="ngModel">
@@ -262,7 +283,7 @@
 
            <div class="col-md-4">
             <div class="form-group">
-              <label>Rate Id:</label>
+              <label>Rate Id<span class="starColor"> *</span></label>
               <input type="number" class="form-control" [(ngModel)]="projectDetailss.rateId" name="rateId" 
               required placeholder="Rate Id"
               #rate="ngModel">
@@ -278,10 +299,8 @@
          <div class="row">
              <div class="col-md-4">
               <div class="form-group">
-                <label>Start Date:</label>
-                <input type="date" class="form-control" [(ngModel)]="projectDetailss.startDate" name="startDate" 
-                required placeholder="Start Date"
-                #startD="ngModel">
+                <label>Start Date<span class="starColor"> *</span></label>
+                <input type="date" class="form-control" [(ngModel)]="projectDetailss.startDate" name="StartDate" required placeholder="Start Date" #startD="ngModel">
                 <span style="color:red" *ngIf="startD.invalid && startD.touched ">
                 <span *ngIf="startD.errors.required">
                   Start Date is required.
@@ -292,10 +311,8 @@
 
              <div class="col-md-4">
               <div class="form-group">
-                <label>End Date:</label>
-                <input type="date" class="form-control" [(ngModel)]="projectDetailss.endDate" name="endDate" 
-                required placeholder="End Date"
-                #endD="ngModel">
+                <label>End Date<span class="starColor"> *</span></label>
+                <input type="date" class="form-control" [(ngModel)]="projectDetailss.endDate" name="EndDate" required placeholder="End Date" #endD="ngModel">
                 <span style="color:red" *ngIf="endD.invalid && endD.touched ">
                 <span *ngIf="endD.errors.required">
                   End Date is required.
@@ -308,7 +325,7 @@
    
                <div class="col-md-4">
                 <div class="form-group">
-                  <label>Billing Id:</label>
+                  <label>Billing Id<span class="starColor"> *</span></label>
                   <input type="number" class="form-control" [(ngModel)]="projectDetailss.billingId" name="billingId" 
                   required placeholder="Billing Id"
                   #billing="ngModel">
@@ -323,7 +340,7 @@
                <div class="row">
                             <div class="col-md-4">
                           <div class="form-group">
-                            <label>Project Tech Stack:</label>
+                            <label>Project Tech Stack<span class="starColor"> *</span></label>
                             <input type="text" class="form-control" [(ngModel)]="projectDetailss.projectTechStack" name="projectTechStack" 
                             required placeholder="Project Tech Stack"
                             #techStack="ngModel">
@@ -337,15 +354,15 @@
                     
                  <div class="col-md-4">
                   <div class="form-group">
-                    <label>Customer:</label>
+                    <label>Customer</label>
                     <input type="text" class="form-control" [(ngModel)]="projectDetailss.customer" name="customer" 
                     required placeholder="Customer"
-                    #custom="ngModel" >
-                    <span style="color:red" *ngIf="custom.invalid && custom.touched ">
+                   >
+                    <!-- <span style="color:red" *ngIf="custom.invalid && custom.touched ">
                     <span *ngIf="custom.errors.required">
                       Customer is required.
                     </span>
-                    </span>
+                    </span> -->
                     </div>
                  </div>
       
@@ -354,7 +371,7 @@
 
 
                     <div class="form-group">
-                      <label for="sel2">Location:</label> 
+                      <label for="sel2">Location<span class="starColor"> *</span></label> 
                       <select class="form-control" id="sel2" [(ngModel)]="projectDetailss.location" name="location" 
                       required placeholder="location Applicable"
                       #locationName="ngModel" required>
@@ -381,7 +398,7 @@
                    
 
                         <div class="form-group">
-                          <label for="sel2">GST Applicable:</label> 
+                          <label for="sel2">GST Applicable<span class="starColor"> *</span></label> 
                           <select class="form-control" id="sel2" [(ngModel)]="projectDetailss.gstApplicable" name="gstApplicable" 
                           required placeholder="GST Applicable"
                           #Gst="ngModel" required>
@@ -400,7 +417,7 @@
                 
              <div class="col-md-4">
               <div class="form-group">
-                <label>Project Type:</label>
+                <label>Project Type<span class="starColor"> *</span></label>
                 <input type="text" class="form-control" [(ngModel)]="projectDetailss.projectType" name="projectType" 
                 required placeholder="Project Type"
                 #pType="ngModel" required>
@@ -414,7 +431,7 @@
   
              <div class="col-md-4">
               <div class="form-group">
-                <label>Project Status:</label>
+                <label>Project Status<span class="starColor"> *</span></label>
                 <input type="text" class="form-control" [(ngModel)]="projectDetailss.projectStatus" name="projectStatus" 
                 required placeholder="Project Status"
                 #projectS="ngModel" required>
@@ -429,7 +446,7 @@
            <div class="row">
               <div class="col-md-4">
                   <div class="form-group">
-                    <label>BDM Contact:</label>
+                    <label>BDM Contact<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="projectDetailss.bdmContact" name="bdmContact" 
                     required   placeholder="BDM Contact" #Bdm="ngModel" required>
                     <span style="color:red" *ngIf="Bdm.invalid &&Bdm.touched ">
@@ -444,7 +461,7 @@
             <div class="col-md-4">
               
               <div class="form-group">
-                  <label for="sel2">Is internal:</label> 
+                  <label for="sel2">Is internal<span class="starColor"> *</span></label> 
                   <select class="form-control" id="sel2" [(ngModel)]="projectDetailss.isInternal" name="isInternal" 
                   required placeholder="Is internal"
                   #Internal="ngModel" required>
@@ -509,7 +526,7 @@
 <button type="submit" class="btn btn-primary float-right margin" [disabled]="newUserFormProject.form.invalid" *ngIf="isUpdate" (click)="updateprojdata(user);"  data-dismiss="modal">Update</button>
 <button class="btn btn-primary  float-right" (click)="newUserFormProject.reset()" >Clear</button>
                                         
-<button class="btn btn-info" data-dismiss="modal" aria-label="Close" routerLink="/save" (click)="savedata();">Back</button> 
+<button class="btn btn-info" data-dismiss="modal" aria-label="Close" (click)="savedata();">Back</button> 
                </form>
                 
 

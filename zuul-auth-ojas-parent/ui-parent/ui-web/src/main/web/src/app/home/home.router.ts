@@ -37,12 +37,24 @@ import { EmployeeTitleComponent } from './employee/employeeedit/employee-title/e
 import { ProjectComponent } from './employee/employeeedit/project/project.component';
 import { DependentComponent } from './employee/employeeedit/dependent/dependent.component';
 import { SkillMasterComponent } from './skill-master/skill-master.component';
+import { HrReportsComponent } from './hr-reports/hr-reports.component';
+import { AdminRoleComponent } from './admin-role/admin-role.component';
+import { HrRoleComponent } from './hr-role/hr-role.component';
+import { EmployeeRoleComponent } from './employee-role/employee-role.component';
+import { CareerComponent } from './career/career.component';
+import { JobDescriptionComponent } from './job-description/job-description.component';
 
 export const HomeRoutes: Routes = [
     {path:'',component:HomeComponent,canActivate:[AuthGuard],
     children:[
     {path:'',component:DashboardComponent},
     {path:'dashboard',component:DashboardComponent},
+    {path:'admin',component:AdminRoleComponent},
+    {path:'hr',component:HrRoleComponent},
+    {path:'hr_reports',component:HrReportsComponent},
+    {path:'employee_role',component:EmployeeRoleComponent},
+    {path:'career',component:CareerComponent},
+    {path:'job',component:JobDescriptionComponent},
     {path:'report',component:ReportComponent},
     {path:'costcenter',component:CostcenterComponent},
     {path:'businessunit',component:BusinessunitComponent},
@@ -63,18 +75,20 @@ export const HomeRoutes: Routes = [
     {path:'system',component:SystemComponent},
     {path:'Empskill',component:SkillMasterComponent},
     {path:'help',component:HelpComponent},
-    {path:'employeeedit',component:EmployeeeditComponent,
+    {path:'employeeedit/:employee_Id',component:EmployeeeditComponent,
     children:
     [
-    {path:'kye',component:KyeComponent},
+    
+    { path: '', redirectTo: 'basicInfo', pathMatch: 'full' },
+    {path:'kye',component:KyeComponent, pathMatch: 'full'},
     {path:'title',component:EmployeeTitleComponent},
-    {path:'experience',component:ExperienceComponent},
+    {path:'experience',component:ExperienceComponent, pathMatch: 'full'},
     {path:'bankdetails',component:BankComponent},
     {path:'projectdetails',component:ProjectComponent},
     {path:'dependentdetails',component:DependentComponent},
-    {path:'basicInfo',component:BasicInfoComponent},
+    {path:'basicInfo',component:BasicInfoComponent, pathMatch: 'full'},
     {path:'businessunit',component:BusinessUnitComponent},
-    {path:'education',component:EducationComponent},
+    {path:'education',component:EducationComponent, pathMatch: 'full'},
     {path:'skill',component:SkillComponent},
     {path:'certification',component:CertificationComponent},
     {path:'contact',component:ContactComponent},
@@ -82,7 +96,5 @@ export const HomeRoutes: Routes = [
     {path:'insurance',component:InsuranceDetailsComponent}
     ]
 }
-    
-
     ]
    }]

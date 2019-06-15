@@ -21,6 +21,7 @@ export class EmployeeeducationComponent implements OnInit {
   degree: any;
   educationType:any;
   edu_master:any;
+  private pageSize: number = 5;
 //   public data1=[];
 //   public show:boolean = false;
 //   public buttonName:any = 'Show';
@@ -160,14 +161,20 @@ this.edu_master=bulist;
             
             "transactionType" : "update"
     }
-this.hrms.updateEmpEducationalQualification(request).subscribe(data =>{
+this.hrms.updateEmpEducationalQualification(request).subscribe((data:any) =>{
   this.UpdateEmpEduQual = data,
   console.log(this.UpdateEmpEduQual);
-  if(this.UpdateEmpEduQual.statusMessage == "succesfully updated"){
+  if(this.UpdateEmpEduQual.message == "succesfully updated"){
     this.value =false;
-    swal(this.UpdateEmpEduQual.statusMessage, "","success");
+    swal(this.UpdateEmpEduQual.message, "","success");
     this.getEmployeeQualification();
   }
+},
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getEmployeeQualification()
+  
 })
  }
 
@@ -196,11 +203,13 @@ this.hrms.updateEmpEducationalQualification(request).subscribe(data =>{
  
 getEmployeeQualification(){
   var QualificationRequest=
-  {
-    "listEmployeeEducations" :[],
-            
-            "transactionType" : "getAll"
-    }
+  {"listEmployeeEducations" : [  {
+           
+           
+  }],
+
+"transactionType" :"getall"
+}
 this.hrms.getEmpEduQualification(QualificationRequest).subscribe(response=>{
 this.EmpQualObject=response;
 
@@ -237,7 +246,8 @@ console.log(this.EmpQualArray);
 
 EmployeeQualification:any;
 
-saveEmpEducationalQual(){
+saveEmpEducationalQual()
+{
   var saveEmpEduQualRequest={
     "listEmployeeEducations" :[{
             "educationType":this.educationType
@@ -246,19 +256,27 @@ saveEmpEducationalQual(){
             
             "transactionType" : "save"
     }
-      this.hrms.saveEmpEducationalQualification(saveEmpEduQualRequest).subscribe(response=>{
+      this.hrms.saveEmpEducationalQualification(saveEmpEduQualRequest).subscribe((response:any)=>{
         this.EmployeeQualification=response;
         console.log(this.EmployeeQualification);
-        if(this.EmployeeQualification.statusMessage == "Successfully employeee education record saved")
+        if(this.EmployeeQualification.message == "Successfully employeee education record saved")
         {
-              swal(this.EmployeeQualification.statusMessage, "","success");
-              
+              swal(this.EmployeeQualification.message, "","success");
+              this.getEmployeeQualification();
              }
+            },
+            error => 
+            {
+            swal("Duplicates are not allowed","","error");
+
              this.getEmployeeQualification();   
       })
-     // this.getEmployeeQualification();
-     this.value=false;
-  }
+      this.value=false;
+      this.educationType=""
+      
+     
+    }
+
 
   cancelbulist(){
     this.value=false;

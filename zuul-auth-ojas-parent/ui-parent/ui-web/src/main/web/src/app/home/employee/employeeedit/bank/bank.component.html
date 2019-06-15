@@ -6,7 +6,7 @@
       <div class="col-md-11 " style="margin-bottom: 25px;">
         <form class="form-inline ">
           <div class="input-group ">
-            <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+            <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
             <div class="input-group-btn">
             </div>
           </div>
@@ -20,8 +20,27 @@
         </div>
       </div>
     </div>
+<br>
 
-
+<div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+     <br>
     <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
       <table class="table  table-condensed tile">
         <thead>
@@ -36,7 +55,7 @@
 
             <th>Is active</th>
             <th>Edit</th>
-            <th>delete</th>
+            <!-- <th>delete</th> -->
           </tr>
         </thead>
         <tbody>
@@ -59,9 +78,9 @@
 
             <td>
               <img src="assets/pe.png" width="35px" data-toggle="modal" data-target="#myModalBank" (click)=" getbankdetailsbyId(bank)"> </td>
-            <td>
+            <!-- <td>
               <img src="assets/delete.png" width="20px" (click)="deletebanktddetails(bank);">
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -92,15 +111,15 @@
                     </div>
                 <div class="col-md-6" *ngIf="createdByDependent">
                   <div class="form-group">
-                    <label> Emp Id: </label>
-                    <input type="text" class="form-control" [(ngModel)]="bankdetailss.employee_id" name="employee_id" required placeholder="Emp Id">
+                    <label> Emp Id: <span [(ngModel)]="bankdetailss.employee_id" name="employee_id">{{eid}}</span></label>
+                    <!-- <input type="text" class="form-control" [(ngModel)]="bankdetailss.employee_id" name="employee_id" required placeholder="Emp Id"> -->
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label> Bank Account No:</label>
+                    <label> Bank Account No<span class="starColor"> *</span></label>
 
                     <input type="number" class="form-control" pattern="[0-9]{9,18}" [(ngModel)]="bankdetailss.bank_account_no" name="bank_account_no" required placeholder="Bank Account No" #bankno="ngModel" >
                     <span style="color:red" *ngIf="bankno.invalid && bankno.touched ">
@@ -121,7 +140,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label>Bank Name:</label>
+                    <label>Bank Name<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="bankdetailss.bank_name" name="bank_name" required pattern="[a-zA-Z ]*" placeholder="Bank Name"
                       #bankname="ngModel">
                     <span style="color:red" *ngIf="bankname.invalid && bankname.touched ">
@@ -137,7 +156,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label> Bank City:</label>
+                    <label> Bank City<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="bankdetailss.bank_city" name="bank_city" required pattern="[a-zA-Z ]*" placeholder="Bank City"
                       #bankcity="ngModel">
                     <span style="color:red" *ngIf="bankcity.invalid &&bankcity.touched ">
@@ -155,7 +174,7 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label> Bank Branch:</label>
+                    <label> Bank Branch<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="bankdetailss.bank_branch"  pattern="[a-zA-Z ]*"name="bank_branch" required  placeholder=" Bank Branch"
                     #bankbranch="ngModel">
                     <span style="color:red" *ngIf="bankbranch.invalid &&bankbranch.touched ">
@@ -171,7 +190,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label>Ifsc code:</label>
+                    <label>Ifsc code<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="bankdetailss.bank_ifsc_code" name="bank_ifsc_code" required 
                       placeholder=" Ifsc code" #ifscCode="ngModel" pattern="^[A-Za-z]{4}[a-zA-Z0-9]{7}$">
                     <!-- [A-Z|a-z]{4}[0][\d]{6}$ ^[A-Za-z]{4}0[A-Z0-9a-z]{6}$  ("^[^\s]{4}\d{7}$")-->
@@ -190,7 +209,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label> Account Status:</label>
+                    <label> Account Status<span class="starColor"> *</span></label>
                     <input type="text" class="form-control" [(ngModel)]="bankdetailss.bank_account_status" name="bank_account_status" required placeholder="Account Status"
                       #accountstatus="ngModel">
                     <span style="color:red" *ngIf="accountstatus.invalid &&accountstatus.touched ">
@@ -204,7 +223,7 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="sel2">Is active:</label>
+                    <label for="sel2">Is active<span class="starColor"> *</span></label>
                     <select class="form-control" id="sel2" [(ngModel)]="bankdetailss.is_active" name="is_active" required placeholder="Is active" #active="ngModel">
                       <option>true</option>
                       <option>false</option>

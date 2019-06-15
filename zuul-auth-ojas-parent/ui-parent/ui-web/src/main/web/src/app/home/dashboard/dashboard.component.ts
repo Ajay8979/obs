@@ -9,11 +9,12 @@ import { AuthService } from 'src/app/services/auth.service';
 export class DashboardComponent implements OnInit {
   public userData:object
   constructor(private authService:AuthService) { }
-
+  role:any;
   ngOnInit() {
     this.authService.getUserdata().then(data=>{
       this.userData=data;
       console.log(this.userData);
+      this.role=localStorage.getItem('Role');
     })
   }
 

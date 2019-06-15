@@ -25,6 +25,7 @@ export class GpaComponent implements OnInit {
   gpaPremium: any;
   gpaPlan: any;
   value: boolean;
+  private pageSize: number = 5;
 //   sortedCollection: any[];
 //   order: string = 'gpaPlan'
 //   value: boolean;
@@ -148,10 +149,11 @@ export class GpaComponent implements OnInit {
     //     }
     //   })
     // }
-    setGpa(){
+    setGpa()
+    {
 var request={
   "gpaPlan" : [{
-      "gpaPlanId":this.gpaPlanId,
+  "id":this.id,
   "gpaPlanType":this.gpaPlanType,
   "gpaPremium":this.gpaPremium,
   "totalPremium":this.totalPremium
@@ -161,15 +163,26 @@ var request={
   }
 
 
-this.hrms.setGpaData(request).subscribe(res=>{
+this.hrms.setGpaData(request).subscribe((res:any)=>{
   this.gpasetDetails = res;
   console.log(this.gpasetDetails);
-   if(this.gpasetDetails.statusMessage == "Success fully record added"){
-     this.value=false;
-     swal(this.gpasetDetails.statusMessage,"","success")
+   if(this.gpasetDetails.message == "Success fully record added"){
+     
+     swal(this.gpasetDetails.message,"","success")
      this.getGpa();
    }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  
+  
 })
+this.id="",
+this.gpaPlanType="",
+this.gpaPremium="",
+this.totalPremium="",
+this.value=false;
     }
     getGpa(){
      var request={
@@ -189,7 +202,7 @@ this.hrms.setGpaData(request).subscribe(res=>{
     saveUpdatedValues(gpalist){
       var request ={
         "gpaPlan":[{
-                "gpaPlanId":gpalist.gpaPlanId,
+                "id":gpalist.id,
                 "gpaPlanType":gpalist.gpaPlanType,
                 "gpaPremium":gpalist.gpaPremium,
                 "totalPremium":gpalist.totalPremium
@@ -199,15 +212,25 @@ this.hrms.setGpaData(request).subscribe(res=>{
         "sessionId":1221,
                 "transactionType":"update"
 }
-this.hrms.updateGpaData(request).subscribe(res =>{
+this.hrms.updateGpaData(request).subscribe((res:any) =>
+{
   this.editGpaDetails = res;
   console.log(this.editGpaDetails);
-  if(this.editGpaDetails.statusMessage == "Success fully record updated"){
-    swal(this.editGpaDetails.statusMessage,"","success");
+  if(this.editGpaDetails.message == "Success fully record updated")
+  {
+    swal(this.editGpaDetails.message,"","success");
     this.getGpa();
   }
+},
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getGpa();
 })
+this.value=false;
     }
+
+
     deleteGpa(gpalist){
       var request ={
         "gpaPlan":[{

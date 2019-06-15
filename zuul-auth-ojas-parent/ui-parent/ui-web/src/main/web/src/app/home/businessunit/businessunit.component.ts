@@ -23,6 +23,7 @@ export class BusinessunitComponent implements OnInit {
   businessUnitlist: any;
   businessunitDetails: any;
   businessunitRes: any;
+  private pageSize: number = 5;
   // value: boolean;
   // data: Businessunit; 
   // business: any;
@@ -63,6 +64,7 @@ export class BusinessunitComponent implements OnInit {
   ngOnInit() {
     this.getBusinessunit();
     this.getCostCenter();
+    
   }
 
   // saveBu(){
@@ -99,10 +101,14 @@ export class BusinessunitComponent implements OnInit {
   //   this.businessunitlist.splice(index,1);
   //   }
   // }
-  // cancelbulist(){
-  //   this.value=false;
+  cancelbulist(){
+    this.value=false;
     
-  // }
+  }
+  clear(){
+    this.businessUnitName="";
+    this.costCenterId="";
+  }
  
  setBusinessunit() {
    var requestData = {
@@ -113,15 +119,23 @@ export class BusinessunitComponent implements OnInit {
       "transactionType" : "save",
       "sessionId" : "132"
    }
-   this.hrms.setBusinessunit(requestData).subscribe(response =>{
+   this.hrms.setBusinessunit(requestData).subscribe((response:any) =>{
      this.businessunitRes = response;
      console.log(this.businessunitRes);
-     if(this.businessunitRes.statusMessage == "Success fully record added"){
-       this.value =false;
-       swal(this.businessunitRes.statusMessage,"","success");
+     if(this.businessunitRes.message == "Successfully record added"){
+      
+       swal(this.businessunitRes.message,"","success");
        this.getBusinessunit();
      }
+    },
+    error => 
+    {
+    swal("Duplicates are not allowed","","error");
+    this.getBusinessunit();
    })
+   this.businessUnitName="",
+   this.costCenterId="",
+   this.value=false;
  }
  
 getBusinessunit() {
@@ -171,14 +185,21 @@ this.hrms.getBusinesinfo(request).subscribe(res =>{
       "transactionType" : "update",
       "sessionId" : "132"
 }
-this.hrms.updateBusinessunit(burequest).subscribe(res =>{
+this.hrms.updateBusinessunit(burequest).subscribe((res:any) =>{
   this.buupdateDetails = res;
   console.log(this.buupdateDetails);
-  if(this.buupdateDetails.statusMessage == "Success fully record updated"){
-    swal(this.buupdateDetails.statusMessage, "","success");
+  if(this.buupdateDetails.message == "Successfully record updated"){
+    swal(this.buupdateDetails.message, "","success");
     this.getBusinessunit();
   }
+  
+},
+error => 
+{
+swal("Duplicates are not allowed","","error");
+this.getBusinessunit();
 })
+
   }
   deleteBuData(bulist){
     var budeletereq ={

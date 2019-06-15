@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 import { HrmsService } from 'src/app/home/services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 @Component({
   selector: 'app-kye',
@@ -8,14 +9,40 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./kye.component.scss']
 })
 export class KyeComponent implements OnInit {
-
-  constructor(private hrms:HrmsService) { }
+public eid:any;
+  loggeduser: string;
+  constructor(private hrms:HrmsService, private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getEmpKye();
     this.getPassportCenter();
+    this.getempdata();
   }
 
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
 //---Employee KYE details starts--------------
 
 //--- getting Employee KYE details-------------------
@@ -25,14 +52,21 @@ empkyearr:any;
 savepassport:any;
 getEmpKye()
 {
-var reqObj = 
+var reqObj =
 {
-        "kye" :
-        [{
+  "kye" :
+  [{
+"employee_Id": this.eid
+  }],
+  "transactionType"     :  "getAll"
+} 
+// {
+//         "kye" :
+//         [{
 
-        }],
-        "transactionType"     :  "getAll"
-}
+//         }],
+//         "transactionType"     :  "getAll"
+// }
 
 this.hrms.getEmployeeKyeDetails(reqObj).subscribe(res =>{
 this.empkye = res;
@@ -72,9 +106,8 @@ getPassportCenter() {
 }
   this.hrms.getPassportCeneter(request).subscribe(res =>{
     this.passportCenterDetails = res;
-    console.log(this.passportCenterDetails.body.passportList);
     //this.sample= this.passportCenterDetails.passportList;
-    this.passportCenterList = this.passportCenterDetails.body.passportList;
+    this.passportCenterList = this.passportCenterDetails.passportList;
     console.log(this.passportCenterList);
   })
 }
@@ -119,8 +152,8 @@ var savereqObj =
            "passport_date_of_expiry" :  this.empkyedetails.passport_date_of_expiry,
            "place_of_issue"          :  this.empkyedetails.place_of_issue,
            "passport_address"        :  this.empkyedetails.passport_address,
-           "employee_Id"             :  this.empkyedetails.employee_Id,
-           "created_by"              :  this.empkyedetails.created_by
+           "employee_Id"             :  this.eid,
+           "created_by"              :  this.loggeduser
 }],
            "transactionType"     :  "save"
 }
@@ -129,11 +162,12 @@ this.savekyeres = res;
 console.log(this.savekyeres);
 
 
-if(this.savekyeres.statusMessage == "record added successfully")
+if(this.savekyeres.message == "record added successfully")
     {
-     swal(this.savekyeres.statusMessage,"","success");
+     swal(this.savekyeres.message,"","success");
      this.getEmpKye();
    }
+   this.getEmpKye();
 })
 
 }
@@ -149,7 +183,7 @@ var deleteReqKye =
 "kye" :[{
       "id"                      :  kye.id,
       
-      "updated_by"              :  kye.updated_by
+      "updated_by"              : this.loggeduser
 }],
       "transactionType"     :  "delete"
 }
@@ -159,12 +193,12 @@ this.deleteKye = res;
 console.log(this.deleteKye);
 this.deleteKyearr = this.deleteKye.kye;
 
- if(this.deleteKye.statusMessage == "record deleted successfully")
+ if(this.deleteKye.message == "record deleted successfully")
  {
-  swal(this.deleteKye.statusMessage,"","success");
+  swal(this.deleteKye.message,"","success");
   this.getEmpKye();
  }
-//  this.getEmpKye();
+  this.getEmpKye();
 })
 }
 
@@ -245,7 +279,7 @@ var updatekyereq =
    "place_of_issue"          :  this.empkyedetails.place_of_issue,
     "passport_address"        :  this.empkyedetails.passport_address,
    "employee_Id"             :  this.empkyedetails.employee_Id,
-   "updated_by"              :  this.empkyedetails.updated_by
+   "updated_by"              :  this.loggeduser
 }],
 "transactionType"     :  "update"
 }
@@ -255,12 +289,12 @@ console.log(this.updatekyeres);
 this.updatekyeresarr = this.updatekyeres.kye;
 
 
-if(this.updatekyeres.statusMessage == "record updated successfully")
+if(this.updatekyeres.message == "record updated successfully")
     {
-     swal(this.updatekyeres.statusMessage,"","success");
+     swal(this.updatekyeres.message,"","success");
      this.getEmpKye();
    }
-// this.getEmpKye();
+this.getEmpKye();
 })
 }
 

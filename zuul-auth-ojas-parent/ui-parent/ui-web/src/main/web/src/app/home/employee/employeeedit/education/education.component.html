@@ -4,7 +4,7 @@
         <div class="col-md-11" style="margin-bottom: 25px;">
           <form class="form-inline ">
             <div class="input-group ">
-              <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+              <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
               <div class="input-group-btn">
                 <h1></h1>
               </div>
@@ -19,6 +19,29 @@
           </div>
         </div>
       </div>
+      <br>
+
+
+      <div class="container">
+        <div class="row" >
+          <div *ngFor="let empbasic of empbasicinfo" >
+            
+          
+            <div class="d-inline-block">
+              <h5>Employee Id:{{empbasic.employeeId}}</h5>
+            </div>
+         
+        
+         
+        <div  class="d-inline-block marginLeft">
+          <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+        </div>
+        </div>
+        
+        </div>
+        </div>
+        
+           <br>
       <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
         <table class="table table-condensed  tile">
           <thead class="two">
@@ -29,7 +52,7 @@
               <th>Percentage Marks</th>
               <th>Institution Name</th>
               <th>Edit</th>
-              <th>Delete</th>
+              <!-- <th>Delete</th> -->
             </tr>
           </thead>
           <tbody>
@@ -41,7 +64,7 @@
               <td>{{edu.institution_name}}</td>
               <td><img src="assets/pe.png" width="30" data-toggle="modal" data-target="#myModal5"
                   (click)="editEmpEduId(edu)"></td>
-              <td><img src="assets/delete.png" width="20px" (click)="deleteEmpEdu(edu)" /></td>
+              <!-- <td><img src="assets/delete.png" width="20px" (click)="deleteEmpEdu(edu)" /></td> -->
             </tr>
           </tbody>
         </table>
@@ -64,14 +87,15 @@
                 <div class="row">
                   <div class="col-md-6" *ngIf="isCreatedEduby">
                     <div class="form-group">
-                      <label> Emp Id: </label>
+                        <label> Emp Id: <span>{{eid}}</span></label>
+                      <!-- <label> Emp Id: </label>
                       <input type="text" class="form-control" [(ngModel)]="editEduEmp.employeeId" name="employeeId" required
                         placeholder="Employee Id" #emp01="ngModel">
                         <span style="color:red" *ngIf="emp01.invalid && emp01.touched ">
                           <span *ngIf="emp01.errors.required">
                            Employee Id Is required
                           </span>
-                        </span>
+                        </span> -->
                     </div>
                   </div>
 
@@ -87,7 +111,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Year Of Passing:</label>
+                      <label>Year Of Passing<span class="starColor"> *</span></label>
                       <input type="date" class="form-control" [(ngModel)]="editEduEmp.year_of_passing" name="year_of_passing"
                         placeholder="Year Of Passing" required #yop="ngModel">
 
@@ -102,7 +126,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Qualification:</label>
+                      <label>Qualification<span class="starColor"> *</span></label>
                       <select class="form-control" [(ngModel)]="editEduEmp.qualification"
                         placeholder="Select Qualification" name="emp02" required placeholder="Qualification"
                         #empn3="ngModel">
@@ -127,7 +151,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label> Institution Name: </label>
+                      <label> Institution Name<span class="starColor"> *</span> </label>
                       <input type="text" class="form-control" [(ngModel)]="editEduEmp.institution_name"
                         name="institution_name" required placeholder="Institution Name" #empn5="ngModel">
 
@@ -143,7 +167,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label> Percentage Of Marks: </label>
+                      <label> Percentage Of Marks<span class="starColor"> *</span> </label>
                       <input type="text" class="form-control" [(ngModel)]="editEduEmp.percentage_marks"
                         name="percentage_marks" required placeholder="Percentage Of Marks" #empn4="ngModel">
 

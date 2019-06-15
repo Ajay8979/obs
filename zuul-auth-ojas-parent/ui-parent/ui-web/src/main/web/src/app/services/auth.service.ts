@@ -12,11 +12,17 @@ export class AuthService {
   // userData: any;
   accessToken: any;
   responseData:any;
+  multiple_roles: any;
+   roles:any=[]
   constructor(private obj:HrmsService,private http:HttpClient) {}
+
+
+  
 
   public isAuthenticate(): boolean {
     //method return true or false based on login credential
    const userData=localStorage.getItem('userData');
+
     if(userData && userData.length>0){
       return true;
     }
@@ -24,25 +30,47 @@ export class AuthService {
     return false;
     }
   }
-  url:any="http://192.168.7.64:8089/login";
+  //url:any="http://192.168.6.186:8089/login";
   //url:any="http://192.168.7.64:8089/login";
-
+  //url:any="http://192.168.5.207:8081/login";
+  //url:any="http://192.168.2.167:8081/login";
+  url:any="http://192.168.7.64:8089/login";
   public async loginAction(postData){
 
     var userObj={username:postData.UserName,password:postData.UserPassword}
-  
+    
+    
   //  var body:string = "";
 
   // this.http.post
+  
     this.http
       .post(this.url, userObj)
       .subscribe(
         (res: HttpResponse<any>) => {
             //var tokenres=res['authorization'];
                 console.log(res['authorization']);
+                console.log(res['authorities']);
+                this.multiple_roles = res['authorities']
+                this.roles.push(this.multiple_roles.split(" ",1));
+                //this.roles.push(this.multiple_roles.split(" ",3));
+                
+                this.roles.push(this.multiple_roles);
+                console.log("Current user roles  ",this.roles);
                 localStorage.setItem('userData',res['authorization']);
+                localStorage.setItem("UserName",postData.UserName);
+                localStorage.setItem("Role",this.roles[0])
+              //  localStorage.setItem("Role0",this.roles[0][0])
+              //  localStorage.setItem("Role1",this.roles[0][1])
+              //  localStorage.setItem("Role2",this.roles[0][2])
+             
+               
+  console.log(localStorage.getItem('UserName'));
+
         }
       );
+
+      
       // var responseData = {'UserName':'ojas','UserPassword':'ojas','tokenAccess':'454dsfdfs45187'};
       
       return true;
@@ -84,6 +112,7 @@ export class AuthService {
   public async logOutAction() {
     //session/local storage clear
     await localStorage.removeItem('userData');
+    await localStorage.removeItem('UserName');
     await localStorage.clear();
     return true;
   }
@@ -99,7 +128,7 @@ export class AuthService {
   }
 
   public  getEmployeeData():any{
-    var res= this.http.get('http://192.168.7.64:8089/backend/user');
+    var res= this.http.get('http://192.168.6.186:8089/backend/user');
     return res;
   }
 
@@ -112,4 +141,5 @@ export class AuthService {
   //   var res = this.http.get('').toPromise()
   //   return res.json();
   // }
+
 }

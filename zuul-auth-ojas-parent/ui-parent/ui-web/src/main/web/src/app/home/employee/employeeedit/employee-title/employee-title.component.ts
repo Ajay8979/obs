@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 import { HrmsService } from 'src/app/home/services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 
 @Component({
@@ -9,14 +10,42 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./employee-title.component.scss']
 })
 export class EmployeeTitleComponent implements OnInit {
+  public eid: any;
+  loggeduser: string;
 
-  constructor(private hrms:HrmsService) { }
+  constructor(private hrms:HrmsService,private dataservice:DataService) { 
+    this.eid= this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+  }
 
   ngOnInit() {
     this.getempTiltle();
     this.getRole();
+    this.getempdata();
   }
 
+  
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
 //----Employee Title Details Starts---------------
 
 //----Getting Title Details--------------------
@@ -28,12 +57,20 @@ saveRole:any;
 getempTiltle()
 {
 var reqtitle = 
+
 {
-"model": [{
+  "model": [{
+      "employeeId": this.eid
+  }],
+    "transactionType" :"getbyid"
+  }
+  
+// {
+// "model": [{
     
-}],
-  "transactionType" :"getall"
-}
+// }],
+//   "transactionType" :"getall"
+// }
 
 this.hrms.getEmpTitleDetails(reqtitle).subscribe(res =>{
 this.gettitle = res;
@@ -116,8 +153,8 @@ saveempTitle()
     "model": [{
       "role": this.edittitle.role,
       "title" : this.edittitle.title,
-      "employeeId" : this.edittitle.employeeId,
-      "createdby" : this.edittitle.createdby,
+      "employeeId" : this.eid,
+      "createdby" : this.loggeduser,
        "flag" : true
 }],
 "transactionType" :"save"
@@ -127,13 +164,13 @@ saveempTitle()
   this.savetitlearr = this.saveEmpObj.model;
   console.log(this.savetitlearr);
 
-   if(this.saveEmpObj.statusMessage == "Successfully Title record saved")
+   if(this.saveEmpObj.message == "Successfully Title record saved")
      {
-      swal(this.saveEmpObj.statusMessage,"","success");
-      //this.getempTiltle();
+      swal(this.saveEmpObj.message,"","success");
+      this.getempTiltle();
     }
 
-   this.getempTiltle();
+   //this.getempTiltle();
 })
 
 
@@ -160,10 +197,10 @@ this.hrms.deleteEmpTitleDetails(deleteReqtitle).subscribe (res => {
   console.log(this.deletetitle);
   //this.deletetitlearr = this.deletetitle.listCourse;
 
-  if(this.deletetitle.statusMessage == "Successfully Title record deleted")
+  if(this.deletetitle.message == "Successfully Title record deleted")
       {
-       swal(this.deletetitle.statusMessage,"","success");
-      // this.getempTiltle();
+       swal(this.deletetitle.message,"","success");
+      
      }
   this.getempTiltle();
 })
@@ -190,6 +227,11 @@ updatedby:any;
 
 editempTitleid(title)
 {
+  // this.edittitle.employeeId= title.employeeId;
+  // this.edittitle.role=title.role;
+ 
+  // this.edittitle.title=title.title;
+
 this.isUpdatedby = true;
 this.isCreatedby = false;
 
@@ -234,9 +276,9 @@ this.updateres = updaterestitle;
 console.log(this.updateres);
 this.updatetitlearr = this.updateres.model;
 
-if(this.updateres.statusMessage == "Successfully Title record updated")
+if(this.updateres.message == "Successfully Title record updated")
       {
-       swal(this.updateres.statusMessage,"","success");
+       swal(this.updateres.message,"","success");
        //this.getempTiltle();
      }
  this.getempTiltle();

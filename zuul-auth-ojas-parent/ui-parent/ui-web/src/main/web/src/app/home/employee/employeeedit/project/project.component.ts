@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HrmsService } from './../../../services/hrms.service';
 import swal from 'sweetalert';
+import { DataService } from 'src/app/home/services';
 
 @Component({
   selector: 'app-project',
@@ -8,43 +9,78 @@ import swal from 'sweetalert';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
+ public eid: any;
+  loggeduser: string;
 
-  constructor(private hrms:HrmsService) { }
+  constructor(private hrms:HrmsService, private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getProject();
+    this.getempdata();
   }
 
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
   projectDetailsLi:any;
   projectDetails:any;
   projectDetailsList:any;
   projectsave:any;
 
-  getProject(){
-
-
-
-
-    var jsonData = {
-     
-      "transactionType":"getAll"
+  valueAdd(newUserFormProject){
+    newUserFormProject.reset();
+    this.isUpdate=false;
   }
+
+  getProject(){
+    var jsonData =
+    {
+      "projectDetailsList" : [{
+              "employeeId" : this.eid
+                   
+                         }], 
+                     "transactionType":"getAll"
+     }
+  //    {
+     
+  //     "transactionType":"getAll"
+  // }
     this.hrms.getProjectDetails(jsonData).subscribe(response =>{
       this.projectDetails = response;
       this.projectDetailsLi = this. projectDetails.projectDetailsList;
-      console.log(this.projectDetailsList);
+      console.log("Project Details List", this.projectDetailsList);
     })
     
     }
     setProject(){
   
-      var user="user";
       var requestObj = {
         "projectDetailsList" : [{
                       "projectName":this.projectDetailss.projectName,
                                       "contractId":this.projectDetailss.contractId,
                                       "rateId":this.projectDetailss.rateId,
-                                      "employeeId":this.projectDetailss.employeeId,
+                                      "employeeId":this.eid,
                                       "startDate":this.projectDetailss.startDate,
                                       "endDate":this.projectDetailss.endDate,
                                       "billingId":this.projectDetailss.billingId,
@@ -56,7 +92,7 @@ export class ProjectComponent implements OnInit {
                                       "projectStatus":this.projectDetailss.projectStatus,
                                       "bdmContact":this.projectDetailss.bdmContact,
                                       "isInternal":this.projectDetailss.isInternal,
-                                      "createdBy":user
+                                      "createdBy":this.loggeduser
                                   
                                      
                            }], 
@@ -125,7 +161,7 @@ export class ProjectComponent implements OnInit {
       })
     }
     updateprojdata(){
-      var user="user";
+     
       var updatereq = {
         "projectDetailsList" : [{
                 "id":this.projectDetailss.id,
@@ -144,7 +180,7 @@ export class ProjectComponent implements OnInit {
                                       "projectStatus":this.projectDetailss.projectStatus,
                                       "bdmContact":this.projectDetailss.bdmContact,
                                       "isInternal":this.projectDetailss.isInternal,
-                                      "updatedBy":user
+                                      "updatedBy":this.loggeduser
                            }], 
                        "transactionType":"update",
                       "sessionId" : "any String" 
@@ -159,24 +195,25 @@ export class ProjectComponent implements OnInit {
     }
   
     deleteproj(user){
-    var deletep ={
+      // alert(user.id);
+    var deletep =
+    {
       "projectDetailsList" : [{
-                                              "id":user.id,
-                                    "updatedBy":user.updatedBy
-                                   
-                                    
-                        
-                         }], 
-                     "transactionType":"delete",
-                    "sessionId" : "any String" 
-    }
+                                                  "id":user.id
+                                       
+                                        
+                            
+                             }], 
+                         "transactionType":"delete"
+        }
     this.hrms.deleteproject(deletep).subscribe(response =>{
       this.projectdelete = response;
       console.log(this.projectdelete);
-      if(this.projectdelete.statusMessage == "ProjectDetails has deactivated successfully"){
-       swal(this.projectdelete.statusMessage, "","success");
-        this.getProject();
-      }
+      // if(this.projectdelete.statusMessage == "ProjectDetails has deactivated successfully"){
+      //  swal(this.projectdelete.statusMessage, "","success");
+      //   this.getProject();
+      // }
+      this.getProject();
      
     })
     }

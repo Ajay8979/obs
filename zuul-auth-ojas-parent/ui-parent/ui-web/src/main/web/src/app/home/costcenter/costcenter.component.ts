@@ -19,6 +19,8 @@ export class CostcenterComponent implements OnInit {
   costCenterList: any;
   costcenterRes: any;
   value: boolean;
+  private pageSize: number = 5;
+ 
   // public data1=[];
   // public show:boolean = false;
   // public buttonName:any = 'Show';
@@ -95,10 +97,13 @@ export class CostcenterComponent implements OnInit {
 //   }
 // }
 
-// cancelbulist(){
-//   this.value=false;
+cancelbulist(){
+  this.value=false;
   
-// }
+}
+clear(){
+  this.costCenterCode="";
+}
   ngOnInit() {  
     this.getCostCenter();
    }
@@ -144,15 +149,22 @@ var requestData = {
   "transactionType" : "save"
   
   }
-  this.hrms.setCostcenter(requestData).subscribe(responce =>{
+  this.hrms.setCostcenter(requestData).subscribe((responce:any) =>{
     this.costcenterRes = responce;
     console.log(this.costcenterRes);
-    if(this.costcenterRes.statusMessage == "Successfully record added"){
+    if(this.costcenterRes.message == "Successfully record added"){
       this.value = false;
-      swal(this.costcenterRes.statusMessage, "","success");
+      swal(this.costcenterRes.message, "","success");
       this.getCostCenter();
     }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getCostCenter()
   })
+  this.costCenterCode="";
+  this.value=false;
 }
 getCostCenter() {
   var request = 
@@ -188,13 +200,20 @@ saveUpdateValues(bulist){
     "transactionType" : "update"
   }
  
-  this.hrms.updateCostCenter(updateRequestData).subscribe(res =>{
+  this.hrms.updateCostCenter(updateRequestData).subscribe((res:any) =>{
     this.updateRes = res;
     console.log(this.updateRes);
-      if(this.updateRes.statusMessage == "Successfully record updated"){
-      swal(this.updateRes.statusMessage, "","success");
+      if(this.updateRes.message == "Successfully record updated"){
+      swal(this.updateRes.message, "","success");
         this.getCostCenter();
       }
+    },
+    error => 
+    {
+    swal("Duplicates are not allowed","","error");
+    this.getCostCenter();
+    
+
   })
   }
 //   deleteCostCenter(bulist) {

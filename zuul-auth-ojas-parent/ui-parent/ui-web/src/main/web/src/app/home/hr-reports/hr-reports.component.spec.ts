@@ -1,0 +1,1 @@
+added hr-reports.component.spec.ts

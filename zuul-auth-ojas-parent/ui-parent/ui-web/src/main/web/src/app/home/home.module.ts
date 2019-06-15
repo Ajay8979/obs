@@ -43,6 +43,14 @@ import { EmployeeTitleComponent } from './employee/employeeedit/employee-title/e
 import { ProjectComponent } from './employee/employeeedit/project/project.component';
 import { DependentComponent } from './employee/employeeedit/dependent/dependent.component';
 import { SkillMasterComponent } from './skill-master/skill-master.component';
+import { HrReportsComponent } from './hr-reports/hr-reports.component';
+import { AdminRoleComponent } from './admin-role/admin-role.component';
+import { HrRoleComponent } from './hr-role/hr-role.component';
+import { EmployeeRoleComponent } from './employee-role/employee-role.component';
+import { CareerComponent } from './career/career.component';
+import { JobDescriptionComponent } from './job-description/job-description.component';
+
+
 @NgModule({
   declarations: 
   [
@@ -81,7 +89,9 @@ import { SkillMasterComponent } from './skill-master/skill-master.component';
     EmployeeTitleComponent, 
     ProjectComponent, 
     DependentComponent, 
-    SkillMasterComponent
+    SkillMasterComponent, 
+    HrReportsComponent, AdminRoleComponent, HrRoleComponent, EmployeeRoleComponent, CareerComponent, JobDescriptionComponent,
+
   ],
   imports: [
     RouterModule,

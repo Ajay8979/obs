@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 import { HrmsService } from 'src/app/home/services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 
 @Component({
@@ -9,214 +10,44 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./education.component.scss']
 })
 export class EducationComponent implements OnInit {
+  public eid: any;
+  loggeduser: string;
 
-  constructor(private hrms:HrmsService) { }
-
+  constructor(private hrms:HrmsService, private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
+username:any;
   ngOnInit() {
+    this.getEmpEdu();
+    //this.username=localStorage.getItem("UserName");
+   this.getEmployeeQualification();
+   this.getempdata();
   }
-
-// //----Getting Employee Education Details--------------------
-// getempedu:any;
-// getempeduarr:any;
-
-// getEmpEdu()
-// {
-// var reqtitle = 
-// {
-// "employeeEducationDetailsList" :[],
-
-// "transaactionType":"getAll",
-// "pageNo" : 2,
-// "pageSize" : 2
-// }
-
-// this.hrms.getEmpEduDetails(reqtitle).subscribe(res =>{
-// this.getempedu = res;
-// this.getempeduarr = this.getempedu.employeeEducationDetailsList;
-// console.log("Employee Education get");
-// console.log(this.getempedu);
-// })
-// }
-
-// //--Saving Employee Education  Details----------------
-
-// isCreatedEduby:boolean=false;
-// isUpdatedEduby:boolean=false;
-// saveEmpEduObj:any;
-// saveEmpEduarr:any;
-
-// employeeIdEdu: any;
-// qualification:any;
-// year_of_passing :any;
-// percentage_marks: any;
-// institution_name: any;
-// flagEdu: boolean;
-// createdByEdu:any;
-// updatedByEdu: any;
-// createdDate: any;
-// updatedDate: any;
-
-// clickaddEdu()
-// {
-// this.isCreatedEduby=true;
-// this.isUpdatedEduby=false;
-// }
-
-// saveEmpEdu()
-
-// {
-//    var saveempeduobj = 
-//   {
-//    "employeeEducationDetailsList" :[
-// {
-      
-// "employeeId": this.editEduEmp.employeeId,
-// "qualification": this.editEduEmp.qualification,
-// "year_of_passing": this.editEduEmp.year_of_passing,
-// "percentage_marks": this.editEduEmp.percentage_marks,
-// "institution_name": this.editEduEmp.institution_name,
-// "flag":this.editEduEmp.flagEdu,
-// "createdBy": this.editEduEmp.createdbyEdu,
-// "updatedBy": this.editEduEmp.updatedbyEdu,
-// "createdDate": this.editEduEmp.createdDate,
-// "updatedDate": this.editEduEmp.updatedDate,
-// "id":this.editEduEmp.id
-// }
-// ],
-
-// "transaactionType":"save",
-// "pageNo" : 2,
-// "pageSize" : 2
-
-// }
-// this.hrms.saveEmpEduDetails(saveempeduobj).subscribe(res => {
-// this.saveEmpEduObj = res;
-// this.saveEmpEduarr = this.saveEmpEduObj.employeeEducationDetailsList;
-// console.log(this.saveEmpEduObj);
-// this.getEmpEdu();
-// })
-
-// }
-
-
-// //--Deleting Employee Education Details ----------------
-
-// deleteEmpObj:any;
-// deleteEmpEduarr:any;
-// deleteEmpEdu(edu)
-// {
-// var deleteEmpEduObj = 
-// {
   
-//   "employeeEducationDetailsList" :[
-//     {
-//         "id": edu.id
-       
-//     }
-//     ],
-    
-//     "transaactionType":"delete",
-//     "pageNo" : 2,
-//     "pageSize" : 2
-// }
 
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
 
-//   this.hrms.deleteEmpEduDetails(deleteEmpEduObj).subscribe (res => {
-//   this.deleteEmpObj = res;
-//   console.log(this.deleteEmpObj);
-//   this.deleteEmpEduarr = this.deleteEmpObj.employeeEducationDetailsList;
-//   this.getEmpEdu();
-// })
-// }
-
-
-// // //----Editing Employee Education  Details-----------------------
-
-// public editEduEmp = 
-// {
-// "id" : "",
-// "employeeId" : "",
-// "qualification": "",
-// "year_of_passing":"",
-// "percentage_marks":"",
-// "institution_name":"",
-// "flagEdu":"",
-// "updatedbyEdu" : "",
-// "createdbyEdu":"",
-// "createdDate":"",
-// "updatedDate":""
-// }
-
-// editEmpEdu:any;
-// editEmpEduarr:any;
-// empEmpEdudetails:any;
-// updatedEduby:any;
-
-// editEmpEduId(edu)
-// {
-// this.isUpdatedEduby = true;
-// this.isCreatedEduby = false;
-
-// var eduid = edu.id;
-// var editEmpEduobj = 
-// {
-
-//     "employeeEducationDetailsList" : [{
-//    "id":eduid
-
-//  }],
-
-// "transaactionType":"getall",
-// "pageNo" : 2,
-// "pageSize" : 2
-// }
-
-// this.hrms.editEmpEduDetails(editEmpEduobj).subscribe(res => {
-// this.editEmpEdu = res;
-// this.editEmpEduarr = this.editEmpEdu.employeeEducationDetailsList;
-// this.editEduEmp = this.editEmpEduarr[0];
-// console.log("this.empEmpEdudetails",this.editEduEmp);
-
-// })
-// }
-
-// //----Updating Employee Education details-----------------------
-// updateedures:any;
-// updateEduarr:any;
-
-// updateEdu()
-// {
-// var updateEduObj = 
-// {
-// "employeeEducationDetailsList" :[
-//   {
+    var empinfo = 
+   {
  
-//     "employeeId": this.editEduEmp.employeeId,
-//     "qualification": this.editEduEmp.qualification,
-//     "year_of_passing": this.editEduEmp.year_of_passing,
-//     "percentage_marks": this.editEduEmp.percentage_marks,
-//     "institution_name": this.editEduEmp.institution_name,
-//     "flag":this.editEduEmp.flagEdu,
-//     "updatedBy": this.editEduEmp.updatedbyEdu,
-//     "id":this.editEduEmp.id
-// }
-// ],
-
-// "transaactionType":"update",
-// "pageNo" : 2,
-// "pageSize" : 2
-// }
-
-
-
-// this.hrms.updateEmpEduDetails(updateEduObj).subscribe(updateEdu =>{
-//  this.updateedures = updateEdu;
-//  console.log(this.updateedures);
-//  this.updateEduarr = this.updateedures.employeeEducationDetailsList;
-//  this.getEmpEdu();
-// })
-// }
-
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
+  
 // //----Employee Education details Ends--------------------
 
 //----Getting Employee Education Details--------------------
@@ -228,11 +59,14 @@ getEmpEdu()
 {
 var reqtitle = 
 {
-"employeeEducationDetailsList" :[],
-
-"transaactionType":"getAll",
-"pageNo" : 2,
-"pageSize" : 2
+  "employeeEducationDetailsList" :[
+          {
+            "employeeId": this.eid
+          }
+  ],
+  
+  "transactionType":"getAll"
+ 
 }
 
 this.hrms.getEmpEduDetails(reqtitle).subscribe(res =>{
@@ -290,36 +124,32 @@ this.isUpdatedEduby=false;
 saveEmpEdu()
 
 {
-  var user="user";
+  //var user="user";
    var saveempeduobj = 
   {
    "employeeEducationDetailsList" :[
 {
       
-"employeeId": this.editEduEmp.employeeId,
+"employeeId": this.eid,
 "qualification": this.editEduEmp.qualification,
 "year_of_passing": this.editEduEmp.year_of_passing,
 "percentage_marks": this.editEduEmp.percentage_marks,
 "institution_name": this.editEduEmp.institution_name,
-"flag":this.editEduEmp.flagEdu,
-"createdBy": user,
-"updatedBy": user,
+"createdBy": this.loggeduser,
 // "createdDate": this.editEduEmp.createdDate,
 // "updatedDate": this.editEduEmp.updatedDate,
 "id":this.editEduEmp.id
 }
 ],
 
-"transaactionType":"save",
-"pageNo" : 2,
-"pageSize" : 2
+"transactionType":"save"
 
 }
 this.hrms.saveEmpEduDetails(saveempeduobj).subscribe(res => {
 this.saveEmpEduObj = res;
 this.saveEmpEduarr = this.saveEmpEduObj.employeeEducationDetailsList;
-if(this.saveEmpEduObj.statusMessage == "Employee Education Details have been saved"){
-  swal(this.saveEmpEduObj.statusMessage, "","success");
+if(this.saveEmpEduObj.message == "Employee Education Details have been saved"){
+  swal(this.saveEmpEduObj.message, "","success");
 }
 console.log(this.saveEmpEduObj);
 this.getEmpEdu();
@@ -336,26 +166,21 @@ deleteEmpEdu(edu)
 {
 var deleteEmpEduObj = 
 {
-  
   "employeeEducationDetailsList" :[
     {
-        "id": edu.id
-       
-    }
-    ],
-    
-    "transaactionType":"delete",
-    "pageNo" : 2,
-    "pageSize" : 2
+     "id": edu.id
+     
+    }],
+  
+  "transactionType":"delete"
 }
-
 
   this.hrms.deleteEmpEduDetails(deleteEmpEduObj).subscribe (res => {
   this.deleteEmpObj = res;
   console.log(this.deleteEmpObj);
   this.deleteEmpEduarr = this.deleteEmpObj.employeeEducationDetailsList;
-  if(this.deleteEmpObj.statusMessage == "Employee Education Details have been deleted"){
-    swal(this.deleteEmpObj.statusMessage, "","success");
+  if(this.deleteEmpObj.message == "Employee Education Details have been deleted"){
+    swal(this.deleteEmpObj.message, "","success");
     
   }
   this.getEmpEdu();
@@ -373,11 +198,11 @@ Qualification: [];
 
 getEmployeeQualification(){
   var QualificationRequest=
-  {
-
-        
-    "transactionType" : "getall"
-}
+  {"listEmployeeEducations" : [ {
+  }],
+  
+  "transactionType" :"getall"
+  }
 this.hrms.getEmpEduQualification(QualificationRequest).subscribe(response=>{
 this.EmpQualObject=response;
 
@@ -434,9 +259,7 @@ var editEmpEduobj =
   }    
   ],
   
-  "transaactionType":"getAll",
-  "pageNo" : 2,
-  "pageSize" : 2
+  "transactionType":"getAll"
 }
 
 this.hrms.editEmpEduDetails(editEmpEduobj).subscribe(res => {
@@ -458,32 +281,27 @@ updateEdu(EmpEducationForm)
   var user="user";
 var updateEduObj = 
 {
-"employeeEducationDetailsList" :[
-  {
- 
-    "employeeId": this.editEduEmp.employeeId,
-    "qualification": this.editEduEmp.qualification,
-    "year_of_passing": this.editEduEmp.year_of_passing,
-    "percentage_marks": this.editEduEmp.percentage_marks,
-    "institution_name": this.editEduEmp.institution_name,
-    "flag":true,
-    "updatedBy": user,
-    "id":this.editEduEmp.id
-}
-],
-
-"transaactionType":"update",
-"pageNo" : 2,
-"pageSize" : 2
-
+  "employeeEducationDetailsList" :[
+    {
+     "id": this.editEduEmp.id,
+      "employeeId": this.editEduEmp.employeeId,
+      "qualification": this.editEduEmp.qualification,
+      "year_of_passing": this.editEduEmp.year_of_passing,
+      "percentage_marks": this.editEduEmp.percentage_marks,
+      "institution_name": this.editEduEmp.institution_name,
+      "flag": true,
+      "updatedBy": this.loggeduser
+    }],
+  
+  "transactionType":"update"
 }
 
 this.hrms.updateEmpEduDetails(updateEduObj).subscribe(updateEdu =>{
  this.updateedures = updateEdu;
  console.log(this.updateedures);
  this.updateEduarr = this.updateedures.employeeEducationDetailsList;
- if(this.updateedures.statusMessage == "Employee Education Details have been updated"){
-  swal(this.updateedures.statusMessage, "","success");
+ if(this.updateedures.message == "Employee Education Details have been updated"){
+  swal(this.updateedures.message, "","success");
   
 }
  this.getEmpEdu();

@@ -1,473 +1,312 @@
-<!-- 
-              <div class="app-title">
-                  <div>
-                    <h1><i class="fa fa-th-list"></i> Employee</h1>
-                  </div>
-                    <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                        <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
-                      </ul>
-                </div>
-
-                <!-- <div class="row">
-                    <form class="form-inline ">
-                         <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
-                     </form>
-                   <div class="add">
-                      <button class="btn btn-primary pull-right"  (click)= addTemplate()>Add</button>
-                   </div>
-                   </div> --
-
-
-
-                   <div class="row">
-                      <form class="form-inline ">
-                          <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
-                      </form>
-                    <div class="add">
-                        <button class="btn btn-primary pull-right"  (click)= addTemplate()>Add</button>
-                    </div>
-                    </div>
-                    
-
-
-
-        <div class="row top">
-          <table class="table table-condensed  tile">
-              <thead class="two">
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Fixed CTC</th>
-                <th>CTC</th>
-                <th>Total CTC</th>
-                <th>Edit</th>
-                <th>Delete</th>
-                
-          
-            </thead>
-          <tbody *ngFor ="let data of empData  let i=index">
-           
-                <tr>
-                
-                  <td> <div *ngIf="!data.isEditable">               
-                      {{data.Id}}
-                       </div>  
-                       <input type="text" [(ngModel)]="data.Id" *ngIf="data.isEditable"/>  
-                  </td>
-                 
-  
-                     
-  
-                              <td> <div *ngIf="!data.isEditable">               
-                                  {{data.Name}}
-                                   </div>  
-                                   <input type="text" [(ngModel)]="data.Name" *ngIf="data.isEditable"/>  
-                              </td>
-                              
-
-  
-                           <td> <div *ngIf="!data.isEditable">               
-                                  {{data.Fixed_CTC}}
-                                   </div>  
-                                   <input type="text" [(ngModel)]="data.Fixed_CTC" *ngIf="data.isEditable"/>  
-                              </td>
-                   
-  
-                              <td> <div *ngIf="!data.isEditable">               
-                                  {{data.CTC}}
-                                   </div>  
-                                   <input type="text" [(ngModel)]="data.CTC" *ngIf="data.isEditable"/>  
-                              </td>
-                   
-  
-                              <td> <div *ngIf="!data.isEditable">               
-                                {{data.Total_CTC}}
-                                 </div>  
-                                 <input type="text" [(ngModel)]="data.Total_CTC" *ngIf="data.isEditable"/>  
-                            </td>
-                            
-                              <td>
-                                  <button class="btn btn-primary" (click)="data.isEditable=!data.isEditable" *ngIf="!data.isEditable"  type="button"><i class="fa fa-pencil"></i></button>
-                                  <button *ngIf="data.isEditable" (click)="data.isEditable=!data.isEditable">Update</button> 
-                              </td>
-                             
-                              <td>
-                                  <button class="btn btn-danger"  type="button" (click)="deleteFieldValue(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                              </td>
-                                      </tr>             
-                  
-          </tbody>
-       
-      </table>
-  </div>      
-
-
-
-
-  
-       <div *ngIf='addEmpTemplate'>
-  
-    <div class="container">
-   
-      <form>
- 
-       <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Employee Id: </label>
-            <input type="text" class="form-control" [(ngModel)]=" Employee_Id" name="empname" required>
-          </div>
-        </div>
-  
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Employee Name:</label>
-            <input type="text" class="form-control" [(ngModel)]="Employee_Name" name="empname">
-          </div>
-         </div>
-      </div> 
-    
-      <div class="row">
-      <div class="col-md-6">
-       <div class="form-group">
-          <label>Employee Benefits:</label>
-          <input type="text"
-                 class="form-control"
-                 [(ngModel)]="empDesg"
-                 name="empname">
-           </div>
-        </div>
-
-        <div class="col-md-6">
-        <div class="form-group">
-          <label>Fixed CTC:</label>
-          <input type="text"
-                 class="form-control"
-                 [(ngModel)]="Fixed_CTC"
-                 name="empname">
-        </div>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-md-6"> 
-        <div class="form-group">
-            <label>CTC:</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="CTC"  
-                   name="empname">
-              </div> 
-          </div>
-    
-          <div class="col-md-6"> 
-          <div class="form-group">
-              <label>Variable CTC:</label>
-              <input type="text"
-                     class="form-control"
-                     [(ngModel)]="Var_CTC"  
-                     name="empname">
-            </div>
-          </div>
-      </div> 
-  
-          <div class="row">
-          <div class="col-md-6"> 
-    
-            <div class="form-group">
-                <label>Total CTC:</label>
-                <input type="text"
-                       class="form-control"
-                       [(ngModel)]="TCTC"
-                       name="empname">
-              </div>
-            </div>
-              <div class="col-md-6"> 
-              <div class="form-group">
-                  <label>Basic:</label>
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="Basic"
-                         name="empname">
-                </div></div>
-           </div>
-    
-      <div class="row">
-         
-              <div class="col-md-6">  
-                <div class="form-group">
-                    <label>HRA:</label>
-                    <input type="text"
-                           class="form-control"
-                           [(ngModel)]="HRA"
-                           name="empname"
-                        >
-                  </div></div>
-                  <div class="col-md-6">  
-                  <div class="form-group">
-                      <label>PF:</label>
-                      <input type="text"
-                             class="form-control"
-                             [(ngModel)]="PF"
-                             name="empname"
-                             >
-                    </div></div>
-         </div>
-    
-      <div class="row">
-         
-          <div class="col-md-6">  
-                    <div class="form-group">
-                        <label>Ojas PF:</label>
-                        <input type="text"
-                               class="form-control"
-                               [(ngModel)]="Ojas_PF"
-                               name="empname">
-                      </div>
-                    </div>
-                      <div class="col-md-6"> 
-                      <div class="form-group">
-                          <label>Ojas FC:</label>
-                          <input type="text"
-                                 class="form-control"
-                                 [(ngModel)]="Ojas_FC"
-                        
-                                 name="empname">
-                        </div></div>
-            </div>
-        <div class="row">
-         
-                 <div class="col-md-6">  
-                        <div class="form-group">
-                            <label>Food Coupons:</label>
-                            <input type="text"
-                                   class="form-control"
-                                   [(ngModel)]="Food_Coupons"
-                                   name="empname"
-                                   >
-                          </div></div>
-                          <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Special Allowance:</label>
-                              <input type="text"
-                                     class="form-control"
-                                     [(ngModel)]="Special_Allowance"
-                                     name="empname"
-                                     >
-                            </div></div>
-                    </div>    
-             <div class="row">
-         
-                       <div class="col-md-6">  
-                            <div class="form-group">
-                                <label>Plan Id:</label>
-                                <input type="text"
-                                       class="form-control"
-                                       [(ngModel)]="Plan_Id"
-                                       name="empname"
-                                       >
-                              </div></div>
-    
-                        <div class="col-md-6">          
-                              <div class="form-group">
-                                  <label>Project Allowance:</label>
-                                  <input type="text"
-                                         class="form-control"
-                                         [(ngModel)]="Project_Allowance"
-                                         name="empname"
-                                         >
-                                </div></div>
-                   </div>
-                     <div class="row">
-         
-                         <div class="col-md-6">         
-                                <div class="form-group">
-                                    <label>Location Allowance:</label>
-                                    <input type="text"
-                                           class="form-control"
-                                           [(ngModel)]="Loc_Allowance"
-                                           name="empname"
-                                           >
-                                  </div>
-                                  <button class="btn btn-primary col-md-3" routerLink="/employeedetails" (click)="cancel();">Back</button>
-                                </div>
-                                   
-                                  
-                                
-                        
-                               
-                           <div class="col-md-6">
-   
-                                 <div class="form-group">
-                                     <label>Check:</label>
-                                     <input type="text"
-                                            class="form-control"
-                                            [(ngModel)]="Check"
-                       
-                                          
-                                            name="empname"
-                                            >
-                                   </div>
-                                  <button class="btn btn-primary col-md-3" style="margin-left: 50px;">Reset</button>
-                                  <button class="btn btn-success col-md-3" style="margin-left: 10px;" routerLink="/save" (click)="savedata();">Save</button>
-                                  </div>
-                                  
-                     </div>
-   
-                  
-                   </form>
-     </div>
- 
- 
-   -->
-
-   <div class="app-title">
+<!-- empbasic starts-->
+<div class="app-title">
     <div>
       <h1><i class="fa fa-th-list"></i> Employee List</h1>
     </div>
       <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item">Masters</li>
-          <li class="breadcrumb-item active"><a href="#">Dashboard</a></li>
+          <!-- <li class="breadcrumb-item">Emplo</li> -->
+          <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
         </ul>
   </div>
-      <!-- <div class="row m-2">
-      <div class="col-md-10 pad" style="margin-bottom: 25px;">
-        <form class="form-inline ">
-          <div class="input-group ">
-            <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
-            <div class="input-group-btn">
-              <h1></h1>
-            </div>
+<div class="tab-pane fade show active" id="nav-empbasic" role="tabpanel" aria-labelledby="nav-empbasic-tab">
+  <br>
+  <div class="row">
+    <div class="col-md-11" style="margin-bottom: 25px;">
+      <form class="form-inline ">
+        <div class="input-group ">
+          <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
+          <div class="input-group-btn">
+            <h1></h1>
           </div>
-        </form>
-      </div> 
-      <div class="col-md-1 pad  ml-2" style="margin-bottom: 25px;">
-      <div class="input-group ">
-          <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
         </div>
+      </form>
+    </div>
+    <div class="col-md-1 " style="padding-left:40px">
+      <div class="input-group add">
+        <button type="button" (click)="addempUnit(newUserForminfo)"class="btn btn-primary" data-toggle="modal" data-target="#myModal11">
+          Add
+        </button>
       </div>
-      </div> -->
+    </div>
+  </div>
 
 
 
-      <div class="row">
-          <form class="form-inline ">
-              <div class="input-group ">
-                <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
-                <div class="input-group-btn">
-                  <h1></h1>
-                </div>
-              </div>
-            </form>
-        <div class="add">
-            <div class="input-group ">
-                <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
-              </div>
-        </div>
-        </div>
-
-
-
-        <div class="row top">
-            <table class="table table-condensed  tile">
-              <thead class="two">
-                    <tr>
-                      <th>Emp Id</th>
-                      <th  [class.active]="order === 'userList'"
-                      (click)="setOrder('userList')"
-                      class="mdl-data-table__cell--non-numeric">
-                      <span class="state">
-                          Emp name                                      
-                    </span>
-                  </th>
-                      <th>Last Name</th>
-                      <th>DOB</th>
-                      <th>Gender</th>
-                      <th>Status</th>
-                      <th>Edit</th>
-                    </tr>
-                    <tr>
-                    <td>101</td>
-                    <td>Malli karjun</td>
-                     <td>Tekkali</td>
-                    <td>21-04-1997</td>
-                    <td>Male</td>
-                    <td>1021</td>
-                    <td><img src="assets/pe.png" width = "30" (click)= "employee_edit()"></td>
-                  </tr>
-                  <tr>
-                    <td>102</td>
-                    <td>Ankammarao</td>
-                    <td>Bojja</td>
-                    <td>21-04-1993</td>
-                    <td>Male</td>
-                    <td>1022</td>
-                    <td><img src="assets/pe.png" width = "30" (click)= "edit_emp()"></td>
-                  </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of userlistarray | orderBy: order:reverse:'case-insensitive' | filter:key  | paginate: { itemsPerPage: 5, currentPage: p }; let i=index  ">
-                        <td>
-                          <div *ngIf="!user.isEditable">
-                          {{user.idList}}
-                        </div>
-                        <input  class="form-control" type="text" [(ngModel)]="user.idList" *ngIf="user.isEditable"/>
-                        </td>
-                        <td >
-                        <div *ngIf="!user.isEditable">
-                          {{user.userList}}
-                          </div>
-                          <input class="form-control" type="text" [(ngModel)]="user.userList" *ngIf="user.isEditable"/>
-                        
-                        </td>
-                        <td>
-                        <div *ngIf="!user.isEditable">
-                          {{user.roleList}}
-                        </div>
-                        <input class="form-control" type="text" [(ngModel)]="user.roleList" *ngIf="user.isEditable"/>
-                        </td>
-                        <td>
-                        <div *ngIf="!user.isEditable">
-                          {{user.emailList}}
-                        </div>
-                        <input class="form-control" type="text" [(ngModel)]="user.emailList" *ngIf="user.isEditable"/>
-                        </td>
-                        <td>
-                        <div *ngIf="!user.isEditable">
-                          {{user.mobileList}}
-                        </div>
-                        <input class="form-control" type="text" [(ngModel)]="user.mobileList" *ngIf="user.isEditable"/>
-                        </td>
-                        
-                      
-                      <td>
-                          <!-- <button class="btn btn-primary" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable">Edit</button> -->
-                          <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="user.isEditable" (click)="user.isEditable=!user.isEditable">Save</button>
-                          <img src="assets/pe.png" width="30px" (click)="employee_edit(user.id)" *ngIf="!user.isEditable">
-                          </td>
-                         <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)"/></td>
-                        </tr>
-                        <tr>
-                            <!-- <td><input id="idlist" name="idlist" [(ngModel)]="idlist" *ngIf="value" type="text" class="form-control" placeholder="Emp Id" required ></td> -->
-                            <td><input id="userlist" name="userlist" [(ngModel)]="userlist" *ngIf="value" type="text" class="form-control" placeholder="Emp name" required ></td>
-                            <td><input id="rolelist" name="rolelist" [(ngModel)]="rolelist" *ngIf="value" type="text" class="form-control" placeholder="Last name" required ></td>
-                            <td><input id="emaillist" name="emaillist" [(ngModel)]="emaillist" *ngIf="value" type="text" class="form-control" placeholder="Dob" required ></td>
-                            <td><input id="mobilelist" name="mobilelist" [(ngModel)]="mobilelist" *ngIf="value" type="text" class="form-control" placeholder="Gender" required ></td>
-                            <td><input id="mobilelist" name="mobilelist" [(ngModel)]="mobilelist" *ngIf="value" type="text" class="form-control" placeholder="Status" required ></td>
-                            <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=saveButton()>Save</button></td>
-                             <td><button type="submit" class="btn btn-default " *ngIf="value" (click)=canceluserlist()>Cancel</button></td>
+  <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+    <table class="table table-condensed  tile">
+      <thead class="two">
+            <tr>  
+              <th>Employee Id </th>      
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Status</th>
+              <th>DOB</th>
+              <th>Gender</th>
                              
-                        </tr>
-                        </tbody>
-              </table>
-
-
-
+          
+            
+              <th>More Info</th>
+              <!-- <th>Delete</th> -->
+            </tr> 
+            </thead>
+            <tr *ngFor="let empbasic of empbasicinfo  |  filter:key | paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index">
+              <td>{{empbasic.employeeId}} </td>
+                <td>{{empbasic.firstname}} </td>
+                <td>{{empbasic.middlename}} </td>
+                <td>{{empbasic.lastname}}</td>
+                <td>{{empbasic.status}}</td>
+                <td>{{empbasic.dob}}</td>
+                <td>{{empbasic.gender}} </td>
               
+                
+            
+                
+              <td><img src="/assets/pe.png" width="35px"  [routerLink]="['/employeeedit',empbasic.employeeId]"></td>
+              <!-- <td><img src="/assets/delete.png" width="25px"(click)="deleteemp(empbasic)"></td> -->
               
-          </div>
+            </tr>
+            </table>
+   
+
+  </div>
+   <pagination-controls  class="pull-right" (pageChange)="p = $event"></pagination-controls>
+   <div class="row">
+      <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
       
-  <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+          
+         <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="15">15</option>
+            <option [ngValue]="20">20</option>
+        </select>
+       
+         </div>
+          <!-- private pageSize: number = 5; -->
+  
 
+   
+  <div class="container demo">
+
+
+    <!-- Modal -->
+    <div class="modal right fade" id="myModal11" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h3> Employee Info</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newUserForminfo.reset()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+
+          <div class="modal-body">
+              <form class="tile" #newUserForminfo="ngForm" (ngSubmit)="onSubmit1(newUserForm)" autocomplete="on">
+                  
+
+                  <div class="row">
+                      <div class="col-md-4" *ngIf="!isUpdate">
+                          <label>EmpId:</label>
+                          <span><b>{{a}}</b></span>
+                          <!-- <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required placeholder="Enter EmployeeId" #eid="ngModel">
+                          <span style="color:red" *ngIf="eid.invalid && eid.touched ">
+    
+                            <span *ngIf="email.errors.required">
+    
+                              EmployeeId is required.
+                            </span>
+    
+                          </span> -->
+                        </div>
+                        <div class="col-md-4" *ngIf="isUpdate">
+                          <label>EmployeeId <span class="starColor"> *</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required placeholder="Enter EmployeeId" #eid="ngModel">
+                          <span style="color:red" *ngIf="eid.invalid && eid.touched ">
+    
+                            <span *ngIf="email.errors.required">
+    
+                              EmployeeId is required.
+                            </span>
+    
+                          </span>
+                        </div>
+                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label>First Name<span class="starColor"> *</span> </label>
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required placeholder="First Name" #first="ngModel">
+                        <span style="color:red" *ngIf="first.invalid && first.touched ">
+                          <span *ngIf="first.errors.required">
+                            Firstname is required
+                          </span>
+                        </span>
+                      </div>
+
+                    </div> 
+
+                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label> Middle Name </label>
+                        <input type="text" class="form-control" [(ngModel)]="empinobj.middlename" name="emp2" required placeholder="Middle Name">
+
+                        <!-- <span style="color:red" *ngIf="middle.invalid && middle.touched ">
+
+                          <span *ngIf="middle.errors.required">
+
+                            Middle Name is required.
+                          </span>
+
+                        </span> -->
+                      </div>
+
+                    </div> 
+
+                  </div>
+
+                  <div class="row">
+                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label> Last Name<span class="starColor"> *</span> </label>
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required placeholder="Last Name" #last="ngModel">
+
+                        <span style="color:red" *ngIf="last.invalid && last.touched ">
+
+                          <span *ngIf="last.errors.required">
+
+                            Last Name is required.
+                          </span>
+
+                        </span>
+                      </div>
+
+                    </div>
+                   
+                     <div class="col-md-4">
+                      <div class="form-group">
+                        <label> DOB<span class="starColor"> *</span> </label>
+                        <input class="form-control" type="date" [(ngModel)]="empinobj.dob" name="empname" required placeholder="DD/MM/YYYY"  #empdate="ngModel" >  
+                       
+
+                        <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
+
+                          <span *ngIf="empdate.errors.required">
+
+                            Date is required.
+                          </span>
+
+                        </span>
+                      </div>
+                    </div> 
+                    <!-- [min]="minDate" [max]="maxDate" -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                            <label>Status<span class="starColor"> *</span></label>
+                            <select class="form-control" [(ngModel)]="empinobj.status" (change)="selectOption($event.target.value)"  #status1="ngModel" name="emp02" 
+                            required >
+                          
+                           
+                            <option *ngFor="let estatus of employee_statuslist" [value]="estatus.id">{{ estatus.status }}</option>
+                      
+                            </select>
+                            <span style="color:red" *ngIf="status1.invalid && status1.touched ">
+                            <span *ngIf="status1.errors.required">
+                                Status is mandatory.
+                            </span> 
+                            </span>
+                            </div>
+  
+                  </div>
+                   </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                      <div class="form-group">
+                          <label>Gender<span class="starColor"> *</span></label>
+                          <select class="form-control" [(ngModel)]="empinobj.gender"  (change)="selectOption($event.target.value)"  name="emp03" 
+                          required
+                          #Dropdown="ngModel">
+                      
+                       
+                          <option *ngFor="let egender of empgenderinfo"  [value]="egender.id">{{ egender.gender }}</option>
+                      
+                          </select>
+                          <span style="color:red" *ngIf="Dropdown.invalid && Dropdown.touched ">
+                          <span *ngIf="Dropdown.errors.required">
+                              Gender is mandatory.
+                          </span> 
+                          </span>
+                        </div>
+
+                        </div>
+                        <div class="col-md-4">
+                    
+                          <div class="form-group">
+                            <label>Title<span class="starColor"> *</span></label>
+                            <select class="form-control" [(ngModel)]="empinobj.title" (change)="selectOption($event.target.value)" placeholder="Select SBU" name="Title" 
+                            required placeholder="Qualification"
+                            #title="ngModel">
+                          
+                            <option *ngFor="let etitle of roleManagemenList" [value]="etitle.id">{{ etitle.roleName }}</option>
+                            </select>
+                            <span style="color:red" *ngIf="title.invalid && title.touched ">
+                            <span *ngIf="title.errors.required">
+                                Title is mandatory.
+                            </span> 
+                            </span>
+                            </div>
+  
+                  </div>
+                     
+                  </div>
+                  <button class="btn btn-primary  float-right margin"  *ngIf="!isUpdate" (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close">Save</button>
+                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close"  *ngIf="isUpdate" (click)="updateempinfo()">
+                    Update
+                            </button>
+
+                  <button class="btn btn-primary  float-right" (click)="newUserForminfo.reset()">Clear</button>
+                  <br/><br/>
+                  <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>Back</button> -->
+                  <!-- <button class="btn btn-primary" data-dismiss="modal">
+                    <span aria-hidden="true"></span>Back</button> -->
+                </form>
+
+           
+
+
+          </div>
+
+        </div>
+        <!-- modal-content -->
+      </div>
+      <!-- modal-dialog -->
+    </div>
+    <!-- modal -->
+
+
+  </div>
+  <!-- container -->
+  
+</div>
+<!-- empbasic ends-->
+<!-- 
+
+var enteredValue = $get('empinobj.dob');;
+var enteredAge = getAge(enteredValue.value);
+if( enteredAge > 18 ) {
+    alert("DOB not valid");
+    enteredValue.focus();
+    return false;
+}
+
+function getAge(DOB) {
+    var today = new Date();
+    var birthDate = new Date(DOB);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }    
+    return age;
+} -->

@@ -4,7 +4,8 @@
   </div>
   <ul class="app-breadcrumb breadcrumb">
     <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item">Masters</li>
+    <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
   </ul>
 </div>
 <div class="row">
@@ -13,20 +14,21 @@
       <div class="input-group ">
         <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search">
 
-      </div>
+      </div>&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="input-group  ">
+          <button type="submit" (click)="value=!value;employee_status_data='';" class="btn btn-primary">Add</button>
+    
+        </div>
     </form>
 
   </div>
   <div class="col-md-1 leftForm">
-    <div class="input-group  ">
-      <button type="submit" (click)="value=!value" class="btn btn-primary">add</button>
-
-    </div>
+   
   </div>
 </div>
 
 <div class="row">
-  <table class="table table-condensed tile">
+  <table class="table table-condensed tile" style="width:60%;">
 
 
     <tr>
@@ -34,35 +36,37 @@
         Employee Status
       </th>
 
-      <th>Edit</th>
+      <!-- <th>Edit</th> -->
       <!-- <th>Delete</th> -->
     </tr>
 
     <tbody>
       <tr
-        *ngFor="let employee of employee_statuslist |filter:key| paginate: { itemsPerPage: 5, currentPage: p } | orderBy: order:reverse:'case-insensitive'| filter:searchText; let i=index ">
+        *ngFor="let employee of employee_statuslist |filter:key| paginate: { itemsPerPage: pageSize, currentPage: p } 
+        | orderBy: order:reverse| filter:searchText; let i=index ">
         <td>
           <div *ngIf="!employee.isEditable">
             {{employee.status}}
           </div>
-          <input type="text" [(ngModel)]="employee.status" *ngIf="employee.isEditable" />
+          <input type="text" [(ngModel)]="employee.status" class="form-control" *ngIf="employee.isEditable" />
         </td>
 
-        <td>
+        <!-- <td>
 
           <button class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="employee.isEditable"
-            (click)="employee.isEditable=!employee.isEditable;updateEmployeeStatusData(employee)">Save</button>
+            (click)="employee.isEditable=!employee.isEditable;updateEmployeeStatusData(employee)">Update</button>
           <img src="/assets/pe.png" width="35px" (click)='employee.isEditable =!employee.isEditable'
-            *ngIf="!employee.isEditable">
-        </td>
+            *ngIf="!employee.isEditable"> 
+            Active
+        </td> -->
         <!-- <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)" /></td> -->
       </tr>
       <tr>
         <td><input id="employee_status_data" name="employee_status_data" [(ngModel)]="employee_status_data" *ngIf="value" type="text"
-            class="form-control" placeholder="Enter EmployeeStatus" required></td>
+            class="form-control" placeholder="Enter Employee Status" required></td>
 
         <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setEmployeeStatusData()>Save</button></td>
-        <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=cancelbulist()>Cancel</button></td>
+       <td><button type="submit" class="btn btn-default " *ngIf="value" (click)=cancelbulist()>Cancel</button></td>
 
       </tr>
 
@@ -72,6 +76,21 @@
 </div>
 
 <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls> 
+<div class="row">
+    <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
+    
+        
+       <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="15">15</option>
+          <option [ngValue]="20">20</option>
+      </select>
+     
+       </div>
+        <!-- private pageSize: number = 5; -->
+
+
 
 
 

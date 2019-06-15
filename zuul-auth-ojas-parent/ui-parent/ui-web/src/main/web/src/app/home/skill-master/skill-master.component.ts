@@ -37,10 +37,12 @@ value:boolean;
 
 masterList:any;
 id:any;
+private pageSize: number = 5;
 
 //method save skillInfo
-setSkillInfo(){
-
+setSkillInfo()
+{
+  
 var reqData={
   "listOfSkill" : [{
           "skill_id" : this.skill_id,
@@ -49,18 +51,26 @@ var reqData={
   }],
   "transactionType" : "save"
 }
-this.hrms.setSkillMaster(reqData).subscribe(responce=>{
+this.hrms.setSkillMaster(reqData).subscribe((responce:any)=>{
   this.skillReq = responce;
   console.log(this.skillReq);
-  if(this.skillReq.statusMessage == "Successfully record added"){
-    //this.value = false;
-    swal(this.skillReq.statusMessage, "","success");
+  if(this.skillReq.message == "Successfully record added")
+  {
+  
+    swal(this.skillReq.message, "","success");
     this.getSkillInfo();
   }
+},
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+
   this.SkillArr = this.skillReq.listOfSkill;
   this.getSkillInfo();
  
 });
+this.skill_id="",
+this.skill_name="",
 this.value=false;
 
 }
@@ -97,13 +107,18 @@ skillUpdatemaster(skilltable){
 }
 
 
-  this.hrms.updateSkillMaster(updateRequestData).subscribe(res =>{
+  this.hrms.updateSkillMaster(updateRequestData).subscribe((res:any) =>{
     this.masterList = res;
     console.log(this.masterList);
-     if(this.masterList.statusMessage == "Successfully record updated"){
-       swal(this.masterList.statusMessage, "","success");
+     if(this.masterList.message == "Successfully record updated"){
+       swal(this.masterList.message, "","success");
        this.getSkillInfo();
      }
+    },
+    error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getSkillInfo();
   })
   }
 

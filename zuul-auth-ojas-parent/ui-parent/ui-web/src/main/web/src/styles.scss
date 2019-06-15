@@ -6395,7 +6395,8 @@ button.close {
 }
 
 .bg-primary {
-  background-color: #009688 !important;
+  background-color: #26bfaf  !important;
+  padding: 0px;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -15263,7 +15264,9 @@ be a descendant of the grid when it is being dragged.
 .table-dark{
   background: #0d3a67;
 }
-
+.marginLeft{
+  margin-left: 700px;
+}
 // .table
 // {
 //     position: relative;

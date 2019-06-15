@@ -5,6 +5,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // import { Http2Server } from 'http2';
 import { HrmsService } from '../services/hrms.service';
 import swal from 'sweetalert';
+//import Swal from 'sweetalert2'
 @Component({
   selector: 'app-passportcenter',
   templateUrl: './passportcenter.component.html',
@@ -18,6 +19,7 @@ export class PassportcenterComponent implements OnInit {
   passportCenterDetails: any;
   passportCenterReq: any;
   value: boolean;
+  private pageSize: number = 5;
 //   public data1=[];
 //   public show:boolean = false;
 //   public buttonName:any = 'Show';
@@ -130,7 +132,10 @@ export class PassportcenterComponent implements OnInit {
 //     }
 
 passportrequset:any;
-setPassportCenter(){
+setPassportCenter()
+
+{
+  
   var requestData =
 {
   "passportList":[{
@@ -145,20 +150,28 @@ setPassportCenter(){
 }
 this.hrms.setPassportCeneter(requestData).subscribe(response =>{
 this.passportCenterReq = response;
-this.passportrequset= this.passportCenterReq.body;
+this.passportrequset= this.passportCenterReq;
 
 console.log(this.passportCenterReq);
 
-if(this.passportrequset.statusMessage == "PassportCenter has saved successfully"){
-  //this.value = false;
-  swal(this.passportrequset.statusMessage,"","success");
-  //this.roleArr = this.setRoleDetails.roleManagementList;
+if(this.passportrequset.message == "PassportCenter has been saved successfully")
+{
+  swal(this.passportrequset.message,"","success");
+ 
   this.getPassportCenter();
 }
+},
+
+error => 
+  {
+  swal("Duplicates are not allowed","","error");
+
 this.getPassportCenter();
 })
+this.centerName="",
 this.value=false;
 }
+
 getPassportCenter() {
   var request =  {
     "passportList":[
@@ -171,12 +184,14 @@ getPassportCenter() {
 "sessionId" : "323",
 "transaactionType" : "getall"
 }
-  this.hrms.getPassportCeneter(request).subscribe(res =>{
+  this.hrms.getPassportCeneter(request).subscribe(res =>
+    {
     this.passportCenterDetails = res;
-    this.passportCenterList = this.passportCenterDetails.body.passportList;
+    this.passportCenterList = this.passportCenterDetails.passportList;
     console.log(this.passportCenterDetails);
   })
 }
+
 updatedpassportResData:any;
 saveUpdatedValues(bulist){
   console.log(bulist);
@@ -193,15 +208,22 @@ saveUpdatedValues(bulist){
 "sessionId" : "323",
 "transaactionType" : "update"
 }
-  this.hrms.updatePassportCenter(updateRequestData).subscribe(res =>{
+  this.hrms.updatePassportCenter(updateRequestData).subscribe((res:any) =>{
     this.updatedpassportRes = res;
-    this.updatedpassportResData= this.updatedpassportRes.body;
+    this.updatedpassportResData= this.updatedpassportRes;
     console.log(this.updatedpassportRes);
-    if(this.updatedpassportResData.statusMessage == "PassportCenter has updated successfully"){
-      swal(this.updatedpassportResData.statusMessage , "","success");
+    if(this.updatedpassportResData.message == "PassportCenter has been updated successfully"){
+      swal(this.updatedpassportResData.message , "","success");
       this.getPassportCenter();
     }
+  },
+  error => 
+  {
+    
+  swal("Duplicates are not allowed","","error");
+  this.getPassportCenter();
   })
+  this.value=false
 }
 deletePassport(bulist){
   var deleteRequest = {

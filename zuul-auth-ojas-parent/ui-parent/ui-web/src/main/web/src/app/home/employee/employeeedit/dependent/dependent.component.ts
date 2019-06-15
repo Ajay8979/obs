@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 
 import { HrmsService } from 'src/app/home/services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 @Component({
   selector: 'app-dependent',
@@ -9,12 +10,40 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./dependent.component.scss']
 })
 export class DependentComponent implements OnInit {
+ public eid: any;
+  loggeduser: any;
 
-  constructor(private hrms:HrmsService) { }
+  constructor(private hrms:HrmsService,private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser= localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getdependentData();
+    this.getempdata();
   }
+  
+  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
   
   public dependent_details:any;
   dependents: any;
@@ -42,14 +71,22 @@ addnewdepartment(newUserFormDependent){
 
 getdependentData(){
   var requestData ={
-    "dependentDetails" : [
-                                            {
-                                              
-                                            }
-                   ], 
-                   "transactionType":"getall",
-                  "sessionId" : "any String" 
+    "dependentDetails" : [{
+                                
+          "employee_Id":this.eid
+                  }], 
+                  
+          "transactionType":"getbyid"
   }
+  // {
+  //   "dependentDetails" : [
+  //                                           {
+                                              
+  //                                           }
+  //                  ], 
+  //                  "transactionType":"getall",
+  //                 "sessionId" : "any String" 
+  // }
 
     this.hrms.getdependentdetails(requestData).subscribe(response =>{
       this.dependent_details = response;
@@ -71,9 +108,9 @@ getdependentData(){
                                     "dependent_Name":this.dependentdetailss.dependent_Name,
                                     "relation":this.dependentdetailss.relation,
                                     "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
-                                    "employee_Id":this.dependentdetailss.employee_Id,
+                                    "employee_Id":this.eid,
                                    
-                                     "created_By":user
+                                     "created_By":this.loggeduser
 
                          }
                            ], 
@@ -84,11 +121,11 @@ getdependentData(){
     this.hrms.savedependentdetails(requestData).subscribe(response =>{
    this.dependent_details = response;
        
-       if(this.dependent_details.statusMessage == "DependentDetails have saved successfully"){
-       swal(this.dependent_details.statusMessage, "","success");
+       if(this.dependent_details.message == "DependentDetails have saved successfully"){
+       swal(this.dependent_details.message, "","success");
         this.getdependentData();
       }
-       
+      this.getdependentData();
     })
     
  }
@@ -119,7 +156,7 @@ getdependentData(){
                                   "relation":this.dependentdetailss.relation,
                                   "date_Of_Birth":this.dependentdetailss.date_Of_Birth,
                                   "employee_Id":this.dependentdetailss.employee_Id,
-                                  "updated_By":user
+                                  "updated_By":this.loggeduser
                        }
                        
                       
@@ -131,10 +168,10 @@ getdependentData(){
   this.hrms.updatedependentdetails(updatedependentdataobj).subscribe(res =>{
     this.updateRes = res;
   
-      if(this.updateRes.statusMessage == "DependentDetails are updated successfully"){
-        swal(this.updateRes.statusMessage, "","success");
+      if(this.updateRes.message == "DependentDetails are updated successfully"){
+        swal(this.updateRes.message, "","success");
     
-        
+        this.getdependentData();
         
       }
       this.getdependentData();
@@ -147,7 +184,7 @@ getdependentData(){
     "dependentDetails" : [
                       {
                            "id":dependent.id,
-                           "updated_By":dependent.updated_By
+                           "updated_By":this.loggeduser
                        },
                        
                       
@@ -157,13 +194,13 @@ getdependentData(){
   }
 this.hrms.deletedependentdetails(deletedependentdata).subscribe(res=>{
   this.deleteRes=res;
-  if(this.deleteRes.statusMessage == "DependentDetails are deleted successfully"){
-    swal(this.deleteRes.statusMessage, "","success");
+  if(this.deleteRes.message == "DependentDetails are deleted successfully"){
+    swal(this.deleteRes.message, "","success");
     this.getdependentData();
   }
-
+  //this.getdependentData();
 })
-  
+
  }
 
 

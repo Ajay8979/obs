@@ -27,6 +27,7 @@ export class RoleComponent implements OnInit {
   setRoleDetails: any;
   roleName: any;
   roleArr:any;
+  private pageSize: number = 5;
   // addText:any;
   // key: string = 'name'; //set default
   // reverse: boolean = false;
@@ -94,18 +95,28 @@ setRole(){
     "transactionType" : "save"
     
 }
-this.hrms.setRoleManagement(request).subscribe(res=>{
+this.hrms.setRoleManagement(request).subscribe( (res: any) =>{
   this.setRoleDetails = res;
+  this.roleArr = this.setRoleDetails.roleManagementList;
   console.log(this.setRoleDetails);
-   if(this.setRoleDetails.statusMessage == "Successfully Role Management record saved"){
-     //this.value = false;
-     swal(this.setRoleDetails.statusMessage,"","success");
-     this.roleArr = this.setRoleDetails.roleManagementList;
-     
-   }
-   this.getRole();
-})
-}
+  this.value = false;
+  if(this.setRoleDetails.message == "Successfully Role Management record saved"){
+  swal(this.setRoleDetails.message,"","success");
+  this.getRole();
+  }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  
+  
+  
+  
+  this.roleName="";
+  
+  this.getRole();
+  });
+  }
 getRole(){
   var request = {
         
@@ -129,13 +140,19 @@ saveUpdateValue(field){
     "transactionType" : "update"
     
 }
-this.hrms.updateRoleManagement(request).subscribe(res=>{
+this.hrms.updateRoleManagement(request).subscribe((res:any)=>{
   this.updateRoleDetails = res;
   console.log(this.updateRoleDetails);
-   if(this.updateRoleDetails.statusMessage == "Success fully record updated"){
-     swal(this.updateRoleDetails.statusMessage,"","success");
+   if(this.updateRoleDetails.message == "Success fully record updated"){
+     swal(this.updateRoleDetails.message,"","success");
      this.getRole();
    }
+  },
+  error => 
+  {
+  swal("Duplicates are not allowed","","error");
+  this.getRole();
+  this.value=false
 })
 }
 deleteRole(field) {

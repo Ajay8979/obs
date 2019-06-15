@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
 import { HrmsService } from 'src/app/home/services/hrms.service';
+import { DataService } from 'src/app/home/services';
 
 
 
@@ -10,14 +11,43 @@ import { HrmsService } from 'src/app/home/services/hrms.service';
   styleUrls: ['./certification.component.scss']
 })
 export class CertificationComponent implements OnInit {
+ public eid: any;
+  loggeduser: any;
 
-  constructor(private hrms: HrmsService) { }
+  constructor(private hrms: HrmsService, private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getCertificationDetails();
+    this.  getempdata()
   }
   
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
+
+
 //certtification starts
+
 certificationName:any;
 issuedBy:any;
 dateOfIssue:any;
@@ -50,7 +80,7 @@ setCertificationDetails(){
       "issuedBy":this.Certification.issuedBy,
       "dateOfIssue":this.Certification.dateOfIssue,
       "createdBy":this.Certification.createdBy,
-      "employeeId":this.Certification.employeeId,
+      "employeeId":this.eid,
       "flag":this.Certification.flag
        }
       ],
@@ -64,9 +94,9 @@ setCertificationDetails(){
         this.certificationReq = responce;
         console.log(this.certificationReq );
 
-        if(this.certificationReq.statusMassage =="Employee Certification detail saved successfuly"){
+        if(this.certificationReq.message =="Employee Certification detail saved successfuly"){
 
-          swal(this.certificationReq.statusMassage, "","success");
+          swal(this.certificationReq.message, "","success");
           this.getCertificationDetails();
          }
         this.certificationArr = this.certificationReq.certificationDetailsModel;
@@ -79,17 +109,29 @@ setCertificationDetails(){
     //method for get cerfification details
 getCertificationDetails(){
 
-        var request =  {
-   
-          "certificationDetailsModel":[
-           {
-          
+        var request =  
+        {
+       
+          "certificationDetailsModel":[{
+                         
+          "employeeId" : this.eid
            
            }],
-                
-           "sessionId":"fk21",
-           "transactionType": "get"
+          
+           "transactionType": "getbyid"
           }
+          
+        // {
+   
+        //   "certificationDetailsModel":[
+        //    {
+          
+           
+        //    }],
+                
+        //    "sessionId":"fk21",
+        //    "transactionType": "getall"
+        //   }
         this.hrms.getCertification(request).subscribe(res =>{
        this.certificationDetailslist = res;
        this.cerDetailsList = this.certificationDetailslist.certificationDetailsList;
@@ -117,8 +159,8 @@ getCertificationDetails(){
             this.certificationDetailsListarr = this.deletedcertificationDetails.certificationDetailsList;
             console.log(this.deletedcertificationDetails);
 
-            if(this.deletedcertificationDetails.statusMassage == "Employee Certification detail deleted successfuly"){
-              swal(this.deletedcertificationDetails.statusMassage, "","success");
+            if(this.deletedcertificationDetails.message == "Employee Certification detail deleted successfuly"){
+              swal(this.deletedcertificationDetails.message, "","success");
               this.getCertificationDetails();
             }
            this.getCertificationDetails();
@@ -187,8 +229,8 @@ var updaterequestData= {
 "dateOfIssue":this.Certification.dateOfIssue,
 "id":this.Certification.id,
 "employeeId":this.Certification.employeeId,
-"updatedBy":this.Certification.updatedBy,
-"createdBy":this.Certification.createdBy,
+"updatedBy":this.loggeduser,
+"createdBy":this.loggeduser,
 "flag":this.Certification.flag
  }],
       
@@ -200,11 +242,11 @@ var updaterequestData= {
          this.updateRequest = res;
             
         console.log(this.updateRequest);
-        if(this.updateRequest.statusMassage == "Employee Certification detail updated successfuly"){
-          swal(this.updateRequest.statusMassage, "","success");
+        if(this.updateRequest.message == "Employee Certification detail updated successfuly"){
+          swal(this.updateRequest.message, "","success");
           this.getCertificationDetails();
         }
-             this.getCertificationDetails();
+            //  this.getCertificationDetails();
         })
    
   

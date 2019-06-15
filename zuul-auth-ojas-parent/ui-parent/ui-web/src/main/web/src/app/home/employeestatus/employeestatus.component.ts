@@ -6,7 +6,6 @@ import { HrmsService } from '../services/hrms.service';
 import swal from 'sweetalert';
 
 
-
 // import {Costcenter} from './businessunit.model'
 
 @Component({
@@ -26,6 +25,7 @@ import swal from 'sweetalert';
     isEditable:boolean = false;
     reverse: boolean = false;
     order: string = 'employeeStatus';
+    private pageSize: number = 5;
     
       
       
@@ -89,16 +89,24 @@ import swal from 'sweetalert';
           "transactionType": "save"
       }
       
-    this.hrms.saveEmployeeStatusMaster(request).subscribe(response=>{
+    this.hrms.saveEmployeeStatusMaster(request).subscribe((response:any)=>{
     this.employee_status_response= response;
-    if(this.employee_status_response.status == "Record successfully saved")
+    if(this.employee_status_response.message == "Record successfully saved")
     {
-          swal(this.employee_status_response.status, "","success");
-          
-         }
+          swal(this.employee_status_response.message, "","success");
+          this.getEmployeeStatusData();
+     }
+        },
+        error => 
+        {
+        swal("Duplicates are not allowed","","error");
+        
          this.getEmployeeStatusData();
     
     })
+
+    this.employee_status_data="";
+
     this.value=false;
     }
     
@@ -116,13 +124,17 @@ import swal from 'sweetalert';
         "transactionType": "update"
     }
       
-    this.hrms.updateEmployeeStatusMaster(request).subscribe(response=>{
+    this.hrms.updateEmployeeStatusMaster(request).subscribe((response:any)=>{
     this.employee_status_update= response;
-    if(this.employee_status_update.status == "Record Successfully updated")
+    if(this.employee_status_update.message == "Record Successfully updated")
     {
-          swal(this.employee_status_update.status, "","success");
-          
+          swal(this.employee_status_update.message, "","success");
+          this.getEmployeeStatusData();
          }
+        },
+         error => 
+        {
+        swal("Duplicates are not allowed","","error");
          this.getEmployeeStatusData();
     })
     this.value=false;

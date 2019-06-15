@@ -1,20 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert';
-import { HrmsService } from 'src/app/home/services/hrms.service';
-
+import { HrmsService } from '../../../services/hrms.service';
+import { DataService } from 'src/app/home/services';
 @Component({
   selector: 'app-bank',
   templateUrl: './bank.component.html',
   styleUrls: ['./bank.component.scss']
 })
 export class BankComponent implements OnInit {
-
-  constructor(private hrms:HrmsService) { }
+public eid:any;
+  loggeduser: string;
+  constructor(private hrms:HrmsService,private dataservice:DataService) {
+    this.eid=this.dataservice.paramId;
+    this.loggeduser=localStorage.getItem('UserName');
+   }
 
   ngOnInit() {
     this.getbankdetails();
+    this.getempdata();
   }
-  
+  empbasic:any;
+  empbasicinfo:any;
+  getempdata(){
+
+    var empinfo = 
+   {
+ 
+     "employeeInfo" :[{
+           "employeeId" : this.eid
+ 
+     }],
+     "transactionType" : "getbyid"
+     
+ }
+    this.hrms.getempinfo(empinfo).subscribe(res =>{
+   this.empbasic =res;
+   this.empbasicinfo= this.empbasic.employeeInfo;
+    console.log(this.empbasicinfo);
+    })
+   }
   deleteRes:any;
   employee_bankdetails:any;
   bankdt: any;
@@ -56,11 +80,23 @@ public bankdetailss ={
 
 
  getbankdetails(){
- var bankdetails={
-  "bankDetails":[],
-"transactionType":"getall"
-
+ var bankdetails=
+ {
+  "bankDetails":[{
+                  
+          "employee_id" :this.eid
+         
+  }
+  ],
+  "transactionType":"getall"
 }
+//  {
+//   "bankDetails":[
+    
+//   ],
+// "transactionType":"getall"
+
+// }
 this.hrms.getbankserverdetails(bankdetails).subscribe(response =>{
   this.employee_bankdetails = response;
   this.bankdt = this.employee_bankdetails.listBankDetails;
@@ -101,7 +137,7 @@ AddBank(newUserFormBank){
 
 
 Onsavebank(){
-  var user  ="user";
+  
   
     var savebank = 
   
@@ -113,9 +149,9 @@ Onsavebank(){
               "bank_branch"    :this.bankdetailss.bank_branch,
               "bank_ifsc_code":this.bankdetailss.bank_ifsc_code,
               "bank_account_status":this.bankdetailss.bank_account_status,
-              "employee_id":this.bankdetailss.employee_id,
+              "employee_id":this.eid,
               "is_active"  :this.bankdetailss.is_active,
-              "created_by":user
+              "created_by":this.loggeduser
               }
      
       ],
@@ -126,10 +162,11 @@ Onsavebank(){
           console.log(this.employee_bankdetails);
 
          this.getbankdetails();
-         if(this.employee_bankdetails.statusMessage == "BankDetails record is saved Successfully"){
-          swal(this.employee_bankdetails.statusMessage, "","success");
-          this.getbankdetails();
+         if(this.employee_bankdetails.message == "BankDetails record is saved Successfully"){
+          swal(this.employee_bankdetails.message, "","success");
+          
         }
+        this.getbankdetails();
      })
 }
 deletebanktddetails(bank){
@@ -143,26 +180,27 @@ deletebanktddetails(bank){
 }
 this.hrms.savebankdetails(delebank).subscribe(res=>{
   this.deleteRes=res;
-  if(this.deleteRes.statusMessage == "BankDetails record is deleted Successfully"){
-   swal(this.deleteRes.statusMessage, "","success");
-    this.getbankdetails();
+  if(this.deleteRes.message == "BankDetails record is deleted Successfully"){
+   swal(this.deleteRes.message, "","success");
+    //this.getbankdetails();
   }
-
+  this.getbankdetails();
 })
 }
 updatebankdetails(){
   var user="user";
   var updatebankdetails= {
     "bankDetails":[{
+            "id"                 :this.bankdetailss.id,
             "bank_account_no"    :this.bankdetailss.bank_account_no,
             "bank_name"          :this.bankdetailss.bank_name,
             "bank_city"          :this.bankdetailss.bank_city,
             "bank_branch"        :this.bankdetailss.bank_branch,
-            "bank_ifsc_code":this.bankdetailss.bank_ifsc_code,
+            "bank_ifsc_code"     :this.bankdetailss.bank_ifsc_code,
             "bank_account_status":this.bankdetailss.bank_account_status,
             "employee_id"        :this.bankdetailss.employee_id,
             "is_active"          :this.bankdetailss.is_active,
-            "created_by":user
+            "created_by": this.loggeduser
             
    
     }
@@ -173,10 +211,11 @@ updatebankdetails(){
 this.hrms.updatebankdetails(updatebankdetails).subscribe(res =>{
   this.updateRes = res;
   console.log(this.updateRes);
-    if(this.updateRes.statusMessage == "BankDetails record is updated Successfully"){
-      swal(this.updateRes.statusMessage, "","success");
+    if(this.updateRes.message == "BankDetails record is updated Successfully"){
+      swal(this.updateRes.message, "","success");
       this.getbankdetails();
     }
+    this.getbankdetails();
 })
 
 }

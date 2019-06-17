@@ -1,1 +1,1 @@
-added index.ts
+export * from './data.service';

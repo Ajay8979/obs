@@ -6,53 +6,35 @@ import com.ojas.obs.model.States;
 
 public class StatesResponse{
 	private List<States> statesList;
-	private String statusMessage;
+	private String message;
 	private String  statusCode;
-	private int totalCount;
-
 	public List<States> getStatesList() {
 		return statesList;
 	}
-
-	public String getStatusCode() {
-		return statusCode;
-	}
-
 	public void setStatesList(List<States> statesList) {
 		this.statesList = statesList;
 	}
-
-	public String getStatusMessage() {
-		return statusMessage;
+	public String getMessage() {
+		return message;
 	}
-
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
-	public int getTotalCount() {
-		return totalCount;
+	public String getStatusCode() {
+		return statusCode;
 	}
-
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((statesList == null) ? 0 : statesList.hashCode());
-		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
-		result = prime * result + totalCount;
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -62,20 +44,23 @@ public class StatesResponse{
 		if (getClass() != obj.getClass())
 			return false;
 		StatesResponse other = (StatesResponse) obj;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
 		if (statesList == null) {
 			if (other.statesList != null)
 				return false;
-		} 
-		else if (!statesList.equals(other.statesList))
+		} else if (!statesList.equals(other.statesList))
 			return false;
-		if (statusMessage == null) {
-			if (other.statusMessage != null)
+		if (statusCode == null) {
+			if (other.statusCode != null)
 				return false;
-		}
-		else if (!statusMessage.equals(other.statusMessage))
-			return false;
-		if (totalCount != other.totalCount)
+		} else if (!statusCode.equals(other.statusCode))
 			return false;
 		return true;
 	}
+	
+
 }

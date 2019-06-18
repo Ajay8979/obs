@@ -12,9 +12,6 @@ import com.ojas.obs.model.BankDetails;
 public class BankDetailsRequest {
 
 	private List<BankDetails> bankDetails;
-	private int pageNo;
-	private int pageSize;
-	private int totalCount;
 	private String transactionType;
 
 	public List<BankDetails> getBankDetails() {
@@ -23,30 +20,6 @@ public class BankDetailsRequest {
 
 	public void setBankDetails(List<BankDetails> bankDetails) {
 		this.bankDetails = bankDetails;
-	}
-
-	public int getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
 	}
 
 	public String getTransactionType() {
@@ -59,8 +32,7 @@ public class BankDetailsRequest {
 
 	@Override
 	public String toString() {
-		return "BankDetailsRequest [bankDetails=" + bankDetails + ", pageNo=" + pageNo + ", pageSize=" + pageSize
-				+ ", totalCount=" + totalCount + ", transactionType=" + transactionType + "]";
+		return "BankDetailsRequest [bankDetails=" + bankDetails + ", transactionType=" + transactionType + "]";
 	}
 
 	@Override
@@ -68,9 +40,6 @@ public class BankDetailsRequest {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bankDetails == null) ? 0 : bankDetails.hashCode());
-		result = prime * result + pageNo;
-		result = prime * result + pageSize;
-		result = prime * result + totalCount;
 		result = prime * result + ((transactionType == null) ? 0 : transactionType.hashCode());
 		return result;
 	}
@@ -89,12 +58,6 @@ public class BankDetailsRequest {
 				return false;
 		} else if (!bankDetails.equals(other.bankDetails))
 			return false;
-		if (pageNo != other.pageNo)
-			return false;
-		if (pageSize != other.pageSize)
-			return false;
-		if (totalCount != other.totalCount)
-			return false;
 		if (transactionType == null) {
 			if (other.transactionType != null)
 				return false;
@@ -103,5 +66,4 @@ public class BankDetailsRequest {
 		return true;
 	}
 
-	
 }

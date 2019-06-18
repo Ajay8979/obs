@@ -5,21 +5,12 @@ import java.util.List;
 public class CostCenterRequest {
 
 	private List<CostCenter> costCenter;
-	private String sessionId;
 	private String transactionType;
-	private int pageNo;
-	private int pageSize;
 	public List<CostCenter> getCostCenter() {
 		return costCenter;
 	}
 	public void setCostCenter(List<CostCenter> costCenter) {
 		this.costCenter = costCenter;
-	}
-	public String getSessionId() {
-		return sessionId;
-	}
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
 	}
 	public String getTransactionType() {
 		return transactionType;
@@ -27,23 +18,42 @@ public class CostCenterRequest {
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
-	public int getPageNo() {
-		return pageNo;
+	
+	@Override
+	public String toString() {
+		return "CostCenterRequest [costCenter=" + costCenter + ", transactionType=" + transactionType + "]";
 	}
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((costCenter == null) ? 0 : costCenter.hashCode());
+		result = prime * result + ((transactionType == null) ? 0 : transactionType.hashCode());
+		return result;
 	}
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CostCenterRequest other = (CostCenterRequest) obj;
+		if (costCenter == null) {
+			if (other.costCenter != null)
+				return false;
+		} else if (!costCenter.equals(other.costCenter))
+			return false;
+		if (transactionType == null) {
+			if (other.transactionType != null)
+				return false;
+		} else if (!transactionType.equals(other.transactionType))
+			return false;
+		return true;
 	}
 	
-	public CostCenterRequest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 	
 	
 }

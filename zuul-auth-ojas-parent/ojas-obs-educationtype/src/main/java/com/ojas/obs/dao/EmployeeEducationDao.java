@@ -24,6 +24,8 @@ public interface EmployeeEducationDao {
 	
 	List<EmployeeEducation> getAllEmployeeEducation(EmployeeEducationRequest employeeEducationRequest) throws SQLException;
 	
+	//List<EmployeeEducation> getById(EmployeeEducationRequest employeeEducationRequest) throws SQLException;
+	
 	int getAllRecordsCount() throws SQLException;
 	
 

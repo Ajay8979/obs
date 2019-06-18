@@ -11,5 +11,6 @@ public interface SubBusinessUnitDao {
 	boolean saveSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest)throws SQLException;
 	boolean updateSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest)throws SQLException;
 	List<SubBusinessUnit> getAllSubBusinessUnitDetails()throws SQLException;
+	//List<SubBusinessUnit> getAllBusinessUnitDetails()throws SQLException;
 	List<SubBusinessUnit> getByIdSubBusinessUnitDetails(Integer id)throws SQLException;
 }

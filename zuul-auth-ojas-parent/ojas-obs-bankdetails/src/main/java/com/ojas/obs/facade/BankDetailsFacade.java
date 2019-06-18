@@ -2,10 +2,11 @@ package com.ojas.obs.facade;
 
 import static com.ojas.obs.constants.UserConstants.DELETE;
 import static com.ojas.obs.constants.UserConstants.FAILED;
-import static com.ojas.obs.constants.UserConstants.SAVE;
-import static com.ojas.obs.constants.UserConstants.UPDATE;
-import static com.ojas.obs.constants.UserConstants.SUCCESS;
 import static com.ojas.obs.constants.UserConstants.NORECORDS;
+import static com.ojas.obs.constants.UserConstants.SAVE;
+import static com.ojas.obs.constants.UserConstants.SUCCESS;
+import static com.ojas.obs.constants.UserConstants.UPDATE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,55 +43,57 @@ public class BankDetailsFacade {
 	 */
 	public ResponseEntity<Object> setBankDetails(BankDetailsRequest bankDetailsRequest) {
 		// ResponseEntity<Object> responseEntity = null;
-		BankDetailsResponse bankDetailsResponse = null;
+
 		logger.debug("incomming request in facade " + bankDetailsRequest);
 		try {
 			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				logger.debug("Transactiontype is  " + SAVE);
-				bankDetailsResponse = new BankDetailsResponse();
+				BankDetailsResponse bankDetailsResponse = new BankDetailsResponse();
 				boolean saveBank = bankDetailsDAO.saveEmployeeBankDetails(bankDetailsRequest);
 
 				if (saveBank) {
 					logger.debug("object stored in db " + saveBank);
-					int bankDetailsCount = bankDetailsDAO.getAllEmployeeBankDetailsCount();
-					bankDetailsResponse.setTotalCount(bankDetailsCount);
-					bankDetailsResponse.setStatusMessage("BankDetails record is saved Successfully");
+					bankDetailsResponse.setMessage("BankDetails record is saved Successfully");
+					bankDetailsResponse.setSatusCode("200");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
 				}
 			}
 			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				logger.debug("Transactiontype is  " + UPDATE);
-				bankDetailsResponse = new BankDetailsResponse();
+				BankDetailsResponse bankDetailsResponse = new BankDetailsResponse();
 				boolean updateBank = bankDetailsDAO.updateEmployeeBankDetails(bankDetailsRequest);
 				if (updateBank) {
 					logger.debug("object updated in db " + updateBank);
-					int bankDetailsCount = bankDetailsDAO.getAllEmployeeBankDetailsCount();
-					bankDetailsResponse.setTotalCount(bankDetailsCount);
-					bankDetailsResponse.setStatusMessage("BankDetails record is updated Successfully");
+					bankDetailsResponse.setMessage("BankDetails record is updated Successfully");
+					bankDetailsResponse.setSatusCode("200");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
 				}
 			}
 			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
 				logger.debug("Transactiontype is  " + DELETE);
-				bankDetailsResponse = new BankDetailsResponse();
+				BankDetailsResponse bankDetailsResponse = new BankDetailsResponse();
 
 				boolean deleteBank = bankDetailsDAO.deleteEmployeeBankDetails(bankDetailsRequest);
 
 				if (deleteBank) {
 					logger.debug("object deleted in db " + deleteBank);
-					bankDetailsResponse.setStatusMessage("BankDetails record is deleted Successfully");
+					bankDetailsResponse.setMessage("BankDetails record is deleted Successfully");
+					bankDetailsResponse.setSatusCode("200");
 					return new ResponseEntity<>(bankDetailsResponse, HttpStatus.OK);
 				}
 			}
 			logger.debug("object not deleted in db ");
-			bankDetailsResponse.setStatusMessage(FAILED);
+			BankDetailsResponse bankDetailsResponse = new BankDetailsResponse();
+			bankDetailsResponse.setMessage(FAILED);
+			bankDetailsResponse.setSatusCode("409");
 			return new ResponseEntity<>(bankDetailsResponse, HttpStatus.CONFLICT);
-			
+
 		} catch (Exception exception) {
 			logger.debug("inside facade catch block ");
 			ErrorResponse error = new ErrorResponse();
 			exception.printStackTrace();
-			error.setMessage("BankDetails is not seved in DB");
+			error.setMessage("BankDetails is not saved in DB");
+			error.setStatusMessage(exception.getMessage());
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
@@ -109,14 +112,14 @@ public class BankDetailsFacade {
 			logger.debug("response in facade " + allBankDetails);
 			if (null == allBankDetails || allBankDetails.isEmpty()) {
 				bankDetailsResponse = new BankDetailsResponse();
-				bankDetailsResponse.setStatusMessage(NORECORDS);
+				bankDetailsResponse.setMessage(NORECORDS);
+				bankDetailsResponse.setSatusCode("406");
 				bankDetailsResponse.setListBankDetails(new ArrayList<>());
 				return new ResponseEntity<>(bankDetailsResponse, HttpStatus.NOT_ACCEPTABLE);
 			} else {
-				int bankDetailsCount = bankDetailsDAO.getAllEmployeeBankDetailsCount();
 				bankDetailsResponse = new BankDetailsResponse();
-				bankDetailsResponse.setStatusMessage(SUCCESS);
-				bankDetailsResponse.setTotalCount(bankDetailsCount);
+				bankDetailsResponse.setMessage(SUCCESS);
+				bankDetailsResponse.setSatusCode("200");
 				bankDetailsResponse.setListBankDetails(allBankDetails);
 
 			}
@@ -126,6 +129,7 @@ public class BankDetailsFacade {
 			logger.debug("inside facade catch block " + exception.getMessage());
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage("inside facade. Data is null");
+			error.setStatusMessage(exception.getMessage());
 			error.setStatusCode("422");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}

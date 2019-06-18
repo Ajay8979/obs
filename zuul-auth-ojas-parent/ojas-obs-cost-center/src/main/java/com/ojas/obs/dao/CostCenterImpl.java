@@ -24,15 +24,17 @@ public class CostCenterImpl implements CostCenterDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	Logger logger = Logger.getLogger(this.getClass());
+    Logger logger = Logger.getLogger(this.getClass());
 
 	// saving the data into database
 	@Override
-	public boolean save(List<CostCenter> lists) throws SQLException {
-		logger.debug("INSIDE the save....");
+	public boolean save(CostCenterRequest costCenterRequest) throws SQLException {
+		logger.info(" The Request INSIDE the save Method....");
+		int c=0;
+		boolean b=false;
+		List<CostCenter> lists = costCenterRequest.getCostCenter();
 		ArrayList<Object[]> list = new ArrayList<>();
-		try {
+	
 			for (CostCenter costCenter2 : lists) {
 				Object[] param = new Object[] { costCenter2.getCostCenterCode() };
 				list.add(param);
@@ -43,25 +45,24 @@ public class CostCenterImpl implements CostCenterDao {
 			for (int j : i) {
 				if (j > 0) {
 
-					return true;
-				} else {
-
-				}
+					c++;
+				} 
+					
 			}
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-		return false;
+			if(costCenterRequest.getCostCenter().size()==c){
+				b=true;
+			}
+			return b;
+		
 	}
 
 	// update the data into database
 
 	@Override
 	public boolean updateCenter(List<CostCenter> lists) throws SQLException {
-		logger.debug("INSIDE the updateCenter....");
-		
-		int costCenterCode;
-		try {
+		logger.info("The Request INSIDE the updateCenter Method....");
+		int c=0;
+		boolean b=false;
 		ArrayList<Object[]> list = new ArrayList<>();
 
 		for (CostCenter costCenter2 : lists) {
@@ -74,83 +75,57 @@ public class CostCenterImpl implements CostCenterDao {
 		for (int i : batchUpdate) {
 
 			if (i > 0) {
-				return true;
+				c++;
 			}
 		}
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+		if(lists.size()==c){
+			b=true;
 		}
 		
 			
-		return false;
+		return b;
 
 	}
 
-	// Delete the data into database
-
-	@Override
-	public boolean deleteCenterCode(int id) throws SQLException {
-		logger.debug("INSIDE the deleteCenterCode....");
-		try {
-			int batchUpdate = jdbcTemplate.update(DELETECOSTCENTER, id);
-			if (batchUpdate > 0) {
-				return true;
-			}
-
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-		return false;
-	}
+	
 
 	// retrieve the data in database
 
 	@Override
 	public List<CostCenter> getAllCostCenter(CostCenterRequest costCenterReq) throws SQLException {
-		try {
-			logger.debug("INSIDE the getAllCostCenter....");
+		
+			logger.info(" the request INSIDE the getAllCostCenter....");
 			List<CostCenter> cost = jdbcTemplate.query(GETCOSTCENTER, new BeanPropertyRowMapper<>(CostCenter.class));
 			return cost;
-
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 	}
 
 	// get costcenter count
 
 	@Override
 	public int getAllCostCenterCount() throws SQLException {
-		try {
-			logger.debug("INSIDE the getAllCostCenterCount....");
+		
+			logger.info("The Request INSIDE the getAllCostCenterCount....");
 			int i = jdbcTemplate.queryForObject(GETCOSTCENTERCOUNT, Integer.class);
-
-			jdbcTemplate.getDataSource().getConnection().close();
+			logger.info("The Request INSIDE the getAllCostCenterCount.1...");
+			//jdbcTemplate.getDataSource().getConnection().close();
 			return i;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 
 	}
 
-	@Override
-	public List<CostCenter> getCountPerPage(List<CostCenter> list, int pageSize, int pageNo) {
-		logger.debug("INSIDE the getCountPerPage....");
-
-		List<CostCenter> getAllFilteredList = new ArrayList<>();
-		if (list != null && !list.isEmpty()) {
-			pageSize = pageSize > 0 ? pageSize : pageSize * -1;
-			pageNo = pageNo > 0 ? pageNo : pageNo == 0 ? 1 : pageNo * -1;
-			if (pageSize != 0) {
-				int endIndex = pageNo * pageSize;
-				int startIndex = endIndex - pageSize;
-				endIndex = endIndex < list.size() ? endIndex : list.size();
-				startIndex = startIndex < list.size() ? startIndex : 0;
-				getAllFilteredList = list.subList(startIndex, endIndex);
-			}
-		}
-		return getAllFilteredList;
-
-	}
+	/*
+	 * @Override public List<CostCenter> getCountPerPage(List<CostCenter> list, int
+	 * pageSize, int pageNo) {
+	 * logger.info(" the Request INSIDE the getCountPerPage....");
+	 * 
+	 * List<CostCenter> getAllFilteredList = new ArrayList<>(); if (list != null &&
+	 * !list.isEmpty()) { pageSize = pageSize > 0 ? pageSize : pageSize * -1; pageNo
+	 * = pageNo > 0 ? pageNo : pageNo == 0 ? 1 : pageNo * -1; if (pageSize != 0) {
+	 * int endIndex = pageNo * pageSize; int startIndex = endIndex - pageSize;
+	 * endIndex = endIndex < list.size() ? endIndex : list.size(); startIndex =
+	 * startIndex < list.size() ? startIndex : 0; getAllFilteredList =
+	 * list.subList(startIndex, endIndex); } } return getAllFilteredList;
+	 * 
+	 * }
+	 */
 
 }

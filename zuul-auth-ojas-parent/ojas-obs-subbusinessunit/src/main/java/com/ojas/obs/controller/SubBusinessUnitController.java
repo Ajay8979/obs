@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -88,11 +89,31 @@ public class SubBusinessUnitController {
 			}
 			return subBusinessUnitFacade.setSubBusinessUnit(subBusinessUnitRequest);
 
-		} catch (Exception exception) {
-			logger.error("inside catch block.*******");
+		} catch (DuplicateKeyException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			error.setMessage("DuplicateKeyException");
 			error.setStatusCode("409");
+			logger.error("DuplicateKeyException");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (SQLException exception) {
+			logger.error("inside SubBusinessUnitFacade catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.error("data is  invalid");
+			error.setStatusMessage(exception.getMessage());
+			error.setMessage("SQLException");
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		
+		catch (Exception exception) {
+			logger.error("inside SubBusinessUnitFacade catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.error("data is  invalid");
+			error.setStatusMessage(exception.getMessage());
+			error.setStatusCode("409");
+			error.setMessage("Exception");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 
@@ -122,14 +143,27 @@ public class SubBusinessUnitController {
 			}
 			return subBusinessUnitFacade.getSubBusinessUnit(subBusinessUnitRequest);
 
-		} catch (Exception exception) {
-
-			logger.error("inside getSubBusinessUnit catch block in controller.*******");
+		} catch (SQLException exception) {
+			logger.error("inside SubBusinessUnitFacade catch block.****");
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
+			logger.error("data is  invalid");
+			error.setStatusMessage(exception.getMessage());
+			error.setMessage("SQLException");
 			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
+		
+		catch (Exception exception) {
+			logger.error("inside SubBusinessUnitFacade catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.error("data is  invalid");
+			error.setStatusMessage(exception.getMessage());
+			error.setStatusCode("409");
+			error.setMessage("Exception");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+
+
 
 	}
 }

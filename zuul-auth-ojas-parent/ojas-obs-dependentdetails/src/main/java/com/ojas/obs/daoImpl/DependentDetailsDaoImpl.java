@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -30,14 +31,14 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+	Logger logger = Logger.getLogger(this.getClass());
 	/*
 	 * (non-Javadoc)
 	 * @see com.ojas.obs.dao.DependentDetailsDao#saveDependentDetails(com.ojas.obs.request.DependentDetailsRequest)
 	 */
 	@Override
 	public int saveDependentDetails(DependentDetailsRequest dependentDetailsRequest) throws SQLException {
-		try {
+		logger.debug("Inside save DependentDetails..DAO Request" + dependentDetailsRequest);
 		 Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		boolean flag = true;
 		int savedrecords = 0;
@@ -47,10 +48,7 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 			savedrecords = jdbcTemplate.update(INSERTDEPENDENTDETAILS, details.getDependent_Name(), details.getRelation(), details.getDate_Of_Birth(), details.getEmployee_Id(), details.getCreated_By(), details.getCreated_Date(), details.getUpdated_By(), details.getUpdated_Date(), details.isFlag());
 		}
 		return savedrecords;
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 			
 	}
 	
@@ -60,7 +58,7 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 	 */
 	@Override
 	public int updateDependentDetails(DependentDetailsRequest dependentDetailsRequest) throws SQLException {
-		try {
+		logger.debug("Inside Update DependentDetails..DAO Request" + dependentDetailsRequest);
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		int updatedrecords = 0;
 		List<DependentDetails> dependentDetails = dependentDetailsRequest.getDependentDetails();
@@ -69,10 +67,7 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 			updatedrecords = jdbcTemplate.update(UPDATEDEPENDENTDETAILS, details.getDependent_Name(),details.getRelation(),details.getDate_Of_Birth(),details.getEmployee_Id(), details.getUpdated_By(), details.getUpdated_Date(), details.getId());
 		}
 		return updatedrecords;
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 	/*
 	 * (non-Javadoc)
@@ -80,7 +75,7 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 	 */
 	@Override
 	public int deleteDependentDetails(DependentDetailsRequest dependentDetailsRequest) throws SQLException {
-		try {
+		logger.debug("Inside Delete DependentDetails..DAO Request" + dependentDetailsRequest);
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		int deletedrecords = 0;
 		boolean flag = false;
@@ -91,10 +86,7 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 			deletedrecords = jdbcTemplate.update(DELETEDEPENDENTDETAILS,  details.getUpdated_By(), details.getUpdated_Date(), details.isFlag(), details.getId());
 		}
 		return deletedrecords;
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 	/*
 	 * (non-Javadoc)
@@ -102,42 +94,33 @@ public class DependentDetailsDaoImpl implements DependentDetailsDao {
 	 */
 	@Override
 	public List<DependentDetails> getAll(DependentDetailsRequest DependentDetailsRequest) throws SQLException {
-		try {
+		logger.debug("Inside getall DependentDetails..DAO Request" + DependentDetailsRequest);
 		List<DependentDetails> listDependentDetails = jdbcTemplate.query(GETALLDEPENDENTDETAILS,new RowMap());
 		return listDependentDetails;
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 
 	@Override
 	public List<DependentDetails> getById(Integer id) throws SQLException {
-		try {
 		
+		logger.debug("Inside getById DependentDetails..DAO Request" + id);
 		Object[] obj = new Object[] { id }; 
 		
 		List<DependentDetails> projectDetailsList = jdbcTemplate.query(GETDEPENDENTDETAILSBYID, obj,new RowMap());
 
 		return projectDetailsList;
-	}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+	
 	}
 	@Override
 	public List<DependentDetails> getByEmpId(String s) throws SQLException {
-		try {
 		
+		logger.debug("Inside getByEmployee_Id DependentDetails..DAO Request" + s);
 		Object[] obj = new Object[] { s }; 
 		
 		List<DependentDetails> projectDetailsList = jdbcTemplate.query(GETID, obj,new RowMap());
 
 		return projectDetailsList;
-	}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+
 	}
 
 }

@@ -57,5 +57,10 @@ public class ErrorResponse {
 				return false;
 			return true;
 		}
+		@Override
+		public String toString() {
+			return "ErrorResponse [statusCode=" + statusCode + ", statusMessage=" + statusMessage + ", message="
+					+ message + "]";
+		}
 		
 }

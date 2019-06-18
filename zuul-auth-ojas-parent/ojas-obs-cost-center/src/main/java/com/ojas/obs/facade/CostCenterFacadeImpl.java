@@ -25,102 +25,86 @@ public class CostCenterFacadeImpl implements CostCenterFacade {
 
 	@Override
 	public ResponseEntity<Object> set(CostCenterRequest costReq) throws SQLException {
-		// ResponseEntity<Object>responseEntity =null;
+		ResponseEntity<Object> responseEntity = null;
+
 		CostCenterResponse response = null;
 		boolean saveCode = false;
-		logger.debug("INSIDE the service set method....");
-		//int pageNo = costReq.getPageNo();
-		//response.setPageNo(pageNo);
-		//int pageSize = costReq.getPageSize();
-		//response.setPageSize(pageSize);
+		logger.debug("The Request INSIDE the service set method....");
+
+		
+
+		// ---------------------for saving the data----------------------------//
+		if (null != costReq.getTransactionType()) {
 			if (costReq.getTransactionType().equalsIgnoreCase("SAVE")) {
 				response = new CostCenterResponse();
-				logger.debug("checking the TransactionType");
+				logger.debug("checking the TransactionType SAVE");
+				//List<CostCenter> costCenter = costReq.getCostCenter();
+				saveCode = costcenterDao.save(costReq);
+				if (saveCode) {
+					response.setMessage("Successfully record added");
+					response.setStatusCode("200");
+				} else {
+					response.setMessage("sorry  record has not added");
+					response.setStatusCode("409");
+				}
 
-				List<CostCenter> costCenter = costReq.getCostCenter();
-				
-				saveCode = costcenterDao.save(costCenter);
-				response.setStatusMessage("Successfully record added");
-				int count=costcenterDao.getAllCostCenterCount();
-				response.setTotalCount(count);
 				response.setListOfCostCenter(new ArrayList<>());
 				return new ResponseEntity<Object>(response, HttpStatus.OK);
 			}
+
+			// --------------------- for updating the data ----------------------------//
 
 			if (costReq.getTransactionType().equalsIgnoreCase("UPDATE")) {
 				response = new CostCenterResponse();
-				int count = costcenterDao.getAllCostCenterCount();
 				logger.debug("checking the TransactionType update");
 				List<CostCenter> costCenter = costReq.getCostCenter();
-				
-				boolean updateCode = costcenterDao.updateCenter(costCenter);
-				response.setStatusMessage("Successfully record updated");
-				response.setTotalCount(count);
-				response.setListOfCostCenter(new ArrayList<>());
-				return new ResponseEntity<Object>(response, HttpStatus.OK);
-			}
+				for (CostCenter costCenterCode : costCenter) {
+					if (0 != costCenterCode.getId()) {
+						boolean updateCode = costcenterDao.updateCenter(costCenter);
+						if (updateCode) {
+							response.setMessage("Successfully record updated");
+							response.setStatusCode("200");
+							response.setListOfCostCenter(new ArrayList<>());
+							return new ResponseEntity<Object>(response, HttpStatus.OK);
+						} else {
+							logger.error("Record is not Updated...");
+							response.setMessage("Not updated");
+							response.setStatusCode("409");
+							return new ResponseEntity<Object>(response, HttpStatus.OK);
+						}
 
-			if (costReq.getTransactionType().equalsIgnoreCase("DELETE")) {
-				response = new CostCenterResponse();
-				logger.debug("checking the TransactionType delete");
-				
-				List<CostCenter> list = costReq.getCostCenter();
-				for (CostCenter costCenter : list) {
-					
-				Integer id = costCenter.getId();
-				boolean deleteCode = costcenterDao.deleteCenterCode(id);
+					}
 				}
-				
-				response.setStatusMessage("Successfully record deleted");
-				
-				int count=costcenterDao.getAllCostCenterCount();
-				
-				response.setListOfCostCenter(new ArrayList<>());
-				return new ResponseEntity<Object>(response, HttpStatus.OK);
 
 			}
-		
-		return new ResponseEntity<Object>(response, HttpStatus.FAILED_DEPENDENCY);
+
+		} else {
+			response = new CostCenterResponse();
+			logger.error("Transaction Type is not Valid...");
+			response.setMessage("Transaction Type is not valid");
+			responseEntity = new ResponseEntity<Object>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		return responseEntity;
 	}
 
 	@Override
-	public ResponseEntity<Object> get(CostCenterRequest costReq) throws Exception,SQLException {
+	public ResponseEntity<Object> get(CostCenterRequest costReq) throws Exception, SQLException {
 		CostCenterResponse response = new CostCenterResponse();
-		logger.debug("Enter the service get method...");
+		logger.info("The Request Enter the service get method...");
 
 		List<CostCenter> allCostCenterlist = costcenterDao.getAllCostCenter(costReq);
+		
+			
+		if ((allCostCenterlist != null) && (!allCostCenterlist.isEmpty())) {
+			response.setListOfCostCenter(allCostCenterlist);
+			response.setMessage("list has  found");
 
-		List<CostCenter> arrayList = new ArrayList<>();
-
-		int pageNo = costReq.getPageNo();
-		int pageSize = costReq.getPageSize();
-		response.setPageNo(pageNo);
-		response.setPageSize(pageSize);
-
-		List<CostCenter> list = costcenterDao.getCountPerPage(allCostCenterlist, costReq.getPageSize(),
-				costReq.getPageNo());
-
-		if (allCostCenterlist == null || list == null) {
-			response.setListOfCostCenter(arrayList);
-			response.setStatusMessage("No records found");
-			response.setTotalCount(0);
 		} else {
-			int count = costcenterDao.getAllCostCenterCount();
-			if (costReq.getPageNo() == 0 || costReq.getPageSize() == 0) {
-				response.setListOfCostCenter(allCostCenterlist);
-				response.setStatusMessage("Success");
-				response.setTotalCount(count);
-			} else {
-				response.setListOfCostCenter(list);
-				response.setStatusMessage("Success");
-				response.setTotalCount(count);
-
-			}
-
+			response.setListOfCostCenter(new ArrayList<>());
+			response.setMessage("no records found");
+			response.setStatusCode("409");
 		}
-
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
-
 	}
 
 }

@@ -2,7 +2,6 @@ package com.ojas.obs.daoImpl;
 
 import static com.ojas.obs.constants.UserConstants.ALLRECORDS;
 import static com.ojas.obs.constants.UserConstants.DELETEBANKDETAILS;
-import static com.ojas.obs.constants.UserConstants.RECORDSCOUNT;
 import static com.ojas.obs.constants.UserConstants.SAVEBANKDETAILS;
 import static com.ojas.obs.constants.UserConstants.UPDATEBANKDETAILS;
 
@@ -60,22 +59,12 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 			logger.debug("Number of records in Object[] : " + object.length);
 			list.add(object);
 		}
-		try {
-			int[] batchsave = jdbcTemplate.batchUpdate(SAVEBANKDETAILS, list);
-			if (batchsave.length > 0) {
-				return true;
-			}
-			return false;
-		} finally {
-			if (jdbcTemplate != null) {
-				try {
-					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
-			}
-		}
 
+		int[] batchsave = jdbcTemplate.batchUpdate(SAVEBANKDETAILS, list);
+		if (batchsave.length > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -96,25 +85,14 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 					employeeBankDetails.getBank_city(), employeeBankDetails.getBank_branch(),
 					employeeBankDetails.getBank_ifsc_code(), employeeBankDetails.getBank_account_status(),
 					employeeBankDetails.isIs_active(), employeeBankDetails.getUpdated_by(), timestamp,
-					employeeBankDetails.isFlag(), employeeBankDetails.getEmployee_id() };
+					employeeBankDetails.isFlag(), employeeBankDetails.getId() };
 			list.add(object);
 		}
-		try {
-			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEBANKDETAILS, list);
-			if (batchUpdate.length > 0) {
-				return true;
-			}
-			return false;
-		} finally {
-			if (jdbcTemplate != null) {
-				try {
-					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
-			}
+		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEBANKDETAILS, list);
+		if (batchUpdate.length > 0) {
+			return true;
 		}
-
+		return false;
 	}
 
 	/*
@@ -127,24 +105,13 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 		int delete = 0;
 		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
 		boolean flag = false;
-		try {
-			for (BankDetails employeeBankDetails : bankDetails) {
-				delete = jdbcTemplate.update(DELETEBANKDETAILS, flag, employeeBankDetails.getId());
-			}
-			if (delete > 0) {
-				return true;
-			}
-			return false;
-		} finally {
-			if (jdbcTemplate != null) {
-				try {
-					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
-			}
+		for (BankDetails employeeBankDetails : bankDetails) {
+			delete = jdbcTemplate.update(DELETEBANKDETAILS, flag, employeeBankDetails.getId());
 		}
-
+		if (delete > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -157,54 +124,31 @@ public class BankDetailsDaoImpl implements BankDetailsDAO {
 		logger.debug("incoming request in dao " + bankDetailsRequest);
 		StringBuilder builder = new StringBuilder();
 		builder.append(ALLRECORDS);
-		try {
 
-			List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
-			for (BankDetails bankObject : bankDetails) {
-				if (bankDetailsRequest.getTransactionType().equalsIgnoreCase("getall")
-						&& bankObject.getEmployee_id() != null) {
-					builder.append(" and employee_id = " + bankObject.getEmployee_id());
-					List<BankDetails> query = jdbcTemplate.query(builder.toString(),
-							new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
-					logger.debug("response1 from dao dao " + query);
-					return query;
-				}
+		List<BankDetails> bankDetails = bankDetailsRequest.getBankDetails();
+		for (BankDetails bankObject : bankDetails) {
+			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase("getall")
+					&& bankObject.getEmployee_id() != null) {
+				builder.append(" and employee_id = " + bankObject.getEmployee_id());
+				List<BankDetails> query = jdbcTemplate.query(builder.toString(),
+						new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+				logger.debug("response1 from dao dao " + query);
+				return query;
 			}
-			List<BankDetails> query = jdbcTemplate.query(builder.toString(),
-					new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
-			logger.debug("response2 from dao dao " + query);
-			return query;
-		} finally {
-			if (jdbcTemplate != null) {
-				try {
-					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
+			
+			if (bankDetailsRequest.getTransactionType().equalsIgnoreCase("getall")
+					&& bankObject.getId() != null) {
+				builder.append(" and id = " + bankObject.getId());
+				List<BankDetails> query = jdbcTemplate.query(builder.toString(),
+						new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+				logger.debug("response1 from dao dao " + query);
+				return query;
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.BankDetailsDAO#getAllEmployeeBankDetailsCount()
-	 */
-	@Override
-	public int getAllEmployeeBankDetailsCount() {
-		try {
-			return jdbcTemplate.queryForObject(RECORDSCOUNT, Integer.class);
-
-		} finally {
-			if (jdbcTemplate != null) {
-				try {
-					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
-			}
-		}
-
+		List<BankDetails> query = jdbcTemplate.query(builder.toString(),
+				new BeanPropertyRowMapper<BankDetails>(BankDetails.class));
+		logger.debug("response2 from dao dao " + query);
+		return query;
 	}
 
 }

@@ -6,73 +6,56 @@ import com.ojas.obs.model.DependentDetails;
 
 public class DependentDetailsRequest {
 	private List<DependentDetails> dependentDetails;
-	private String sessionId;
 	private String transactionType;
-	private int pageNo;
-	private int pageSize;
-	private int totalCount;
-
-	public DependentDetailsRequest() {
-	}
-
-	public DependentDetailsRequest(List<DependentDetails> dependentDetails, String sessionId, String transactionType,
-			int pageNo, int pageSize, int totalCount) {
-		super();
-		this.dependentDetails = dependentDetails;
-		this.sessionId = sessionId;
-		this.transactionType = transactionType;
-		this.pageNo = pageNo;
-		this.pageSize = pageSize;
-		this.totalCount = totalCount;
-	}
-
+	
+	
 	public List<DependentDetails> getDependentDetails() {
 		return dependentDetails;
 	}
-
 	public void setDependentDetails(List<DependentDetails> dependentDetails) {
 		this.dependentDetails = dependentDetails;
 	}
-
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
-
 	public String getTransactionType() {
 		return transactionType;
 	}
-
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
-
-	public int getPageNo() {
-		return pageNo;
+	@Override
+	public String toString() {
+		return "DependentDetailsRequest [dependentDetails=" + dependentDetails + ", transactionType=" + transactionType
+				+ "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dependentDetails == null) ? 0 : dependentDetails.hashCode());
+		result = prime * result + ((transactionType == null) ? 0 : transactionType.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DependentDetailsRequest other = (DependentDetailsRequest) obj;
+		if (dependentDetails == null) {
+			if (other.dependentDetails != null)
+				return false;
+		} else if (!dependentDetails.equals(other.dependentDetails))
+			return false;
+		if (transactionType == null) {
+			if (other.transactionType != null)
+				return false;
+		} else if (!transactionType.equals(other.transactionType))
+			return false;
+		return true;
 	}
 
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-
+	
 	
 }

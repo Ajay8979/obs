@@ -51,7 +51,6 @@ public class TitleController {
 	public ResponseEntity<Object> setEmployeeBUDetails(@RequestBody Request request, HttpServletRequest servletRequest,
 			HttpServletResponse servletResponse) {
 		logger.debug("incoming requests " + request);
-		ResponseEntity<Object> responseEntity = null;
 		try {
 			if (null == request) {
 				logger.error("Request is not valid");
@@ -93,11 +92,23 @@ public class TitleController {
 				}
 			}
 			return facade.setTitle(request);
-		} catch (Exception e) {
+		} catch (SQLException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
-		}
-		return responseEntity;
+			exception.printStackTrace();
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 	}
 
 	/**
@@ -149,9 +160,19 @@ public class TitleController {
 		} catch (SQLException exception) {
 			error = new ErrorResponse();
 			exception.printStackTrace();
-			error.setMessage(exception.getMessage());
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
 
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 	}
 }

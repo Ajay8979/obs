@@ -20,5 +20,4 @@ public interface BankDetailsDAO {
 
 	List<BankDetails> getAllBankDetails(BankDetailsRequest bankDetailsRequest)throws SQLException;
 
-	int getAllEmployeeBankDetailsCount();
 }

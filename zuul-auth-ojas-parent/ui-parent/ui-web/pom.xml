@@ -22,11 +22,11 @@
     </configuration>
    <dependencies>
 	<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
-<dependency>
+<!--<dependency>
     <groupId>org.webjars.bower</groupId>
     <artifactId>jquery</artifactId>
     <version>3.4.1</version>
-</dependency>
+</dependency>-->
 
 	</dependencies>
     <executions>
@@ -61,6 +61,7 @@
             </configuration>
             <phase>generate-resources</phase>
         </execution>
+        
     </executions>
 </plugin>
   </plugins>

@@ -22,11 +22,11 @@
     </configuration>
    <dependencies>
 	<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
-<dependency>
+<!--<dependency>
     <groupId>org.webjars.bower</groupId>
     <artifactId>jquery</artifactId>
     <version>3.4.1</version>
-</dependency>
+</dependency>-->
 
 	</dependencies>
     <executions>
@@ -61,6 +61,66 @@
             </configuration>
             <phase>generate-resources</phase>
         </execution>
+                    <execution>
+                        <id>download-js</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.js</fromFile>
+                            <toFile>${destinationDir}/jquery.js</toFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-min-js</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.min.js</fromFile>
+                            <toFile>${destinationDir}/jquery.min.js</toFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-source-map</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.min.map</fromFile>
+                            <toFile>${destinationDir}/jquery.min.map</toFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-slim-js</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.slim.js</fromFile>
+                            <toFile>${destinationDir}/jquery.slim.js</toFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-slim-min-js</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.slim.min.js</fromFile>
+                            <toFile>${destinationDir}/jquery.slim.min.js</toFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-slim-source-map</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>jquery.slim.min.map</fromFile>
+                            <toFile>${destinationDir}/jquery.slim.min.map</toFile>
+                        </configuration>
+                    </execution>
     </executions>
 </plugin>
   </plugins>

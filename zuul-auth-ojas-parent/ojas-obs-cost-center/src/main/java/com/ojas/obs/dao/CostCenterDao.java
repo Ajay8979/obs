@@ -8,9 +8,9 @@ import com.ojas.obs.model.CostCenterRequest;
 
 public interface CostCenterDao {
 
-		public boolean save(List<CostCenter> list) throws SQLException;
+		public boolean save(CostCenterRequest costCenterRequest) throws SQLException;
 
-		public boolean deleteCenterCode(int id) throws SQLException;
+		//public boolean deleteCenterCode(int id) throws SQLException;
 
 		public boolean updateCenter(List<CostCenter> list) throws SQLException;
 
@@ -18,7 +18,7 @@ public interface CostCenterDao {
 
 		public int getAllCostCenterCount() throws SQLException;
 		
-		public List<CostCenter> getCountPerPage(List<CostCenter> list, int pageSize, int pageNo);
+		//public List<CostCenter> getCountPerPage(List<CostCenter> list, int pageSize, int pageNo);
 
 		//public Connection getConnection() throws SQLException;
 

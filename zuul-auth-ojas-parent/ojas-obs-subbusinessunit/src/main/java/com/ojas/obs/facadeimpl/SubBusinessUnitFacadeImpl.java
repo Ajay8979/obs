@@ -1,16 +1,17 @@
 package com.ojas.obs.facadeimpl;
 
 import static com.ojas.obs.constants.SubBusinessUnitConstants.FAILED;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETALL;
+import static com.ojas.obs.constants.SubBusinessUnitConstants.GETBYID;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SAVE;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.SUCCESS;
 import static com.ojas.obs.constants.SubBusinessUnitConstants.UPDATE;
-import static com.ojas.obs.constants.SubBusinessUnitConstants.GETALL;
-import static com.ojas.obs.constants.SubBusinessUnitConstants.GETBYID;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,6 @@ import com.ojas.obs.facade.SubBusinessUnitFacade;
 import com.ojas.obs.model.SubBusinessUnit;
 import com.ojas.obs.request.SubBusinessUnitRequest;
 import com.ojas.obs.response.SubBusinessUnitResponse;
-
-import org.apache.log4j.Logger;
 
 /**
  * 
@@ -37,11 +36,11 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 	SubBusinessUnitDao subBusinessDAO;
 
 	@Override
-	public ResponseEntity<Object> setSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
+	public ResponseEntity<Object> setSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) throws SQLException {
 
 		logger.info("inside saveSubBusinessUnit method : " + subBusinessUnitRequest);
 		SubBusinessUnitResponse subBusinessUnitResponse = null;
-		try {
+		
 
 			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				subBusinessUnitResponse = new SubBusinessUnitResponse();
@@ -49,6 +48,7 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 				logger.info("inside  save condition.****** : " + saveSubBusinessUnit);
 				if (saveSubBusinessUnit) {
 					subBusinessUnitResponse.setMessage("Successfully record added");
+					subBusinessUnitResponse.setStatusCode("200");
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
@@ -64,10 +64,11 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 				logger.info("inside  update condition.****** : " + updateSubBusinessUnit);
 				if (updateSubBusinessUnit) {
 					subBusinessUnitResponse.setMessage("Successfully record updated");
+					subBusinessUnitResponse.setStatusCode("200");
 					return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 				} else {
 					ErrorResponse error = new ErrorResponse();
-					error.setMessage(FAILED);
+					error.setMessage("record not updated");
 					error.setStatusCode("409");
 					return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 				}
@@ -78,31 +79,17 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			
-		}catch (DuplicateKeyException exception) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getCause().getLocalizedMessage());
-			logger.error("DuplicateKeyException");
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
-		
-		catch (Exception exception) {
-			logger.error("inside SubBusinessUnitFacade catch block.****");
-			ErrorResponse error = new ErrorResponse();
-			logger.error("data is  invalid");
-			error.setMessage(exception.getMessage());
-			error.setStatusCode("409");
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+	
 
 	}
 
 	@Override
-	public ResponseEntity<Object> getSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) {
+	public ResponseEntity<Object> getSubBusinessUnit(SubBusinessUnitRequest subBusinessUnitRequest) throws SQLException{
 
 		SubBusinessUnitResponse subBusinessUnitResponse = new SubBusinessUnitResponse();
 		logger.info("inside getSubBusinessUnit in SubBusinessUnitFacade.***");
 
-		try {
+		
 			List<SubBusinessUnit> allSubBusinessUnitDetails = null;
 			if (subBusinessUnitRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
 			 allSubBusinessUnitDetails = subBusinessDAO.getAllSubBusinessUnitDetails();
@@ -118,16 +105,11 @@ public class SubBusinessUnitFacadeImpl implements SubBusinessUnitFacade {
 			} else {
 				subBusinessUnitResponse.setSubBusinessUnitList(allSubBusinessUnitDetails);
 				subBusinessUnitResponse.setMessage(SUCCESS);
+				subBusinessUnitResponse.setStatusCode("200");
 				return new ResponseEntity<>(subBusinessUnitResponse, HttpStatus.OK);
 			}
 
-		} catch (Exception exception) {
-			logger.error("inside getSubBusinessUnit catch block in SubBusinessUnitFacade.***");
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
-			error.setStatusCode("409");
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+		
 
 	}
 

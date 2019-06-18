@@ -20,7 +20,15 @@
         <npmVersion>6.4.1</npmVersion>
         <workingDirectory>src/main/web/</workingDirectory>
     </configuration>
-   
+   <dependencies>
+	<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
+<dependency>
+    <groupId>org.webjars.bower</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+	</dependencies>
     <executions>
         <execution>
             <id>install node and npm</id>

@@ -29,11 +29,11 @@ public class StatesDAOImpl implements StatesDao {
 	@Override
 	public boolean saveStates(StatesRequest statesRequestObj) throws SQLException {
 
-		logger.debug("Inside saveStates..DAO");
+		logger.info("@@@@Inside saveStates..DAO"+statesRequestObj);
 		List<States> states = statesRequestObj.getStates();
 		List<Object[]> list = new ArrayList<Object[]>();
 		int count=0;
-		try {
+	
 			for (States states1 : states) {
 				Object[] params = new Object[] { states1.getStateName() };
 				list.add(params);
@@ -47,48 +47,33 @@ public class StatesDAOImpl implements StatesDao {
 				}
 			}
 			if (len == count) {
-				logger.debug("saved successfully through DaoImpl");
+				logger.debug("@@@@saved successfully through DaoImpl");
 				return true;
 			}
-		}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
 		
-		logger.debug("failed to save through daoImpl Method");
+		
+		logger.info("@@@@failed to save through daoImpl Method");
 		return false;
 	}
 
 	@Override
 	public int getAllStatesCount() throws SQLException {
+		logger.info("@@@@Inside getAllStatesCount method");
 		int count=0;
-		try {
+		
 			count=jdbcTemplate.queryForObject(STATESCOUNT,Integer.class);
-		}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+		
 		
 		return count;
 	}
 
 	@Override
 	public boolean updateStates(StatesRequest statesRequestObj) throws SQLException {
-		logger.debug("Inside updatestates..DAO *****");
+		logger.info("@@@@Inside updatestates Method..DAO "+statesRequestObj);
 		List<States> states1=statesRequestObj.getStates();
 		List<Object[]> list=new ArrayList<Object[]>();
 		int count=0;
-		try {
+		
 			for(States states:states1) {
 				Object[] params=new Object[] {states.getStateName(),states.getId()};
 				list.add(params);
@@ -105,15 +90,7 @@ public class StatesDAOImpl implements StatesDao {
 				logger.debug("updated successfully through DaoImpl");
 				return true;
 			}
-		}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+		
 		
 			logger.debug("failed to save through daoImpl Method");
 			return false;
@@ -136,26 +113,19 @@ public class StatesDAOImpl implements StatesDao {
 
 	@Override
 	public List<States> getAll(StatesRequest statesRequestObj) throws SQLException {
-		logger.debug("Inside getAllstates..DAO *****");
+		logger.info("@@@@Inside getAll method..DAO "+statesRequestObj);
         //return jdbcTemplate.query(propsReaderUtil.getValue("SELECT_STATES"), new BeanPropertyRowMapper<States>(States.class));
 		 List<States> list=null;
-		 try { 
+		
 			 list=jdbcTemplate.query(SELECT_STATES, new BeanPropertyRowMapper<States>(States.class));
-			 }finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+	
 		
 		return list;
 	}
       
 	@Override
 	public List<States> getCountPerPage(List<States> stateList, int pageSize, int pageNo) {
+		logger.info("@@@@Inside getCountPerPage method..DAO ");
 		List<States> getAllFiltered = new ArrayList<>();
 		if (stateList != null && !stateList.isEmpty()) {
 			pageSize = pageSize > 0 ? pageSize : pageSize * -1;
@@ -173,10 +143,11 @@ public class StatesDAOImpl implements StatesDao {
 
 	@Override
 	public List<States>getStateById(StatesRequest statesRequestObj) throws SQLException {
+		logger.info("@@@@Inside getStateById method..DAO "+statesRequestObj);
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		Object[] stateId=null;
 		List<States> list=null;
-		try {
+	
 			List<States> statesList=statesRequestObj.getStates();
 			for(States state:statesList) {
 			   stateId=new Object[] {state.getId()};
@@ -184,15 +155,7 @@ public class StatesDAOImpl implements StatesDao {
 			}
 			list=jdbcTemplate.query(SELECT_STATES_BY_ID,stateId, new
 					BeanPropertyRowMapper<>(States.class));
-		}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+		
 		
 		return list; 
 	

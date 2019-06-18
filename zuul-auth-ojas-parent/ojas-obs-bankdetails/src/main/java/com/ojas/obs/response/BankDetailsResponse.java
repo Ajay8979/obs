@@ -12,66 +12,16 @@ import com.ojas.obs.model.BankDetails;
 public class BankDetailsResponse {
 
 	private List<BankDetails> listBankDetails;
-	private String statusMessage;
-	private Integer pageNo;
-	private Integer pageSize;
-	private Integer totalCount;
-
-	public List<BankDetails> getListBankDetails() {
-		return listBankDetails;
-	}
-
-	public void setListBankDetails(List<BankDetails> listBankDetails) {
-		this.listBankDetails = listBankDetails;
-	}
-
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-	}
-
-	public Integer getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public Integer getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public Integer getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
-	}
-
-	@Override
-	public String toString() {
-		return "EmployeeBankDetailsResponse [listBankDetails=" + listBankDetails + ", statusMessage=" + statusMessage
-				+ ", pageNo=" + pageNo + ", pageSize=" + pageSize + ", totalCount=" + totalCount + "]";
-	}
+	private String message;
+	private String satusCode;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((listBankDetails == null) ? 0 : listBankDetails.hashCode());
-		result = prime * result + ((pageNo == null) ? 0 : pageNo.hashCode());
-		result = prime * result + ((pageSize == null) ? 0 : pageSize.hashCode());
-		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
-		result = prime * result + ((totalCount == null) ? 0 : totalCount.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((satusCode == null) ? 0 : satusCode.hashCode());
 		return result;
 	}
 
@@ -89,27 +39,47 @@ public class BankDetailsResponse {
 				return false;
 		} else if (!listBankDetails.equals(other.listBankDetails))
 			return false;
-		if (pageNo == null) {
-			if (other.pageNo != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!pageNo.equals(other.pageNo))
+		} else if (!message.equals(other.message))
 			return false;
-		if (pageSize == null) {
-			if (other.pageSize != null)
+		if (satusCode == null) {
+			if (other.satusCode != null)
 				return false;
-		} else if (!pageSize.equals(other.pageSize))
-			return false;
-		if (statusMessage == null) {
-			if (other.statusMessage != null)
-				return false;
-		} else if (!statusMessage.equals(other.statusMessage))
-			return false;
-		if (totalCount == null) {
-			if (other.totalCount != null)
-				return false;
-		} else if (!totalCount.equals(other.totalCount))
+		} else if (!satusCode.equals(other.satusCode))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BankDetailsResponse [listBankDetails=" + listBankDetails + ", message=" + message + ", satusCode="
+				+ satusCode + "]";
+	}
+
+	public List<BankDetails> getListBankDetails() {
+		return listBankDetails;
+	}
+
+	public void setListBankDetails(List<BankDetails> listBankDetails) {
+		this.listBankDetails = listBankDetails;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getSatusCode() {
+		return satusCode;
+	}
+
+	public void setSatusCode(String satusCode) {
+		this.satusCode = satusCode;
 	}
 
 }

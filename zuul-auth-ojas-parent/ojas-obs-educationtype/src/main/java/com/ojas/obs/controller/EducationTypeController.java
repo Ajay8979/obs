@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import com.ojas.obs.modelrequest.EmployeeEducationRequest;
  *
  */
 @RestController
+//@RequestMapping("/obs/educationdetails")
 public class EducationTypeController {
 
 	@Autowired
@@ -44,12 +46,13 @@ public class EducationTypeController {
 			@RequestBody EmployeeEducationRequest employeeEducationRequestObject, HttpServletRequest httpServletRequest,
 			HttpServletResponse servletresponse) {
 
+		logger.info("The request inside controller set method " + employeeEducationRequestObject);
 		try {
 			List<EmployeeEducation> listEmployeeEducations = employeeEducationRequestObject.getListEmployeeEducations();
 			if (null == listEmployeeEducations || listEmployeeEducations.isEmpty()) {
 
 				ErrorResponse error = new ErrorResponse();
-				logger.debug("logger is not valid");
+				logger.error("List feild is null " + listEmployeeEducations);
 				error.setMessage("Request is not valid");
 				error.setStatusCode("422");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -61,8 +64,8 @@ public class EducationTypeController {
 					if (((null == employeeEducation.getEducationType()
 							|| employeeEducation.getEducationType().isEmpty()))) {
 						ErrorResponse error = new ErrorResponse();
-						logger.debug("this employeeEducation contains null values");
-						error.setMessage("Request is  invalid");
+						logger.error("Request does not contain transactiontype");
+						error.setMessage("Request is invalid");
 						error.setStatusCode("422");
 						return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 					}
@@ -70,7 +73,7 @@ public class EducationTypeController {
 				if ((employeeEducationRequestObject.getTransactionType().equalsIgnoreCase(UserConstants.UPDATE)
 						|| employeeEducationRequestObject.getTransactionType().equalsIgnoreCase(UserConstants.DELETE))
 						&& (employeeEducation.getId() == null)) {
-					logger.debug("request object id is null");
+					logger.error("Request object id is null");
 					ErrorResponse error = new ErrorResponse();
 					error.setMessage("Request is Invalid");
 					error.setStatusCode("422");
@@ -79,9 +82,26 @@ public class EducationTypeController {
 			}
 			return employeeEducationFacade.setEmployeeEducationInfo(employeeEducationRequestObject);
 
-		} catch (Exception exception) {
+		} catch (DuplicateKeyException e) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
+			error.setStatusCode("409");
+			error.setMessage("duplicate's are not allowed");
+			error.setStatusMessage(e.getMessage());
+			return new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
+		} catch (SQLException exception) {
+			logger.error(" Inside catch block");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("422");
+			error.setMessage("Connection establishing error");
+			error.setStatusMessage(exception.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		} catch (Exception exception) {
+			logger.error("Inside catch block");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("422");
+			error.setMessage("Request is Invalid");
+			error.setStatusMessage(exception.getMessage());
+			logger.error("Exception raised");
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
@@ -99,28 +119,44 @@ public class EducationTypeController {
 	public ResponseEntity<Object> getEductionDetails(@RequestBody EmployeeEducationRequest employeeEducationRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
 
-		String sessionId = null;
+		logger.info("The request details in service get method"+employeeEducationRequest);
 		try {
 			logger.debug("requestObject received = " + employeeEducationRequest);
 			if (null == employeeEducationRequest) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Data is invalid");
+				logger.error("The request object is null");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			if (!employeeEducationRequest.getTransactionType().equalsIgnoreCase("getAll")) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("Data is invalid");
+				logger.error("Requested transaction type is not getall");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			sessionId = employeeEducationRequest.getSessionID();
-			logger.debug("sessionId is = " + sessionId);
 
 			return employeeEducationFacade.getEmployeeEducationInfo(employeeEducationRequest);
 
-		} catch (Exception exception) {
-			logger.debug("inside catch block.*******");
+		} catch (DuplicateKeyException e) {
 			ErrorResponse error = new ErrorResponse();
-			error.setStatusMessage(exception.getMessage());
+			error.setStatusCode("409");
+			error.setStatusMessage("duplicate's are not allowed");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
+		} catch (SQLException exception) {
+			logger.error(" Inside catch block");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("422");
+			error.setStatusMessage("Connection establishing error");
+			error.setMessage(exception.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		} catch (Exception exception) {
+			logger.error("Inside catch block");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("422");
+			error.setStatusMessage("Request is Invalid");
+			error.setMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-	}}
+	}
+}

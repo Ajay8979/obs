@@ -54,6 +54,11 @@ public class EmployeeEducation {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "EmployeeEducation [id=" + id + ", educationType=" + educationType + "]";
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}

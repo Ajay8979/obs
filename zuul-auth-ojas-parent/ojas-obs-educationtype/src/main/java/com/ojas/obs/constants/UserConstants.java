@@ -16,7 +16,7 @@ public class UserConstants {
 
 	public static String INSERTEMPLOYEEEDUCATIONINFOSTMT = "INSERT INTO ojas_obs.obs_educationtype (educationType) VALUES (?)";
 
-	public static String SHOWEDUCATIONINFOSTMT = "SELECT * FROM ojas_obs.obs_educationtype WHERE id=?";
+//	public static String SHOWEDUCATIONINFOSTMT = "SELECT * FROM ojas_obs.obs_educationtype WHERE id=?";
 
 	public static String UPDATESTMT = "UPDATE ojas_obs.obs_educationtype set educationType=? WHERE id = ? ";
 
@@ -25,6 +25,8 @@ public class UserConstants {
 	public static final String TOTALRECORDS = "select * from ojas_obs.obs_educationtype";
 
 	public static final String COUNTRECORDS = "select count(*) from ojas_obs.obs_educationtype";
+	
+	public static final String GETBYID="select * from ojas_obs.obs_educationtype where id=?";
 
 
 }

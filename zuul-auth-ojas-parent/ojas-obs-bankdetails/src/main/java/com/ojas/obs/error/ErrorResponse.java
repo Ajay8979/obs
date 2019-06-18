@@ -1,4 +1,5 @@
 package com.ojas.obs.error;
+
 /**
  * 
  * @author akrishna
@@ -7,6 +8,7 @@ package com.ojas.obs.error;
 public class ErrorResponse {
 
 	private String message;
+	private String statusMessage;
 	private String statusCode;
 
 	public String getMessage() {
@@ -15,6 +17,14 @@ public class ErrorResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
 	}
 
 	public String getStatusCode() {
@@ -27,7 +37,8 @@ public class ErrorResponse {
 
 	@Override
 	public String toString() {
-		return "ErrorResponse [message=" + message + ", statusCode=" + statusCode + "]";
+		return "ErrorResponse [message=" + message + ", statusMessage=" + statusMessage + ", statusCode=" + statusCode
+				+ "]";
 	}
 
 	@Override
@@ -36,6 +47,7 @@ public class ErrorResponse {
 		int result = 1;
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
 		return result;
 	}
 
@@ -57,6 +69,11 @@ public class ErrorResponse {
 			if (other.statusCode != null)
 				return false;
 		} else if (!statusCode.equals(other.statusCode))
+			return false;
+		if (statusMessage == null) {
+			if (other.statusMessage != null)
+				return false;
+		} else if (!statusMessage.equals(other.statusMessage))
 			return false;
 		return true;
 	}

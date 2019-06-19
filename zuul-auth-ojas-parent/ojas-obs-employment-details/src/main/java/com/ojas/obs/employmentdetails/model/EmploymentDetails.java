@@ -11,7 +11,7 @@ public class EmploymentDetails {
 
 	private Date joiningDate;
 
-	private String resourceType;
+	private int resourceType;
 
 	private boolean bondStatus;
 
@@ -19,7 +19,7 @@ public class EmploymentDetails {
 
 	private Date exitDate;
 
-	private String separationType;
+	private int separationType;
 
 	private Boolean flag;
 
@@ -55,11 +55,11 @@ public class EmploymentDetails {
 		this.joiningDate = joiningDate;
 	}
 
-	public String getResourceType() {
+	public int getResourceType() {
 		return resourceType;
 	}
 
-	public void setResourceType(String resourceType) {
+	public void setResourceType(int resourceType) {
 		this.resourceType = resourceType;
 	}
 
@@ -89,11 +89,11 @@ public class EmploymentDetails {
 		this.exitDate = exitDate;
 	}
 
-	public String getSeparationType() {
+	public int getSeparationType() {
 		return separationType;
 	}
 
-	public void setSeparationType(String separationType) {
+	public void setSeparationType(int separationType) {
 		this.separationType = separationType;
 	}
 

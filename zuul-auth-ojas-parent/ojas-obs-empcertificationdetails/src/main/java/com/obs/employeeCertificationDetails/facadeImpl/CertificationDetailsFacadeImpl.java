@@ -4,19 +4,22 @@ package com.obs.employeeCertificationDetails.facadeImpl;
 import static com.obs.employeeCertificationDetails.constants.Constants.DELETE;
 import static com.obs.employeeCertificationDetails.constants.Constants.FAILED;
 import static com.obs.employeeCertificationDetails.constants.Constants.GET;
+import static com.obs.employeeCertificationDetails.constants.Constants.GETBYID;
 import static com.obs.employeeCertificationDetails.constants.Constants.GET_COUNT;
 import static com.obs.employeeCertificationDetails.constants.Constants.SAVE;
 import static com.obs.employeeCertificationDetails.constants.Constants.SUCCESS;
 import static com.obs.employeeCertificationDetails.constants.Constants.UPDATE;
-import static com.obs.employeeCertificationDetails.constants.Constants.GETBYID;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.obs.employeeCertificationDetails.dao.EmployeeCertificationDAO;
 import com.obs.employeeCertificationDetails.facade.CertificationDetailsFacade;
 import com.obs.employeeCertificationDetails.model.CertificationDetails;
@@ -39,11 +42,12 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 			boolean saveCertificationDetails = employeeCertificationDAOImpl.saveCertificationDetails(certificationDetailsRequest);
 			logger.debug("inside  save condition.****** : " + saveCertificationDetails);
 			if(saveCertificationDetails) {
-				int allRecordsCount = employeeCertificationDAOImpl.getAllCertificationDetailsCount();
-				certificationDetailsResponse.setTotalCount(allRecordsCount);
-				certificationDetailsResponse.setStatusMassage("Employee Certification detail saved successfuly");
+				certificationDetailsResponse.setMessage("Employee Certification detail saved successfuly");
+				certificationDetailsResponse.setStatusCode("200");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);
 			}else {
+				certificationDetailsResponse.setMessage("Error");
+				certificationDetailsResponse.setStatusCode("409");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 			}
 		}
@@ -52,12 +56,12 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 			boolean updateCertificationDetails = employeeCertificationDAOImpl.updateCertificationDetails(certificationDetailsRequest);
 			logger.debug("inside  update condition.****** : " + updateCertificationDetails);
 				if(updateCertificationDetails) {
-					int allRecordsCount = employeeCertificationDAOImpl.getAllCertificationDetailsCount();
-					certificationDetailsResponse.setTotalCount(allRecordsCount);
-					certificationDetailsResponse.setStatusMassage("Employee Certification detail updated successfuly");
+					certificationDetailsResponse.setMessage("Employee Certification detail updated successfuly");
+					certificationDetailsResponse.setStatusCode("200");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);
 			    }else {
-				certificationDetailsResponse.setStatusMassage(FAILED);
+				certificationDetailsResponse.setMessage(FAILED);
+				certificationDetailsResponse.setStatusCode("409");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 			}
 			
@@ -67,12 +71,12 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 			boolean deleteCertificationDetails = employeeCertificationDAOImpl.deleteCertificationDetails(certificationDetailsRequest);
 			logger.debug("inside  update condition.****** : " + deleteCertificationDetails);
 			if(deleteCertificationDetails) {
-				int allRecordsCount = employeeCertificationDAOImpl.getAllCertificationDetailsCount();
-				certificationDetailsResponse.setTotalCount(allRecordsCount);
-				certificationDetailsResponse.setStatusMassage("Employee Certification detail deleted successfuly");
+				certificationDetailsResponse.setMessage("Employee Certification detail deleted successfuly");
+				certificationDetailsResponse.setStatusCode("200");
 			    return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);
 		    }else {
-			certificationDetailsResponse.setStatusMassage(FAILED);
+			certificationDetailsResponse.setMessage(FAILED);
+			certificationDetailsResponse.setStatusCode("409");
 			return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 		    }
 		}
@@ -82,7 +86,7 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 					logger.debug("inside  transactionCheck condition.****** : ");
 					certificationDetailsResponse = new CertificationDetailsResponse();
 					certificationDetailsResponse.setStatusCode("422");
-					certificationDetailsResponse.setStatusMassage("transaction type is not correct");
+					certificationDetailsResponse.setMessage("transaction type is not correct");
 					return new ResponseEntity<>(certificationDetailsResponse, HttpStatus.CONFLICT);
 				}
 				return new ResponseEntity<>(certificationDetailsResponse, HttpStatus.CONFLICT);
@@ -98,26 +102,19 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 		if(certificationDetailsRequest.getTransactionType().equalsIgnoreCase(GET)) {
 			logger.debug("inside  get condition.****** : ");
 			certificationDetailsResponse = new CertificationDetailsResponse();
-			int totalCount=employeeCertificationDAOImpl.getAllCertificationDetailsCount();
 			List<CertificationDetails> allCertificationDetails=employeeCertificationDAOImpl.getAllCertificationDetails();
-			List<CertificationDetails> recordPerPageList=employeeCertificationDAOImpl.getCountPerPage(allCertificationDetails,certificationDetailsRequest.getPageSize(),certificationDetailsRequest.getPageNo());
+			
 			
 			if(allCertificationDetails==null || allCertificationDetails.isEmpty()) {
 				certificationDetailsResponse.setCertificationDetailsList(new ArrayList<>());
-				certificationDetailsResponse.setStatusMassage("No records found");
-				certificationDetailsResponse.setTotalCount(0);
+				certificationDetailsResponse.setMessage("No records found");
+				certificationDetailsResponse.setStatusCode("409");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 			}else {
-				if(certificationDetailsRequest.getPageNo()==0 || certificationDetailsRequest.getPageSize()==0) {
-				certificationDetailsResponse.setStatusMassage(SUCCESS);
+				certificationDetailsResponse.setMessage(SUCCESS);
+				certificationDetailsResponse.setStatusCode("200");
 				certificationDetailsResponse.setCertificationDetailsList(allCertificationDetails);
-				certificationDetailsResponse.setTotalCount(totalCount);
-				}else {
-					certificationDetailsResponse.setStatusMassage(SUCCESS);
-					certificationDetailsResponse.setCertificationDetailsList(recordPerPageList);
-					certificationDetailsResponse.setTotalCount(totalCount);
-				}
-				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);
+				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);	
 			}
 		}
 		if(certificationDetailsRequest.getTransactionType().equalsIgnoreCase(GET_COUNT)) {
@@ -125,19 +122,19 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 			int count=employeeCertificationDAOImpl.getAllCertificationDetailsCount();
 			logger.debug("inside  get_count condition.****** : ");
 			if(count==0) {
-				certificationDetailsResponse.setStatusMassage(FAILED);
-				certificationDetailsResponse.setTotalCount(0);
+				certificationDetailsResponse.setMessage(FAILED);
+				certificationDetailsResponse.setStatusCode("409");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 			}else {
-				certificationDetailsResponse.setStatusMassage(SUCCESS);
-				certificationDetailsResponse.setTotalCount(count);
+				certificationDetailsResponse.setMessage(SUCCESS);
+				certificationDetailsResponse.setStatusCode("200");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);
 			}
 		}
 		if(certificationDetailsRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 			certificationDetailsResponse = new CertificationDetailsResponse();
 			List<CertificationDetails> list=null;
-			String empId=certificationDetailsRequest.getCertificationDetailsModel().get(0).getEmployee_id();
+			String empId=certificationDetailsRequest.getCertificationDetailsModel().get(0).getEmployeeId();
 			Integer id=certificationDetailsRequest.getCertificationDetailsModel().get(0).getId();
 			if(id!=null)
 				list=employeeCertificationDAOImpl.getDetailById(certificationDetailsRequest);
@@ -146,11 +143,11 @@ public class CertificationDetailsFacadeImpl implements CertificationDetailsFacad
 			
 			logger.debug("inside  get_count condition.****** : ");
 			if(list.size()==0) {
-				certificationDetailsResponse.setStatusMassage("No record Present");
-				certificationDetailsResponse.setTotalCount(0);
+				certificationDetailsResponse.setMessage("No record Present");
+				certificationDetailsResponse.setStatusCode("409");
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.CONFLICT);
 			}else {
-				certificationDetailsResponse.setStatusMassage(SUCCESS);
+				certificationDetailsResponse.setMessage(SUCCESS);
 				certificationDetailsResponse.setStatusCode("200");
 				certificationDetailsResponse.setCertificationDetailsList(list);
 				return new ResponseEntity<>(certificationDetailsResponse,HttpStatus.OK);

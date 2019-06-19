@@ -4,7 +4,6 @@ import static com.ojas.obs.employmentdetails.constant.EmploymentDetailsConstants
 import static com.ojas.obs.employmentdetails.constant.EmploymentDetailsConstants.GETALL;
 import static com.ojas.obs.employmentdetails.constant.EmploymentDetailsConstants.SAVE;
 import static com.ojas.obs.employmentdetails.constant.EmploymentDetailsConstants.UPDATE;
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -142,7 +141,7 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 			}
 		}
 		if (employmentDetailsDAO.saveEmploymentDetails(employmentDetailsList)) {
-			employmentDetailsResponse.setStatusCode("201");
+			employmentDetailsResponse.setStatusCode("200");
 			employmentDetailsResponse.setStatusMessage("Data is inserted successfully");
 		}
 		return employmentDetailsResponse;
@@ -158,7 +157,7 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 
 		EmploymentDetailsResponse employmentDetailsResponse = new EmploymentDetailsResponse();
 		employmentDetailsResponse.setStatusCode("200");
-		employmentDetailsResponse.setStatusMessage("Employee details found");
+		employmentDetailsResponse.setStatusMessage("success");
 
 		if (StringUtils.isEmpty(employmentDetailsRequest.getTransactionType())) {
 			LOGGER.error("the requested object has null values" + employmentDetailsRequest);
@@ -166,27 +165,54 @@ public class EmploymentDetailsFacadeImpl implements EmploymentDetailsFacade {
 		}
 		List<EmploymentDetails> employmentDetailsList = null;
 		if (employmentDetailsRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
-			/*if (null != employmentDetailsRequest.getEmploymentDetails() &&  null != employmentDetailsRequest.getEmploymentDetails().get(0) && null != employmentDetailsRequest.getEmploymentDetails().get(0).getId()) {
+			if (null != employmentDetailsRequest.getEmploymentDetails()
+					&& null != employmentDetailsRequest.getEmploymentDetails().get(0)
+					&& null != employmentDetailsRequest.getEmploymentDetails().get(0).getId()) {
 				employmentDetailsList = employmentDetailsDAO
 						.getEmploymentDetailsById(employmentDetailsRequest.getEmploymentDetails().get(0).getId());
-			} else if (null != employmentDetailsRequest.getEmploymentDetails() &&  null != employmentDetailsRequest.getEmploymentDetails().get(0) && null != employmentDetailsRequest.getEmploymentDetails().get(0).getEmployeeId()) {
-				employmentDetailsList = employmentDetailsDAO.getEmploymentDetailsByEmploymentId(
-						employmentDetailsRequest.getEmploymentDetails().get(0).getEmployeeId());
+				employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
+				if (!CollectionUtils.isEmpty(employmentDetailsList)) {
+					employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
+					employmentDetailsResponse.setStatusCode("200");
+					employmentDetailsResponse.setStatusMessage("Employee details found");
+				}
+				LOGGER.debug("the response object is" + employmentDetailsResponse);
+				return employmentDetailsResponse;
+
+			} else if (null != employmentDetailsRequest.getEmploymentDetails()
+					&& null != employmentDetailsRequest.getEmploymentDetails().get(0)
+					&& null != employmentDetailsRequest.getEmploymentDetails().get(0).getEmployeeId()) {
+				employmentDetailsList = employmentDetailsDAO
+						.getEmploymentDetailsByEmploymentId(employmentDetailsRequest);	
+				if (CollectionUtils.isEmpty(employmentDetailsList)) {
+					employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
+					employmentDetailsResponse.setStatusCode("200");
+					employmentDetailsResponse.setStatusMessage("no records found");
+					return employmentDetailsResponse;
+				}
+				employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
+				LOGGER.debug("the response object is" + employmentDetailsResponse);
+				return employmentDetailsResponse;
 			} else {
 				employmentDetailsList = employmentDetailsDAO.getAllEmploymentDetails();
-			}*/
-			List<EmploymentDetails> employmentDetailsByEmploymentId = employmentDetailsDAO.getEmploymentDetailsByEmploymentId(employmentDetailsRequest);
-			employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsByEmploymentId);
-			return employmentDetailsResponse;
-		}
+				employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
+				return employmentDetailsResponse;
+			}
+			/*
+			 * List<EmploymentDetails> employmentDetailsByEmploymentId =
+			 * employmentDetailsDAO
+			 * .getEmploymentDetailsByEmploymentId(employmentDetailsRequest);
+			 */
 
-		if (!CollectionUtils.isEmpty(employmentDetailsList)) {
-			employmentDetailsResponse.setEmploymentDetailsList(employmentDetailsList);
-			employmentDetailsResponse.setStatusCode("200");
-			employmentDetailsResponse.setStatusMessage("Employee details found");
 		}
-		LOGGER.debug("the response object is" + employmentDetailsResponse);
+		/*
+		 * else if
+		 * (employmentDetailsRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+		 * 
+		 * }
+		 */
 		return employmentDetailsResponse;
+
 	}
 
 }

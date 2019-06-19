@@ -7,64 +7,40 @@ import com.ojas.obs.model.EmployeeBUDetails;
 public class EmployeeBUDeatailsResponse {
 
 	private List<EmployeeBUDetails> listCourse;
-	private Integer totalCount;
-	private Integer pageNo;
-	private Integer pageSize;
-	private String statusMessage;
-
+	private String message;
+	private String statusCode;
 	public List<EmployeeBUDetails> getListCourse() {
 		return listCourse;
 	}
-
 	public void setListCourse(List<EmployeeBUDetails> listCourse) {
 		this.listCourse = listCourse;
 	}
-
-	public Integer getTotalCount() {
-		return totalCount;
+	public String getMessage() {
+		return message;
 	}
-
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
-	public Integer getPageNo() {
-		return pageNo;
+	public String getStatusCode() {
+		return statusCode;
 	}
-
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
-
-	public Integer getPageSize() {
-		return pageSize;
+	@Override
+	public String toString() {
+		return "EmployeeBUDeatailsResponse [listCourse=" + listCourse + ", message=" + message + ", statusCode="
+				+ statusCode + "]";
 	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-	}
-
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((listCourse == null) ? 0 : listCourse.hashCode());
-		result = prime * result + ((pageNo == null) ? 0 : pageNo.hashCode());
-		result = prime * result + ((pageSize == null) ? 0 : pageSize.hashCode());
-		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
-		result = prime * result + ((totalCount == null) ? 0 : totalCount.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -79,34 +55,21 @@ public class EmployeeBUDeatailsResponse {
 				return false;
 		} else if (!listCourse.equals(other.listCourse))
 			return false;
-		if (pageNo == null) {
-			if (other.pageNo != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!pageNo.equals(other.pageNo))
+		} else if (!message.equals(other.message))
 			return false;
-		if (pageSize == null) {
-			if (other.pageSize != null)
+		if (statusCode == null) {
+			if (other.statusCode != null)
 				return false;
-		} else if (!pageSize.equals(other.pageSize))
-			return false;
-		if (statusMessage == null) {
-			if (other.statusMessage != null)
-				return false;
-		} else if (!statusMessage.equals(other.statusMessage))
-			return false;
-		if (totalCount == null) {
-			if (other.totalCount != null)
-				return false;
-		} else if (!totalCount.equals(other.totalCount))
+		} else if (!statusCode.equals(other.statusCode))
 			return false;
 		return true;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "EmployeeBUDeatailsResponse [listCourse=" + listCourse + ", totalCount=" + totalCount + ", pageNo="
-				+ pageNo + ", pageSize=" + pageSize + ", statusMessage=" + statusMessage + "]";
-	}
+	
 
 	
 }

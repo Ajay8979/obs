@@ -1,17 +1,21 @@
 package com.obs.businessunit.controller;
 
-import static com.obs.businessunit.constants.UserConstants.BUSINESSUNIT
-;
+
+
 import static com.obs.businessunit.constants.UserConstants.GET;
+
 import static com.obs.businessunit.constants.UserConstants.GETBYID;
 import static com.obs.businessunit.constants.UserConstants.SET;
 import static com.obs.businessunit.constants.UserConstants.UPDATE;
+import static com.obs.businessunit.constants.UserConstants.BUSINESSUNIT;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.obs.businessunit.error.ErrorResponse;
 import com.obs.businessunit.facade.BusinessUnitFacade;
 import com.obs.businessunit.request.BusinessUnitRequest;
-@RestController
 
+@RestController
+//@RequestMapping(BUSINESSUNIT)
 public class BusinessUnitController {
 
 
@@ -33,7 +38,7 @@ public class BusinessUnitController {
 
 	@PostMapping(SET)
 	public ResponseEntity<Object> setBusinessUnit(@RequestBody BusinessUnitRequest businessUnitRequestobject,
-			HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+			HttpServletRequest servletRequest, HttpServletResponse servletResponse)  {
 		
 		logger.debug("incoming request " + businessUnitRequestobject);
 		try {
@@ -63,8 +68,7 @@ public class BusinessUnitController {
 				error.setCode("422");
 				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			if ((businessUnitRequestobject.getTransactionType().equals(UPDATE)
-					/*|| businessUnitRequestobject.getTransactionType().equals(DELETE)*/) && 
+			if ((businessUnitRequestobject.getTransactionType().equalsIgnoreCase(UPDATE)) && 
 					businessUnitRequestobject.getBusinessUnit().get(0).getId() == null)
 					{
 				ErrorResponse error = new ErrorResponse();
@@ -76,13 +80,30 @@ public class BusinessUnitController {
 			}
 			return businessUnitFacade.setBusinessUnit(businessUnitRequestobject);
 
-		} catch (Exception exception) {
+		}catch (SQLException e) {
+			logger.debug("inside businesscontroller-SQLException catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("SQLException is  invalid");
+			error.setMessage("SQLException");
+			error.setStatusMessage(e.getMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		} 
+		catch (DuplicateKeyException exception) {
+			logger.debug("inside controller catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("data is  invalid");
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			error.setMessage("duplicates are not allowed");
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		catch (Exception exception) {
 			logger.debug("inside catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setMessage(exception.getMessage());
 			error.setCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
+		
 	}
 
 	@PostMapping(GET)
@@ -91,7 +112,7 @@ public class BusinessUnitController {
 
 		try {
 			
-		//	logger.debug("requestObject received = " + businessUnitRequest);
+			logger.debug("requestObject received = " + businessUnitRequest);
 	
 			
 			if (businessUnitRequest == null || businessUnitRequest.getTransactionType().isEmpty() || null == businessUnitRequest.getTransactionType()) {
@@ -106,12 +127,19 @@ public class BusinessUnitController {
 				errorResponse.setCode("422");
 				errorResponse.setMessage("Type must be getall");
 				return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-			}
-			
+			}	
 			return businessUnitFacade.getBusinessUnit(businessUnitRequest);
-		} catch (Exception exception) {
+		}catch (SQLException exception) {
+			logger.debug("inside EmployeeEducationFacde-SQLException catch block.****");
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
+			logger.debug("SQLException is  invalid");
+			error.setMessage("SQLException");
+			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		} catch (Exception exception) {
+			logger.debug("inside catch block.*******");
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 	}

@@ -5,6 +5,7 @@ import static com.ojas.obs.resourcetype.constant.ResourceTypesConstants.GETALL;
 import static com.ojas.obs.resourcetype.constant.ResourceTypesConstants.SAVE;
 import static com.ojas.obs.resourcetype.constant.ResourceTypesConstants.UPDATE;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,8 +16,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.ojas.obs.resourcetype.dao.ResourceTypeDAO;
-import com.ojas.obs.resourcetype.exception.DataNotInsertedException;
-import com.ojas.obs.resourcetype.exception.EmploymentDetailsException;
 import com.ojas.obs.resourcetype.model.ResourceType;
 import com.ojas.obs.resourcetype.model.ResourceTypeRequest;
 import com.ojas.obs.resourcetype.model.ResourceTypeResponse;
@@ -44,8 +43,8 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 	 * @throws DataNotInsertedException
 	 */
 	@Override
-	public ResourceTypeResponse saveResourceTypes(ResourceTypeRequest resourceTypeRequest)
-			throws EmploymentDetailsException, DataNotInsertedException {
+	public ResourceTypeResponse saveResourceTypes(ResourceTypeRequest resourceTypeRequest)throws SQLException{
+	
 		ResourceTypeResponse resourceTypeResponse = new ResourceTypeResponse();
 
 		LOGGER.debug("the requested object is" + resourceTypeRequest);
@@ -53,7 +52,7 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 		if (StringUtils.isEmpty(resourceTypeRequest.getTransactionType())
 				|| CollectionUtils.isEmpty(resourceTypeRequest.getResourceTypes())) {
 			LOGGER.error("the requested object has null values" + resourceTypeRequest);
-			throw new EmploymentDetailsException("Requested object has null values");
+			throw new SQLException("Requested object has null values");
 		}
 		if (resourceTypeRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 			LOGGER.debug("the response object is" + resourceTypeRequest);
@@ -71,7 +70,9 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 		LOGGER.debug("the response object is" + resourceTypeRequest);
 
 		return resourceTypeResponse;
+	
 	}
+	
 
 	/**
 	 * method deletes data from employment_details table
@@ -81,11 +82,12 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 	 * @return
 	 * @throws EmploymentDetailsException
 	 * @throws DataNotInsertedException
+	 * @throws SQLException 
 	 */
 
 	private ResourceTypeResponse deleteResourceTypes(List<ResourceType> employmentDetailsList,
 			ResourceTypeResponse employmentDetailsResponse)
-			throws EmploymentDetailsException, DataNotInsertedException {
+			throws SQLException {
 		employmentDetailsResponse.setStatusCode("201");
 		employmentDetailsResponse.setStatusMessage("Resource Type not deleted successfully");
 
@@ -104,11 +106,12 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 	 * @return
 	 * @throws EmploymentDetailsException
 	 * @throws DataNotInsertedException
+	 * @throws SQLException 
 	 */
 
 	private ResourceTypeResponse updateResourceTypes(List<ResourceType> employmentDetailsList,
 			ResourceTypeResponse employmentDetailsResponse)
-			throws EmploymentDetailsException, DataNotInsertedException {
+			throws SQLException {
 		employmentDetailsResponse.setStatusCode("201");
 		employmentDetailsResponse.setStatusMessage("Resource Type not updated successfully");
 
@@ -130,7 +133,7 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 	 */
 	private ResourceTypeResponse insertResourceTypes(List<ResourceType> employmentDetailsList,
 			ResourceTypeResponse employmentDetailsResponse)
-			throws EmploymentDetailsException, DataNotInsertedException {
+			throws SQLException {
 		employmentDetailsResponse.setStatusCode("400");
 		employmentDetailsResponse.setStatusMessage("Resource Type not saved successfully");
 
@@ -144,10 +147,11 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 
 	/**
 	 * method retrieves data from employment_details table
+	 * @throws SQLException 
 	 */
 	@Override
 	public ResourceTypeResponse viewResourceTypes(ResourceTypeRequest resourceTypeRequest)
-			throws EmploymentDetailsException {
+			throws SQLException {
 
 		ResourceTypeResponse employmentDetailsResponse = new ResourceTypeResponse();
 		employmentDetailsResponse.setStatusCode("204");
@@ -155,7 +159,7 @@ public class ResourceTypeFacadeImpl implements ResourceTypeFacade {
 
 		if (StringUtils.isEmpty(resourceTypeRequest.getTransactionType())) {
 			LOGGER.error("the requested object has null values" + resourceTypeRequest);
-			throw new EmploymentDetailsException("Requested object has null values");
+			throw new SQLException("Requested object has null values");
 		}
 		List<ResourceType> employmentDetailsList = null;
 		if (resourceTypeRequest.getTransactionType().equalsIgnoreCase(GETALL)) {

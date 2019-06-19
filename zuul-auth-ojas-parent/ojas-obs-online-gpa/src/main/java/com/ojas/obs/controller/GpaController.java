@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ojas.obs.errorMessage.ErrorResponse;
 import com.ojas.obs.facade.GpaFacade;
 import com.ojas.obs.model.GpaPlan;
@@ -46,18 +45,17 @@ public class GpaController {
 			HttpServletResponse servletResponse) throws SQLException {
 		String sessionId = null;
 
-		logger.debug("incoming requests " + gpaRequest);
+		logger.debug("The request inside GPA controller set method " + gpaRequest);
 		try {
 			// Gson gson = new Gson();
 			// GpaRequest gpaRequestObject = gson.fromJson(gpaRequest, GpaRequest.class);
 
 			if (null == gpaRequest) {
 				ErrorResponse error = new ErrorResponse();
-				logger.debug("request is not valid");
+				logger.debug("Request feild is null ");
 				error.setMessage("Request is not a valid");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			sessionId = gpaRequest.getSessionId();
 			logger.debug("incoming request " + sessionId);
 
 			List<GpaPlan> gpa = gpaRequest.getGpaPlan();
@@ -65,7 +63,7 @@ public class GpaController {
 			if (null == gpa) {
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("data must not be null");
-				logger.debug("data is not valid");
+				logger.debug("data must not be null");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			transactionType = gpaRequest.getTransactionType();
@@ -76,13 +74,13 @@ public class GpaController {
 						|| (null == plan.getTotalPremium())
 						|| (gpaRequest.getTransactionType() == null || (gpaRequest.getTransactionType().isEmpty())))) {
 					ErrorResponse error = new ErrorResponse();
-					logger.debug("data is  invalid");
+					logger.debug("data is  invalid" );
 					error.setMessage("Request is  invalid");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 
 				}
 
-				if (((transactionType.equalsIgnoreCase(UPDATE))) && null == plan.getGpaPlanId()) {
+				if (((transactionType.equalsIgnoreCase(UPDATE))) && null == plan.getId()) {
 					ErrorResponse errorResponse = new ErrorResponse();
 					errorResponse = new ErrorResponse();
 					errorResponse.setStatusCode("422");
@@ -94,9 +92,11 @@ public class GpaController {
 
 			return gpaFacade.saveGpaPlan(gpaRequest);
 		} catch (Exception e) {
-			logger.debug("inside catch block.*******");
+			logger.debug("inside catch block.*******"+e.getMessage());
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
+			error.setStatusMessage(e.getMessage());
+			error.setMessage("Exception occured");
+			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		
@@ -114,31 +114,37 @@ public class GpaController {
 
 	@RequestMapping(GET)
 	public ResponseEntity<Object> getgpaDetails(@RequestBody GpaRequest gpaRequest, HttpServletRequest servletRequest,
-			HttpServletResponse servletResponse) throws SQLException {
+			HttpServletResponse servletResponse){
 
-		ResponseEntity<Object> responseEntity = null; // GpaRequest gpaRequest = null;
-		String sessionId = null;
+		//ResponseEntity<Object> responseEntity = null; // GpaRequest gpaRequest = null;
 		try { 
 			
-			logger.debug("requestObject received = "); 
+			logger.debug("The request details in GPA controller get method = "+gpaRequest); 
 			
 			if (null == gpaRequest) {
-
-				ErrorResponse error = new ErrorResponse();
+                ErrorResponse error = new ErrorResponse();
 				logger.debug("data is not valid");
 				error.setMessage("Request is not valid");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
-			sessionId = gpaRequest.getSessionId();
-			logger.debug("incoming request " + sessionId);
+			logger.debug("incoming request");
 
 			return gpaFacade.getAllGpaDetails(gpaRequest);
 
-		} catch (Exception exception) {
-			logger.debug("inside catch block.*******");
-
-			ErrorResponse error = new ErrorResponse();
+		} catch (SQLException exception) {
+			logger.debug("inside catch block.*******"+exception.getMessage());
+            ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
+			error.setMessage("SQLException Occurred");
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (Exception exception) {
+			logger.debug("inside catch block.*******"+exception.getMessage());
+            ErrorResponse error = new ErrorResponse();
+			error.setStatusMessage(exception.getMessage());
+			error.setMessage("Exception Occurred");
+			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		

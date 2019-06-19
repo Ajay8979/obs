@@ -14,7 +14,8 @@ public class UserConstants {
 	public static final String DELETE = "delete";
 
 	public static final String FAILED = "failed";
-
+	public static final String SQLEXCEPTION = "SQLException caught";
+	public static final String EXCEPTION = "Exception caught";
 	
 	
 
@@ -35,7 +36,7 @@ public class UserConstants {
 
 	public static final String GETEMPCOUNT = "select count(*) from obs_employeeinfo";
 	
-	public static final String GETEMPBYID ="select firstname,middlename,lastname,status,dob,gender,title,employeeId,flag,createdOn,createdBy from obs_employeeinfo where flag = '1' and id= ";
+	public static final String GETEMPBYID ="select * from obs_employeeinfo where flag = '1' and id= ";
 	
 	public static final String ROLEEMPBYID ="select role_id from user_role where  employee_id= ";
 			

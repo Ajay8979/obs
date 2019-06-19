@@ -1,11 +1,11 @@
 package com.ojas.obs.facadeimpl;
 
 import static com.ojas.obs.constants.UserConstants.FAILED;
+import static com.ojas.obs.constants.UserConstants.GETALL;
+import static com.ojas.obs.constants.UserConstants.GETBYID;
 import static com.ojas.obs.constants.UserConstants.SAVE;
 import static com.ojas.obs.constants.UserConstants.SUCCESS;
 import static com.ojas.obs.constants.UserConstants.UPDATE;
-import static com.ojas.obs.constants.UserConstants.GETALL;
-import static com.ojas.obs.constants.UserConstants.GETBYID;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ojas.obs.dao.EmployeeStatusDao;
-import com.ojas.obs.error.ErrorResponse;
 import com.ojas.obs.facade.EmployeeStatusFacade;
 import com.ojas.obs.model.EmployeeStatus;
 import com.ojas.obs.request.EmployeeStatusRequest;
@@ -36,66 +35,58 @@ public class EmployeeStatusFacadeImpl implements EmployeeStatusFacade {
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
-	public ResponseEntity<Object> setEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) {
-		logger.debug("inside setEmployeeStatus method : " + employeeStatusRequest);
+	public ResponseEntity<Object> setEmployeeStatus(EmployeeStatusRequest employeeStatusRequest)
+			throws SQLException, DuplicateKeyException {
+		logger.debug("inside setEmployeeStatus method in empstatusfacade: " + employeeStatusRequest);
 		EmployeeStatusResponse employeeStatusResponse = null;
-		try {
-			if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
-				employeeStatusResponse = new EmployeeStatusResponse();
-				boolean save = employeeStatusDao.saveEmployeeStatus(employeeStatusRequest);
-				logger.debug("*****inside  save condition.***** : " + save);
-				if (!save) {
-					logger.error("**Failed to save the record(s)***");
-					employeeStatusResponse.setStatus(FAILED);
-					return new ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT);
-				}
-				employeeStatusResponse.setStatus("Record successfully saved");
-				return new ResponseEntity<>(employeeStatusResponse, HttpStatus.OK);
+		if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
+			employeeStatusResponse = new EmployeeStatusResponse();
+			boolean save = employeeStatusDao.saveEmployeeStatus(employeeStatusRequest);
+			logger.debug("Inside  save condition in facade : " + save);
+			if (!save) {
+				logger.error("Failed to save the record(s)");
+				employeeStatusResponse.setMessage(FAILED);
+				employeeStatusResponse.setStatusCode("409");
+				return new ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT);
 			}
-			if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
-				employeeStatusResponse = new EmployeeStatusResponse();
-				boolean update = employeeStatusDao.updateEmployeeStatus(employeeStatusRequest);
-				logger.debug("*****inside  update condition.***** : " + update);
-				if (!update) {
-					logger.error("**Failed to update the record(s)***");
-					employeeStatusResponse.setStatus(FAILED);
-					return new ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT);
-				}
-				employeeStatusResponse.setStatus("Record Successfully updated");
-				return new ResponseEntity<>(employeeStatusResponse, HttpStatus.OK);
+			logger.info("Successfully saved the record(s)");
+			employeeStatusResponse.setMessage("Record successfully saved");
+			employeeStatusResponse.setStatusCode("200");
+			return new ResponseEntity<>(employeeStatusResponse, HttpStatus.OK);
+		}
+
+		if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
+			employeeStatusResponse = new EmployeeStatusResponse();
+			boolean update = employeeStatusDao.updateEmployeeStatus(employeeStatusRequest);
+			logger.debug("Inside  update condition : " + update);
+			if (!update) {
+				logger.error("Failed to update the record(s)");
+				employeeStatusResponse.setStatusCode("409");
+				employeeStatusResponse.setMessage(FAILED);
+				logger.info("Update response : " + employeeStatusResponse);
+				return new ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT);
 			}
-
-			/*
-			 * if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
-			 * employeeStatusResponse = new EmployeeStatusResponse(); boolean delete =
-			 * employeeStatusDao.deleteEmployeeStatus(employeeStatusRequest);
-			 * logger.debug("*****inside  delete condition.***** : " + delete); if (!delete)
-			 * { employeeStatusResponse.setStatus("Record already deleted"); return new
-			 * ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT); }
-			 * employeeStatusResponse.setStatus("Record successfully deleted"); return new
-			 * ResponseEntity<>(employeeStatusResponse, HttpStatus.OK); }
-			 */
-
-		} catch (DuplicateKeyException exception) {
-			logger.error("inside catch block.*******");
-			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.setStatusCode("422");
-			errorResponse.setMessage(exception.getCause().getLocalizedMessage());
-			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+			employeeStatusResponse.setMessage("Record Successfully updated");
+			employeeStatusResponse.setStatusCode("200");
+			return new ResponseEntity<>(employeeStatusResponse, HttpStatus.OK);
 		}
-		catch (Exception exception) {
-			logger.error("inside catch block.*******");
-			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.setStatusCode("422");
-			errorResponse.setMessage(exception.getMessage());
-			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-		}
-		return null;
 
+		/*
+		 * if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
+		 * employeeStatusResponse = new EmployeeStatusResponse(); boolean delete =
+		 * employeeStatusDao.deleteEmployeeStatus(employeeStatusRequest);
+		 * logger.debug("*****inside  delete condition.***** : " + delete); if (!delete)
+		 * { employeeStatusResponse.setStatus("Record already deleted"); return new
+		 * ResponseEntity<>(employeeStatusResponse, HttpStatus.CONFLICT); }
+		 * employeeStatusResponse.setStatus("Record successfully deleted"); return new
+		 * ResponseEntity<>(employeeStatusResponse, HttpStatus.OK); }
+		 */
+		employeeStatusResponse = new EmployeeStatusResponse();
+		return new ResponseEntity<>(employeeStatusResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
 	public ResponseEntity<Object> getEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
-		logger.debug("*****inside  getEmployeeStatus method in EmployeeStatusFacade*****");
+		logger.debug("Inside  getEmployeeStatus method in EmployeeStatusFacade");
 		EmployeeStatusResponse statusResponse = new EmployeeStatusResponse();
 		List<EmployeeStatus> allEmpStatus = null;
 		if (employeeStatusRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
@@ -106,12 +97,14 @@ public class EmployeeStatusFacadeImpl implements EmployeeStatusFacade {
 			allEmpStatus = employeeStatusDao.getById(empList.get(0).getId());
 		}
 		if (null == allEmpStatus || allEmpStatus.isEmpty()) {
-			logger.error("**Failed to fetch the record(s)***");
-			statusResponse.setStatus("Failed to fetch the record(s)");
+			logger.error("Failed to fetch the record(s)");
+			statusResponse.setMessage("Failed to fetch the record(s)");
 			statusResponse.setEmployeeStatusList(allEmpStatus);
 			return new ResponseEntity<>(statusResponse, HttpStatus.CONFLICT);
 		} else {
-			statusResponse.setStatus(SUCCESS);
+			logger.info("Records fetched successfully");
+			statusResponse.setMessage(SUCCESS);
+			statusResponse.setStatusCode("200");
 			statusResponse.setEmployeeStatusList(allEmpStatus);
 			return new ResponseEntity<>(statusResponse, HttpStatus.OK);
 		}

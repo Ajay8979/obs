@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
-import com.ojas.obs.response.EmployeeRoleResponse;
 
 /**
  * 
@@ -54,7 +53,7 @@ public interface EmployeeInfoDao {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public List<EmployeeInfo> getPageRecords(List<EmployeeInfo> allemployeeDetails, int pageSize, int pageNum) throws SQLException;
+	//public List<EmployeeInfo> getPageRecords(List<EmployeeInfo> allemployeeDetails, int pageSize, int pageNum) throws SQLException;
 
 	/**
 	 * 
@@ -62,11 +61,11 @@ public interface EmployeeInfoDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int getAllEmployeeDetailsCount() throws SQLException;
+	//public int getAllEmployeeDetailsCount() throws SQLException;
 
 	public List<EmployeeInfo> getById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 	
-	public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
+	//public EmployeeRoleResponse getRoleById(EmployeeInfoRequest employeeInfoRequest) throws SQLException;
 	
 	
 	

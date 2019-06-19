@@ -3,7 +3,6 @@ package com.ojas.obs.projectDetails.controller;
 import static com.ojas.obs.projectDetails.constants.UrlConstants.GET;
 import static com.ojas.obs.projectDetails.constants.UrlConstants.SET;
 import static com.ojas.obs.projectDetails.constants.UserConstants.DELETE;
-import static com.ojas.obs.projectDetails.constants.UserConstants.GETALL;
 import static com.ojas.obs.projectDetails.constants.UserConstants.IDISNULL;
 import static com.ojas.obs.projectDetails.constants.UserConstants.PROJECTDETAILSOBJECTNULL;
 import static com.ojas.obs.projectDetails.constants.UserConstants.REQUESTOBJECTNULL;
@@ -96,11 +95,23 @@ public class ProjectDetailsController {
 			responseEntity = new ResponseEntity<>(setProjectDetails, HttpStatus.OK);
 		}
 
-		catch (Exception e) {
+		catch (SQLException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
-			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+			exception.printStackTrace();
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 
 		return responseEntity;
 
@@ -141,11 +152,23 @@ public class ProjectDetailsController {
 		try {
 			ProjectDetailsResponse setPassport = projectDetailsFacade.getProjectDetails(projectDetailsRequestObject);
 			responseEntity = new ResponseEntity<>(setPassport, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (SQLException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
-			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+			exception.printStackTrace();
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 		return responseEntity;
 
 	}

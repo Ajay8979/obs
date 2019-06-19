@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class EmployeeSkillInfoController {
 
 		ResponseEntity<Object> responseEntity = null;
 		ErrorResponse error = new ErrorResponse();
-		logger.debug("Enter the controller set method...");
+		logger.info("Enter the controller set method...");
 
 		// validating the request object
 
@@ -89,14 +90,23 @@ public class EmployeeSkillInfoController {
 		}
 		try {
 			responseEntity = employeeSkillService.setEmployeeSkillInfo(employeeSkillInfoRequest);
-		} catch (SQLException se) {
+		}catch (DuplicateKeyException exception) {
+			error.setStatusMessage(exception.getMessage());
+			error.setMessage("duplicates are not allowed");
+			error.setStatusCode("409");
+			exception.printStackTrace();
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+	  } 
+		catch (SQLException se) {
+			logger.error("duplicates are not alowed..");
 			error.setMessage("duplicates are not alowed");
 			error.setStatusCode("422");
 			error.setStatusMessage(se.getMessage());
 			responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
+			logger.error("duplicates are not alowed..");
 			error.setStatusCode("409");
-			error.setStatusMessage(e.getCause().getMessage());
+			error.setStatusMessage(e.getMessage());
 			responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		return responseEntity;
@@ -107,6 +117,7 @@ public class EmployeeSkillInfoController {
 	public ResponseEntity<Object> getEmployeeSkillInfo(@RequestBody EmployeeSkillInfoRequest employeeSkillInfoRequest,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		ResponseEntity<Object> responseEntity = null;
 		ErrorResponse error = new ErrorResponse();
 		logger.debug("Enter the controller get method...");
 
@@ -129,12 +140,23 @@ public class EmployeeSkillInfoController {
 				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 
-			return employeeSkillService.getEmployeeSkillInfo(employeeSkillInfoRequest);
+			responseEntity= employeeSkillService.getEmployeeSkillInfo(employeeSkillInfoRequest);
 
-		} catch (Exception exception) {
+		} /*catch (Exception exception) {
 			logger.debug("inside catch block.*******");
 			error.setStatusMessage(exception.getMessage());
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		}*/
+		catch (SQLException se) {
+			error.setMessage("duplicates are not alowed");
+			error.setStatusCode("422");
+			error.setStatusMessage(se.getMessage());
+			responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		} catch (Exception e) {
+			error.setStatusCode("409");
+			error.setStatusMessage(e.getMessage());
+			responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
+		return responseEntity;
 	}
 }

@@ -8,6 +8,7 @@ package com.ojas.obs.error;
 public class ErrorResponse {
 	private String message;
 	private String statusCode;
+	private String statusMessage;
 
 	public String getMessage() {
 		return message;
@@ -25,9 +26,12 @@ public class ErrorResponse {
 		this.statusCode = statusCode;
 	}
 
-	@Override
-	public String toString() {
-		return "errorMessage [message=" + message + ", statusCode=" + statusCode + "]";
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
 	}
 
 	@Override
@@ -36,6 +40,7 @@ public class ErrorResponse {
 		int result = 1;
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
 		return result;
 	}
 
@@ -51,16 +56,25 @@ public class ErrorResponse {
 		if (message == null) {
 			if (other.message != null)
 				return false;
-		} else if (!message.equals(other.message)) {
+		} else if (!message.equals(other.message))
 			return false;
-		}
 		if (statusCode == null) {
 			if (other.statusCode != null)
 				return false;
-		} else if (!statusCode.equals(other.statusCode)) {
+		} else if (!statusCode.equals(other.statusCode))
 			return false;
-		}
+		if (statusMessage == null) {
+			if (other.statusMessage != null)
+				return false;
+		} else if (!statusMessage.equals(other.statusMessage))
+			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ErrorResponse [message=" + message + ", statusCode=" + statusCode + ", statusMessage=" + statusMessage
+				+ "]";
 	}
 
 }

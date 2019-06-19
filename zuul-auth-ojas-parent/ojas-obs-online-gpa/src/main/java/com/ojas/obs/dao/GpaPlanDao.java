@@ -1,10 +1,7 @@
 package com.ojas.obs.dao;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 
 import com.ojas.obs.model.GpaPlan;
 import com.ojas.obs.request.GpaRequest;
@@ -59,7 +56,8 @@ public interface GpaPlanDao {
 		 */
 		public int getAllGpaDetailsCount() throws SQLException;
 		
-		public List<GpaPlan> getById(Integer gpaPlanid) throws SQLException;
+		//public List<GpaPlan> getByGpaId(Integer gpaPlanid) throws SQLException;
+		public List<GpaPlan> getById(GpaRequest gpaRequest) throws SQLException;
 
 	
 

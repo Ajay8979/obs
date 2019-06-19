@@ -15,22 +15,22 @@ public class EmployeeContactRowMapper implements RowMapper<EmployeeContactInfo>{
 		if(rs==null) { 
 		 return null;	
 		}else {
-		emp.setAlternate_mobileNo(rs.getString("alternate_mobileNo"));
-		emp.setCreated_By(rs.getString("created_By")); 
-		emp.setCreated_date(rs.getTimestamp("created_date"));
-		emp.setCurrent_Address_Line1(rs.getString("current_Address_Line1"));
-		emp.setCurrent_Address_Line2(rs.getString("current_Address_Line2"));
-		emp.setCurrent_City(rs.getString("current_City")); 
-		emp.setCurrent_Pin(rs.getInt("current_Pin"));
-		emp.setCurrent_State(rs.getInt("current_State"));
+		emp.setAlternateMobileNo(rs.getString("alternate_mobileNo"));
+		emp.setCreatedBy(rs.getString("created_By")); 
+		emp.setCreatedDate(rs.getTimestamp("created_date"));
+		emp.setCurrentAddressLine1(rs.getString("current_Address_Line1"));
+		emp.setCurrentAddressLine2(rs.getString("current_Address_Line2"));
+		emp.setCurrentCity(rs.getString("current_City")); 
+		emp.setCurrentPin(rs.getInt("current_Pin"));
+		emp.setCurrentState(rs.getInt("current_State"));
 		emp.setEmail(rs.getString("email"));
-		emp.setEmp_Id(rs.getString("emp_Id"));
+		emp.setEmpId(rs.getString("emp_Id"));
 		emp.setFlag(rs.getBoolean("flag"));
 		emp.setId(rs.getInt("id"));
-		emp.setPermanent_Address_Line_1(rs.getString("permanent_Address_Line_1"));
-		emp.setPersonal_mobileNo(rs.getString("personal_mobileNo"));
-		emp.setUpdated_By(rs.getString("updated_By"));
-		emp.setUpdated_date(rs.getTimestamp("updated_date"));
+		emp.setPermanentAddressLine1(rs.getString("permanent_Address_Line_1"));
+		emp.setPersonalMobileNo(rs.getString("personal_mobileNo"));
+		emp.setUpdatedBy(rs.getString("updated_By"));
+		emp.setUpdatedDate(rs.getTimestamp("updated_date"));
 		
 		
 		return emp;

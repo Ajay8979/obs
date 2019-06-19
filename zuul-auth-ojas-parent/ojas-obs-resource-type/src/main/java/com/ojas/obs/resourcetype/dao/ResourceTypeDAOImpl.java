@@ -1,17 +1,15 @@
 package com.ojas.obs.resourcetype.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.ojas.obs.resourcetype.exception.DataNotInsertedException;
 import com.ojas.obs.resourcetype.mapper.ResourceTypeRowMapper;
 import com.ojas.obs.resourcetype.model.ResourceType;
 import com.ojas.obs.resourcetype.util.QueryUtil;
@@ -42,8 +40,8 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 
 	@Override
 
-	@Transactional(rollbackFor = DataNotInsertedException.class)
-	public boolean saveResourceTypes(List<ResourceType> resourceTypes) throws DataNotInsertedException {
+	
+	public boolean saveResourceTypes(List<ResourceType> resourceTypes) throws SQLException {
 
 		for (ResourceType resourceType : resourceTypes) {
 
@@ -54,9 +52,6 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 					if (save >= 1) {
 						return true;
 					}
-				} catch (DataAccessException e) {
-					LOGGER.debug("Resource Types are not saved ");
-					throw new DataNotInsertedException("failed to save resource type with id " + resourceType.getId());
 				} finally {
 					if (jdbcTemplate != null) {
 						try {
@@ -81,7 +76,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 	 */
 
 	@Override
-	public boolean updateResourceTypes(List<ResourceType> resourceTypes) throws DataNotInsertedException {
+	public boolean updateResourceTypes(List<ResourceType> resourceTypes) throws SQLException {
 
 		for (ResourceType resourceType : resourceTypes) {
 
@@ -92,10 +87,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 					if (update > 0) {
 						return true;
 					}
-				} catch (DataAccessException e) {
-					LOGGER.debug("Resource Types  records not get updated ");
-					throw new DataNotInsertedException("failed to update record with id " + resourceType.getId());
-				} finally {
+				}  finally {
 					if (jdbcTemplate != null) {
 						try {
 							jdbcTemplate.getDataSource().getConnection().close();
@@ -106,7 +98,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 				}
 			} else {
 				LOGGER.debug("Resource Types  records not get updated ");
-				throw new DataNotInsertedException("Resource Type not found  with  id " + resourceType.getId());
+				throw new SQLException("Resource Type not found  with  id " + resourceType.getId());
 			}
 		}
 
@@ -141,7 +133,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 	 */
 
 	@Override
-	public boolean deleteResourceTypes(List<ResourceType> resourceTypes) throws DataNotInsertedException {
+	public boolean deleteResourceTypes(List<ResourceType> resourceTypes) throws SQLException{
 
 		for (ResourceType resourceType : resourceTypes) {
 
@@ -149,10 +141,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 				try {
 					Object[] inputArgs = { resourceType.getId() };
 					jdbcTemplate.update(queryUtil.getQuery("DELETE_RESOURCE_TYPES_STMT"), inputArgs);
-				} catch (DataAccessException e) {
-					LOGGER.debug("Resource Type with id " + resourceType.getId() + " is not found");
-					throw new DataNotInsertedException("failed to update record with id " + resourceType.getId());
-				} finally {
+				}  finally {
 					if (jdbcTemplate != null) {
 						try {
 							jdbcTemplate.getDataSource().getConnection().close();
@@ -163,8 +152,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 				}
 			} else {
 				LOGGER.debug("All requested Employee  records not get deleted ");
-				throw new DataNotInsertedException(
-						"Employee details not found for employee with employee id " + resourceType.getId());
+				throw new SQLException("Employee details not found for employee with employee id " + resourceType.getId());
 			}
 		}
 
@@ -196,7 +184,7 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 	}
 
 	@Override
-	public List<ResourceType> getResourceTypeById(Integer id) {
+	public List<ResourceType> getResourceTypeById(Integer id) throws SQLException {
 
 		RowMapper<ResourceType> rowMapper = new ResourceTypeRowMapper();
 		try {
@@ -206,11 +194,9 @@ public class ResourceTypeDAOImpl implements ResourceTypeDAO {
 			return employmentDetailsList;
 		} finally {
 			if (jdbcTemplate != null) {
-				try {
+				
 					jdbcTemplate.getDataSource().getConnection().close();
-				} catch (Exception exception) {
-					exception.getMessage();
-				}
+				
 			}
 		}
 	}

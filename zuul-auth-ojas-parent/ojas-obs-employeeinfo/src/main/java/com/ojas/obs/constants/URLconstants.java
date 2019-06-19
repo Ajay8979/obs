@@ -10,6 +10,6 @@ public class URLconstants {
 	public static final String GETBYID = "getbyid";	
 	public static final String GETROLEBYID = "getrolebyid";	
 
-	public static final String EMPLOYEEINFO = "/employeeInfo";
+	public static final String EMPLOYEEINFO = "/obs/employeeInfo";
 	
 }

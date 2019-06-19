@@ -1,20 +1,15 @@
 package com.ojas.obs.facade;
 
-import java.util.List;
+import java.sql.SQLException;
 
-import com.ojas.obs.model.EmployeeContactInfo;
+import org.springframework.http.ResponseEntity;
+
 import com.ojas.obs.requests.EmployeeContactInfoRequest;
-import com.ojas.obs.response.EmployeeContactInfoResponse;
 
 public interface EmployeeStatusFacade {
 
-EmployeeContactInfoResponse setEmployeeContactInfo(EmployeeContactInfoRequest empRequest);
-	
-	List<EmployeeContactInfo> getEmployeeContactInfo(EmployeeContactInfoRequest empRequest);
-	
-	EmployeeContactInfo showEmployeeContactInfo(EmployeeContactInfoRequest empRequest);
+	ResponseEntity<Object> setEmployeeContactInfo(EmployeeContactInfoRequest empRequest) throws SQLException;
 
-	EmployeeContactInfo showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest);
-	EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest);
-	
+	ResponseEntity<Object> getEmployeeContactInfo(EmployeeContactInfoRequest empRequest) throws SQLException;
+
 }

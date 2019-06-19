@@ -4,12 +4,13 @@ public class ErrorResponse {
 	private String statusCode;
 	private String statusMessage;
 	private String message;
+	
+	
 	public ErrorResponse() {}
 	public ErrorResponse(String statusCode, String statusMessage) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.message = message;
 	}
 
 	public String getStatusCode() {

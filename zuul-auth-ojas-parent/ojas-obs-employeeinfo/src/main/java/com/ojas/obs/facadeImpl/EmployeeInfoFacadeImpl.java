@@ -1,8 +1,7 @@
 package com.ojas.obs.facadeImpl;
 
-import static com.ojas.obs.constants.URLconstants.GETBYID;
-import static com.ojas.obs.constants.URLconstants.GETROLEBYID;
 import static com.ojas.obs.constants.URLconstants.GETAll;
+import static com.ojas.obs.constants.URLconstants.GETBYID;
 import static com.ojas.obs.constants.UserConstants.DELETE;
 import static com.ojas.obs.constants.UserConstants.FAILED;
 import static com.ojas.obs.constants.UserConstants.SAVE;
@@ -14,18 +13,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ojas.obs.dao.EmployeeInfoDao;
-import com.ojas.obs.errorResponse.ErrorResponse;
 import com.ojas.obs.facade.EmployeeInfoFacade;
 import com.ojas.obs.model.EmployeeInfo;
 import com.ojas.obs.request.EmployeeInfoRequest;
 import com.ojas.obs.response.EmployeeInfoResponse;
-import com.ojas.obs.response.EmployeeRoleResponse;
 
 /**
  * 
@@ -34,7 +30,6 @@ import com.ojas.obs.response.EmployeeRoleResponse;
  */
 @Service
 public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
-	
 
 	Logger logger = Logger.getLogger(this.getClass());
 
@@ -50,68 +45,53 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 	 */
 
 	@Override
-	public ResponseEntity<Object> setEmployeeInfo(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
+	public ResponseEntity<Object> setEmployeeInfo(EmployeeInfoRequest employeeInfoRequest)
+			throws SQLException {
 		logger.debug("inside saveEmployee method : " + employeeInfoRequest);
 		EmployeeInfoResponse empInfoResponse = null;
 
-		try {
-			if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
-				empInfoResponse = new EmployeeInfoResponse();
-				boolean saveEmployee = employeeInfoDao.saveEmployeeInfo(employeeInfoRequest);
-				logger.debug("**inside  save condition.****** : " + saveEmployee);
-				if (saveEmployee) {
-
-					empInfoResponse.setStatusMessage("Success fully record added");
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
-				} else {
-					empInfoResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
-				}
+		if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
+			empInfoResponse = new EmployeeInfoResponse();
+			boolean saveEmployee = employeeInfoDao.saveEmployeeInfo(employeeInfoRequest);
+			logger.debug("employeefacadeImpl employee saved : " + saveEmployee);
+			if (!saveEmployee) {
+				empInfoResponse.setStatusCode("409");
+				empInfoResponse.setMessage(FAILED);
+				return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
 			}
-
-			if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
-				empInfoResponse = new EmployeeInfoResponse();
-
-				boolean updateEmployee = employeeInfoDao.updateEmployeeInfo(employeeInfoRequest);
-				if (updateEmployee) {
-					empInfoResponse.setStatusMessage("Success fully record updated");
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
-				} else {
-					empInfoResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
-				}
-			}
-			if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
-				empInfoResponse = new EmployeeInfoResponse();
-
-				boolean deleteEmployeeRecord = employeeInfoDao.deleteEmployeeInfo(employeeInfoRequest);
-
-				logger.debug("**inside  delete condition.******  : " + deleteEmployeeRecord);
-
-				if (deleteEmployeeRecord) {
-					empInfoResponse.setStatusMessage("Success fully record deleted");
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
-				} else {
-					empInfoResponse.setStatusMessage(FAILED);
-					return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
-				}
-			}
-		}catch (DuplicateKeyException exception) {
-			logger.debug("**DuplicateKeyException-inside employeeInfoFacade catch block.****");
-			ErrorResponse error = new ErrorResponse();
-			logger.debug("data is  invalid-DuplicateKeyException ");
-			error.setMessage(exception.getCause().getLocalizedMessage());
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		} 
-		catch (Exception exception) {
-			logger.debug("**inside employeeInfoFacade catch block.****");
-			ErrorResponse error = new ErrorResponse();
-			logger.debug("data is  invalid");
-			error.setMessage(exception.getMessage());
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+			empInfoResponse.setMessage("Successfully record added");
+			empInfoResponse.setStatusCode("200");
+			return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
 		}
-		return null;
 
+		if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
+			empInfoResponse = new EmployeeInfoResponse();
+
+			boolean updateEmployee = employeeInfoDao.updateEmployeeInfo(employeeInfoRequest);
+			logger.info("employeefacadeImpl employee updated : " + updateEmployee);
+			if (!updateEmployee) {
+				empInfoResponse.setMessage(FAILED);
+				empInfoResponse.setStatusCode("409");
+				return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
+			}
+			empInfoResponse.setStatusCode("200");
+			empInfoResponse.setMessage("Successfully record updated");
+			return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
+		}
+		if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(DELETE)) {
+			empInfoResponse = new EmployeeInfoResponse();
+			boolean deleteEmployeeRecord = employeeInfoDao.deleteEmployeeInfo(employeeInfoRequest);
+			logger.debug("inside  delete condition : " + deleteEmployeeRecord);
+			if (!deleteEmployeeRecord) {
+				empInfoResponse.setMessage(FAILED);
+				empInfoResponse.setStatusCode("409");
+				return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
+			}
+			empInfoResponse.setStatusCode("200");
+			empInfoResponse.setMessage("Successfully record deleted");
+			return new ResponseEntity<>(empInfoResponse, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(empInfoResponse, HttpStatus.CONFLICT);
 	}
 
 	/*
@@ -124,45 +104,32 @@ public class EmployeeInfoFacadeImpl implements EmployeeInfoFacade {
 
 	@Override
 	public ResponseEntity<Object> getAllEmployeeDetails(EmployeeInfoRequest employeeInfoRequest) throws SQLException {
-		logger.debug("inside getAllEmployeeDetails in EmployeeInfoFacade.***");
+		logger.debug("Inside getAllEmployeeDetails in EmployeeInfoFacade.");
 		EmployeeInfoResponse employeeResponse = new EmployeeInfoResponse();
 		if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETAll)) {
-
+			logger.debug("Inside getall in facade");
 			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getAllEmployeeDetails(employeeInfoRequest);
-//			List<EmployeeInfo> recordsPerPage = employeeInfoDao.getPageRecords(allEmployeeDetails,
-//					employeeInfoRequest.getPageSize(), employeeInfoRequest.getPageNum());
-			if (allEmployeeDetails == null) {
-				employeeResponse.setEmployeeInfo(new ArrayList<>());
-				employeeResponse.setStatusMessage("No records found");
-				employeeResponse.setTotalCount(0);
-				return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
-			} else {
-				int count = employeeInfoDao.getAllEmployeeDetailsCount();
+			logger.info("Inside getall in facade all employeedetails : " + allEmployeeDetails);
+			if (allEmployeeDetails != null) {
 				employeeResponse.setEmployeeInfo(allEmployeeDetails);
-				employeeResponse.setStatusMessage("Success");
-				employeeResponse.setTotalCount(count);
-				return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
+				employeeResponse.setMessage("Success");
+				employeeResponse.setStatusCode("200");
+				return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
 			}
+			employeeResponse.setEmployeeInfo(new ArrayList<>());
+			employeeResponse.setStatusCode("200");
+			employeeResponse.setMessage("No records found");
+			return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
 		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
 			logger.debug("Inside getbyid in facade");
 			List<EmployeeInfo> allEmployeeDetails = employeeInfoDao.getById(employeeInfoRequest);
-			int count = employeeInfoDao.getAllEmployeeDetailsCount();
+			logger.info("Fetched employee list : " + allEmployeeDetails);
 			employeeResponse.setEmployeeInfo(allEmployeeDetails);
-			employeeResponse.setStatusMessage("Success");
-			employeeResponse.setTotalCount(count);
-			return new ResponseEntity<Object>(employeeResponse, HttpStatus.OK);
-		} else if (employeeInfoRequest.getTransactionType().equalsIgnoreCase(GETROLEBYID)) {
-			System.out.println("Inside Role");
-			EmployeeRoleResponse allEmployeeDetails = employeeInfoDao.getRoleById(employeeInfoRequest);
-			int count = employeeInfoDao.getAllEmployeeDetailsCount();
-			
-			allEmployeeDetails.setStatusMessage("Success");
-			allEmployeeDetails.setTotalCount(count);
-			System.out.println("Resp"+allEmployeeDetails.getRoleName());
-			return new ResponseEntity<Object>(allEmployeeDetails, HttpStatus.OK);
+			employeeResponse.setMessage("Success");
+			employeeResponse.setStatusCode("200");
+			return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
 		}
-
-		return null;
+		return new ResponseEntity<>(employeeResponse, HttpStatus.CONFLICT);
 
 	}
 

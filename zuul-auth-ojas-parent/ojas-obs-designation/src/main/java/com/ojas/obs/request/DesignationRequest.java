@@ -15,63 +15,53 @@ import com.ojas.obs.model.Designation;
 public class DesignationRequest {
 
 	private List<Designation> designation;
-
-	private String sessionId;
-
-	private int pageNo;
-
-	private int pageSize;
-
-	private int totalCount;
-
-	private String transactionType; 
-
+    private String transactionType;
 	public List<Designation> getDesignation() {
 		return designation;
 	}
-
 	public void setDesignation(List<Designation> designation) {
 		this.designation = designation;
 	}
-
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
-
-	public int getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-
 	public String getTransactionType() {
 		return transactionType;
 	}
-
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
+		result = prime * result + ((transactionType == null) ? 0 : transactionType.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DesignationRequest other = (DesignationRequest) obj;
+		if (designation == null) {
+			if (other.designation != null)
+				return false;
+		} else if (!designation.equals(other.designation))
+			return false;
+		if (transactionType == null) {
+			if (other.transactionType != null)
+				return false;
+		} else if (!transactionType.equals(other.transactionType))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "DesignationRequest [designation=" + designation + ", transactionType=" + transactionType + "]";
+	} 
+
+	
 
 }

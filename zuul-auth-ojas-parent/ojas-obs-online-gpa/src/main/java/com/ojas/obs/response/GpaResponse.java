@@ -12,90 +12,62 @@ import com.ojas.obs.model.GpaPlan;
 public class GpaResponse {
 
 	List<GpaPlan> gpa;
-
-
-	private Integer totalCount;
-	private Integer pageSize;
-	private Integer pageNum;
-	private String statusMessage;
-
-	/**
-	 * 
-	 * @return
-	 */
+	private String statusCode;
+	private String message;
 	public List<GpaPlan> getGpa() {
 		return gpa;
 	}
-
-	/**
-	 * 
-	 * @param gpa
-	 */
 	public void setGpa(List<GpaPlan> gpa) {
 		this.gpa = gpa;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Integer getTotalCount() {
-		return totalCount;
+	public String getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((gpa == null) ? 0 : gpa.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GpaResponse other = (GpaResponse) obj;
+		if (gpa == null) {
+			if (other.gpa != null)
+				return false;
+		} else if (!gpa.equals(other.gpa))
+			return false;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
+		if (statusCode == null) {
+			if (other.statusCode != null)
+				return false;
+		} else if (!statusCode.equals(other.statusCode))
+			return false;
+		return true;
 	}
 
-	/**
-	 * 
-	 * @param totalCount
-	 */
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Integer getPageSize() {
-		return pageSize;
-	}
-
-	/**
-	 * 
-	 * @param pageSize
-	 */
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	/***
-	 * 
-	 * @return
-	 */
-	public Integer getPageNum() {
-		return pageNum;
-	}
-
-	/**
-	 * 
-	 * @param pageNum
-	 */
-	public void setPageNum(Integer pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-
-	/**
-	 * 
-	 * @param statusMessage
-	 */
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-	}
+	
+	
 }

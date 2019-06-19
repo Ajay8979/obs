@@ -1,43 +1,41 @@
 package com.ojas.obs.error;
 
 public class ErrorResponse {
-	private String Message;
-	private String StatusCode;
-
-	public ErrorResponse() {
-		super();
+	private String message;
+	private String statusCode;
+	private String statusMessage;
+	public String getMessage() {
+		return message;
 	}
-
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
+	}
 	@Override
 	public String toString() {
-		return "ErrorResponse [Message=" + Message + ", StatusCode=" + StatusCode + "]";
+		return "ErrorResponse [message=" + message + ", statusCode=" + statusCode + ", statusMessage=" + statusMessage
+				+ "]";
 	}
-
-	public String getMessage() {
-		return Message;
-	}
-
-	public void setMessage(String message) {
-		Message = message;
-	}
-
-	public String getStatusCode() {
-		return StatusCode;
-	}
-
-	public void setStatusCode(String statusCode) {
-		StatusCode = statusCode;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Message == null) ? 0 : Message.hashCode());
-		result = prime * result + ((StatusCode == null) ? 0 : StatusCode.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -47,18 +45,28 @@ public class ErrorResponse {
 		if (getClass() != obj.getClass())
 			return false;
 		ErrorResponse other = (ErrorResponse) obj;
-		if (Message == null) {
-			if (other.Message != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!Message.equals(other.Message))
+		} else if (!message.equals(other.message))
 			return false;
-		if (StatusCode == null) {
-			if (other.StatusCode != null)
+		if (statusCode == null) {
+			if (other.statusCode != null)
 				return false;
-		} else if (!StatusCode.equals(other.StatusCode))
+		} else if (!statusCode.equals(other.statusCode))
+			return false;
+		if (statusMessage == null) {
+			if (other.statusMessage != null)
+				return false;
+		} else if (!statusMessage.equals(other.statusMessage))
 			return false;
 		return true;
 	}
+	
+	
+	
+
+	
 
 	
 	

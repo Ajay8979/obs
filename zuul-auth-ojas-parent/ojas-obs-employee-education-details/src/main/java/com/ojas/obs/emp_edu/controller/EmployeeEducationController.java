@@ -8,8 +8,6 @@ import static com.ojas.obs.emp_edu.utility.Constants.GET;
 import static com.ojas.obs.emp_edu.utility.Constants.TRANSACTIONTYPE_NULL;
 import static com.ojas.obs.emp_edu.utility.Constants.REQUEST_NULL;
 import static com.ojas.obs.emp_edu.utility.Constants.OBJECT_NULL;
-import static com.ojas.obs.emp_edu.utility.Constants.PAGE_NO_NULL;
-import static com.ojas.obs.emp_edu.utility.Constants.PAGE_SIZE_NULL;
 import static com.ojas.obs.emp_edu.utility.Constants.EXCEPTION;
 import static com.ojas.obs.emp_edu.utility.Constants.SQL_EXCEPTION;
 import org.apache.log4j.Logger;
@@ -25,10 +23,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
+//@RequestMapping("/obs/empeducationdetails")
 public class EmployeeEducationController {
 	@Autowired
 	EmployeeEducationFacade employeeEducationFacade;
@@ -43,33 +42,22 @@ public class EmployeeEducationController {
 		if (null == emplEduDetailsRequestObj) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(REQUEST_NULL);
+			error.setMessage(REQUEST_NULL);
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
 		if (null == emplEduDetailsRequestObj.getEmployeeEducationDetailsList()) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(OBJECT_NULL);
+			error.setMessage(OBJECT_NULL);
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		if (null == emplEduDetailsRequestObj.getPageSize()) {
+		
+		if (null == emplEduDetailsRequestObj.getTransactionType()
+				|| emplEduDetailsRequestObj.getTransactionType().isEmpty()) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(PAGE_SIZE_NULL);
-			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-		if (null == emplEduDetailsRequestObj.getPageNo()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode("422");
-			error.setStatusMessage(PAGE_NO_NULL);
-			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-		if (null == emplEduDetailsRequestObj.getTransaactionType()
-				|| emplEduDetailsRequestObj.getTransaactionType().isEmpty()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode("422");
-			error.setStatusMessage(TRANSACTIONTYPE_NULL);
+			error.setMessage(TRANSACTIONTYPE_NULL);
 			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		try {
@@ -102,32 +90,21 @@ public class EmployeeEducationController {
 		if (null == emplEduDetailsRequestObj) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(REQUEST_NULL);
+			error.setMessage(REQUEST_NULL);
 			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		if (null == emplEduDetailsRequestObj.getPageNo()) {
+		
+		if (null == emplEduDetailsRequestObj.getTransactionType()
+				|| emplEduDetailsRequestObj.getTransactionType().isEmpty()) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(PAGE_NO_NULL);
+			error.setMessage(TRANSACTIONTYPE_NULL);
 			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		if (null == emplEduDetailsRequestObj.getPageSize()) {
+		if (null == emplEduDetailsRequestObj.getTransactionType()) {
 			ErrorResponse error = new ErrorResponse();
 			error.setStatuscode("422");
-			error.setStatusMessage(PAGE_SIZE_NULL);
-			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-		if (null == emplEduDetailsRequestObj.getTransaactionType()
-				|| emplEduDetailsRequestObj.getTransaactionType().isEmpty()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode("422");
-			error.setStatusMessage(TRANSACTIONTYPE_NULL);
-			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-		if (null == emplEduDetailsRequestObj.getTransaactionType()) {
-			ErrorResponse error = new ErrorResponse();
-			error.setStatuscode("422");
-			error.setStatusMessage(TRANSACTIONTYPE_NULL);
+			error.setMessage(TRANSACTIONTYPE_NULL);
 			return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		 try {

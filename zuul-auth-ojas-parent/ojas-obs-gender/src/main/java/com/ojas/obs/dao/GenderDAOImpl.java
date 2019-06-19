@@ -31,10 +31,10 @@ public class GenderDAOImpl implements GenderDAO {
 	 */
 	@Override
 	public boolean saveGender(GenderRequest genderRequest) throws SQLException {
+		logger.info("@@@@Inside saveGender DAO Method");
 		int count = 0;
 		List<Genders> genders=genderRequest.getGender();
 		List<Object[]> list= new ArrayList<Object[]>();
-		try {
 			 for(Genders gender:genders) {
 					Object[] model=new Object[]{gender.getGender()};
 					list.add(model);
@@ -48,12 +48,8 @@ public class GenderDAOImpl implements GenderDAO {
 					}
 					if(count==noOfrecAdded)
 						return true;
-					
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 	   
-		logger.debug("failed to save through daoImpl Method");
+		logger.info("@@@@failed to save through daoImpl Method");
 		return false;
 	}
     
@@ -63,10 +59,11 @@ public class GenderDAOImpl implements GenderDAO {
 	 */
 	@Override
 	public boolean updateGender(GenderRequest genderRequest) throws SQLException {
+		logger.info("@@@@Inside updateGender DAO Method::");
 		List<Genders> genders = genderRequest.getGender();
 		List<Object[]> list = new ArrayList<Object[]>();
 		int count=0;
-		try {
+		
 			for (Genders gender : genders) {
 				Object[] model = new Object[] { gender.getGender() ,gender.getId() };
 				list.add(model);
@@ -81,11 +78,8 @@ public class GenderDAOImpl implements GenderDAO {
 			if(count==len) {
 				return true;
 			}
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 		
-		logger.debug("failed to updated through daoImpl Method");
+		logger.info("@@@@Failed to updated through daoImpl Method");
 		return false;
 	}
 	/**
@@ -100,8 +94,8 @@ public class GenderDAOImpl implements GenderDAO {
 	 * Object[]{gender.getId()}; list.add(model); } //int[]
 	 * count=jdbcTemplate.batchUpdate(propsReaderUtil.getValue("DELETE_GENDER"),list
 	 * ); int[] count=jdbcTemplate.batchUpdate(DELETE_GENDER,list); for (int i :
-	 * count) { if (i > 0) { logger.debug("saved successfully through DaoImpl" + i);
-	 * return true; } } logger.debug("failed to save through daoImpl Method");
+	 * count) { if (i > 0) { logger.info("saved successfully through DaoImpl" + i);
+	 * return true; } } logger.info("failed to save through daoImpl Method");
 	 * return false; }
 	 */
 	 
@@ -111,12 +105,11 @@ public class GenderDAOImpl implements GenderDAO {
      */
 	@Override
 	public int getAllCount(GenderRequest genderRequest) throws SQLException {
+		logger.info("@@@@Inside getAllCount DAO Method::");
 		int count=0;
-		try {
+		
 			count=jdbcTemplate.queryForObject(GENDERCOUNT, Integer.class);
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	   return count;
 	}
 	/**
@@ -126,48 +119,41 @@ public class GenderDAOImpl implements GenderDAO {
 
 	@Override
 	public List<Genders> getAll(GenderRequest genderRequest) throws SQLException {
+		logger.info("@@@@Inside getAll DAO Method::");
 		//return jdbcTemplate.query(propsReaderUtil.getValue("SELECT_GENDER"), new BeanPropertyRowMapper<Genders>(Genders.class));
 		List<Genders> list=null;
-		try {
+		
 			list=jdbcTemplate.query(SELECT_GENDER, new BeanPropertyRowMapper<Genders>(Genders.class));
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		return list;
 	}
 
-	@Override
-	public List<Genders> getCountPerPage(List<Genders> gendersList, int pageSize, int pageNo) {
-		List<Genders> getAllFiltered = new ArrayList<>();
-		if (gendersList != null && !gendersList.isEmpty()) {
-			pageSize = pageSize > 0 ? pageSize : pageSize * -1;
-			pageNo = pageNo > 0 ? pageNo : pageNo == 0 ? 1 : pageNo * -1;
-			if (pageSize != 0) {
-				int endIndex = pageNo * pageSize;
-				int startIndex = endIndex - pageSize;
-				endIndex = endIndex < gendersList.size() ? endIndex : gendersList.size();
-				startIndex = startIndex < gendersList.size() ? startIndex : 0;
-				getAllFiltered = gendersList.subList(startIndex, endIndex);
-			}
-		}
-		return getAllFiltered;
-	}
+	/*
+	 * @Override public List<Genders> getCountPerPage(List<Genders> gendersList, int
+	 * pageSize, int pageNo) {
+	 * logger.info("@@@@Inside getCountPerPage DAO Method::"); List<Genders>
+	 * getAllFiltered = new ArrayList<>(); if (gendersList != null &&
+	 * !gendersList.isEmpty()) { pageSize = pageSize > 0 ? pageSize : pageSize * -1;
+	 * pageNo = pageNo > 0 ? pageNo : pageNo == 0 ? 1 : pageNo * -1; if (pageSize !=
+	 * 0) { int endIndex = pageNo * pageSize; int startIndex = endIndex - pageSize;
+	 * endIndex = endIndex < gendersList.size() ? endIndex : gendersList.size();
+	 * startIndex = startIndex < gendersList.size() ? startIndex : 0; getAllFiltered
+	 * = gendersList.subList(startIndex, endIndex); } } return getAllFiltered; }
+	 */
 
 	@Override
 	public List<Genders> getGenderById(GenderRequest genderRequest) throws SQLException {
+		logger.info("@@@@Inside getGenderById DAO Method::");
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		Object[] stateId=null;
 		List<Genders> genderList=genderRequest.getGender();
 		List<Genders> list=null;
-		try {
+		
 			for(Genders gender:genderList) {
 				   stateId=new Object[] {gender.getId()};
 					inputList.add(stateId);
 			}
 			list=jdbcTemplate.query(GENDER_BY_ID,stateId, new BeanPropertyRowMapper<>(Genders.class));
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 		
 		return list;
 	

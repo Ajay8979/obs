@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ojas.obs.dao.EmployeeStatusDao;
 import com.ojas.obs.model.EmployeeStatus;
@@ -20,16 +22,19 @@ import com.ojas.obs.request.EmployeeStatusRequest;
  */
 @Repository
 public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
-	public static final String INSERTEMPLOYEESTATUSSTMT = "insert into ojas_obs.obs_employeestatus(obs_employeestatus.status) values (?)";
+	public static final String INSERTEMPLOYEESTATUSSTMT = "insert into ojas_obs.obs_employeestatus(status) values (?)";
 	public static final String UPDATESTMT = "update ojas_obs.obs_employeestatus set obs_employeestatus.status= ? where obs_employeestatus.id = ?";
 //	public static final String DELETESTMT = "update ojas_obs.obs_employeestatus set obs_employeestatus.delete = '1' where obs_employeestatus.id = ? and obs_employeestatus.delete = '0'";
 	public static final String GETTOTALSTMT = "select * FROM ojas_obs.obs_employeestatus";
 	public static final String GETBYIDSTMT = "select * FROM ojas_obs.obs_employeestatus where obs_employeestatus.id = ?";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	Logger logger = Logger.getLogger(this.getClass());
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean saveEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
+		logger.debug("inside saveEmployeeStatus method in empstatusDaoImpl: " + employeeStatusRequest);
 		boolean b = false;
 		int[] save;
 		List<EmployeeStatus> employeeStatusList = employeeStatusRequest.getEmployeeStatus();
@@ -38,20 +43,21 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 			Object[] emp = new Object[] { employeeStatus.getStatus() };
 			list.add(emp);
 		}
-		try {
-			save = jdbcTemplate.batchUpdate(INSERTEMPLOYEESTATUSSTMT, list);
-			if (save.length > 0) {
-				b = true;
 
-			}
-			return b;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+		save = jdbcTemplate.batchUpdate(INSERTEMPLOYEESTATUSSTMT, list);
+		if (save.length > 0) {
+			logger.error("Record not saved in database");
+			b = true;
+
 		}
+		return b;
+
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean updateEmployeeStatus(EmployeeStatusRequest employeeStatusRequest) throws SQLException {
+		logger.debug("inside updateEmployeeStatus method in empstatusDaoImpl: " + employeeStatusRequest);
 		List<EmployeeStatus> employeeStatusList = employeeStatusRequest.getEmployeeStatus();
 		boolean b = false;
 		int[] update;
@@ -60,16 +66,15 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 			Object[] emp = new Object[] { employeeStatus.getStatus(), employeeStatus.getId() };
 			list.add(emp);
 		}
-		try {
-			update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
 
-			if (update.length > 0) {
-				b = true;
-			}
-			return b;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+		update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
+
+		if (update.length > 0) {
+			logger.error("Record not updated in database");
+			b = true;
 		}
+		return b;
+
 	}
 
 	/*
@@ -87,20 +92,18 @@ public class EmployeeStatusDaoImpl implements EmployeeStatusDao {
 
 	@Override
 	public List<EmployeeStatus> getAllStatus() throws SQLException {
-		try {
+		logger.debug("inside getallEmployeeStatus method in empstatusDaoImpl ");
+
 		return jdbcTemplate.query(GETTOTALSTMT, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+
 	}
 
 	@Override
 	public List<EmployeeStatus> getById(Integer id) throws SQLException {
+		logger.debug("inside saveEmployeeStatus method in empstatusDaoImpl: " + id);
 		Object[] param = { id };
-		try {
+
 		return jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<EmployeeStatus>(EmployeeStatus.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+
 	}
 }

@@ -10,15 +10,24 @@ import com.ojas.obs.model.EmployeeStatus;
  *
  */
 public class EmployeeStatusResponse {
-	private String Status;
+	private String message;
+	private String statusCode;
 	private List<EmployeeStatus> employeeStatusList;
 
-	public String getStatus() {
-		return Status;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setStatus(String status) {
-		Status = status;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public List<EmployeeStatus> getEmployeeStatusList() {
@@ -33,8 +42,9 @@ public class EmployeeStatusResponse {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Status == null) ? 0 : Status.hashCode());
 		result = prime * result + ((employeeStatusList == null) ? 0 : employeeStatusList.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
 		return result;
 	}
 
@@ -47,17 +57,28 @@ public class EmployeeStatusResponse {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeeStatusResponse other = (EmployeeStatusResponse) obj;
-		if (Status == null) {
-			if (other.Status != null)
-				return false;
-		} else if (!Status.equals(other.Status))
-			return false;
 		if (employeeStatusList == null) {
 			if (other.employeeStatusList != null)
 				return false;
 		} else if (!employeeStatusList.equals(other.employeeStatusList))
 			return false;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
+		if (statusCode == null) {
+			if (other.statusCode != null)
+				return false;
+		} else if (!statusCode.equals(other.statusCode))
+			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "EmployeeStatusResponse [message=" + message + ", statusCode=" + statusCode + ", employeeStatusList="
+				+ employeeStatusList + "]";
 	}
 
 }

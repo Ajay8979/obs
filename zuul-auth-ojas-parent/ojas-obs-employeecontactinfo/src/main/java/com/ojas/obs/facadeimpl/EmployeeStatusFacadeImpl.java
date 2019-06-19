@@ -1,12 +1,13 @@
 package com.ojas.obs.facadeimpl;
 
-
-
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ojas.obs.dao.EmployeeStatusDao;
@@ -14,6 +15,8 @@ import com.ojas.obs.facade.EmployeeStatusFacade;
 import com.ojas.obs.model.EmployeeContactInfo;
 import com.ojas.obs.requests.EmployeeContactInfoRequest;
 import com.ojas.obs.response.EmployeeContactInfoResponse;
+import com.ojas.obs.response.ErrorResponse;
+
 /**
  * 
  * @author ksaiKrishna
@@ -23,191 +26,123 @@ import com.ojas.obs.response.EmployeeContactInfoResponse;
 public class EmployeeStatusFacadeImpl implements EmployeeStatusFacade {
 
 	Logger logger = Logger.getLogger(this.getClass());
-	 
-	
+
 	@Autowired
-	private EmployeeStatusDao empDao;
+	private EmployeeStatusDao employeeStatusDao;
 
-	
-	 
 	/*
 	 * (non-Javadoc)
-	 * @see com.ojas.obs.facade.EmployeeStatusFacade#setEmployeeContactInfo(com.ojas.obs.requests.EmployeeContactInfoRequest)
+	 * 
+	 * @see
+	 * com.ojas.obs.facade.EmployeeStatusFacade#setEmployeeContactInfo(com.ojas.obs.
+	 * requests.EmployeeContactInfoRequest)
 	 */
 	@Override
-	public EmployeeContactInfoResponse setEmployeeContactInfo(EmployeeContactInfoRequest empRequests) {
-		EmployeeContactInfoResponse empContResponse = new EmployeeContactInfoResponse();
-		logger.debug("@Transaction type is"+empRequests.getTransactionType());  
-        boolean b=false;
-		if (empRequests.getTransactionType().equalsIgnoreCase("save")) {
-			
-			
-          for(EmployeeContactInfo empRequest : empRequests.getEmpInfo()) {
-			if (((empRequest.getEmail() == null) || (empRequest.getEmail().equalsIgnoreCase("")))
-					|| ((empRequest.getPersonal_mobileNo() == null) || (empRequest.getPersonal_mobileNo().length()!=10)
-							|| (empRequest.getPersonal_mobileNo().equalsIgnoreCase("")))
-					|| ((empRequest.getAlternate_mobileNo() == null) || (empRequest.getAlternate_mobileNo().length()!=10)
-							|| (empRequest.getAlternate_mobileNo().equalsIgnoreCase(""))) 
-					|| ((empRequest.getCurrent_Address_Line1() == null)
-							|| (empRequest.getCurrent_Address_Line1().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_Address_Line2() == null)
-							|| (empRequest.getCurrent_Address_Line2().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_City() == null) || (empRequest.getCurrent_City().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_State() == 0))
-					|| ((empRequest.getCreated_By() == null) || (empRequest.getCreated_By().equalsIgnoreCase("")))||
-					((empRequest.getEmp_Id() == null) || (empRequest.getEmp_Id().equalsIgnoreCase("")))
-					|| ((empRequest.getPermanent_Address_Line_1() == null)
-							|| (empRequest.getPermanent_Address_Line_1().equalsIgnoreCase("")))) {
-
-				empContResponse.setStatusCode("422");
-				empContResponse.setStatusMessage("Improper save data");
-				b=true;
-				break;
-			}
-          }
-          if(b) {
-        	  
-          }
-			else {
-               logger.debug("@saving employee contact info");
-				String empResponse = empDao.saveEmployeeContactInfo(empRequests);
-
-				if (empResponse.equalsIgnoreCase("success")) { 
-
-					//empContResponse.setEmpContact(empResponse);
-					empContResponse.setStatusCode("200");
-					empContResponse.setStatusMessage("employee contact info saved successfully");
-				} else {
-					empContResponse.setStatusCode("422");
-					empContResponse.setStatusMessage("failed to save");
-				}
- 
-			}
-			return empContResponse;
-
-		} else if (empRequests.getTransactionType().equalsIgnoreCase("update")) {
-			
-			
-			for(EmployeeContactInfo empRequest : empRequests.getEmpInfo()) {
-			if(((empRequest.getEmail() == null) || (empRequest.getEmail().equalsIgnoreCase("")))
-					|| ((empRequest.getPersonal_mobileNo() == null) || (empRequest.getPersonal_mobileNo().length()!=10)
-							|| (empRequest.getPersonal_mobileNo().equalsIgnoreCase("")))
-					|| ((empRequest.getAlternate_mobileNo() == null) || (empRequest.getAlternate_mobileNo().length()!=10)
-							|| (empRequest.getAlternate_mobileNo().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_Address_Line1() == null)
-							|| (empRequest.getCurrent_Address_Line1().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_Address_Line2() == null)
-							|| (empRequest.getCurrent_Address_Line2().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_City() == null) || (empRequest.getCurrent_City().equalsIgnoreCase("")))
-					|| ((empRequest.getCurrent_State() == 0))
-					|| ((empRequest.getUpdated_By() == null) || (empRequest.getUpdated_By().equalsIgnoreCase("")))
-					|| (empRequest.getId() == 0)
-					|| ((empRequest.getPermanent_Address_Line_1() == null)
-							|| (empRequest.getPermanent_Address_Line_1().equalsIgnoreCase("")))) {
-				empContResponse.setStatusCode("422");
-				empContResponse.setStatusMessage("Improper update data");
-				b=true;
-				break;
-				
-			}
-			}
-			
-			if(b) {
-				
-			}
-			else {
-			logger.debug("@Updating employee contact info(Facade");
-				
-			String empResponse = empDao.updateEmployeeContactInfo(empRequests);
-			if (empResponse.equalsIgnoreCase("success")) {
-				empContResponse.setStatusCode("200");
-				empContResponse.setStatusMessage("employee contact info updated successfully");
-
+	public ResponseEntity<Object> setEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfoRequest)
+			throws SQLException {
+		EmployeeContactInfoResponse employeeContactInfoResponse = new EmployeeContactInfoResponse();
+		ErrorResponse errorResponse = new ErrorResponse();
+		if (employeeContactInfoRequest.getTransactionType().equalsIgnoreCase("save")) {
+			boolean save = employeeStatusDao.saveEmployeeContactInfo(employeeContactInfoRequest);
+			if (save) {
+				employeeContactInfoResponse.setMessage("Successfully Record Saved");
+				employeeContactInfoResponse.setStatusCode("200");
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
 			} else {
-				empContResponse.setStatusCode("422");
-				empContResponse.setStatusMessage("failed to update");
+				errorResponse.setMessage("Failed");
+				errorResponse.setStatusCode("409");
+				return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 			}
-			}
-			return empContResponse;
-			
-		} else if (empRequests.getTransactionType().equalsIgnoreCase("delete")) {
-			
-			
-			for(EmployeeContactInfo empRequest : empRequests.getEmpInfo()) {
-			if(empRequest.getId() == 0 || ((empRequest.getUpdated_By() == null) || (empRequest.getUpdated_By().equalsIgnoreCase("")))) {
-				empContResponse.setStatusCode("422");
-				empContResponse.setStatusMessage("Improper delete data");
-				b=true;
-				break;
-			}
-			}
-			if(b) {
-				
-			}
-			
-			else {
-			
-			logger.debug("@Deleting employee contact info(Facade)");
-			String empResponse = empDao.deleteEmployeeContactInfo(empRequests);
-			if (empResponse.equalsIgnoreCase("success")) {
-				empContResponse.setStatusCode("200");
-				empContResponse.setStatusMessage("employee contact info deleted successfully");
-
-			} else {
-				empContResponse.setStatusCode("422");
-				empContResponse.setStatusMessage("failed to delete");
-			}
-			}
-			return empContResponse;
-		}else {
-			empContResponse.setStatusCode("422");
-			empContResponse.setStatusMessage("Please select proper Transactiontype");
-			return empContResponse;
 		}
-		
+		if (employeeContactInfoRequest.getTransactionType().equalsIgnoreCase("update")) {
+			boolean update = employeeStatusDao.updateEmployeeContactInfo(employeeContactInfoRequest);
+			if (update) {
+				employeeContactInfoResponse.setMessage("Successfully Record Updated");
+				employeeContactInfoResponse.setStatusCode("200");
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
+			} else {
+				errorResponse.setMessage("Failed");
+				errorResponse.setStatusCode("409");
+				return new ResponseEntity<Object>(errorResponse, HttpStatus.CONFLICT);
+			}
+		}
+		if (employeeContactInfoRequest.getTransactionType().equalsIgnoreCase("delete")) {
+			boolean delete = employeeStatusDao.deleteEmployeeContactInfo(employeeContactInfoRequest);
+			if (delete) {
+				employeeContactInfoResponse.setMessage("Successfully Record Deleted");
+				employeeContactInfoResponse.setStatusCode("200");
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
+			} else {
+				errorResponse.setMessage("Failed");
+				errorResponse.setStatusCode("409");
+				return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+			}
+		}
+		errorResponse.setMessage("Transaction type miss matched");
+		errorResponse.setStatusCode("422");
+		return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 
-	} 
+	}
 
-	
 	/*
 	 * (non-Javadoc)
-	 * @see com.ojas.obs.facade.EmployeeStatusFacade#getEmployeeContactInfo(com.ojas.obs.requests.EmployeeContactInfoRequest)
+	 * 
+	 * @see
+	 * com.ojas.obs.facade.EmployeeStatusFacade#getEmployeeContactInfo(com.ojas.obs.
+	 * requests.EmployeeContactInfoRequest)
 	 */
 	@Override
-	public List<EmployeeContactInfo> getEmployeeContactInfo(EmployeeContactInfoRequest empRequest) {
+	public ResponseEntity<Object> getEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfoRequest)
+			throws SQLException {
 
-		//return empDao.showEmployeeContactInfo(empRequest);
-          return empDao.getAll(empRequest);
+		EmployeeContactInfoResponse employeeContactInfoResponse = new EmployeeContactInfoResponse();
+		List<EmployeeContactInfo> employeeContactInfoList = new ArrayList<EmployeeContactInfo>();
+		if (!employeeContactInfoRequest.getEmpInfo().isEmpty()) {
+			if (employeeContactInfoRequest.getEmpInfo().get(0).getId() != null) {
+				employeeContactInfoList = employeeStatusDao.showEmployeeContactInfoById(employeeContactInfoRequest);
+				if (employeeContactInfoList == null) {
+					employeeContactInfoResponse.setMessage("No records found");
+					employeeContactInfoResponse.setStatusCode("422");
+					return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+				} else {
+					employeeContactInfoResponse.setMessage("Record Found");
+					employeeContactInfoResponse.setStatusCode("200");
+					employeeContactInfoResponse.setEmpContacts(employeeContactInfoList);
+					return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
+				}
+			} else if(employeeContactInfoRequest.getEmpInfo().get(0).getEmpId() != null) {
+				employeeContactInfoList = employeeStatusDao.showEmployeeContactInfoByEmpId(employeeContactInfoRequest);
+				if (employeeContactInfoList == null) {
+					employeeContactInfoResponse.setMessage("No records found");
+					employeeContactInfoResponse.setStatusCode("422");
+					return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+				} else {
+					employeeContactInfoResponse.setMessage("Record Found");
+					employeeContactInfoResponse.setStatusCode("200");
+					employeeContactInfoResponse.setEmpContacts(employeeContactInfoList);
+					return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
+				}
+			}else {
+				employeeContactInfoResponse.setMessage("Id is not valid");
+				employeeContactInfoResponse.setStatusCode("422");
+				employeeContactInfoResponse.setEmpContacts(employeeContactInfoList);
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			}
+		}
+
+		else {
+			employeeContactInfoList = employeeStatusDao.getAll(employeeContactInfoRequest);
+			if (employeeContactInfoList == null) {
+				employeeContactInfoResponse.setMessage("No records found");
+				employeeContactInfoResponse.setStatusCode("422");
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			} else {
+				employeeContactInfoResponse.setMessage("Record Found");
+				employeeContactInfoResponse.setStatusCode("200");
+				employeeContactInfoResponse.setEmpContacts(employeeContactInfoList);
+				return new ResponseEntity<Object>(employeeContactInfoResponse, HttpStatus.OK);
+			}
+		}
 	}
-	
-	/*
-	 * (non-Javadoc) 
-	 * @see com.ojas.obs.facade.EmployeeStatusFacade#showEmployeeContactInfo(com.ojas.obs.requests.EmployeeContactInfoRequest)
-	 */
-
-	@Override
-	public EmployeeContactInfo showEmployeeContactInfo(EmployeeContactInfoRequest empRequest) {
-		
-		
-		
-		return empDao.showEmployeeContactInfo(empRequest);
-	}
-
-
-	@Override
-	public EmployeeContactInfo showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest) {
-		// TODO Auto-generated method stub
-		return empDao.showEmployeeContactInfoByEmpId(empRequest);
-	}
-
-
-	@Override
-	public EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest) {
-		// TODO Auto-generated method stub
-		return empDao.showEmployeeContactInfoById(empRequest);
-	}
-	
-	
-	
 
 }

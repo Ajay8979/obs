@@ -58,8 +58,8 @@ public class KyeController {
 				if (kye == null) {
 					logger.debug("@request is not valid");
 					ErrorResponse errorResponse = new ErrorResponse();
-					errorResponse.setErrorMessage("kyeRequestObj is null");
-					errorResponse.setErrorCode("422");
+					errorResponse.setMessage("kyeRequestObj is null");
+					errorResponse.setStatusCode("422");
 					return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 				if ((kyeRequestObj.getTransactionType().equalsIgnoreCase(SAVE)
@@ -72,33 +72,36 @@ public class KyeController {
 						|| (null == kye.getUan() || kye.getUan().isEmpty()) || null == kye.getEmployee_Id() || kye.getEmployee_Id().isEmpty())) {
 					logger.debug("@fields is not valid");
 					ErrorResponse error = new ErrorResponse();
-					error.setErrorMessage("fields can't be null");
-					error.setErrorCode("422");
+					error.setMessage("fields can't be null");
+					error.setStatusCode("422");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 
 				if (null == kyeRequestObj.getTransactionType() || kyeRequestObj.getTransactionType().isEmpty()) {
 					logger.debug("@transactionType is not valid");
 					ErrorResponse error = new ErrorResponse();
-					error.setErrorMessage("transactionType can't be null");
+					error.setMessage("transactionType can't be null");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 				if ((kyeRequestObj.getTransactionType().equalsIgnoreCase(UPDATE)
 						|| kyeRequestObj.getTransactionType().equalsIgnoreCase(DELETE)) && kye.getId() == 0) {
 					logger.debug("@id is null");
 					ErrorResponse error = new ErrorResponse();
-					error.setErrorMessage("id can't be null");
-					error.setErrorCode("422");
+					error.setMessage("id can't be null");
+					error.setStatusCode("422");
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 				return kyeFacade.setKYE(kyeRequestObj);
 
-			} catch (Exception e) {
-				ErrorResponse error = new ErrorResponse();
-				error.setErrorMessage(e.getMessage());
-				error.setErrorCode("409");
-				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-			}
+			} catch (Exception exception) {
+			logger.debug("inside CostCenterController-SQLException catch block.****");
+			ErrorResponse error = new ErrorResponse();
+			logger.debug("Exception is  invalid");
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 
 		}
 		return null;
@@ -121,23 +124,26 @@ public class KyeController {
 			if (kyeRequestObj == null) {
 				logger.debug("@request is not valid");
 				ErrorResponse errorResponse = new ErrorResponse();
-				errorResponse.setErrorMessage("kyeRequestObj is null");
-				errorResponse.setErrorCode("422");
+				errorResponse.setMessage("kyeRequestObj is null");
+				errorResponse.setStatusCode("422");
 				return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 
 			}
 			if (null == kyeRequestObj.getTransactionType() || kyeRequestObj.getTransactionType().isEmpty()) {
 				logger.debug("transaction is not valid");
 				ErrorResponse error = new ErrorResponse();
-				error.setErrorMessage("transactionType can't be null");
+				error.setMessage("transactionType can't be null");
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			return kyeFacade.getKYE(kyeRequestObj);
-		} catch (Exception e) {
-			ErrorResponse error = new ErrorResponse();
-			error.setErrorMessage(e.getMessage());
-			error.setErrorCode("409");
-			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+		} catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 	}
 }

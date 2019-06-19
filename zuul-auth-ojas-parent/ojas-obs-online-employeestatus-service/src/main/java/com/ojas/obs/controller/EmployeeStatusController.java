@@ -1,12 +1,13 @@
 package com.ojas.obs.controller;
 
-//import static com.ojas.obs.constants.UserConstants.EMPLOYEESTATUS;
+import static com.ojas.obs.constants.UserConstants.EMPLOYEESTATUS;
 import static com.ojas.obs.constants.UserConstants.GET;
 import static com.ojas.obs.constants.UserConstants.GETBYID;
 import static com.ojas.obs.constants.UserConstants.SAVE;
 import static com.ojas.obs.constants.UserConstants.SET;
 import static com.ojas.obs.constants.UserConstants.UPDATE;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,10 +74,7 @@ public class EmployeeStatusController {
 				if ((employeeStatusRequest.getTransactionType().equalsIgnoreCase(UPDATE)
 						&& ((employeeStatus.getStatus() == null || employeeStatus.getStatus().isEmpty())
 								|| employeeStatus.getId() == null))
-				/*
-				 * || (employeeStatusRequest.getTransactionType().equalsIgnoreCase(DELETE) &&
-				 * employeeStatus.getId() == null
-				 */) {
+				) {
 					logger.error("Request is not valid, No id provided");
 					ErrorResponse errorResponse = new ErrorResponse();
 					errorResponse.setStatusCode("422");
@@ -85,12 +84,30 @@ public class EmployeeStatusController {
 			}
 			return employeeStatusFacade.setEmployeeStatus(employeeStatusRequest);
 
-		} catch (Exception e) {
+		} 
+		catch (DuplicateKeyException exception) {
 			logger.error("inside catch block.*******");
 			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.setStatusCode("422");
-			errorResponse.setMessage(e.getMessage());
-			return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			errorResponse.setStatusCode("409");
+			errorResponse.setStatusMessage(exception.getCause().getLocalizedMessage());
+			errorResponse.setMessage("DuplicateKeyException");
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+		}
+		catch (SQLException exception) {
+			logger.error("inside catch block.*******");
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setStatusCode("409");
+			errorResponse.setStatusMessage(exception.getMessage());
+			errorResponse.setMessage("SQLException");
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+		}
+		catch (Exception e) {
+			logger.error("inside catch block.*******");
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setStatusCode("409");
+			errorResponse.setMessage("Exception");
+			errorResponse.setStatusMessage(e.getMessage());
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 		}
 	}
 
@@ -116,12 +133,21 @@ public class EmployeeStatusController {
 				return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			return employeeStatusFacade.getEmployeeStatus(employeeStatusRequest);
-		} catch (Exception e) {
+		} 
+		catch (SQLException exception) {
+			logger.error("inside catch block.*******");
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setStatusCode("409");
+			errorResponse.setMessage("SQLException");
+			errorResponse.setStatusMessage(exception.getMessage());
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+		}catch (Exception e) {
 			logger.error("inside catch block.*******");
 			ErrorResponse errorResponse = new ErrorResponse();
 			errorResponse.setStatusCode("422");
-			errorResponse.setMessage(e.getMessage());
-			return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+			errorResponse.setMessage("Exception");
+			errorResponse.setStatusMessage(e.getMessage());
+			return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 		}
 	}
 }

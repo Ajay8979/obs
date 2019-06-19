@@ -32,7 +32,7 @@ public class SkillDaoImpl implements SkillDao {
 		logger.debug("executing save method()...");
 		List<Skill> listOfSkill = skillRequest.getListOfSkill();
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		try {
+		
 			for (Skill skillList : listOfSkill) {
 
 				Object[] save = { skillList.getSkill_name() };
@@ -43,9 +43,7 @@ public class SkillDaoImpl implements SkillDao {
 				return 1;
 			}
 			return 0;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+	 
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class SkillDaoImpl implements SkillDao {
 
 		List<Skill> listSkillInfo = skillRequest.getListOfSkill();
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		try {
+	
 			for (Skill skillDetails : listSkillInfo) {
 
 				Object[] update = { skillDetails.getSkill_name(), skillDetails.getId() };
@@ -65,28 +63,23 @@ public class SkillDaoImpl implements SkillDao {
 				return 1;
 			}
 			return 0;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+	
 	}
 
 	@Override
 	public List<Skill> showSkillInfo(SkillRequest skillRequest) throws SQLException {
-		try {
+		logger.debug("inside the show method()");
+		
 			return jdbcTemplate.query(getAll, new BeanPropertyRowMapper(Skill.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 
 	@Override
 	public int getAllCount() throws SQLException {
-		try {
+		
 
 			return jdbcTemplate.queryForObject(getCount, Integer.class);
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		 
 	}
 
 	@Override
@@ -94,16 +87,14 @@ public class SkillDaoImpl implements SkillDao {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		List<Skill> listOfSkill = skillRequest.getListOfSkill();
 		Object[] update = null;
-		try {
+		
 			for (Skill skill : listOfSkill) {
 
 				update = new Object[] { skill.getId() };
 				inputList.add(update);
 			}
 			return jdbcTemplate.query(getById, update, new BeanPropertyRowMapper<>(Skill.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-	}
+		} 
+	
 
 }

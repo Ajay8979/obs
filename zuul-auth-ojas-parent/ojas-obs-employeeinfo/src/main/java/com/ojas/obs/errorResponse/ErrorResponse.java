@@ -40,6 +40,7 @@ public class ErrorResponse {
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,6 +81,12 @@ public class ErrorResponse {
 		} else if (!statusMessage.equals(other.statusMessage))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ErrorResponse [statusCode=" + statusCode + ", statusMessage=" + statusMessage + ", message=" + message
+				+ "]";
 	}
 
 }

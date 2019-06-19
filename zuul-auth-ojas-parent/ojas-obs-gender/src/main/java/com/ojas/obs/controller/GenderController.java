@@ -1,8 +1,8 @@
 package com.ojas.obs.controller;
 
+
 import static com.ojas.obs.constants.Constants.GET;
 import static com.ojas.obs.constants.Constants.SET;
-//import static com.ojas.obs.constants.Constants.GENDERS;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,14 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ojas.obs.facade.GenderFacade;
 import com.ojas.obs.model.ErrorResponse;
 import com.ojas.obs.model.Genders;
 import com.ojas.obs.request.GenderRequest;
-
 @RestController
 //@RequestMapping(GENDERS)
 public class GenderController {
@@ -36,20 +34,17 @@ public class GenderController {
 	 */
 	@PostMapping(SET)
 	public ResponseEntity<Object> setGenders(@RequestBody GenderRequest genderRequestObj){
-		String sessionId = null;
-		logger.debug("incoming requests " +genderRequestObj);
+		logger.info("@@@@Inside setGenders Incoming requests " +genderRequestObj);
 		try {
 			if (genderRequestObj == null) {
+				logger.debug("@@@@Inside setGenderMethod RequestObject is null");
 				ErrorResponse error = new ErrorResponse();
-				logger.debug("request is not valid");
 				error.setMessage("genderRequestObj is not valid");
 				error.setStatusCode("422");
 				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-			} else {
-				sessionId = genderRequestObj.getSessionId();
-				logger.debug("incoming request " + sessionId);
 			}
             if (null == genderRequestObj.getTransactionType()|| genderRequestObj.getTransactionType().isEmpty()) {
+            	logger.debug("@@@@Inside setGenderMethod transactionType is null");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("transationType is not valid");
 				error.setStatusCode("422");
@@ -58,6 +53,7 @@ public class GenderController {
             List<Genders> genders=genderRequestObj.getGender();
 			for (Genders gender : genders) {
 				if ((genderRequestObj.getTransactionType().equalsIgnoreCase("UPDATE")|| genderRequestObj.getTransactionType().equalsIgnoreCase("DELETE"))&& null == gender.getId()) {
+					logger.debug("@@@@Inside setGenderMethod id is null");
 					ErrorResponse error = new ErrorResponse();
 					logger.debug("data is  invalid");
 					error.setMessage("Id should be provided");
@@ -65,6 +61,7 @@ public class GenderController {
 					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 				if (gender.getGender() == null  || gender.getGender().isEmpty()) {
+					logger.debug("@@@@Inside setGenderMethod gender is null");
 						ErrorResponse error = new ErrorResponse();
 						error.setMessage("gender all fields should be provided");
 						error.setStatusCode("422");
@@ -72,54 +69,65 @@ public class GenderController {
 				}
 			}
 			 
-			
+			logger.info("@@@@Inside setGenderMethod before returnstmt");
 			return genderFacadeImpl.setGender(genderRequestObj);
 
 		}  catch (DuplicateKeyException exception) {
-			logger.debug("inside catch block.*******");
+			logger.error("@@@@Inside DuplicateKeyException catch block.*******");
 			ErrorResponse error = new ErrorResponse();
-			error.setStatusMessage(exception.getCause().getLocalizedMessage());
+			error.setStatusMessage(exception.getCause().getMessage());
 			error.setStatusCode("409");
+			error.setMessage("duplicated are not allowed");
 			exception.printStackTrace();
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 		catch (SQLException exception) {
-			logger.debug("inside catch block.*******");
+			logger.error("@@@@Inside SQLException catch block.*******");
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
 			error.setStatusCode("409");
+			error.setMessage("SQLException occured");
 			exception.printStackTrace();
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
-		/*
-		 * catch (Exception exception) { logger.debug("inside catch block.*******");
-		 * ErrorResponse error = new ErrorResponse();
-		 * error.setStatusMessage(exception.getMessage()); error.setStatusCode("409");
-		 * exception.printStackTrace(); return new ResponseEntity<>(error,
-		 * HttpStatus.CONFLICT); }
-		 */
+		catch (Exception exception) { 
+		  logger.error("@@@@Inside Exception catch block.*******");
+		  ErrorResponse error = new ErrorResponse();
+		  error.setStatusMessage(exception.getMessage()); error.setStatusCode("409");
+		  error.setMessage("Exception occured");
+		  exception.printStackTrace(); return new ResponseEntity<>(error,
+		  HttpStatus.CONFLICT); 
+		}
+		 
 	}
 	
 	@PostMapping(GET)
 	public ResponseEntity<Object> getGenders(@RequestBody GenderRequest genderRequestObj) {
-     String sessionId = null;
 		try {
 			logger.debug("requestObject received = " + genderRequestObj);
             if (genderRequestObj == null) {
+            	logger.debug("inside getGenderMethod RequestObject is null");
 				ErrorResponse error = new ErrorResponse();
 				error.setMessage("gendersRequestObj is not valid");
 				error.setStatusCode("422");
 				return new ResponseEntity<Object>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-			} else {
-				sessionId = genderRequestObj.getSessionId();
-				logger.debug("incoming request " + sessionId);
-			}
+			} 
 			return genderFacadeImpl.getGender(genderRequestObj);
 		} catch (SQLException exception) {
+			logger.error("inside SQLException getGenderMethod ");
 			ErrorResponse error = new ErrorResponse();
 			error.setStatusMessage(exception.getMessage());
+			 error.setMessage("SQLException occured");
+			exception.printStackTrace();	
 			error.setStatusCode("409");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-		}
+		}catch (Exception exception) { 
+			  logger.error("inside catch block.*******");
+			  ErrorResponse error = new ErrorResponse();
+			  error.setStatusMessage(exception.getMessage()); error.setStatusCode("409");
+			  error.setMessage("Exception occured");
+			  exception.printStackTrace(); 
+			  return new ResponseEntity<>(error,HttpStatus.CONFLICT); 
+			}
 	}
 }

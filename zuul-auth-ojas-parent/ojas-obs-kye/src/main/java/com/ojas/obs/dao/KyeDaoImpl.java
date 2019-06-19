@@ -46,7 +46,7 @@ public class KyeDaoImpl implements KyeDao {
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		try {
+		
 			for (KYE kye : kyeList) {
 				java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
 				java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
@@ -61,10 +61,7 @@ public class KyeDaoImpl implements KyeDao {
 				return true;
 			}
 			return status;
-		}finally {
-			if(jdbcTemplate!=null)
-				jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 	}
 
@@ -79,7 +76,7 @@ public class KyeDaoImpl implements KyeDao {
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		try {
+		
 			for (KYE kye : kyeList) {
 				java.sql.Date issueDate = java.sql.Date.valueOf(kye.getPassport_date_of_Issue());
 				java.sql.Date expireDate = java.sql.Date.valueOf(kye.getPassport_date_of_expiry());
@@ -95,10 +92,7 @@ public class KyeDaoImpl implements KyeDao {
 				return true;
 			}
 			return status;
-		}finally {
-			if(jdbcTemplate!=null)
-				jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 	}
 
@@ -114,7 +108,7 @@ public class KyeDaoImpl implements KyeDao {
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
 		boolean status = false;
-		try {
+		
 			for (KYE kye : kyeList) {
 				/*
 				 * kyeRequest.getTransactionType().equalsIgnoreCase(GETALL); List<KYE> allKYE =
@@ -133,10 +127,7 @@ public class KyeDaoImpl implements KyeDao {
 				return true;
 			}
 			return status;
-		}finally {
-			if(jdbcTemplate!=null)
-				jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 	}
 
@@ -149,7 +140,7 @@ public class KyeDaoImpl implements KyeDao {
 	public List<KYE> getAllKYE(KYERequest kyeRequest) throws SQLException {
 		logger.debug("@kyeRequest in KyeDaoImpl ::" + kyeRequest);
 		List<KYE> kyeList = kyeRequest.getKye();
-		try {
+		
 			for (KYE kye : kyeList) {
 				StringBuilder buffer = new StringBuilder();
 				buffer.append(GETALL_KYE);
@@ -161,10 +152,6 @@ public class KyeDaoImpl implements KyeDao {
 				return jdbcTemplate.query(buffer.toString(), new BeanPropertyRowMapper<>(KYE.class));
 			}
 			return null;
-		}finally {
-			if(jdbcTemplate!=null)
-				jdbcTemplate.getDataSource().getConnection().close();
-		}
 		
 	}
 
@@ -175,11 +162,9 @@ public class KyeDaoImpl implements KyeDao {
 	 */
 	@Override
 	public int getAllKYECount() throws SQLException {
-		try {
+		
 			return jdbcTemplate.queryForObject(GETALL_KYE_COUNT, Integer.class);
-		}finally {
-				jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 	}
 

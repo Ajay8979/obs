@@ -11,10 +11,8 @@ import com.ojas.obs.model.EmployeeInfo;
  */
 public class EmployeeInfoResponse {
 	List<EmployeeInfo> employeeInfo;
-	private Integer totalCount;
-	private Integer pageSize;
-	private Integer pageNum;
-	private String statusMessage;
+	private String message;
+	private String statusCode;
 
 	public List<EmployeeInfo> getEmployeeInfo() {
 		return employeeInfo;
@@ -24,60 +22,32 @@ public class EmployeeInfoResponse {
 		this.employeeInfo = employeeInfo;
 	}
 
-	public Integer getTotalCount() {
-		return totalCount;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
-	public Integer getPageSize() {
-		return pageSize;
+	public String getStatusCode() {
+		return statusCode;
 	}
 
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
-	public Integer getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageNum(Integer pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((employeeInfo == null) ? 0 : employeeInfo.hashCode());
-		result = prime * result + ((pageNum == null) ? 0 : pageNum.hashCode());
-		result = prime * result + ((pageSize == null) ? 0 : pageSize.hashCode());
-		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
-		result = prime * result + ((totalCount == null) ? 0 : totalCount.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -92,38 +62,23 @@ public class EmployeeInfoResponse {
 				return false;
 		} else if (!employeeInfo.equals(other.employeeInfo))
 			return false;
-		if (pageNum == null) {
-			if (other.pageNum != null)
+		if (statusCode == null) {
+			if (other.statusCode != null)
 				return false;
-		} else if (!pageNum.equals(other.pageNum))
+		} else if (!statusCode.equals(other.statusCode))
 			return false;
-		if (pageSize == null) {
-			if (other.pageSize != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!pageSize.equals(other.pageSize))
-			return false;
-		if (statusMessage == null) {
-			if (other.statusMessage != null)
-				return false;
-		} else if (!statusMessage.equals(other.statusMessage))
-			return false;
-		if (totalCount == null) {
-			if (other.totalCount != null)
-				return false;
-		} else if (!totalCount.equals(other.totalCount))
+		} else if (!message.equals(other.message))
 			return false;
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "EmployeeInfoResponse [employeeInfo=" + employeeInfo + ", totalCount=" + totalCount + ", pageSize="
-				+ pageSize + ", pageNum=" + pageNum + ", statusMessage=" + statusMessage + "]";
+		return "EmployeeInfoResponse [employeeInfo=" + employeeInfo + ", message=" + message + ", statusCode="
+				+ statusCode + "]";
 	}
 
 }

@@ -1,26 +1,22 @@
 package com.ojas.obs.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.ojas.obs.model.EmployeeContactInfo;
 import com.ojas.obs.requests.EmployeeContactInfoRequest;
 
-
-
 public interface EmployeeStatusDao {
-	String saveEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo);
+	boolean saveEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo) throws SQLException;
 
-	EmployeeContactInfo showEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo);
+	boolean updateEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo) throws SQLException;
 
-	List<EmployeeContactInfo> getAll(EmployeeContactInfoRequest employeeContactInfo);
+	boolean deleteEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo) throws SQLException;
 
-	String updateEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo);
+	List<EmployeeContactInfo> getAll(EmployeeContactInfoRequest employeeContactInfo) throws SQLException;
 
-	String deleteEmployeeContactInfo(EmployeeContactInfoRequest employeeContactInfo);
+	List<EmployeeContactInfo> showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest) throws SQLException;
 
-	EmployeeContactInfo showEmployeeContactInfoByEmpId(EmployeeContactInfoRequest empRequest);
-	EmployeeContactInfo showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest);
-	
-	
-	
+	List<EmployeeContactInfo> showEmployeeContactInfoById(EmployeeContactInfoRequest empRequest) throws SQLException;
+
 }

@@ -3,17 +3,17 @@ package com.ojas.security.auth.model;
 public class AppUser {
 
 	private String UserId;
-	private String UserName;
+	//private String UserName;
 	private String encrytedPassword;
 
 	public AppUser() {
 
 	}
 
-	public AppUser(String userId, String userName, String encrytedPassword) {
+	public AppUser(String userId, String encrytedPassword) {
 		super();
 		UserId = userId;
-		UserName = userName;
+	//	UserName = userName;
 		this.encrytedPassword = encrytedPassword;
 	}
 
@@ -25,14 +25,14 @@ public class AppUser {
 		UserId = userId;
 	}
 
-	public String getUserName() {
+/*	public String getUserName() {
 		return UserName;
 	}
 
 	public void setUserName(String userName) {
 		UserName = userName;
 	}
-
+*/
 	public String getEncrytedPassword() {
 		return encrytedPassword;
 	}

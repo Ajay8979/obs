@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ojas.obs.dao.SkillDao;
-import com.ojas.obs.model.ErrorResponse;
 import com.ojas.obs.model.Skill;
 import com.ojas.obs.request.SkillRequest;
 import com.ojas.obs.response.SkillResponse;
@@ -30,40 +29,31 @@ public class SkillFacadeImpl implements SkillFacade {
 		SkillResponse response = new SkillResponse();
 		ResponseEntity<Object> responseEntity = null;
 		// save method
-		try {
-			if (skillRequest.getTransactionType().equalsIgnoreCase("save")) {
-				logger.debug("checking transaction type save...");
-				int saveSkillInfo = skillDao.saveSkillInfo(skillRequest);
-				int count = skillDao.getAllCount();
-				response.setListOfSkill(new ArrayList<>());
-				response.setStatusMessage("Successfully record added");
-				response.setTotalCount(count);
 
-				return new ResponseEntity<Object>(response, HttpStatus.OK);
-			}
+		if (skillRequest.getTransactionType().equalsIgnoreCase("save")) {
+			logger.debug("checking transaction type save...");
+			int saveSkillInfo = skillDao.saveSkillInfo(skillRequest);
+			response.setListOfSkill(new ArrayList<>());
+			response.setStatusCode("200");
+			response.setMessage("Successfully record added");
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
 
-			// update method
+		// update method
 
-			if (skillRequest.getTransactionType().equalsIgnoreCase("update")) {
-				List<Skill> listOfSkill = skillRequest.getListOfSkill();
-				logger.debug("checking transaction type update...");
-				for (Skill skillDetails : listOfSkill) {
-					if (0 != skillDetails.getId()) {
-						skillDao.updateSkillInfo(skillRequest);
-						int count = skillDao.getAllCount();
-						response.setListOfSkill(new ArrayList<>());
-						response.setStatusMessage("Successfully record updated");
-						response.setTotalCount(count);
-
-						return new ResponseEntity<Object>(response, HttpStatus.OK);
-					}
+		if (skillRequest.getTransactionType().equalsIgnoreCase("update")) {
+			List<Skill> listOfSkill = skillRequest.getListOfSkill();
+			logger.debug("checking transaction type update...");
+			for (Skill skillDetails : listOfSkill) {
+				if (0 != skillDetails.getId()) {
+					skillDao.updateSkillInfo(skillRequest);
+					response.setListOfSkill(new ArrayList<>());
+					response.setStatusCode("200");
+					response.setMessage("Successfully record updated");
+					return new ResponseEntity<Object>(response, HttpStatus.OK);
 				}
-
 			}
-		} catch (Exception e) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
-			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
 		}
 		return responseEntity;
 	}
@@ -74,27 +64,20 @@ public class SkillFacadeImpl implements SkillFacade {
 		logger.debug("enter the get method facade...");
 		SkillResponse response = new SkillResponse();
 		ResponseEntity<Object> responseEntity = null;
-		try {
-			if (skillRequest.getTransactionType().equalsIgnoreCase("getAll")) {
-				List<Skill> listOfSkillInfo = skillDao.showSkillInfo(skillRequest);
-				int count = skillDao.getAllCount();
-				response.setTotalCount(count);
-				response.setListOfSkill(listOfSkillInfo);
-				response.setStatusMessage("success");
-				return new ResponseEntity<Object>(response, HttpStatus.OK);
-			}
-			if (skillRequest.getTransactionType().equalsIgnoreCase("getById")) {
-				List<Skill> listOfSkillInfo = skillDao.getById(skillRequest);
-				int count = skillDao.getAllCount();
-				response.setTotalCount(count);
-				response.setListOfSkill(listOfSkillInfo);
-				response.setStatusMessage("success");
-				return new ResponseEntity<Object>(response, HttpStatus.OK);
-			}
-		} catch (Exception e) {
-			ErrorResponse error = new ErrorResponse();
-			error.setMessage(e.getMessage());
-			responseEntity = new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+		if (skillRequest.getTransactionType().equalsIgnoreCase("getAll")) {
+			List<Skill> listOfSkillInfo = skillDao.showSkillInfo(skillRequest);
+			response.setListOfSkill(listOfSkillInfo);
+			response.setStatusCode("200");
+			response.setMessage("success");
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		if (skillRequest.getTransactionType().equalsIgnoreCase("getById")) {
+			List<Skill> listOfSkillInfo = skillDao.getById(skillRequest);
+			response.setListOfSkill(listOfSkillInfo);
+			response.setStatusCode("200");
+			response.setMessage("success");
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 		}
 
 		return responseEntity;

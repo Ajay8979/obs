@@ -14,7 +14,7 @@ public class EmploymentDetailsExceptionHandler {
 	public ResponseEntity<Object> handleEmploymentDetailsNotFound(
 			EmploymentDetailsException employmentDetailsException) {
 
-		return new ResponseEntity<Object>(new ErrorResponse("422", employmentDetailsException.getMessage()),
+		return new ResponseEntity<Object>(new ErrorResponse("","422", employmentDetailsException.getMessage()),
 				HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 	
@@ -22,7 +22,7 @@ public class EmploymentDetailsExceptionHandler {
 	public ResponseEntity<Object> handleEmploymentDetailsNotInserted(
 			DataNotInsertedException employmentDetailsException) {
 
-		return new ResponseEntity<Object>(new ErrorResponse("422", employmentDetailsException.getMessage()),
+		return new ResponseEntity<Object>(new ErrorResponse( "", "422", employmentDetailsException.getMessage()),
 				HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 }

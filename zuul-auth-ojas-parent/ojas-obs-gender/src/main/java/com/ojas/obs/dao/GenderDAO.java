@@ -12,6 +12,6 @@ public interface GenderDAO {
   //public boolean deleteGender(GenderRequest genderRequest);
   public int getAllCount(GenderRequest genderRequest) throws SQLException;
   public List<Genders> getAll(GenderRequest genderRequest) throws SQLException;
-  public List<Genders> getCountPerPage(List<Genders> certificationList, int pageSize,int pageNo) ; 
+  //public List<Genders> getCountPerPage(List<Genders> certificationList, int pageSize,int pageNo) ; 
   public List<Genders> getGenderById(GenderRequest genderRequest) throws SQLException;
 }

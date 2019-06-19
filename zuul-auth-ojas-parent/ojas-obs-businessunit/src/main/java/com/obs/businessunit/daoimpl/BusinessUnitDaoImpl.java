@@ -28,7 +28,7 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 	public Boolean saveBusinessUnit(BusinessUnitRequest businessUnitRequest) throws SQLException {
 		boolean b = false;
 		int[] save;
-		try {
+		
 		List<BusinessUnit> businessUnitList = businessUnitRequest.getBusinessUnit();
 		List<Object[]> list = new ArrayList<>();
 		for (BusinessUnit businessUnit : businessUnitList) {
@@ -41,18 +41,17 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 			
 		}
 			
-		}finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 		
 		return b;
 	}
 	@Override
 	public Boolean updateBusinessUnit(BusinessUnitRequest businessUnitRequest) throws SQLException {
-		try {
-		List<BusinessUnit> businessUnitList = businessUnitRequest.getBusinessUnit();
 		boolean b = false;
+		
+		List<BusinessUnit> businessUnitList = businessUnitRequest.getBusinessUnit();
+		
 		int[] update;
 		List<Object[]> list = new ArrayList<>();
 		for (BusinessUnit businessUnit : businessUnitList) {
@@ -65,40 +64,33 @@ public class BusinessUnitDaoImpl implements BusinessUnitDao{
 			if (update.length > 0) {
 				b = true;
 			} 
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 		
-		return false;
+		
+		return b;
 	}
 	
 
 	
 	@Override
 	public List<BusinessUnit> getAllBussinessDetails(BusinessUnitRequest request) throws SQLException {
-		try {
+		
 		logger.debug("Inside getAllEducationDetails DAO .***");
 		List<BusinessUnit> list = jdbcTemplate.query(SELECT_BUSINESSUNIT, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
 		return list;
 			
-		} 
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
+		
 		
 	}
 	@Override
 	public List<BusinessUnit> getById(BusinessUnitRequest request) throws SQLException {
-		try {
+		
 		Integer id = request.getBusinessUnit().get(0).getId();
 		Object[] param = {id};
 		List<BusinessUnit> list= jdbcTemplate.query(GETBYIDSTMT, param, new BeanPropertyRowMapper<BusinessUnit>(BusinessUnit.class));
 		return list;
 			
-		} 
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 
 }

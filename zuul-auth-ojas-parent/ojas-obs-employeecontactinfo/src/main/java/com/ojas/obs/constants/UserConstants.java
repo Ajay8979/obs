@@ -14,7 +14,7 @@ public class UserConstants {
 	public static final String SHOWCONTACTINFOSTMTEMPID = "SELECT * FROM obs_employeecontactinfo WHERE emp_Id=?";
 	public static final String UPDATESTMT = "UPDATE obs_employeecontactinfo set email = ? ,personal_mobileNo = ?,alternate_mobileNo = ?,current_Address_line1 = ?,current_Address_line2 = ?, current_City = ?,current_State = ?,current_Pin = ?,permanent_Address_Line_1 = ?,updated_By = ?,updated_date = ? WHERE id = ? ";
 	public static final String DELETECONTACT = "UPDATE obs_employeecontactinfo set flag = ?,updated_date = ?,updated_By = ? where id = ?";
-	public static final String TOTALRECORDS = "select * from obs_employeecontactinfo where flag=?";
+	public static final String TOTALRECORDS = "select * from obs_employeecontactinfo where flag=true";
 	
 	
 	

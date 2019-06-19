@@ -6,42 +6,38 @@ import com.ojas.obs.model.EmployeeContactInfo;
 
 public class EmployeeContactInfoResponse {
 
-	
-
 	private String statusCode;
-	private String statusMessage;
-	
+	private String message;
 	private List<EmployeeContactInfo> empContacts;
-	
-	
-	
-	
-	
-	
 
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	public List<EmployeeContactInfo> getEmpContacts() {
 		return empContacts;
 	}
+
 	public void setEmpContacts(List<EmployeeContactInfo> empContacts) {
 		this.empContacts = empContacts;
 	}
-	public String getStatusCode() {
-		return statusCode;
-	}
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
+
+	@Override
+	public String toString() {
+		return "EmployeeContactInfoResponse [statusCode=" + statusCode + ", message=" + message + ", empContacts="
+				+ empContacts + "]";
 	}
 
-	
-	
-	
-	
-	
 }

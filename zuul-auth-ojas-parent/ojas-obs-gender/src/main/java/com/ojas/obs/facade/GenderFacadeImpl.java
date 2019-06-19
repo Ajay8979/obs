@@ -28,34 +28,38 @@ public class GenderFacadeImpl implements GenderFacade {
      */
 	@Override
 	public ResponseEntity<Object> setGender(GenderRequest genderRequest) throws SQLException {
-		logger.debug("inside set method : " + genderRequest);
+		logger.info("@@@@Inside set method : " + genderRequest);
 		GenderResponse genderResponse = null;
 		
 			if (genderRequest.getTransactionType().equalsIgnoreCase(SAVE)) {
 				genderResponse = new GenderResponse();
 				boolean saveGender = genderDAOImpl.saveGender(genderRequest);
-				int count = genderDAOImpl.getAllCount(genderRequest);
-				logger.debug("inside  save condition.****** : " + saveGender);
+				logger.debug("@@@@Inside  savetransactionType condition.");
 				if (saveGender) {
-					genderResponse.setStatusMessage("Successfully record added");
-					genderResponse.setTotalCount(count);
+					logger.debug("@@@@Inside  save condition.****** : " + saveGender);
+					genderResponse.setMessage("Successfully record added");
+					genderResponse.setStatusCode("200");
 					return new ResponseEntity<>(genderResponse, HttpStatus.OK);
 				} else {
-					genderResponse.setStatusMessage(FAILED);
+					genderResponse.setMessage(FAILED);
+					genderResponse.setStatusCode("200");
 					return new ResponseEntity<>(genderResponse, HttpStatus.CONFLICT);
 				}
 			}
 			if (genderRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
+				logger.debug("@@@@Inside  Update transactionType condition.");
 				genderResponse = new GenderResponse();
-				int count = genderDAOImpl.getAllCount(genderRequest);
 				boolean updateGender = genderDAOImpl.updateGender(genderRequest);
 				logger.debug("inside  update condition.****** : " + updateGender);
 				if (updateGender) {
-					genderResponse.setStatusMessage("Successfully record updated");
-					genderResponse.setTotalCount(count);
+					logger.debug("@@@@Inside  Update condition."+updateGender);
+					genderResponse.setMessage("Successfully record updated");
+					genderResponse.setStatusCode("200");
 					return new ResponseEntity<>(genderResponse, HttpStatus.OK);
 				} else {
-					genderResponse.setStatusMessage(FAILED);
+					logger.debug("@@@@Inside  Update condition."+updateGender);
+					genderResponse.setMessage(FAILED);
+					genderResponse.setStatusCode("200");
 					return new ResponseEntity<>(genderResponse, HttpStatus.CONFLICT);
 				}
 			}
@@ -76,10 +80,12 @@ public class GenderFacadeImpl implements GenderFacade {
 			boolean b = (genderRequest.getTransactionType().equalsIgnoreCase(SAVE)
 					|| genderRequest.getTransactionType().equalsIgnoreCase(UPDATE)
 					|| genderRequest.getTransactionType().equalsIgnoreCase(DELETE));
+			    
 					if (!b) {
+						logger.debug("@@@@Inside  transactionType Check condition.");
 						genderResponse = new GenderResponse();
-						genderResponse.setStatusCode("422");
-						genderResponse.setStatusMessage("transaction type is not correct");
+						genderResponse.setStatusCode("200");
+						genderResponse.setMessage("transaction type is not correct");
 					}
 					return new ResponseEntity<>(genderResponse, HttpStatus.CONFLICT);
 		
@@ -91,38 +97,28 @@ public class GenderFacadeImpl implements GenderFacade {
 	@Override
 	public ResponseEntity<Object> getGender(GenderRequest genderRequest) throws SQLException {
 		GenderResponse genderResponse = new GenderResponse();
-		logger.debug("inside get in DesignationServiceImpl.***");
+		logger.info("@@@@@Inside getGender"+genderRequest);
 		Integer id=genderRequest.getGender().get(0).getId();
 		List<Genders> genderList=null;
-		List<Genders> list=null;
-		int totalCount=0;
 		if(id==null) {
+		 logger.debug("@@@@@Inside getGender id is null");
 	     genderList = genderDAOImpl.getAll(genderRequest);
-		 list=genderDAOImpl.getCountPerPage(genderList, genderRequest.getPageSize(), genderRequest.getPageNo());
-		 totalCount = genderDAOImpl.getAllCount(genderRequest);
+	     genderResponse.setGenderList(genderList);
+	 	 genderResponse.setStatusCode("200");
+	     genderResponse.setMessage("All records are retrieved");
 		}
 		if(id!=null) {
 	     genderList = genderDAOImpl.getGenderById(genderRequest);
-		 list=genderDAOImpl.getCountPerPage(genderList, genderRequest.getPageSize(), genderRequest.getPageNo());
-		 totalCount = genderDAOImpl.getAllCount(genderRequest);
+	     genderResponse.setGenderList(genderList);
+	 	 genderResponse.setStatusCode("200");
+	     genderResponse.setMessage("Record is retrieved");
 		}
 		if (genderList == null) {    //removed condition    list == null ||
+			logger.debug("@@@@@Inside getGender genderList is null");
 			genderResponse.setGenderList(new ArrayList<>());
-			genderResponse.setStatusMessage("No records found");
-			genderResponse.setTotalCount(0);
-			genderResponse.setStatusCode("422");
+			genderResponse.setMessage("No records found");
+			genderResponse.setStatusCode("200");
 			
-		} else {
-
-			if (genderRequest.getPageNo() == 0 || genderRequest.getPageSize() == 0) {
-				genderResponse.setGenderList(genderList);
-				genderResponse.setStatusMessage("success");
-				genderResponse.setTotalCount(totalCount);
-			} else {
-				genderResponse.setGenderList(list);
-				genderResponse.setStatusMessage("success");
-				genderResponse.setTotalCount(totalCount);
-			}
 		}
 		return new ResponseEntity<Object>(genderResponse, HttpStatus.OK);
 	}

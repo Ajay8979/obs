@@ -13,9 +13,9 @@ public class EmployeeInfo {
 	private String firstname;
 	private String middlename;
 	private String lastname;
-	private String status;
+	private Integer status;
 	private String dob;
-	private String gender;
+	private Integer gender;
 	private Integer title;
 	private String employeeId;
 	private boolean flag;
@@ -66,28 +66,12 @@ public class EmployeeInfo {
 		this.lastname = lastname;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getDob() {
 		return dob;
 	}
 
 	public void setDob(String dob) {
 		this.dob = dob;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 
 	public String getEmployeeId() {
@@ -122,7 +106,21 @@ public class EmployeeInfo {
 		this.updatedOn = updatedOn;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
 
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
 
 	public String getCreatedBy() {
 		return createdBy;
@@ -217,7 +215,7 @@ public class EmployeeInfo {
 				return false;
 		} else if (!middlename.equals(other.middlename))
 			return false;
-		
+
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -241,6 +239,12 @@ public class EmployeeInfo {
 		return true;
 	}
 
-
+	@Override
+	public String toString() {
+		return "EmployeeInfo [id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname="
+				+ lastname + ", status=" + status + ", dob=" + dob + ", gender=" + gender + ", title=" + title
+				+ ", employeeId=" + employeeId + ", flag=" + flag + ", createdOn=" + createdOn + ", updatedOn="
+				+ updatedOn + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+	}
 
 }

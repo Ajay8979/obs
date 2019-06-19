@@ -10,8 +10,7 @@ import static com.ojas.obs.constants.SeparationTypeConstants.SUCCESS;
 import static com.ojas.obs.constants.SeparationTypeConstants.GETALL;
 //import static com.ojas.obs.constants.SeparationTypeConstants.DELETE;
 
-
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -46,29 +45,35 @@ public class SeparationTypeFacade {
 	
 	public ResponseEntity<Object> setSeparationTypeDetails(SeparationTypeRequest separationTypeRequest)
 			throws SQLException {
-		logger.info("Inside setSeparationTypeDetails():");
+		logger.info("The request Inside SeparationTypeFacade setSeparationTypeDetails method "+separationTypeRequest);
 		
 		SeparationTypeResponse separationTypeResponse=new SeparationTypeResponse();
 		 boolean result=false;
-		 try {
+		 
 			 if(separationTypeRequest.getTransactionType().equalsIgnoreCase(SAVE)) {   
 				 result=separationTypeDao.saveSeparationType(separationTypeRequest);
+				 logger.debug("Inside SeparationTypeFacade save condition  " + result);
 				if(result) {
-					separationTypeResponse.setStatusMessage(SeparationTypeConstants.SAVED);
+					separationTypeResponse.setMessage(SeparationTypeConstants.SAVED);
+					separationTypeResponse.setStatusCode("200");
 					return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
 				}else {
-					separationTypeResponse.setStatusMessage(SeparationTypeConstants.FAILED);
+					logger.error("Inside SeparationTypeFacade  save condition  " + result);
+					separationTypeResponse.setMessage(SeparationTypeConstants.FAILED);
 					return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT); 
 				}
 				
 			 }
 			 if (separationTypeRequest.getTransactionType().equalsIgnoreCase(UPDATE)) {
 					result = separationTypeDao.updateSeparationType(separationTypeRequest); 
+					logger.debug("Inside SeparationTypeFacade  update condition " + result);
 					if (result) {
-						separationTypeResponse.setStatusMessage(SeparationTypeConstants.UPDATED);
+						separationTypeResponse.setMessage(SeparationTypeConstants.UPDATED);
+						separationTypeResponse.setStatusCode("200");
 						return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
 					} else {
-						separationTypeResponse.setStatusMessage(SeparationTypeConstants.FAILED);
+						logger.error("Inside SeparationTypeFacade  update condition " + result);
+						separationTypeResponse.setMessage(SeparationTypeConstants.FAILED);
 						return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
 					} 
 				}
@@ -88,21 +93,9 @@ public class SeparationTypeFacade {
 			 * HttpStatus.CONFLICT); } }
 			 */
 			 
-		 }
-		 catch (DuplicateKeyException exception) {
-				logger.debug("inside designationService catch block.****"); 
-				ErrorResponse error = new ErrorResponse();
-				logger.debug("data is  invalid");
-				error.setStatusMessage(exception.getCause().getLocalizedMessage());
-				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-			}
-		 catch(Exception e) {
-			 logger.debug("inside designationService catch block.****"); 
-				ErrorResponse error = new ErrorResponse();
-				logger.debug("data is  invalid");
-				error.setStatusMessage(e.getMessage());
-				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-			}
+		 
+		 
+
 		return null; 
 		 
 			} 
@@ -116,31 +109,39 @@ public class SeparationTypeFacade {
 		SeparationTypeResponse separationTypeResponse = new SeparationTypeResponse();
 
 		
-		logger.info("Inside getAllSeparationType():"); 
-		try {
+		logger.info("The request Inside SeparationTypeFacade getSeparationType method "+separationTypeRequest); 
+		
 		
 		if (separationTypeRequest.getTransactionType().equalsIgnoreCase(GETALL)) {
+			logger.debug("Inside SeparationTypeFacade getAll condition " + separationTypeRequest);
 		List<SeparationType> separationTypeList = separationTypeDao.getAllSeparationType();
+		
 		if (null != separationTypeList && separationTypeList.size() != 0) { 
+			logger.debug("Inside SeparationTypeFacade  listsize is " + separationTypeRequest);
 			separationTypeResponse.setSeparationTypeList(separationTypeList);
-			separationTypeResponse.setStatusMessage(SeparationTypeConstants.SUCCESS);
+			separationTypeResponse.setMessage(SeparationTypeConstants.SUCCESS);
+			separationTypeResponse.setStatusCode("200");
 			return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
 		} else {
-			separationTypeResponse.setStatusMessage(SeparationTypeConstants.NO_RECORDS);
+			logger.error("Inside SeparationTypeFacade in list is no_records " + separationTypeRequest);
+			separationTypeResponse.setMessage(SeparationTypeConstants.NO_RECORDS);
 			return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.CONFLICT);
 		}
 	
 	}
 		if (separationTypeRequest.getTransactionType().equalsIgnoreCase(GETBYID)) {
+			
 			separationTypeResponse = new SeparationTypeResponse();
 			List<SeparationType> list = separationTypeDao.getById(separationTypeRequest);
-			logger.debug("inside  get_count condition.****** : ");
+			logger.debug("inside  SeparationTypeFacade getbyid condition.****** : " + separationTypeRequest);
 			if (list.size() == 0) {
-				separationTypeResponse.setStatusMessage("No record Present");
+				logger.error("Inside SeparationTypeFacade  listsize is zero " + separationTypeRequest);
+				separationTypeResponse.setMessage("No record Present");
 				//separationTypeResponse.setTotalCount(0);
 				return new ResponseEntity<>(separationTypeResponse, HttpStatus.CONFLICT);
 			} else {
-				separationTypeResponse.setStatusMessage(SUCCESS);
+				logger.debug("Inside SeparationTypeFacade  list is " + separationTypeRequest);
+				separationTypeResponse.setMessage(SUCCESS);
 				separationTypeResponse.setSeparationTypeList(list);
 				return new ResponseEntity<>(separationTypeResponse, HttpStatus.OK);
 			} 
@@ -148,14 +149,7 @@ public class SeparationTypeFacade {
 	}
 		return new ResponseEntity<Object>(separationTypeResponse, HttpStatus.OK);
 		
-	}	catch (Exception exception) {
-		logger.debug("inside designationService catch block.****");
-		ErrorResponse error = new ErrorResponse();
-		logger.debug("data is  invalid");
-		 error.setStatusMessage(exception.getMessage());
-		error.setStatusMessage("409");
-		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-}
+	}	
 	}
 	
-}
+

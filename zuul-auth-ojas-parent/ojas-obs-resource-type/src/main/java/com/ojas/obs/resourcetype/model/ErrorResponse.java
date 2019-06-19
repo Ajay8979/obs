@@ -2,27 +2,47 @@ package com.ojas.obs.resourcetype.model;
 
 public class ErrorResponse {
 
-	private String code;
+	private String statusCode;
 
 	private String message;
+private String statusMessage;
 
 	public ErrorResponse() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ErrorResponse(String code, String message) {
+	
+
+	public ErrorResponse(String statusCode, String message, String statusMessage) {
 		super();
-		this.code = code;
+		this.statusCode = statusCode;
 		this.message = message;
+		this.statusMessage = statusMessage;
 	}
 
-	public String getCode() {
-		return code;
+
+
+	public String getStatusCode() {
+		return statusCode;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
+
+
+
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
+	}
+
+	
 
 	public String getMessage() {
 		return message;

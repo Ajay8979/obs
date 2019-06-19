@@ -15,11 +15,11 @@ public class EmploymentDetailsRowMapper implements RowMapper<EmploymentDetails> 
 		employmentDetails.setId(rs.getInt("id"));
 		employmentDetails.setEmployeeId(rs.getString("employee_id"));
 		employmentDetails.setJoiningDate(rs.getDate("joining_date"));
-		employmentDetails.setResourceType(rs.getString("resource_type"));
+		employmentDetails.setResourceType(rs.getInt("resource_type"));
 		employmentDetails.setBondStatus(rs.getBoolean("bond_status"));
 		employmentDetails.setResignationDate(rs.getDate("resignation_date"));
 		employmentDetails.setExitDate(rs.getDate("exit_date"));
-		employmentDetails.setSeparationType(rs.getString("separation_type"));
+		employmentDetails.setSeparationType(rs.getInt("separation_type"));
 		employmentDetails.setFlag(rs.getBoolean("flag"));
 		employmentDetails.setCreatedBy(rs.getString("created_by"));
 		employmentDetails.setUpdatedBy(rs.getString("updated_by"));

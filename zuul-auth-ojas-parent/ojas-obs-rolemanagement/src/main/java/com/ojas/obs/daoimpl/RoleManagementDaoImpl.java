@@ -4,6 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ojas.obs.constants.RoleServiceConstants.SAVEROLE;
+import static com.ojas.obs.constants.RoleServiceConstants.UPDATEROLE;
+import static com.ojas.obs.constants.RoleServiceConstants.GETALLRECORDS;
+import static com.ojas.obs.constants.RoleServiceConstants.GETBYIDRECORDS;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,16 +26,13 @@ import com.ojas.obs.request.RoleManagementRequest;
 @Repository
 public class RoleManagementDaoImpl implements RoleManagementDao {
 
-	public static final String SAVEROLE = "insert into obs_rolemanagement(rolename) values(?)";
-	public static final String UPDATEROLE = "update obs_rolemanagement set rolename = ? where id = ?";
-	public static final String GETALLRECORDS = "select * from obs_rolemanagement";
-	public static final String GETBYIDRECORDS = "select * from obs_rolemanagement where id = ?";
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public boolean saveRoleManagement(RoleManagementRequest roleManagementRequest) throws SQLException {
-		try {
+		
 
 			int[] save;
 			List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
@@ -44,17 +46,14 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 			if (save.length > 0) {
 				return true;
 			} else {
-				return false;
+			
+			return false;
 			}
-		} finally {
-
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
 	}
 
 	@Override
 	public boolean updateRoleManagement(RoleManagementRequest roleManagementRequest) throws SQLException {
-		try {
+		
 
 			int[] update;
 			List<RoleManagement> roleManagementList = roleManagementRequest.getRoleManagement();
@@ -70,34 +69,20 @@ public class RoleManagementDaoImpl implements RoleManagementDao {
 				return true;
 			}
 			return false;
-		} finally {
-
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 
 	@Override
-	public List<RoleManagement> getAllRollManagements() throws SQLException {
-		try {
-			
-		return jdbcTemplate.query(GETALLRECORDS, new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+	public List<RoleManagement> getAllRollManagements() throws SQLException {	
+		return jdbcTemplate.query(GETALLRECORDS, new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));	
 	}
 
 	@Override
-	public List<RoleManagement> getByIdRollManagement(Integer id) throws SQLException {
-		try {
-			
+	public List<RoleManagement> getByIdRollManagement(Integer id) throws SQLException {		
 		Object[] params = new Object[] { id };
 		return jdbcTemplate.query(GETBYIDRECORDS, params,
 				new BeanPropertyRowMapper<RoleManagement>(RoleManagement.class));
-		}
-		finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 	}
 
 }

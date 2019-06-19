@@ -47,9 +47,8 @@ public class EmployeeBUController {
 	 */
 	@RequestMapping(SETEMPLOYEEBUDETAILS)
 	public ResponseEntity<Object> setEmployeeBUDetails(@RequestBody EmployeeBUDetailsRequest employeeBUDetailsRequest,
-			HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws Exception {
 		logger.debug("incoming requests " + employeeBUDetailsRequest);
-		ResponseEntity<Object> responseEntity = null;
 		try {
 			if (null == employeeBUDetailsRequest) {
 				logger.error("Request is not valid");
@@ -88,13 +87,23 @@ public class EmployeeBUController {
 			}
 			}
 			return employeebuFacade.setEmployeeBU(employeeBUDetailsRequest);
-		} catch (Exception exception) {
-			logger.error("Request is not valid");
+		} catch (SQLException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
-			error.setStatusCode("422");
-		}
-		return responseEntity;
+			exception.printStackTrace();
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getCause().getMessage());
+			error.setStatusCode("409");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		ErrorResponse error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setMessage("Exception");
+		error.setStatusMessage(exception.getCause().getMessage());
+		error.setStatusCode("409");
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 	}
 
 	/**
@@ -107,27 +116,7 @@ public class EmployeeBUController {
 	 */
 	@RequestMapping(GETALLRECORDS)
 	public ResponseEntity<Object> getEmployeeBUDetails(@RequestBody EmployeeBUDetailsRequest employeeRequest,
-			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
-//		ResponseEntity<Object> responseEntity = null;
-//		try {
-////			if (null == courseRequest) {
-////				ErrorResponse error = new ErrorResponse();
-////				error.setMessage("Data is invalid");
-////				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-////			}
-//
-//			if (!(employeeRequest.getTransactionType().equalsIgnoreCase(GETALL))) {
-//				ErrorResponse error = new ErrorResponse();
-//				error.setMessage("Data is invalid");
-//				return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-//
-//			}
-//			return employeebuFacade.getEmployeeBUDetails(employeeRequest);
-//		} catch (Exception exception) {
-//			ErrorResponse error = new ErrorResponse();
-//			error.setMessage(exception.getMessage());
-//		}
-//		return responseEntity;
+			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws Exception {
 		ErrorResponse error = null;
 		try {
 			if (null == employeeRequest) {
@@ -138,12 +127,22 @@ public class EmployeeBUController {
 				return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			return employeebuFacade.getEmployeeBUDetails(employeeRequest);
-		} catch (SQLException exception) {
+		} 
+		catch (SQLException exception) {
 			error = new ErrorResponse();
 			exception.printStackTrace();
 			error.setMessage(exception.getMessage());
+			error.setStatusMessage("SQL Exception");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 
+	}catch (Exception exception) {
+		logger.debug("inside CostCenterController-SQLException catch block.****");
+		error = new ErrorResponse();
+		logger.debug("Exception is  invalid");
+		error.setStatusCode("409");
+		error.setStatusMessage("Exception");
+		error.setMessage(exception.getCause().getMessage());
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 }
 }

@@ -12,4 +12,8 @@ public class RoleServiceConstants {
 	public static final String SUCCESS = "success";
 	public static final String FAILED = "failed";
 
+	public static final String SAVEROLE = "insert into obs_rolemanagement(roleName) values(?)";
+	public static final String UPDATEROLE = "update  obs_rolemanagement set  roleName = ? where id = ?";
+	public static final String GETALLRECORDS = "select * from obs_rolemanagement";
+	public static final String GETBYIDRECORDS = "select * from obs_rolemanagement where id = ?";
 }

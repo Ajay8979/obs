@@ -24,30 +24,7 @@ public class EmployeeExperienceDetails {
 	
 	public EmployeeExperienceDetails() {}
 
-	public EmployeeExperienceDetails(Integer id, String employee_Id, String company_name, Date joining_date,
-			Date exit_date, Double salary, String location, String is_current_company, String first_Reference_Name,
-			String first_Reference_Contact, String second_Reference_Name, String second_Reference_Contact, boolean flag,
-			String created_by, String updated_by, Timestamp created_date, Timestamp updated_date) {
-		super();
-		this.id = id;
-		this.employee_Id = employee_Id;
-		this.company_name = company_name;
-		this.joining_date = joining_date;
-		this.exit_date = exit_date;
-		this.salary = salary;
-		this.location = location;
-		this.is_current_company = is_current_company;
-		this.first_Reference_Name = first_Reference_Name;
-		this.first_Reference_Contact = first_Reference_Contact;
-		this.second_Reference_Name = second_Reference_Name;
-		this.second_Reference_Contact = second_Reference_Contact;
-		this.flag = flag;
-		this.created_by = created_by;
-		this.updated_by = updated_by;
-		this.created_date = created_date;
-		this.updated_date = updated_date;
-	}
-
+	
 	public Integer getId() {
 		return id;
 	}

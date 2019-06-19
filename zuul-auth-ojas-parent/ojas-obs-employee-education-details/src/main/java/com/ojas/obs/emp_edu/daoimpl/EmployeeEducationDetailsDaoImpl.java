@@ -29,7 +29,7 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 	@Override
 	public int[] saveEmployeeEducationDetails(EmployeeEducationDetailsRequest empEducationDetailsRequest)
 			throws SQLException {
-		try {
+
 			logger.debug("the input to dao save method is " + empEducationDetailsRequest);
 			logger.debug("jdbc template " + jdbctemplate);
 			List<EmployeeEducationDetails> employeeEducationDetailsList = empEducationDetailsRequest
@@ -47,16 +47,13 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 			int[] batchUpdate = jdbctemplate.batchUpdate(INSERT_STMT, paramsList);
 			logger.debug("the output from dao save method is " + batchUpdate);
 			return batchUpdate;
-		} finally {
-			jdbctemplate.getDataSource().getConnection().close();
-		}
+		
 
 	}
 
 	@Override
 	public int[] deleteEmployeeEducationDetails(EmployeeEducationDetailsRequest empEducationDetailsRequest)
 			throws SQLException {
-		try {
 
 			logger.debug("the input from dao delete method is " + empEducationDetailsRequest);
 			List<EmployeeEducationDetails> employeeEducationDetailsList = empEducationDetailsRequest
@@ -70,15 +67,11 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 			logger.debug("the output from dao delete method is " + batchUpdate);
 			return batchUpdate;
 
-		} finally {
-			jdbctemplate.getDataSource().getConnection().close();
-		}
 	}
 
 	@Override
 	public int[] updateEmployeeEducationDetails(EmployeeEducationDetailsRequest empEducationDetailsRequest)
 			throws SQLException {
-		try {
 			System.out.println("jdbc template " + jdbctemplate);
 			List<EmployeeEducationDetails> employeeEducationDetailsList = empEducationDetailsRequest
 					.getEmployeeEducationDetailsList();
@@ -96,15 +89,11 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 
 			return batchUpdate;
 
-		} finally {
-			jdbctemplate.getDataSource().getConnection().close();
-		}
 	}
 
 	@Override
 	public List<EmployeeEducationDetails> getEmployeeEducationDetails(
 			EmployeeEducationDetailsRequest empEducationDetailsRequest) throws SQLException {
-		try {
 
 			logger.debug("the input from dao getEmployeeEducationDetails method is " + empEducationDetailsRequest);
 			List<EmployeeEducationDetails> query = jdbctemplate.query(GETALL_STMT,
@@ -112,15 +101,11 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 			logger.debug("the output from dao delete method is " + query);
 			return query;
 
-		} finally {
-			jdbctemplate.getDataSource().getConnection().close();
-		}
 	}
 
 	@Override
 	public List<EmployeeEducationDetails> getEmployeeEducationDetailsById(
 			EmployeeEducationDetailsRequest empEducationDetailsRequest) throws SQLException {
-		try {
 
 			logger.debug("the input from dao getById method is " + empEducationDetailsRequest);
 			List<EmployeeEducationDetails> employeeEducationDetailsList = empEducationDetailsRequest
@@ -153,9 +138,6 @@ public class EmployeeEducationDetailsDaoImpl implements EmployeeEducationDetails
 
 			return list;
 
-		} finally {
-			jdbctemplate.getDataSource().getConnection().close();
-		}
 	}
 
 }

@@ -38,12 +38,12 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 	@Override
 	public ResponseEntity<Object> setEmployeeEducationDetails(EmployeeEducationDetailsRequest emplEduDetailsRequestObj)
 			throws SQLException {
-		if (null != emplEduDetailsRequestObj.getTransaactionType()) {
-			if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(SAVE)) {
+		if (null != emplEduDetailsRequestObj.getTransactionType()) {
+			if (emplEduDetailsRequestObj.getTransactionType().equalsIgnoreCase(SAVE)) {
 				return this.saveTransaction(emplEduDetailsRequestObj);
-			} else if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(UPDATE)) {
+			} else if (emplEduDetailsRequestObj.getTransactionType().equalsIgnoreCase(UPDATE)) {
 				return this.updateTransaction(emplEduDetailsRequestObj);
-			} else if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(DELETE)) {
+			} else if (emplEduDetailsRequestObj.getTransactionType().equalsIgnoreCase(DELETE)) {
 				return this.deleteTransaction(emplEduDetailsRequestObj);
 			} else {
 				ErrorResponse error = new ErrorResponse();
@@ -68,7 +68,7 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 		List<EmployeeEducationDetails> idValidation = null;
 		List<EmployeeEducationDetails> empIdValidation = null;
 
-		if (emplEduDetailsRequestObj.getTransaactionType().equalsIgnoreCase(GETALL)) {
+		if (emplEduDetailsRequestObj.getTransactionType().equalsIgnoreCase(GETALL)) {
 			if (null != emplEduDetailsRequestObj.getEmployeeEducationDetailsList()
 					&& emplEduDetailsRequestObj.getEmployeeEducationDetailsList().size() > 0) {
 				idValidation = this.getIdValidation(emplEduDetailsRequestObj);
@@ -82,7 +82,7 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 					employeeEducationResponse = new EmployeeEducationResponse();
 					employeeEducationResponse.setEmployeeEducationDetailsList(idValidation);
 					employeeEducationResponse.setStatusCode("422");
-					employeeEducationResponse.setStatusMessage(ID_NULL);
+					employeeEducationResponse.setMessage(ID_NULL);
 					return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 
@@ -95,13 +95,13 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 				employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
 				employeeEducationResponse.setStatusCode("200");
-				employeeEducationResponse.setStatusMessage(LIST_OBTAINED);
+				employeeEducationResponse.setMessage(LIST_OBTAINED);
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 			} else {
 				employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setEmployeeEducationDetailsList(employeeEducationDetailsList);
 				employeeEducationResponse.setStatusCode("200");
-				employeeEducationResponse.setStatusMessage("There are no records");
+				employeeEducationResponse.setMessage("There are no records");
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 			}
 
@@ -158,12 +158,12 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 		if (b == emplEduDetailsRequestObj.getEmployeeEducationDetailsList().size()) {
 			EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 			employeeEducationResponse.setStatusCode("200");
-			employeeEducationResponse.setStatusMessage("Employee Education Details have been saved");
+			employeeEducationResponse.setMessage("Employee Education Details have been saved");
 			return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 		} else {
 			EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 			employeeEducationResponse.setStatusCode("409");
-			employeeEducationResponse.setStatusMessage("Employee Education Details has not saved with id is"
+			employeeEducationResponse.setMessage("Employee Education Details has not saved with id is"
 					+ emplEduDetailsRequestObj.getEmployeeEducationDetailsList().get(b + 1));
 			return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 		}
@@ -188,13 +188,13 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 			if (list.size() == 0) {
 				EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setStatusCode("200");
-				employeeEducationResponse.setStatusMessage("Employee Education Details have been updated");
+				employeeEducationResponse.setMessage("Employee Education Details have been updated");
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 			} else {
 				EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setEmployeeEducationDetailsList(list);
 				employeeEducationResponse.setStatusCode("409");
-				employeeEducationResponse.setStatusMessage("Employee Education Details has not updated  ");
+				employeeEducationResponse.setMessage("Employee Education Details has not updated  ");
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 
 			}
@@ -202,7 +202,7 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 			EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 			employeeEducationResponse.setEmployeeEducationDetailsList(idValidation);
 			employeeEducationResponse.setStatusCode("422");
-			employeeEducationResponse.setStatusMessage(ID_NULL);
+			employeeEducationResponse.setMessage(ID_NULL);
 			return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
@@ -225,13 +225,13 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 			if (list.size() == 0) {
 				EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setStatusCode("200");
-				employeeEducationResponse.setStatusMessage("Employee Education Details have been deleted");
+				employeeEducationResponse.setMessage("Employee Education Details have been deleted");
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.OK);
 			} else {
 				EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 				employeeEducationResponse.setEmployeeEducationDetailsList(list);
 				employeeEducationResponse.setStatusCode("409");
-				employeeEducationResponse.setStatusMessage("Employee Education Details has not deleted  ");
+				employeeEducationResponse.setMessage("Employee Education Details has not deleted  ");
 				return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 
 			}
@@ -239,7 +239,7 @@ public class EmployeeEducationDetailsFacadeImpl implements EmployeeEducationFaca
 			EmployeeEducationResponse employeeEducationResponse = new EmployeeEducationResponse();
 			employeeEducationResponse.setEmployeeEducationDetailsList(idValidation);
 			employeeEducationResponse.setStatusCode("422");
-			employeeEducationResponse.setStatusMessage(ID_NULL);
+			employeeEducationResponse.setMessage(ID_NULL);
 			return new ResponseEntity<Object>(employeeEducationResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}

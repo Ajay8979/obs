@@ -31,193 +31,76 @@ public class DesignationDaoImpl implements DesignationDao {
 	public static final String SELECTDesignation = "Select * from obs_designation ORDER BY id asc";
 	public static final String DESIGNATIONCOUNTDesignation = "Select count(*) from obs_designation";
 	public static final String getbyid = "Select * from obs_designation where id = ";
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#saveDesignation(com.ojas.obs.request.
-	 * DesignationRequest)
-	 */
-
+	
 	@Override
 	public boolean saveDesignation(DesignationRequest designationRequest) throws SQLException {
+		logger.info("The requests inside save in DesignationDaoImpl " + designationRequest);
 
-		try {
+		List<Object[]> inputList = new ArrayList<Object[]>();
 
-			List<Object[]> inputList = new ArrayList<Object[]>();
+		for (Designation designation : designationRequest.getDesignation()) {
 
-			for (Designation designation : designationRequest.getDesignation()) {
+			logger.debug("Inside saveforecah in DesignationDaoImpl " +designationRequest);
+			Object[] obj = new Object[] { designation.getDesignation() };
 
-				logger.debug("Inside save Designation..getConnection()");
-				Object[] obj = new Object[] { designation.getDesignation() };
+			inputList.add(obj);
 
-				inputList.add(obj);
-
-				/*
-				 * if (n > 0) { return true; } return false;
-				 */
-			}
-			int[] batchUpdate = jdbcTemplate.batchUpdate(SAVEDesignation, inputList);
-			if (batchUpdate.length > 0) {
-				return true;
-			}
-			return false;
-	}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
-}
-/*		}
-
-		catch (Exception e) {
-			logger.debug("Inside saveDesignation..DAO catch block" + e.getMessage());
-		}*/
-		//return false;
-	
-
-	/*
-	 * int save = 0; List<Designation> designation =
-	 * designationRequest.getDesignation(); for (Designation designationObj :
-	 * designation) { save = jdbc.update(SAVEDesignation,
-	 * designationObj.getDesignation()); }
-	 * 
-	 * if (save > 0) return true; else return false;
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#updateDesignation(com.ojas.obs.request.
-	 * DesignationRequest)
-	 */
+		}
+		int[] batchUpdate = jdbcTemplate.batchUpdate(SAVEDesignation, inputList);
+		if (batchUpdate.length > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean updateDesignation(DesignationRequest designationRequest) throws SQLException {
 
 		List<Object[]> inputList = new ArrayList<Object[]>();
-		logger.debug("Inside updateDesignation..DAO *****");
-		try {
+		logger.info("The requests inside update in DesignationDaoImpl " + designationRequest);
 
-			List<Designation> designation = designationRequest.getDesignation();
+		List<Designation> designation = designationRequest.getDesignation();
 
-			for (Designation plan : designation) {
+		for (Designation plan : designation) {
+			logger.debug("Inside updateforecah in DesignationDaoImpl " +designationRequest);
 
-				Object[] obj = new Object[] { plan.getDesignation(), plan.getId() };
-				/*
-				 * if (n > 0) return true; else return false;
-				 */
+			Object[] obj = new Object[] { plan.getDesignation(), plan.getId() };
 
-				inputList.add(obj);
+			inputList.add(obj);
 
-			}
-			int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEDesignation, inputList);
-
-			if (batchUpdate.length > 0) {
-				return true;
-			}
-			return false;
-
-		}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
-	}
-		/*catch (Exception e) {
-			e.printStackTrace();
 		}
-		return false;*/
+		int[] batchUpdate = jdbcTemplate.batchUpdate(UPDATEDesignation, inputList);
 
-	
+		if (batchUpdate.length > 0) {
+			return true;
+		}
+		return false;
 
-	/*
-	 * int up = 0; List<Designation> designation =
-	 * designationRequest.getDesignation(); for(Designation designationObj :
-	 * designation) {
-	 * 
-	 * up = jdbc.update(UPDATEDesignation, designationObj.getDesignation(),
-	 * designationObj.getId());
-	 * 
-	 * } if (up > 0) return true; else return false;
-	 * 
-	 * }
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#deleteDesignation(int)
-	 */
-
-	/*
-	 * @Override public boolean deleteDesignation(int id) throws SQLException {
-	 * //boolean b2=false; int d = jdbc.update(DELETEDesignation, id); if (d > 0)
-	 * return true; else return false; }
-	 */
-
-	/*
-	 * @Override public boolean deleteDesignation(DesignationRequest
-	 * designationRequest) throws SQLException { List<Designation>
-	 * des=designationRequest.getDesignation(); List<Object[]> list = new
-	 * ArrayList<Object[]>(); for(Designation designation : des) { Object[]
-	 * model=new Object[]{designation.getId()};
-	 * System.out.println("Id list::"+designation.getId()); list.add(model); } int[]
-	 * count=jdbc.batchUpdate(DELETEDesignation,list); for (int i : count) { if (i >
-	 * 0) {
-	 * 
-	 * logger.debug("saved successfully through DaoImpl" + i); return true; } }
-	 * logger.debug("failed to save through daoImpl Method"); return false; }
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#getAllDesignationCount()
-	 */
+	}
 
 	@Override
 	public int getAllDesignationCount() throws SQLException {
-			try {
+		logger.info("The requests inside getAllDesignationCount in DesignationDaoImpl ");
+
 		return jdbcTemplate.queryForObject(DESIGNATIONCOUNTDesignation, Integer.class);
-	}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#getAll(com.ojas.obs.request.
-	 * DesignationRequest)
-	 */
 
 	@Override
 	public List<Designation> getAll(DesignationRequest designationRequest) throws SQLException {
-			try {
-		logger.debug("Inside getAllDesignationDetails DAO .***");
+		logger.info("The requests inside getAll in DesignationDaoImpl " + designationRequest);
 
-		List<Designation> designation = jdbcTemplate.query(SELECTDesignation, new BeanPropertyRowMapper<>(Designation.class));
+		logger.debug("Inside getAllDesignationDetails DAO  " + designationRequest);
+
+		List<Designation> designation = jdbcTemplate.query(SELECTDesignation,
+				new BeanPropertyRowMapper<>(Designation.class));
 
 		return designation;
-	}finally {
-		jdbcTemplate.getDataSource().getConnection().close();
 	}
-	}
+
 	public List<Designation> getById(DesignationRequest designationRequest) throws SQLException {
-		try {
+		logger.info("The requests inside getAll in DesignationDaoImpl " + designationRequest);
+
 		List<Designation> designationList = new ArrayList<>();
 		List<Designation> insuranceList = designationRequest.getDesignation();
 		for (Designation designation : insuranceList) {
@@ -226,38 +109,7 @@ public class DesignationDaoImpl implements DesignationDao {
 			designationList.addAll(query);
 		}
 		return designationList;
-	}finally {
-					if (jdbcTemplate != null) {
-						try {
-							jdbcTemplate.getDataSource().getConnection().close();
-						} catch (Exception exception) {
-							exception.getMessage();
-						}
-					}
-				}
+
 	}
-	
-	
-	
-	
-	
-
-	/*
-	 * List<Designation> query = jdbc.query(SELECTDesignation, new
-	 * BeanPropertyRowMapper<Designation>(Designation.class));
-	 * System.out.println("data.****" + query); return query;
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ojas.obs.dao.DesignationDao#getCountPerPage(java.util.List, int,
-	 * int)
-	 */
-
-	/*
-	 * @Override public List<Designation> getCountPerPage(List<Designation> list,
-	 * int pageSize, int pageNo) { // TODO Auto-generated method stub return null; }
-	 */
 
 }

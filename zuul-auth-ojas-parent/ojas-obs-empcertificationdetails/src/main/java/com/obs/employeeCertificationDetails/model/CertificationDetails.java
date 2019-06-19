@@ -8,19 +8,20 @@ public class CertificationDetails {
 	private String certificationName;
 	private String issuedBy;
 	private Date dateOfIssue;
-	private String employee_id;
+	private String employeeId;
 	private String createdBy;
 	private String updatedBy;
 	private Timestamp createdDate;
 	private Timestamp updatedDate;
 	private boolean flag;
-	public String getEmployee_id() {
-		return employee_id;
-	}
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
-	}
 	
+	
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -83,7 +84,7 @@ public class CertificationDetails {
 		result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
 		result = prime * result + ((dateOfIssue == null) ? 0 : dateOfIssue.hashCode());
-		result = prime * result + ((employee_id == null) ? 0 : employee_id.hashCode());
+		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
 		result = prime * result + (flag ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((issuedBy == null) ? 0 : issuedBy.hashCode());
@@ -120,10 +121,10 @@ public class CertificationDetails {
 				return false;
 		} else if (!dateOfIssue.equals(other.dateOfIssue))
 			return false;
-		if (employee_id == null) {
-			if (other.employee_id != null)
+		if (employeeId == null) {
+			if (other.employeeId != null)
 				return false;
-		} else if (!employee_id.equals(other.employee_id))
+		} else if (!employeeId.equals(other.employeeId))
 			return false;
 		if (flag != other.flag)
 			return false;
@@ -148,6 +149,13 @@ public class CertificationDetails {
 		} else if (!updatedDate.equals(other.updatedDate))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "CertificationDetails [id=" + id + ", certificationName=" + certificationName + ", issuedBy=" + issuedBy
+				+ ", dateOfIssue=" + dateOfIssue + ", employeeId=" + employeeId + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
+				+ ", flag=" + flag + "]";
 	}
 	
 	

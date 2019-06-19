@@ -1,3 +1,4 @@
+
 package com.ojas.obs.controller;
 
 import static com.ojas.obs.constants.RoleServiceConstants.GET;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,13 +41,6 @@ public class RoleManagementController {
 	RoleManagementFacade roleManagementFacade;
 	Logger logger = Logger.getLogger(this.getClass());
 
-	/**
-	 * 
-	 * @param roleRequest
-	 * @param servletRequest
-	 * @param servletResponse
-	 * @return
-	 */
 	@RequestMapping(SET)
 	public ResponseEntity<Object> setRoleManagement(@RequestBody RoleManagementRequest roleManagementRequest,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws SQLException {
@@ -86,23 +81,33 @@ public class RoleManagementController {
 			}
 			return roleManagementFacade.setRoleManagement(roleManagementRequest);
 
-		} catch (Exception exception) {
-			logger.error("inside catch block.*******");
+		} catch (DuplicateKeyException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");
+			error.setMessage("duplicates not allowed");
+			error.setStatusMessage(exception.getCause().getMessage());
+			logger.error("data is  invalid. DuplicateKeyException");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (SQLException exception) {
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("409");
+			error.setMessage("SQLException");
+			error.setStatusMessage(exception.getMessage());
+			logger.error("data is  invalid");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (Exception exception) {
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("409");
+			error.setMessage("Exception");
+			error.setMessage(exception.getMessage());
+			logger.error("data is  invalid");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 
 	}
 
-	/**
-	 * 
-	 * @param roleResponse
-	 * @param servletRequest
-	 * @param ServletResponse
-	 * @return
-	 */
 	@RequestMapping(GET)
 	public ResponseEntity<Object> getRoleManagement(@RequestBody RoleManagementRequest roleManagementRequest,
 			HttpServletRequest servletRequest, HttpServletResponse ServletResponse) {
@@ -120,12 +125,21 @@ public class RoleManagementController {
 			}
 			return roleManagementFacade.getRoleManagement(roleManagementRequest);
 
-		} catch (Exception exception) {
-
-			logger.error("inside catch block.*******");
+		}
+		catch (SQLException exception) {
 			ErrorResponse error = new ErrorResponse();
-			error.setMessage(exception.getMessage());
 			error.setStatusCode("409");
+			error.setMessage("SQLException");
+			error.setStatusMessage(exception.getMessage());
+			logger.error("data is  invalid");
+			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+		}
+		catch (Exception exception) {
+			ErrorResponse error = new ErrorResponse();
+			error.setStatusCode("409");
+			error.setMessage("Exception");
+			error.setStatusMessage(exception.getMessage());
+			logger.error("data is  invalid");
 			return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 		}
 

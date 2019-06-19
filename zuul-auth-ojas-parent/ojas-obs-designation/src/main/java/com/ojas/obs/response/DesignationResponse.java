@@ -14,49 +14,35 @@ import com.ojas.obs.model.Designation;
 public class DesignationResponse {
 
 	private List<Designation> listDesignation;
-	private String statusMessage;
-	private int totalCount;
-
+	private String message;
+	private String statusCode;
 	public List<Designation> getListDesignation() {
 		return listDesignation;
 	}
-
 	public void setListDesignation(List<Designation> listDesignation) {
 		this.listDesignation = listDesignation;
 	}
-
-	public String getStatusMessage() {
-		return statusMessage;
+	public String getMessage() {
+		return message;
 	}
-
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
-	public int getTotalCount() {
-		return totalCount;
+	public String getStatusCode() {
+		return statusCode;
 	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((listDesignation == null) ? 0 : listDesignation.hashCode());
-		result = prime * result + ((statusMessage == null) ? 0 : statusMessage.hashCode());
-		result = prime * result + totalCount;
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
 		return result;
 	}
-
-	@Override
-	public String toString() {
-		return "DesignationResponse [listDesignation=" + listDesignation + ", statusMessage=" + statusMessage
-				+ ", totalCount=" + totalCount + "]";
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -71,14 +57,23 @@ public class DesignationResponse {
 				return false;
 		} else if (!listDesignation.equals(other.listDesignation))
 			return false;
-		if (statusMessage == null) {
-			if (other.statusMessage != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!statusMessage.equals(other.statusMessage))
+		} else if (!message.equals(other.message))
 			return false;
-		if (totalCount != other.totalCount)
+		if (statusCode == null) {
+			if (other.statusCode != null)
+				return false;
+		} else if (!statusCode.equals(other.statusCode))
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "DesignationResponse [listDesignation=" + listDesignation + ", message=" + message + ", statusCode="
+				+ statusCode + "]";
+	}
+	
 
 }

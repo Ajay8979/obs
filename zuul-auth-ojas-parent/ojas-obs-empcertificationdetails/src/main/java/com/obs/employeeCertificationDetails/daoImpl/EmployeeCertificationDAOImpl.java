@@ -33,10 +33,10 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<Object[]> list= new ArrayList<Object[]>();
 		int count=0;
 		boolean flag=true;
-		try {
+		
 			for (CertificationDetails details : modelList) {
 				Object[] model = new Object[] { details.getCertificationName(), details.getIssuedBy(),
-						details.getDateOfIssue(), details.getEmployee_id(), details.getCreatedBy(), flag };
+						details.getDateOfIssue(), details.getEmployeeId(), details.getCreatedBy(), flag };
 				list.add(model);
 			}
 			// count =
@@ -52,11 +52,6 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 				logger.debug("saved successfully through DaoImpl");
 				return true;
 			}
-		} finally {
-			if(jdbcTemplate!=null)
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-
 		logger.debug("failed to save through daoImpl Method");
 		return false;
 	}
@@ -66,7 +61,7 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
 		List<Object[]> list= new ArrayList<Object[]>();
 		int count = 0;
-		try {
+
 			for(CertificationDetails details :modelList) {
 				Object[] model= new Object[] { details.getCertificationName(), details.getIssuedBy(),details.getDateOfIssue(), details.getCreatedBy(), details.getUpdatedBy(),details.getId()};
 			    list.add(model);
@@ -83,11 +78,7 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		        	logger.debug("updated successfully through DaoImpl");
 					return true;
 		        }
-		}finally {
-			if(jdbcTemplate!=null)
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-		
+
 		logger.debug("failed to update through daoImpl Method");
 		return false;
 	}
@@ -97,7 +88,7 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<CertificationDetails> modelList = certificationDetailsRequest.getCertificationDetailsModel();
 		List<Object[]> list= new ArrayList<Object[]>();
 		int[] count = null;
-		try {
+
 			for (CertificationDetails details : modelList) {
 				Object[] model = new Object[] { details.getUpdatedBy(), details.getId() };
 				list.add(model);
@@ -112,11 +103,7 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 					return true;
 				}
 			}
-		} finally {
-			if(jdbcTemplate!=null)
-			 jdbcTemplate.getDataSource().getConnection().close();
-		}
-
+		
 		logger.debug("failed to update through daoImpl Method");
 		return false;
 	}
@@ -125,12 +112,8 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 	public List<CertificationDetails> getAllCertificationDetails() throws SQLException{
 	    //return jdbcTemplate.query(propsReaderUtil.getValue("GETCertificationDetails"),new BeanPropertyRowMapper<CertificationDetails>(CertificationDetails.class));
 		List<CertificationDetails> list=null;
-		try {
+		
 			list=jdbcTemplate.query(GETCertificationDetails,new BeanPropertyRowMapper<CertificationDetails>(CertificationDetails.class));
-		}finally{
-			if(jdbcTemplate!=null)
-			 jdbcTemplate.getDataSource().getConnection().close();
-		}
 		
 		return list;
 	}
@@ -139,12 +122,9 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 	public int getAllCertificationDetailsCount() throws SQLException {
 		//return jdbcTemplate.queryForObject(propsReaderUtil.getValue("GETCertificationDetailsCOUNT"), Integer.class);
 		int count=0;
-		try {
+		
 			count=jdbcTemplate.queryForObject(GETCertificationDetailsCOUNT, Integer.class);
-		}finally{
-			if(jdbcTemplate!=null)
-			 jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		return count;
 	}
 
@@ -173,16 +153,13 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<Object[]> list= new ArrayList<Object[]>();
 		Object[] param=null;
 		List<CertificationDetails> query=null;
-		try {
+
 			for(CertificationDetails details :modelList) {
 				param	 = new Object[] { details.getId() };
 				list.add(param);
 			}
 		   query = jdbcTemplate.query(GETCertificationDetailById,param,new BeanPropertyRowMapper<>(CertificationDetails.class));
-		}finally {
-			if(jdbcTemplate!=null)
-			 jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 		return query;
 	}
@@ -192,16 +169,13 @@ public class EmployeeCertificationDAOImpl implements EmployeeCertificationDAO {
 		List<Object[]> list= new ArrayList<Object[]>();
 		Object[] param=null;
 		List<CertificationDetails> query=null;
-		try {
+		
 			for(CertificationDetails details :modelList) {
-				param	 = new Object[] { details.getEmployee_id()};
+				param	 = new Object[] { details.getEmployeeId()};
 				list.add(param);
 			}
 		   query = jdbcTemplate.query(GETByEmpId,param,new BeanPropertyRowMapper<>(CertificationDetails.class));
-		}finally {
-			//if(jdbcTemplate!=null)
-			 //jdbcTemplate.getDataSource().getConnection().close();
-		}
+		
 		
 		return query;
 	}

@@ -1,3 +1,4 @@
+
 package com.ojas.obs.dao;
 
 import static com.ojas.obs.constants.UserConstants.getAll;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,6 +31,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	Logger logger = Logger.getLogger(this.getClass());
 
 	// saving the data into database
 
@@ -38,6 +41,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		for(EmployeeSkillInfo skillDetails : listEmployeeSkillInfo) {
  
+			logger.info("@@@@@Inside the save method()....");
 			Object[] save = {skillDetails.getSkill_id(),
 				skillDetails.getLevel_id(),
 				skillDetails.getEmployee_id(),
@@ -46,15 +50,15 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 				new Timestamp(new Date().getTime()) };
 			inputList.add(save);
 	}
-		try {
+		//try {
 		int[] batchUpdate = jdbcTemplate.batchUpdate(saveEmployeeSkillInfoStmt, inputList );
 		if(batchUpdate.length > 0) {
 			return 1;
 		}
 		return 0;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
+//		} finally {
+//			jdbcTemplate.getDataSource().getConnection().close();
+//		}
 	}
 	
 		
@@ -68,7 +72,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		List<EmployeeSkillInfo> listEmployeeSkillInfo = employeeSkillInfoRequest.getSkillInfoModel();
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		for(EmployeeSkillInfo skillDetails : listEmployeeSkillInfo) {
-			
+			logger.debug("@@@@@Inside the update method()....");
 		
 				Object[] update = { 
 						skillDetails.getEmployee_id(),
@@ -79,15 +83,15 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 				skillDetails.getId()};
 	inputList.add(update);
 		}
-		try {
+		//try {
 		int[] batchUpdate = jdbcTemplate.batchUpdate(updateSkillDetailsById, inputList );
 		if(batchUpdate.length>0) {
 			return 1;
 		}
 		return 0;
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		} 
+		//} finally {
+			//jdbcTemplate.getDataSource().getConnection().close();
+		//} 
 	}
 
 	// retrieving the list of data
@@ -95,6 +99,7 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 	@Override
 	public List<EmployeeSkillInfo> showEmployeeSkillInfo(EmployeeSkillInfoRequest employeeSkillInfoRequest)
 			throws SQLException {
+		logger.debug("@@@@@Inside the show  method()....");
 		
 		/*List<EmployeeSkillInfo> skillList = employeeSkillInfoRequest.getSkillInfoModel();
 		for (EmployeeSkillInfo listSkill : skillList) {
@@ -107,22 +112,24 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 		}
 		return null;*/
 
-		try {
+		//try {
 		return jdbcTemplate.query(getAll, new BeanPropertyRowMapper(EmployeeSkillInfo.class));
 	
-	}finally {
+	/*}finally {
 		jdbcTemplate.getDataSource().getConnection().close();
-	}
+	}*/
 }
 
 	@Override
 	
 	public int getAllCount() throws SQLException {
-		try {
+		logger.debug("@@@@@Inside the getAll method()....");
+		
+		//try {
 		return jdbcTemplate.queryForObject(getCount, Integer.class);
-		} finally {
+		/*} finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		}*/
 	}
 
 	/*@Override
@@ -149,12 +156,14 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 
 	@Override
 	public List<EmployeeSkillInfo> getById(Integer id) throws SQLException {
-		try {
+		logger.debug("@@@@@Inside the getById method()....");
+		
+		//try {
 		List<EmployeeSkillInfo> list = jdbcTemplate.query(getById + id, new BeanPropertyRowMapper<>(EmployeeSkillInfo.class));
 		return list;
-		}finally {
+		/*}finally {
 			jdbcTemplate.getDataSource().getConnection().close();
-		}
+		}*/
 		//List<EmployeeSkillInfo> employeeExperienceDetailsList = jdbcTemplate.query("getById"), params, new ExperienceRowMappers());
 		
 		
@@ -162,12 +171,14 @@ public class EmployeeSkillDaoImpl implements EmployeeSkillDao {
 
     @Override
 	public List<EmployeeSkillInfo> getByEmpId(String empId) throws SQLException {
-    	try {
+    	logger.debug("@@@@@Inside the empId method()....");
+		
+    	//try {
     		List<EmployeeSkillInfo> list = jdbcTemplate.query(getByEmpId + empId, new BeanPropertyRowMapper<>(EmployeeSkillInfo.class));
     		return list;
-    		}finally {
+    		/*}finally {
     			jdbcTemplate.getDataSource().getConnection().close();
-    		}
+    		}*/
     		//List<EmployeeSkillInfo> employeeExperienceDetailsList = jdbcTemplate.query("getById"), params, new ExperienceRowMappers());
     		
 	}

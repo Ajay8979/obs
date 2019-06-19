@@ -28,8 +28,7 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 			throws SQLException {
 		List<EmployeeExperienceDetails> employeeExperienceDetailsList = experienceRequestObject
 				.getEmployeeExperienceDetails();
-		
-		
+
 		for (EmployeeExperienceDetails employeeExperienceDetails : employeeExperienceDetailsList) {
 			experienceResponse = new ExperienceResponse();
 
@@ -37,13 +36,13 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 
 			if (experienceRequestObject.getTransactionType().equalsIgnoreCase(SAVE)) {
 				experienceResponse.setStatusCode("409");
-				experienceResponse.setStatusMessage("sorry EmployeeExperienceDetails is not saved");
+				experienceResponse.setMessage("sorry EmployeeExperienceDetails is not saved");
 
 				int saveRes = employeeExperienceDetailsDao.saveEmployeeExperienceDetails(experienceRequestObject);
 				logger.debug("received at service by calling the saveEmployeeExperienceDetails is" + saveRes);
 				if (saveRes > 0) {
 					experienceResponse.setStatusCode("200");
-					experienceResponse.setStatusMessage("EmployeeExperienceDetails saved successfully");
+					experienceResponse.setMessage("EmployeeExperienceDetails saved successfully");
 
 				}
 				return experienceResponse;
@@ -56,17 +55,17 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 					int updateEmployeeExperienceDetails = employeeExperienceDetailsDao
 							.updateEmployeeExperienceDetails(experienceRequestObject);
 					experienceResponse.setStatusCode("409");
-					experienceResponse.setStatusMessage("sorry EmployeeExperienceDetails is not updated");
+					experienceResponse.setMessage("sorry EmployeeExperienceDetails is not updated");
 					logger.debug("received at service by calling the updateEmployeeExperienceDetails is"
 							+ updateEmployeeExperienceDetails);
 
 					if (updateEmployeeExperienceDetails > 0) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("EmployeeExperienceDetails updated successfully");
+						experienceResponse.setMessage("EmployeeExperienceDetails updated successfully");
 					}
 				} else {
 					experienceResponse.setStatusCode("422");
-					experienceResponse.setStatusMessage("please provide the id");
+					experienceResponse.setMessage("please provide the id");
 				}
 				return experienceResponse;
 			}
@@ -79,17 +78,17 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 					int deleteEmployeeExperienceDetails = employeeExperienceDetailsDao
 							.deleteEmployeeExperienceDetails(experienceRequestObject);
 					experienceResponse.setStatusCode("409");
-					experienceResponse.setStatusMessage("sorry EmployeeExperienceDetails is not deactivated");
+					experienceResponse.setMessage("sorry EmployeeExperienceDetails is not deactivated");
 					logger.debug("received at service by calling the deleteEmployeeExperienceDetails is"
 							+ deleteEmployeeExperienceDetails);
 					if (deleteEmployeeExperienceDetails > 0) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("EmployeeExperienceDetails deleted sucesfully");
+						experienceResponse.setMessage("EmployeeExperienceDetails deleted sucesfully");
 						return experienceResponse;
 					}
 				} else {
 					experienceResponse.setStatusCode("422");
-					experienceResponse.setStatusMessage("please provide the id");
+					experienceResponse.setMessage("please provide the id");
 					return experienceResponse;
 				}
 			}
@@ -119,12 +118,12 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 							"received at service by calling the getById method is" + employeeExperienceDetailsListById);
 					if (!employeeExperienceDetailsListById.isEmpty()) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("you got employeeExperienceDetails successfully");
+						experienceResponse.setMessage("you got employeeExperienceDetails successfully");
 						experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsListById);
 						
 					} else {
 						experienceResponse.setStatusCode("422");
-						experienceResponse.setStatusMessage("Employee ID is null");
+						experienceResponse.setMessage("Employee ID is null");
 					}
 
 				}else {
@@ -134,12 +133,12 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 							"received at service by calling the getById method is" + employeeExperienceDetailsListById);
 					if (!employeeExperienceDetailsListById.isEmpty()) {
 						experienceResponse.setStatusCode("200");
-						experienceResponse.setStatusMessage("you got employeeExperienceDetails successfully");
+						experienceResponse.setMessage("you got employeeExperienceDetails successfully");
 						experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsListById);
 						
 					} else {
 						experienceResponse.setStatusCode("422");
-						experienceResponse.setStatusMessage("Employee ID is null");
+						experienceResponse.setMessage("Employee ID is null");
 					}
 
 				}
@@ -155,14 +154,14 @@ public class ExperienceFacadeImpl implements ExperienceFacade {
 				logger.debug("received at service by calling the getAllmethod is" + employeeExperienceDetailsList);
 				if (!employeeExperienceDetailsList.isEmpty()) {
 					experienceResponse.setStatusCode("200");
-					experienceResponse.setStatusMessage("you got list of employeeExperienceDetails successfully");
+					experienceResponse.setMessage("you got list of employeeExperienceDetails successfully");
 					experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsList);
 					return experienceResponse;
 
 				} else {
 					experienceResponse.setStatusCode("200");
 					experienceResponse.setEmployeeExperienceDetails(employeeExperienceDetailsList);
-					experienceResponse.setStatusMessage("no record found");
+					experienceResponse.setMessage("no record found");
 					return experienceResponse;
 				}
 			}

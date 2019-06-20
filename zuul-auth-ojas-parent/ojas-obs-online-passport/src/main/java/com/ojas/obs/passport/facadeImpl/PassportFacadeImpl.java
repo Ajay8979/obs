@@ -34,26 +34,24 @@ public class PassportFacadeImpl implements PassportFacade {
 	// SAVE 
 	@Override
 	public ResponseEntity<Object>  setPassport(PassportRequest passportRequestObject) throws SQLException {
+		logger.info("@@@@received at service setPassport" );
 		passportResponse = new PassportResponse();
 		if (passportRequestObject.getTransaactionType().equalsIgnoreCase(SAVE)) {
 			boolean savePassport = passportDaoImpl.savePassport(passportRequestObject);
-			
 			System.out.println("PassportFacadeImpl.setPassport()");
 			System.out.println("save::"+savePassport);
-			int count=passportDaoImpl.getcountPassport(passportRequestObject);
-			logger.debug("@@@@@@@@@@@received at service by calling the savePassport is" + savePassport);
+			logger.debug("@@@@received at service by calling the savePassport is" + savePassport);
 			if (savePassport) {
 				System.out.println("PassportFacadeImpl.setPassport()$$$$SSSSS");
-				logger.debug("inside  save condition.****** : ");
+				logger.debug("@@@@inside  save condition.****** : ");
 				passportResponse.setStatusCode("200");
-				passportResponse.setStatusMessage("PassportCenter has saved successfully");
-				passportResponse.setNoOfRecords(count);
+				passportResponse.setMessage("PassportCenter has been saved successfully");
+				
 		return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
 	}else {
-		logger.debug("inside  save condition.****** : ");
+		logger.debug("@@@@inside  save condition.****** : ");
 		passportResponse.setStatusCode("422");
-		passportResponse.setStatusMessage("failed to save");
-		passportResponse.setNoOfRecords(count);
+		passportResponse.setMessage("failed to save");
 		return new ResponseEntity<Object>(passportResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 		}
@@ -61,24 +59,25 @@ public class PassportFacadeImpl implements PassportFacade {
 		if (passportRequestObject.getTransaactionType().equalsIgnoreCase(UPDATE)) {
 			for(Passport passport : passportRequestObject.getPassportList()) {
 			if (null != passport.getId()) {
+				logger.debug("@@@@calling the updatePassport ");
 				boolean updatePassport = passportDaoImpl.updatePassport(passportRequestObject);
-				int count1 = passportDaoImpl.getcountPassport(passportRequestObject);
-				logger.debug("@@@@@@@@@@@@@@received at service by calling the updatePassport is" + updatePassport);
+				
 				if (updatePassport) {
-					logger.debug("inside  update condition.****** : ");
+					logger.debug("@@@@inside  update condition.****** : ");
 					passportResponse.setStatusCode("200");
-					passportResponse.setStatusMessage("PassportCenter has updated successfully");
-					passportResponse.setNoOfRecords(count1);
+					logger.debug("@@@@PassportCenter has updated successfully");
+					passportResponse.setMessage("PassportCenter has been updated successfully");
 					return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
 				}else {
-					logger.debug("inside  update condition.****** : ");
+					logger.error("@@@@inside  update else condition.****** : ");
 					passportResponse.setStatusCode("422");
-					passportResponse.setStatusMessage("failed to update");
-					passportResponse.setNoOfRecords(count1);
+					logger.error("@@@@failed to update****** : ");
+					passportResponse.setMessage("failed to update");
 					return new ResponseEntity<Object>(passportResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 				}
 			} else {
-				passportResponse.setStatusMessage("please provide the id");
+				logger.error("@@@@inside  update condition.please provide the id****** : ");
+				passportResponse.setMessage("please provide the id");
 				return new ResponseEntity<Object>(passportResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			
@@ -115,8 +114,9 @@ public class PassportFacadeImpl implements PassportFacade {
 		boolean b = (passportRequestObject.getTransaactionType().equalsIgnoreCase(SAVE)
 				|| passportRequestObject.getTransaactionType().equalsIgnoreCase(UPDATE));
 		if (!b) {
+			logger.error("@@@@transaction type is not correct");
 			passportResponse.setStatusCode("422");
-			passportResponse.setStatusMessage("transaction type is not correct");
+			passportResponse.setMessage("transaction type is not correct");
 			return new ResponseEntity<Object>(passportResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
@@ -126,47 +126,49 @@ public class PassportFacadeImpl implements PassportFacade {
 	  
 	@Override
 	public ResponseEntity<Object> getPassport(PassportRequest passportRequestObject) throws SQLException {
+		logger.info("@@@@received at service by calling the getPassport");
 		passportResponse = new PassportResponse();
 		if (passportRequestObject.getTransaactionType().equalsIgnoreCase(GETALL)) {
+			logger.debug("@@@@inside the getall condition in facade");
 			List<Passport> allPassportDetails = passportDaoImpl.getAll(passportRequestObject);
-			int count = passportDaoImpl.getcountPassport(passportRequestObject);
 			System.out.println("all method " + allPassportDetails);
 			//List<Passport> perPage = passportDaoImpl.getCountPerPage(allPassportDetails, passportRequestObject.getPageSize(),
 					//passportRequestObject.getPageNo());
-			logger.debug("@@@@@@@@@@@@@received at service by calling the getAllmethod is" + allPassportDetails);
+			logger.debug("@@@@received at service by calling the getAllmethod is" + allPassportDetails);
 			
 			
 			if (allPassportDetails.isEmpty() || allPassportDetails == null) {
+				logger.debug("@@@@@@ inside allPassportDetails is null or empty no records found condition ");
 				passportResponse.setPassportList(allPassportDetails);
 				passportResponse.setStatusCode("409");
-				passportResponse.setStatusMessage("no records found");
+				logger.error("@@@@no records found");
+				passportResponse.setMessage("no records found");
 				return new ResponseEntity<Object>(passportResponse, HttpStatus.CONFLICT);
 
 			} else {
-				if (passportRequestObject.getPageSize() == 0 || passportRequestObject.getPageNo() == 0) {
-					passportResponse.setStatusCode("200");
-					passportResponse.setStatusMessage("you got the list of PassportCenters successfully");
+					logger.debug("@@@@@@ you got the list of PassportCenters successfully in else condition");
 					passportResponse.setPassportList(allPassportDetails);
-					passportResponse.setNoOfRecords(count);
-					return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
-
-				} else {
 					passportResponse.setStatusCode("200");
-					passportResponse.setStatusMessage("you got the list of PassportCenters successfully");
+					passportResponse.setMessage("You got the list of PassportCenters successfully");
 					//passportResponse.setPassportList(perPage);
-					passportResponse.setNoOfRecords(count);
 					
-				}
+				
 			}
 				return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
 			}
 		if (passportRequestObject.getTransaactionType().equalsIgnoreCase(GETBYID)) {
-			List<Passport> listOfPassport = passportDaoImpl.getById(passportRequestObject);
-			int count = passportDaoImpl.getcountPassport(passportRequestObject);
-			passportResponse.setNoOfRecords(count);
-			passportResponse.setPassportList(listOfPassport);
-			passportResponse.setStatusMessage("success");
-			return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
+			if(passportRequestObject.getPassportList().get(0).getId()==null) {
+				logger.error("@@@@please provide id::");
+				passportResponse.setMessage("please provide id::");
+			}else {
+				logger.debug("@@@@inside GETBYID conditon ");
+				List<Passport> listOfPassport = passportDaoImpl.getById(passportRequestObject);
+				passportResponse.setPassportList(listOfPassport);
+				logger.debug("@@@@successfully retrieved your record details");
+				passportResponse.setMessage("Record details has been retrieved successfully");
+				return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);
+			}
+			
 		}
 
 		 return new ResponseEntity<Object>(passportResponse, HttpStatus.OK);

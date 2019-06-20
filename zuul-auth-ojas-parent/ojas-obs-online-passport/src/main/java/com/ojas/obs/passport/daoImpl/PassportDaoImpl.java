@@ -1,7 +1,14 @@
 package com.ojas.obs.passport.daoImpl;
 
-import java.sql.SQLException;
+import static com.ojas.obs.passport.utility.Constants.COUNTSTMT;
+import static com.ojas.obs.passport.utility.Constants.GETTOBYID;
+import static com.ojas.obs.passport.utility.Constants.GETTOTALSTMT;
+//import com.ojas.obs.passport.utility.PropsReaderUtil;
+import static com.ojas.obs.passport.utility.Constants.INSERTPASSPORTSTMT;
+//import static com.ojas.obs.passport.utility.Constants.DELETESTMT;
+import static com.ojas.obs.passport.utility.Constants.UPDATESTMT;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +21,6 @@ import org.springframework.stereotype.Repository;
 import com.ojas.obs.passport.Request.PassportRequest;
 import com.ojas.obs.passport.dao.PassportDao;
 import com.ojas.obs.passport.model.Passport;
-//import com.ojas.obs.passport.utility.PropsReaderUtil;
-import static com.ojas.obs.passport.utility.Constants.INSERTPASSPORTSTMT;
-import static com.ojas.obs.passport.utility.Constants.GETTOTALSTMT;
-//import static com.ojas.obs.passport.utility.Constants.DELETESTMT;
-import static com.ojas.obs.passport.utility.Constants.UPDATESTMT;
-import static com.ojas.obs.passport.utility.Constants.COUNTSTMT;
-import static com.ojas.obs.passport.utility.Constants.GETTOBYID;
 
 @Repository
 public class PassportDaoImpl implements PassportDao {
@@ -31,42 +31,42 @@ public class PassportDaoImpl implements PassportDao {
 	/*
 	 * @Autowired private PropsReaderUtil propsReaderUtil;
 	 */
-
 	Logger logger = Logger.getLogger(this.getClass());
 
-	/** save method **/
+								/** save method **/
 
 	@Override
 	public boolean savePassport(PassportRequest passportRequest) throws SQLException {
-		logger.debug("In save Passport method jdbc template" + jdbcTemplate);
+		logger.info("@@@@ In save Passport method jdbc template" + jdbcTemplate);
 
 		List<Passport> passport = passportRequest.getPassportList();
 		List<Object[]> list = new ArrayList<Object[]>();
-		try {
-			for (Passport passport2 : passport) {
-				Object[] params = new Object[] { passport2.getCenterName() };
-				list.add(params);
-			}
-
+		int count = 0;
+		boolean flag = false;
+		for (Passport passport2 : passport) {
+			Object[] params = new Object[] { passport2.getCenterName() };
+			list.add(params);
 			// int[] update =
 			// jdbcTemplate.batchUpdate(propsReaderUtil.getValue("INSERTPASSPORTSTMT"),
 			// list);
 			int[] update = jdbcTemplate.batchUpdate(INSERTPASSPORTSTMT, list);
 
-			for (int i : update) {
-				if (i > 0) {
-					logger.debug("saved successfully through DaoImpl" + i);
-					return true;
-
-				}
+//			for (int i : update) {
+//				if (i > 0) {
+//					logger.debug("@@@@saved successfully through DaoImpl" + i);
+//					count = ++count;
+//				}
+//			}
+//			if (count == update.length) {
+//				flag = true;
+//			}
+			if(update.length>0) {
+				logger.debug("@@@@saved successfully through DaoImpl" );
+				return flag=true;
 			}
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-
 		}
-
-		logger.debug("failed to save through daoImpl Method");
-		return false;
+		logger.debug("@@@@failed to save through daoImpl Method");
+		return flag;
 	}
 
 	/*
@@ -86,76 +86,69 @@ public class PassportDaoImpl implements PassportDao {
 
 	//
 
-	/** update method **/
+								/** update method **/
 
 	@Override
 	public boolean updatePassport(PassportRequest passportRequest) throws SQLException {
-		logger.debug("Inside the update passport method DaoImpl");
+		logger.info("@@@@Inside the update passport method DaoImpl");
 		List<Passport> passport = passportRequest.getPassportList();
 		List<Object[]> list = new ArrayList<Object[]>();
-		try {
-			for (Passport passport2 : passport) {
-				Object[] params = new Object[] { passport2.getCenterName(), passport2.getId() };
-				list.add(params);
-			}
+		int count = 0;
+		boolean flag = false;
+		for (Passport passport2 : passport) {
+			Object[] params = new Object[] { passport2.getCenterName(), passport2.getId() };
+			list.add(params);
+
 			// int[] update =
 			// jdbcTemplate.batchUpdate(propsReaderUtil.getValue("UPDATESTMT"), list);
 			int[] update = jdbcTemplate.batchUpdate(UPDATESTMT, list);
 			for (int i : update) {
 				if (i > 0) {
-					logger.debug("update passport method in DaoImpl");
-					return true;
+					logger.debug("@@@@updated successfully through DaoImpl" + i);
+					count = ++count;
 				}
 			}
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+			if (count == update.length) {
+				flag = true;
+			}
 		}
-
-		logger.debug("failed to update passport method in DaoImpl");
-		return false;
+		logger.debug("@@@@failed to update through daoImpl Method");
+		return flag;
 	}
 
-	/** GETALL method **/
+								/** GETALL method **/
 
 	@Override
 	public List<Passport> getAll(PassportRequest passportRequest) throws SQLException {
-		logger.debug("Inside the getAll passport method in DaoImpl");
+		logger.info("@@@@Inside the getAll passport method in DaoImpl");
 		// List<Passport> query =
 		// jdbcTemplate.query(propsReaderUtil.getValue("GETTOTALSTMT"),new
 		// BeanPropertyRowMapper<>(Passport.class));
 		List<Passport> query = null;
-		try {
-			query = jdbcTemplate.query(GETTOTALSTMT, new BeanPropertyRowMapper<>(Passport.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
 
-		}
+		query = jdbcTemplate.query(GETTOTALSTMT, new BeanPropertyRowMapper<>(Passport.class));
 
-		logger.debug("Returned List" + query);
+		logger.debug("@@@@Returned List" + query);
 		return query;
 	}
 
-	/** Count number of records in database **/
+					/** Count number of records in database **/
 
 	@Override
 	public Integer getcountPassport(PassportRequest passportRequest) throws SQLException {
-		logger.debug("Inside the countPassport method in DaoImpl");
+		logger.info("@@@@Inside the countPassport method in DaoImpl");
 		// Integer update =
 		// jdbcTemplate.queryForObject(propsReaderUtil.getValue("COUNTSTMT"),
 		// Integer.class);
 		Integer update = null;
-		try {
-			update = jdbcTemplate.queryForObject(COUNTSTMT, Integer.class);
 
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
-		}
-
-		logger.debug("Returned count" + update);
+		update = jdbcTemplate.queryForObject(COUNTSTMT, Integer.class);
+		jdbcTemplate.getDataSource().getConnection().close();
+		logger.debug("@@@@Returned count" + update);
 		return update;
 	}
 
-	/** Pagination **/
+									/** Pagination **/
 
 	/*
 	 * @Override public List<Passport> getCountPerPage(List<Passport> passportList,
@@ -168,23 +161,20 @@ public class PassportDaoImpl implements PassportDao {
 	 * startIndex < passportList.size() ? startIndex : 0; getAllFiltered =
 	 * passportList.subList(startIndex, endIndex); } } return getAllFiltered; }
 	 */
-	/** GetById **/
+									/** GetById **/
 
 	@Override
 	public List<Passport> getById(PassportRequest passportRequest) throws SQLException {
+		logger.info("@@@@Inside the getById method in DaoImpl");
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		Object[] update = null;
-		try {
-			List<Passport> listOfPassport = passportRequest.getPassportList();
 
-			for (Passport passport : listOfPassport) {
-				update = new Object[] { passport.getId() };
-				inputList.add(update);
-			}
-			return jdbcTemplate.query(GETTOBYID, update, new BeanPropertyRowMapper<>(Passport.class));
-		} finally {
-			jdbcTemplate.getDataSource().getConnection().close();
+		List<Passport> listOfPassport = passportRequest.getPassportList();
+
+		for (Passport passport : listOfPassport) {
+			update = new Object[] { passport.getId() };
+			inputList.add(update);
 		}
+		return jdbcTemplate.query(GETTOBYID, update, new BeanPropertyRowMapper<>(Passport.class));
 	}
-
 }

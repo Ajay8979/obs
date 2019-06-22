@@ -133,13 +133,7 @@
                         </div>
                      <div class="col-md-4">
                       <div class="form-group">
-<<<<<<< .mine
                         <label>First Name*: </label>
-||||||| .r2661
-                        <label>First Name: </label>
-=======
-                        <label>First Name<span class="starColor"> *</span></label>
->>>>>>> .r2706
                         <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required placeholder="First Name" #first="ngModel">
                         <span style="color:red" *ngIf="first.invalid && first.touched ">
                           <span *ngIf="first.errors.required">
@@ -172,13 +166,7 @@
                   <div class="row">
                      <div class="col-md-4">
                       <div class="form-group">
-<<<<<<< .mine
                         <label> Last Name*: </label>
-||||||| .r2661
-                        <label> Last Name: </label>
-=======
-                        <label> Last Name<span class="starColor"> *</span> </label>
->>>>>>> .r2706
                         <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required placeholder="Last Name" #last="ngModel">
 
                         <span style="color:red" *ngIf="last.invalid && last.touched ">
@@ -195,16 +183,8 @@
 
                      <div class="col-md-4">
                       <div class="form-group">
-<<<<<<< .mine
                         <label> DOB*: </label>
                         <input type="date" class="form-control" [(ngModel)]=" empinobj.dob" name="empname" required placeholder="DD/MM/YYYY" #empdate="ngModel">
-||||||| .r2661
-                        <label> DOB: </label>
-                        <input type="date" class="form-control" [(ngModel)]=" empinobj.dob" name="empname" required placeholder="DD/MM/YYYY" #empdate="ngModel">
-=======
-                        <label> DOB<span class="starColor"> *</span> </label>
-                        <input type="date" class="form-control" [(ngModel)]=" empinobj.dob" name="empname" required  placeholder="DD/MM/YYYY" #empdate="ngModel">
->>>>>>> .r2706
 
                         <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
 
@@ -237,17 +217,12 @@
                   <div class="row">
                       <div class="col-md-4">
                       <div class="form-group">
-<<<<<<< .mine
                           <label>Gender*:</label>
-||||||| .r2661
-                          <label>Gender:</label>
-=======
-                          <label>Gender<span class="starColor"> *</span></label>
->>>>>>> .r2706
                           <select class="form-control" [(ngModel)]="empinobj.gender"  (change)="selectOption($event.target.value)" placeholder="Select Gender" name="emp03" 
                           required placeholder="Gender"
                           #gender="ngModel">
-                          <option>Select Gender</option>
+                          <option  default selected disabled>{{gender}}</option> 
+                          <option>{{gender}}</option>
                           <!-- <option>1</option>
                           <option>2</option>
                           <option>3</option> -->

@@ -26,7 +26,7 @@
 </div>
 
 
-<div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+<div class="row top table-responsive" style="margin-right: 0px;">
   <table class="table table-condensed tile" style="width:60%">
     <thead>
 
@@ -34,7 +34,7 @@
     <!-- <th>Id</th> -->
     <!-- <th>Skill Id</th> -->
     <th>Skill Name</th>
-   <th>Edit</th>
+   <th>Status</th>
  
   
 </tr>
@@ -64,8 +64,9 @@
         </td>
 
 
-        <td> <img src="assets/pe.png" width = "35"  (click)='skilltable.isEditable =!skilltable.isEditable' *ngIf="!skilltable.isEditable">
-          <button  class="btn btn-primary" *ngIf="skilltable.isEditable" (click)="skilltable.isEditable=!skilltable.isEditable;skillUpdatemaster(skilltable);">Update</button>
+        <td>Active
+        <!-- <td> <img src="assets/pe.png"  width = "35"  (click)='skilltable.isEditable =!skilltable.isEditable' *ngIf="!skilltable.isEditable">
+          <button  class="btn btn-primary" *ngIf="skilltable.isEditable" (click)="skilltable.isEditable=!skilltable.isEditable;skillUpdatemaster(skilltable);">Update</button> -->
         </td>
       </tr>
 

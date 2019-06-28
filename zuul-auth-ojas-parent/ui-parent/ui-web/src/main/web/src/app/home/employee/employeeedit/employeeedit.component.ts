@@ -8,8 +8,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Subscription } from 'rxjs';
-import * as $ from 'jquery';
-//declare var $: any;
+//import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
   selector: 'app-employeeedit',
@@ -52,5 +52,3 @@ eid:any;
   //   this.route.navigateByUrl('/employeeedit/experience', this.eid);
   // }
 }
-  
-

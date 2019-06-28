@@ -98,6 +98,9 @@ export class ProjectComponent implements OnInit {
                            }], 
                        "transactionType":"save"
       }
+      if(this.projectDetailss.startDate < this.projectDetailss.endDate){
+        
+  
       this.hrms.setProjectDetails(requestObj).subscribe(response =>{
         this.projectsave = response;
         this.projectDetailsList = this.projectsave.projectDetailsList;
@@ -108,6 +111,10 @@ export class ProjectComponent implements OnInit {
         }
         
       })
+    }else {
+      swal("project end date should be greater than start date");
+    }
+
     }
     
    // isUpdate = false;

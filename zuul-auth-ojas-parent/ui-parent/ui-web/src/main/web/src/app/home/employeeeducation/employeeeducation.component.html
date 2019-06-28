@@ -32,7 +32,7 @@
           <tr>
          
             <th>Education Type</th>
-            <!-- <th>Status</th> -->
+            <th>Status</th>
             <!-- <th>Edit</th> -->
             <!-- <th>Delete</th> -->
          </tr>
@@ -79,17 +79,18 @@
                 </div>
                 <input type="text" [(ngModel)]="bulist.educationType" *ngIf="bulist.isEditable"/>
             </td>
+            <td>Active</td>
             <!-- <select >
             
             <option *ngIf="!bulist.isEditable">Active</option>
             <option *ngIf="!bulist.isEditable">Inactive</option>
       
             </select> -->
-            <td>
-                <!-- <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="bulist.isEditable" 
+          <!--  <td>
+                 <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" *ngIf="bulist.isEditable" 
                 (click)="bulist.isEditable=!bulist.isEditable;setEmpEducation(bulist);">Update</button>
-                <img src="assets/pe.png" width = "30" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable"> -->
-            </td>
+                <img src="assets/pe.png" width = "30" (click)='bulist.isEditable =!bulist.isEditable' *ngIf="!bulist.isEditable"> 
+            </td>-->
             <!-- <td><img src="assets/delete.png" width = "20" (click)=" deleteEmpEdu(bulist)"/></td> -->
           </tr>
         <tr>

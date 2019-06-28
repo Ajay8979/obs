@@ -156,12 +156,20 @@
                   <div class="form-group">
                         <label>resourceType<span class="starColor"> *</span> </label>
                       
-                        <select class="form-control" placeholder="Select resource type"  name="resourceType" [(ngModel)]="onboarddetailsss.resourceType"  (change)="selectOption($event.target.value)"  required >
+                        <select class="form-control" placeholder="Select resource type"  name="resourceType" [(ngModel)]="onboarddetailsss.resourceType"  (change)="selectOption($event.target.value)"  required #resource="ngModel">
                           <option>Select </option>
                           <option *ngFor="let resourcetypelist of getResourceList" [value]="resourcetypelist.id"  >{{ resourcetypelist.resourceTypeName}} </option>
                           
                         
                         </select>
+                        <span style="color:red" *ngIf="resource.invalid && resource.touched ">
+
+                          <span *ngIf="resource.errors.required">
+
+                            resource type is required.
+                          </span>
+
+                        </span>
                       </div>
                     </div> 
 </div>
@@ -227,8 +235,8 @@
                  
                 
 
-                  <button class="btn btn-primary  float-right margin"  (click)="saveemploymentdetails()"  *ngIf="!isupdateDependent" data-dismiss="modal" >Save</button>
-                  <button class="btn btn-primary  float-right margin" *ngIf="isupdateDependent"(click)="updateonboardingdetailss()" data-dismiss="modal">update</button>
+                  <button class="btn btn-primary  float-right margin" [disabled]="!newUserFormOnboard.valid" (click)="saveemploymentdetails()"  *ngIf="!isupdateDependent" data-dismiss="modal" >Save</button>
+                  <button class="btn btn-primary  float-right margin" [disabled]="!newUserFormOnboard.valid" *ngIf="isupdateDependent"(click)="updateonboardingdetailss()" data-dismiss="modal">update</button>
                   <button class="btn btn-primary  float-right " (click)="newUserFormOnboard.reset()">Clear</button>
                   <button class="btn btn-info" data-dismiss="modal"> <span aria-hidden="true"></span>Back</button>
                    

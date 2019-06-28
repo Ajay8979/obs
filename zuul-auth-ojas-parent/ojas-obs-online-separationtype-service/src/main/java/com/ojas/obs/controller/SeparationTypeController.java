@@ -69,7 +69,13 @@ public class SeparationTypeController {
 				return new ResponseEntity<Object>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
 			}
 			for (SeparationType sep : listSeparationType) {
-
+				if (null == sep.getSeparationType() || sep.getSeparationType().isEmpty()) {
+				    ErrorResponse error = new ErrorResponse();
+					logger.error("SeparationType is null in SeparationTypeController " + separationTypeRequest );
+					error.setMessage("SeparationType should not be null");
+					error.setStatusCode("422");
+					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+				}
 				if ((separationTypeRequest.getTransactionType().equalsIgnoreCase("update")
 						|| separationTypeRequest.getTransactionType().equalsIgnoreCase("delete"))
 						&& null == sep.getSeparationTypeId()) {

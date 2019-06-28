@@ -92,8 +92,7 @@
                                               <input type="date" class="form-control" [(ngModel)]="editemparrlist.joining_date" name="joining_date"
                                               required placeholder="joining date" #emexp2="ngModel">
                                               <span style="color:red" *ngIf="emexp2.invalid && emexp2.touched ">
-                                              
-                                                 <span *ngIf="emexp2.errors.required">
+                                                  <span *ngIf="emexp2.errors.required">
                                                   Joining Date is required.
                                                  </span>
                                                  
@@ -213,8 +212,15 @@
 
                                                   
                                                            <input type="text" class="form-control" [(ngModel)]="editemparrlist.first_Reference_Contact" name="editemparrlist.first_Reference_Contact"
-                                                            required placeholder="Reference Contact" 
-                                                        >
+                                                            required placeholder="Reference Contact" minlength=10 maxlength=10 pattern="[0-9]{10}" #abc=ngModel>
+                                                            <span style="color:red" *ngIf="abc.invalid && abc.touched ">
+                                                              <span *ngIf="abc.errors.required">
+                                                                Reference Contact is required.
+                                                              </span>
+                                                              <span *ngIf="abc.errors.pattern">
+                                                                Reference Contact length not satisfied
+                                                              </span>
+                                                            </span>
                                                               
 
                                                                <!--      minlength="10" maxlength="10"pattern="^[0][6-9]\d{9}$|^[1-9]\d{9}$"<span style="color:red" *ngIf="emexp9.invalid && emexp9.touched ">
@@ -284,16 +290,17 @@
                                            <!-- [disabled]="newUserFormEmpExp.invalid" -->
                                            <button class="btn btn-primary  float-right margin" type="submit" 
                                            data-dismiss="modal" aria-label="Close" 
-                                            *ngIf = !isUpdate (click)="saveEmpExp()">Save</button>
+                                            *ngIf = isCreated (click)="saveEmpExp()" [disabled]="newUserFormEmpExp.invalid">Save</button>
+                                            <!-- <button class="btn btn-primary  float-right margin" data-dismiss="modal" aria-label="Close"
+                  *ngIf=!isUpdatedEduby (click)="saveEmpEdu()" [disabled]="EmpEducationForm.invalid">Save</button> -->
                                            
                                             
                                             
   
                                             <button class="btn btn-primary  float-right margin" type="submit" 
                                             data-dismiss="modal" aria-label="Close" 
-                                            *ngIf = isUpdate (click)="updateEmpExp(emp)" >
-                                             Update
-                                            </button> 
+                                            *ngIf = isUpdate (click)="updateEmpExp(emp)" [disabled]="newUserFormEmpExp.invalid" >Update</button> 
+                                            
   
                                            <button class="btn btn-primary  float-right" (click)="newUserFormEmpExp.reset()" >Clear</button>
                                           

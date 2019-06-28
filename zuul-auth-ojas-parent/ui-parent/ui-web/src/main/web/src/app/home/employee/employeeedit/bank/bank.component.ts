@@ -148,7 +148,7 @@ Onsavebank(){
               "bank_city"     :this.bankdetailss.bank_city,
               "bank_branch"    :this.bankdetailss.bank_branch,
               "bank_ifsc_code":this.bankdetailss.bank_ifsc_code,
-              "bank_account_status":this.bankdetailss.bank_account_status,
+              "bank_account_status":"Active", //this.bankdetailss.bank_account_status
               "employee_id":this.eid,
               "is_active"  :this.bankdetailss.is_active,
               "created_by":this.loggeduser

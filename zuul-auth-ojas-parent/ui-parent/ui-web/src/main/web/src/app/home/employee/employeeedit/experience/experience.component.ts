@@ -13,326 +13,321 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./experience.component.scss']
 })
 export class ExperienceComponent implements OnInit {
-  
+
   subscription: Subscription;
   message: any;
- public eid:any;
+  public eid: any;
   loggeduser: string;
   emp: any;
   empbasic: any;
   empbasicinfo: any;
-  constructor(private hrms:HrmsService, private dataservice:DataService, private paramroute:ActivatedRoute) {
-    this.eid=this.dataservice.paramId;
-    this.loggeduser=localStorage.getItem('UserName');
+  constructor(private hrms: HrmsService, private dataservice: DataService, private paramroute: ActivatedRoute) {
+    this.eid = this.dataservice.paramId;
+    this.loggeduser = localStorage.getItem('UserName');
 
-   }
+  }
   // getempId(){
-    
+
   // }
 
   ngOnInit() {
-    
-    this.getEmpExp(); 
+
+    this.getEmpExp();
 
     this.getempdata();
 
-  
-    
-  
-  
-
   }
- 
 
+  getempdata() {
 
-getempdata(){
+    var empinfo =
+    {
 
-   var empinfo = 
-  {
+      "employeeInfo": [{
+        "employeeId": this.eid
 
-    "employeeInfo" :[{
-          "employeeId" : this.eid
+      }],
+      "transactionType": "getbyid"
 
-    }],
-    "transactionType" : "getbyid"
-    
-}
-   this.hrms.getempinfo(empinfo).subscribe(res =>{
-  this.empbasic =res;
-  this.empbasicinfo= this.empbasic.employeeInfo;
-   console.log(this.empbasicinfo);
-   })
+    }
+    this.hrms.getempinfo(empinfo).subscribe(res => {
+      this.empbasic = res;
+      this.empbasicinfo = this.empbasic.employeeInfo;
+      console.log(this.empbasicinfo);
+    })
   }
-// ----Employee Experience Details Starts---------------------------------------------
-empexp : any;
-empexpdetails :any;
-saveRes :any;
+  // ----Employee Experience Details Starts---------------------------------------------
+  empexp: any;
+  empexpdetails: any;
+  saveRes: any;
 
-//---getting employee details---------------------------------------------------
-getEmpExp()
-{
-  var requestObj =
-//   {
-//     "employeeExperienceDetails" :[ {
-         
-    
-
-            
-//     }],
-//              "transactionType":"getall",
-//             "sessionId" : "any String" 
-// } 
-
-  {
-    "employeeExperienceDetails" :[ {
-            "employee_Id": this.eid
-
-            
-    }],
-             "transactionType":"getById",
-            "sessionId" : "any String" 
-}
-  
-
-  this.hrms.getEmployeeExperienceDetails(requestObj).subscribe(response =>{
-    this.empexp = response;
-    this.empexpdetails = this.empexp.employeeExperienceDetails;
-    console.log(this.empexp);
-
-  })
-}
-
-//---adding employee experience----------------------------------------------------
-
-company_name:any;
-joining_date:any;
-exit_date:any;
-salary:any;
-//location:any;
-is_current_company:any;
-//employee_Id:any;
-first_Reference_Name:any;
-first_Reference_Contact:any;
-second_Reference_Name:any;
-second_Reference_Contact:any;
-sessionId:any;
-created_date:any;
-updated_date:any;
+  //---getting employee details---------------------------------------------------
+  getEmpExp() {
+    var requestObj =
+    //   {
+    //     "employeeExperienceDetails" :[ {
 
 
 
 
-booleanValue = true;
-EmpExpArr:any;
+    //     }],
+    //              "transactionType":"getall",
+    //             "sessionId" : "any String" 
+    // } 
 
-  saveEmpExp(){
-    var savReqObj =
-    
-      {
-        "employeeExperienceDetails" : 
-        
-        [ 
-          {
-                 "id":this.editemparrlist.id,
-                 "company_name":this.editemparrlist.company_name,
-                 "joining_date":this.editemparrlist.joining_date,
-                 "exit_date":this.editemparrlist.exit_date,
-                 "salary":this.editemparrlist.salary,
-                 "location":this.editemparrlist.location,
-                 "is_current_company":this.editemparrlist.is_current_company,
-                 //"is_current_company":1,
-                 "employee_Id":this.eid,
-                 "first_Reference_Name":this.editemparrlist.first_Reference_Name,
-                 "first_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-                 "second_Reference_Name":this.editemparrlist.first_Reference_Name,
-                  "second_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-                 "created_by":this.loggeduser
-          }
-        ],
-        
-            "transactionType" : "save"
+    {
+      "employeeExperienceDetails": [{
+        "employee_Id": this.eid
+
+
+      }],
+      "transactionType": "getById",
+      "sessionId": "any String"
     }
 
-    this.hrms.saveEmployeeExperienceDetails(savReqObj).subscribe(res =>{
-      this.saveRes = res;
-      console.log(this.saveRes);
-      
-        if(this.saveRes.message == "EmployeeExperienceDetails saved successfully")
-        {
-         swal(this.saveRes.message,"","success");
-         this.getEmpExp();
-       }
-     //this.getEmpExp();
+
+    this.hrms.getEmployeeExperienceDetails(requestObj).subscribe(response => {
+      this.empexp = response;
+      this.empexpdetails = this.empexp.employeeExperienceDetails;
+      console.log(this.empexp);
+
     })
+  }
+
+  //---adding employee experience----------------------------------------------------
+
+  company_name: any;
+  joining_date: any;
+  exit_date: any;
+  salary: any;
+  //location:any;
+  is_current_company: any;
+  //employee_Id:any;
+  first_Reference_Name: any;
+  first_Reference_Contact: any;
+  second_Reference_Name: any;
+  second_Reference_Contact: any;
+  sessionId: any;
+  created_date: any;
+  updated_date: any;
+
+
+
+
+  booleanValue = true;
+  EmpExpArr: any;
+
+  saveEmpExp() {
+    var savReqObj =
+
+    {
+      "employeeExperienceDetails":
+
+        [
+          {
+            "id": this.editemparrlist.id,
+            "company_name": this.editemparrlist.company_name,
+            "joining_date": this.editemparrlist.joining_date,
+            "exit_date": this.editemparrlist.exit_date,
+            "salary": this.editemparrlist.salary,
+            "location": this.editemparrlist.location,
+            "is_current_company": this.editemparrlist.is_current_company,
+            //"is_current_company":1,
+            "employee_Id": this.eid,
+            "first_Reference_Name": this.editemparrlist.first_Reference_Name,
+            "first_Reference_Contact": this.editemparrlist.first_Reference_Contact,
+            "second_Reference_Name": this.editemparrlist.first_Reference_Name,
+            "second_Reference_Contact": this.editemparrlist.first_Reference_Contact,
+            "created_by": this.loggeduser
+          }
+        ],
+
+      "transactionType": "save"
+    }
+    if (this.editemparrlist.exit_date > this.editemparrlist.joining_date) {
+
+    
+      this.hrms.saveEmployeeExperienceDetails(savReqObj).subscribe(res => {
+        this.saveRes = res;
+        console.log(this.saveRes);
+
+        if (this.saveRes.message == "EmployeeExperienceDetails saved successfully") {
+          swal(this.saveRes.message, "", "success");
+          this.getEmpExp();
+        }
+        //this.getEmpExp();
+      })
+    } else {
+      swal("Enter valid relieving date!", "", "error");
+      this.getEmpExp();
+    }
+  }
+
+  //---deleting employee experience---------------------------
+  deleteres: any;
+  details;
+  deleteEmpExpArr: any;
+
+
+  deleteEmpExp(emp) {
+    var deleteReqObj =
+    {
+      "employeeExperienceDetails":
+        [{
+          "id": emp.id,
+          "updated_by": emp.updated_by
+        }],
+      "transactionType": "delete",
+      "sessionId": "any String"
+    }
+    this.hrms.deleteEmployeeExperienceDetails(deleteReqObj).subscribe(res => {
+      this.deleteres = res;
+
+      this.deleteEmpExpArr = this.deleteres.employeeExperienceDetails;
+      console.log(this.deleteres);
+
+      if (this.deleteres.message == "EmployeeExperienceDetails deleted sucesfully") {
+        swal(this.deleteres.message, "", "success");
+        this.getEmpExp();
+      }
+      //this.getEmpExp();
+    })
+  }
+
+  //---editing employee experience------------------------------------------
+  editemp: any;
+  editemparr: any;
+
+  public editemparrlist =
+    {
+      "id": "",
+      "company_name": "",
+      "salary": "",
+      "location": "",
+      "joining_date": "",
+      "exit_date": "",
+      "is_current_company": "",
+      "employee_Id": "",
+      "first_Reference_Name": "",
+      "first_Reference_Contact": "",
+      "second_Reference_Name": "",
+      "second_Reference_Contact": "",
+      "updated_by": "",
+      "created_by": "",
+      "created_date": "",
+      "updated_date": ""
+
+    }
+
+  //--Add Button----------------
+  isUpdate: boolean
+  isCreated: boolean = false;
+  addempexp(newUserFormEmpExp) {
+    newUserFormEmpExp.reset();
+    this.isUpdate = false;
+    this.isCreated = true;
 
   }
 
-//---deleting employee experience---------------------------
-deleteres:any;
-details;
-deleteEmpExpArr:any;
+
+  editempexpbyid(emp) {
+    console.log(emp);
 
 
-deleteEmpExp(emp)
-{
-var deleteReqObj =
-{
-"employeeExperienceDetails" :
-[{
-"id":emp.id,
- "updated_by":emp.updated_by
-}],
-  "transactionType":"delete",
-  "sessionId" : "any String" 
-}
-this.hrms.deleteEmployeeExperienceDetails(deleteReqObj).subscribe(res => {
-this.deleteres = res;
+    // this.editemparrlist.employee_Id=emp.employee_Id;
+    // this.editemparrlist.company_name=emp.company_name;
+    // this.editemparrlist.salary=emp.salary;
+    // this.editemparrlist.location=emp.location;
+    // this.editemparrlist.joining_date=emp.joining_date;
+    // this.editemparrlist.exit_date=emp.exit_date;
+    // this.editemparrlist.is_current_company=emp.is_current_company;
 
-this.deleteEmpExpArr = this.deleteres.employeeExperienceDetails;
-console.log(this.deleteres);
+    // this.editemparrlist.first_Reference_Name=emp.first_Reference_Name;
+    // this.editemparrlist.second_Reference_Name=emp.second_Reference_Name;
+    // this.editemparrlist.second_Reference_Contact=emp.second_Reference_Contact;
+    // this.editemparrlist.updated_by=emp.updated_by;
+    // this.editemparrlist.created_by=emp.created_by;
+    // this.editemparrlist.created_date=emp.created_date;
+    // this.editemparrlist.updated_date=emp.updated_date;
 
- if(this.deleteres.message == "EmployeeExperienceDetails deleted sucesfully")
- {
-  swal(this.deleteres.message,"","success");
-  this.getEmpExp();
- }
-//this.getEmpExp();
-})
-}
-
-//---editing employee experience------------------------------------------
-editemp:any;
-editemparr:any;
-
-public editemparrlist = 
-{
-           "id":"",
-            "company_name":"",
-            "salary":"",
-            "location":"",
-            "joining_date":"",
-            "exit_date":"",
-            "is_current_company":"",
-            "employee_Id":"",
-            "first_Reference_Name":"",
-            "first_Reference_Contact":"",
-            "second_Reference_Name":"",
-            "second_Reference_Contact":"",
-            "updated_by":"",
-            "created_by":"",
-            "created_date":"",
-            "updated_date":""
-          
-}
-
-//--Add Button----------------
-isUpdate:boolean
-isCreated:boolean=false;
-addempexp(newUserFormEmpExp)
-{
-newUserFormEmpExp.reset();
-this.isUpdate = false;
-this.isCreated = true;
-
-}
-
-
-editempexpbyid(emp)
-{
-console.log(emp);
-
-
-// this.editemparrlist.employee_Id=emp.employee_Id;
-// this.editemparrlist.company_name=emp.company_name;
-// this.editemparrlist.salary=emp.salary;
-// this.editemparrlist.location=emp.location;
-// this.editemparrlist.joining_date=emp.joining_date;
-// this.editemparrlist.exit_date=emp.exit_date;
-// this.editemparrlist.is_current_company=emp.is_current_company;
-
-// this.editemparrlist.first_Reference_Name=emp.first_Reference_Name;
-// this.editemparrlist.second_Reference_Name=emp.second_Reference_Name;
-// this.editemparrlist.second_Reference_Contact=emp.second_Reference_Contact;
-// this.editemparrlist.updated_by=emp.updated_by;
-// this.editemparrlist.created_by=emp.created_by;
-// this.editemparrlist.created_date=emp.created_date;
-// this.editemparrlist.updated_date=emp.updated_date;
-
-this.isUpdate = true;
-this.isCreated = false;
-var empid = emp.id;
-var editempexpobj = 
-{
-"employeeExperienceDetails" :[ {
-  "id":empid
-
-
-  
-}],
-   "transactionType":"getById",
-  "sessionId" : "any String" 
-}
-
-this.hrms.editEmpExpDetails(editempexpobj).subscribe(res => {
-this.editemp = res;
-this.editemparr = this.editemp.employeeExperienceDetails;
-this.editemparrlist = this.editemparr[0];
-console.log("this.editemparrlist",this.editemparrlist);
-
-})
-}
+    this.isUpdate = true;
+    this.isCreated = false;
+    var empid = emp.id;
+    var editempexpobj =
+    {
+      "employeeExperienceDetails": [{
+        "id": empid
 
 
 
-//---updating employee experience------------------------
+      }],
+      "transactionType": "getById",
+      "sessionId": "any String"
+    }
 
- updateres:any;
- updateEmpExpArr:any;
- newUserFormExp:any;
- 
+    this.hrms.editEmpExpDetails(editempexpobj).subscribe(res => {
+      this.editemp = res;
+      this.editemparr = this.editemp.employeeExperienceDetails;
+      this.editemparrlist = this.editemparr[0];
+      console.log("this.editemparrlist", this.editemparrlist);
+
+    })
+  }
 
 
- updateEmpExp(emp)
- {
-   
-  var updateReqObj =
-  {
-  "employeeExperienceDetails" :
-  [{
-    
-          "id":this.editemparrlist.id,
-          "company_name":this.editemparrlist.company_name,
-          "salary":this.editemparrlist.salary,
-          "location":this.editemparrlist.location,
-          "joining_date":this.editemparrlist.joining_date,
-          "exit_date":this.editemparrlist.exit_date,
-          "is_current_company":this.editemparrlist.is_current_company,
-          "employee_Id":this.editemparrlist.employee_Id,
-          "first_Reference_Name":this.editemparrlist.first_Reference_Name,
-          "first_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-          "second_Reference_Name":this.editemparrlist.first_Reference_Name,
-          "second_Reference_Contact":this.editemparrlist.first_Reference_Contact,
-          "updated_by":this.loggeduser
-  }],
-            "transactionType":"update",
-           "sessionId" : "any String" 
- 
-      
-}
-this.hrms.updateEmployeeExperienceDetails(updateReqObj).subscribe(res => {
-  this.updateres = res;
-  console.log(this.updateres);
-  // this.updateEmpExpArr = this.updateres.employeeExperienceDetails;
-  // console.log(this.updateEmpExpArr);
-   if(this.updateres.message == "EmployeeExperienceDetails updated successfully")
-       {
-        swal(this.updateres.message,"","success");
+
+  //---updating employee experience------------------------
+
+  updateres: any;
+  updateEmpExpArr: any;
+  newUserFormExp: any;
+
+
+
+  updateEmpExp(emp) {
+
+    var updateReqObj =
+    {
+      "employeeExperienceDetails":
+        [{
+
+          "id": this.editemparrlist.id,
+          "company_name": this.editemparrlist.company_name,
+          "salary": this.editemparrlist.salary,
+          "location": this.editemparrlist.location,
+          "joining_date": this.editemparrlist.joining_date,
+          "exit_date": this.editemparrlist.exit_date,
+          "is_current_company": this.editemparrlist.is_current_company,
+          "employee_Id": this.editemparrlist.employee_Id,
+          "first_Reference_Name": this.editemparrlist.first_Reference_Name,
+          "first_Reference_Contact": this.editemparrlist.first_Reference_Contact,
+          "second_Reference_Name": this.editemparrlist.first_Reference_Name,
+          "second_Reference_Contact": this.editemparrlist.first_Reference_Contact,
+          "updated_by": this.loggeduser
+        }],
+      "transactionType": "update",
+      "sessionId": "any String"
+
+
+    }
+    if (this.editemparrlist.exit_date > this.editemparrlist.joining_date) {
+    this.hrms.updateEmployeeExperienceDetails(updateReqObj).subscribe(res => {
+      this.updateres = res;
+      console.log(this.updateres);
+      // this.updateEmpExpArr = this.updateres.employeeExperienceDetails;
+      // console.log(this.updateEmpExpArr);
+      if (this.updateres.message == "EmployeeExperienceDetails updated successfully") {
+        swal(this.updateres.message, "", "success");
         this.getEmpExp();
       }
-     //this.getEmpExp();
-})
+      //this.getEmpExp();
+    })
+  } else {
+    swal("Enter valid relieving date!", "", "error");
+    this.getEmpExp();
+  }
 
-}
+  }
 
 
 

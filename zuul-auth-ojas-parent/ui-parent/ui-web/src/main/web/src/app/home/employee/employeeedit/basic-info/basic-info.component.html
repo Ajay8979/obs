@@ -134,10 +134,13 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label>First Name*: </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required placeholder="First Name" #first="ngModel">
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required pattern="[A-Za-z]*" placeholder="First Name" #first="ngModel">
                         <span style="color:red" *ngIf="first.invalid && first.touched ">
                           <span *ngIf="first.errors.required">
                             Firstname is required
+                          </span>
+                          <span *ngIf="first.errors.pattern">
+                            Enter alphabets only.
                           </span>
                         </span>
                       </div>
@@ -147,18 +150,13 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> Middle Name </label>
-                        <input type="text" class="form-control" [(ngModel)]="empinobj. middlename" name="emp2" required placeholder="Middle Name">
-<!-- 
+                        <input type="text" class="form-control" [(ngModel)]="empinobj. middlename" name="emp2" pattern="[A-Za-z]*" placeholder="Middle Name" #middle="ngModel">
                         <span style="color:red" *ngIf="middle.invalid && middle.touched ">
-
-                          <span *ngIf="middle.errors.required">
-
-                            Middle Name is required.
+                          <span *ngIf="middle.errors.pattern">
+                            Enter alphabets only.
                           </span>
-
-                        </span> -->
+                        </span>
                       </div>
-
                     </div> 
 
                   </div>
@@ -167,15 +165,14 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> Last Name*: </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required placeholder="Last Name" #last="ngModel">
-
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" pattern="[A-Za-z]*" placeholder="Last Name" #last="ngModel">
                         <span style="color:red" *ngIf="last.invalid && last.touched ">
-
                           <span *ngIf="last.errors.required">
-
                             Last Name is required.
                           </span>
-
+                          <span *ngIf="last.errors.pattern">
+                            Enter alphabets only.
+                          </span>
                         </span>
                       </div>
 
@@ -184,7 +181,7 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> DOB*: </label>
-                        <input type="date" class="form-control" [(ngModel)]=" empinobj.dob" name="empname" required placeholder="DD/MM/YYYY" #empdate="ngModel">
+                        <input type="date" class="form-control" [(ngModel)]=" empinobj.dob" [max]="maxDate" [min] ="minDate" name="empname" required placeholder="DD/MM/YYYY" #empdate="ngModel">
 
                         <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
 
@@ -200,8 +197,7 @@
                       <div class="form-group">
                             <label>Status<span class="starColor"> *</span></label>
                             <select class="form-control" [(ngModel)]="empinobj.status" (change)="selectOption($event.target.value)" placeholder="Select SBU" name="emp02" 
-                            required placeholder="Qualification"
-                            #status="ngModel">
+                            required placeholder="Qualification" #status="ngModel">
                             <option>Select Status</option>
                             <option *ngFor="let estatus of employee_statuslist" [value]="estatus.id">{{ estatus.status }}</option>
                             </select>
@@ -219,10 +215,9 @@
                       <div class="form-group">
                           <label>Gender*:</label>
                           <select class="form-control" [(ngModel)]="empinobj.gender"  (change)="selectOption($event.target.value)" placeholder="Select Gender" name="emp03" 
-                          required placeholder="Gender"
-                          #gender="ngModel">
-                          <option  default selected disabled>{{gender}}</option> 
-                          <option>{{gender}}</option>
+                          required placeholder="Gender" #gender="ngModel">
+                          <option  default selected disabled>Select</option>
+                         <!--  <option>{{gender}}</option> -->
                           <!-- <option>1</option>
                           <option>2</option>
                           <option>3</option> -->
@@ -259,8 +254,8 @@
                    
             
                   </div>
-                  <button class="btn btn-primary  float-right margin"   (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close" *ngIf="!isUPDATEDBY">Save</button>
-                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close" *ngIf="isUPDATEDBY" (click)="updateempinfo()">
+                  <button class="btn btn-primary  float-right margin"   (click)="saveemployeeInfo()" [disabled]="newUserForminfo.form.invalid" data-dismiss="modal" aria-label="Close" *ngIf="!isUPDATEDBY">Save</button>
+                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" [disabled]="newUserForminfo.form.invalid" aria-label="Close" *ngIf="isUPDATEDBY" (click)="updateempinfo()">
                     Update
                             </button>
 

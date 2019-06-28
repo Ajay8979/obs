@@ -35,9 +35,9 @@
       <th [class.active]="order === 'employeeStatus'" (click)="setOrder('employeeStatus')" style="cursor:pointer">
         Employee Status
       </th>
+      <th>Status</th>
 
-      <!-- <th>Edit</th> -->
-      <!-- <th>Delete</th> -->
+      
     </tr>
 
     <tbody>
@@ -50,6 +50,7 @@
           </div>
           <input type="text" [(ngModel)]="employee.status" class="form-control" *ngIf="employee.isEditable" />
         </td>
+        <td>Active</td>
 
         <!-- <td>
 
@@ -65,8 +66,9 @@
         <td><input id="employee_status_data" name="employee_status_data" [(ngModel)]="employee_status_data" *ngIf="value" type="text"
             class="form-control" placeholder="Enter Employee Status" required></td>
 
-        <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setEmployeeStatusData()>Save</button></td>
-       <td><button type="submit" class="btn btn-default " *ngIf="value" (click)=cancelbulist()>Cancel</button></td>
+        <td><button type="submit" class="btn btn-primary " *ngIf="value" (click)=setEmployeeStatusData()>Save</button>
+          <button type="submit" class="btn btn-default " *ngIf="value" (click)=cancelbulist() style="margin-left: 20px">Cancel</button></td>
+   
 
       </tr>
 

@@ -168,8 +168,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Percentage Of Marks<span class="starColor"> *</span> </label>
-                      <input type="text" class="form-control" [(ngModel)]="editEduEmp.percentage_marks"
-                        name="percentage_marks" required placeholder="Percentage Of Marks" #empn4="ngModel">
+                      <input type="text" class="form-control" [(ngModel)]="editEduEmp.percentage_marks" 
+                        name="percentage_marks" required placeholder="Percentage Of Marks" minlength=2 maxlength = 2 pattern="[0-9]{2}" #empn4="ngModel">
 
                       <span style="color:red" *ngIf="empn4.invalid && empn4.touched ">
 
@@ -177,6 +177,11 @@
 
                           Percentage Of Marks is required.
                         </span>
+                        <span *ngIf="empn4.errors.pattern">
+
+                          Enter correct Percentage
+                        </span>
+                        
 
                       </span>
                     </div>
@@ -188,7 +193,7 @@
                   *ngIf=!isUpdatedEduby (click)="saveEmpEdu()" [disabled]="EmpEducationForm.invalid">Save</button>
 
                 <button class="btn btn-primary  float-right margin" data-dismiss="modal" aria-label="Close"
-                  *ngIf=isUpdatedEduby (click)="updateEdu(EmpEducationForm)">Update</button>
+                  *ngIf=isUpdatedEduby (click)="updateEdu(EmpEducationForm)" data-dismiss="modal" [disabled]="EmpEducationForm.invalid">Update</button>
 
 
                 <button class="btn btn-primary   float-right" (click)="EmpEducationForm.reset()">Clear</button>

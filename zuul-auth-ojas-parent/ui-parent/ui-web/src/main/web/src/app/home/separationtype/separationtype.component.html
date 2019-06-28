@@ -1,4 +1,3 @@
-
 <div class="app-title">
   <div>
     <h1><i class="fa fa-dashboard"></i> SeparationType</h1>
@@ -10,36 +9,38 @@
   </ul>
 </div>
 <div class="row">
-  <form >
-    <input class="form-control"  type="text"  [(ngModel)]="key1"  size="50" name="key1" placeholder="Search"/>
-    <div class="add">
-        <button class="btn btn-primary " type="button" (click)="value=!value">Add</button>
-      </div>
- 
+  <form class="form-inline pull-left">
+    <input class="form-control" type="text" [(ngModel)]="key1" size="50" name="key1"
+      placeholder="Search" />&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="input-group  ">
+      <button type="submit" (click)="value=!value" class="btn btn-primary">Add</button>
+
+    </div>
+
   </form>
 
 </div>
 
 <div class="row top">
   <table class="table table-condensed  tile" style="width:60%;">
-      <thead class="two">
-          <tr>
+    <thead class="two">
+      <tr>
 
-               <th>
-                Separation type
-                </th>
-                <th>Edit</th>
-                <!-- | orderBy: order:reverse:'case-insensitive' -->
-            <!-- <th>Delete</th>         -->
-          </tr>
-          </thead>
-          <tbody>
-              <!-- |filter:key | paginate: { itemsPerPage: 5, currentPage: p } 
+        <th>
+          Separation type
+        </th>
+        <th>Edit</th>
+        <!-- | orderBy: order:reverse:'case-insensitive' -->
+        <!-- <th>Delete</th>         -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- |filter:key | paginate: { itemsPerPage: 5, currentPage: p } 
                 | orderBy: order:reverse:'case-insensitive'| filter:searchText; let i=index  -->
-                  <tr *ngFor="let separation of separationDetailsList
+      <tr *ngFor="let separation of separationDetailsList
                   |filter:key1 | paginate: { itemsPerPage: pageSize, currentPage: p }
                   | filter:searchText; let i=index">
-                <!-- <td>
+        <!-- <td>
                     <div *ngIf="!separation.isEditable">
                         {{separation.separationTypeId}}
                       </div>
@@ -48,63 +49,59 @@
                 </td> -->
 
 
-            <td>
-              <div *ngIf="!separation.isEditable">
-              {{separation.separationType}}
-              </div>
-            <input type="text" class="form-control" [(ngModel)]="separation.separationType" *ngIf="separation.isEditable"/>
-          </td>
+        <td>
+          <div *ngIf="!separation.isEditable">
+            {{separation.separationType}}
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="separation.separationType"
+            *ngIf="separation.isEditable" />
+        </td>
 
 
-              <td>             
-              <!-- <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" 
+        <td>
+          <!-- <button  class="btn" style="background: #009ee2;border:#009ee2;color:white;" 
               *ngIf="separation.isEditable" (click)="separation.isEditable=!separation.isEditable;
               updateSeparation(separation);">Update</button>
               <img src="assets/pe.png" width="30px" (click)='separation.isEditable =!separation.isEditable' 
               *ngIf="!separation.isEditable"> -->
-              Active
-              </td>
+          Active
+        </td>
 
 
-            <!-- <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)"/></td> -->
-          </tr>
-          <tr>
-           <!-- <td>
+        <!-- <td><img src="assets/delete.png" width="20px" (click)="deleterow(i)"/></td> -->
+      </tr>
+      <tr>
+        <!-- <td>
             <input id="separationtypeid" name="idlist" [(ngModel)]="separationtypeid" 
             *ngIf="value" type="text" class="form-control" placeholder="Enter id" required >
            </td> 
             -->
-           <td>
-             <input id="separationtype" name="separationtype" [(ngModel)]="separationtype" 
-            *ngIf="value" type="text" class="form-control" placeholder="Enter SeparationType" required >
-           </td>
+        <td>
+          <input id="separationtype" name="separationtype" [(ngModel)]="separationtype" *ngIf="value" type="text"
+            class="form-control" placeholder="Enter SeparationType" required>
+        </td>
 
-          <td>
-            <button type="submit" class="btn btn-primary " *ngIf="value" (click)="setSeparation()">Save</button>
-          </td>
+        <td>
+          <button type="submit" class="btn btn-primary " *ngIf="value" (click)="setSeparation()">Save</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 20px" *ngIf="value"
+            (click)=cancelbulist()>Cancel</button>
+        </td>
 
-           <td>
-             <button type="submit" class="btn btn-primary " *ngIf="value" (click)=cancelbulist()>Cancel</button>
-            </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+<div class="row">
+  <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
 
-            </tr> 
-            </tbody>
-          </table>
-        </div>
-    <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
-    <div class="row">
-        <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
-        
-            
-           <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
-              <option [ngValue]="5">5</option>
-              <option [ngValue]="10">10</option>
-              <option [ngValue]="15">15</option>
-              <option [ngValue]="20">20</option>
-          </select>
-         
-           </div>
-            <!-- private pageSize: number = 5; -->
-    
-    
 
+  <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+    <option [ngValue]="5">5</option>
+    <option [ngValue]="10">10</option>
+    <option [ngValue]="15">15</option>
+    <option [ngValue]="20">20</option>
+  </select>
+
+</div>
+<!-- private pageSize: number = 5; -->

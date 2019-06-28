@@ -105,7 +105,7 @@
            
                
 
- <form class="tile" #newUserFormcontact="ngForm" (ngSubmit)="onSubmitIns(newUserFormcontact)" autocomplete="on">
+ <form class="tile" #newUserFormcontact="ngForm" (ngSubmit)="onSubmitIns(newContactForm)" autocomplete="on">
    
 
   <div class="row">
@@ -181,17 +181,17 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Alternate Mobile No </label>
-                    <input type="text" class="form-control" [(ngModel)]="ContactInfo.alternateMobileNo" name="alternateMobileNo" required pattern="[[6-9]\d{9}$]*" placeholder="Alternate MobileNo">
-                    <!-- <span style="color:red" *ngIf="alternate.invalid &&alternate .touched "> 
+                    <input type="text" class="form-control" [(ngModel)]="ContactInfo.alternateMobileNo" name="alternateMobileNo" required pattern="[[6-9]\d{9}$]*" placeholder="Alternate MobileNo" #alternate="ngModel">
+                     <span style="color:red" *ngIf="alternate.invalid && alternate.touched "> 
                     
-                       <span *ngIf="alternate.errors.required">
+                    <!--   <span *ngIf="alternate.errors.required">
                        Alternate Mobile Number is required.
-                       </span>
+                       </span> -->
           
                        <span *ngIf="alternate.errors.pattern">
                         Enter Valid Mobile No
                       </span>
-                   </span> -->
+                   </span> 
                   </div>
                   
               </div>
@@ -345,10 +345,10 @@
 	
 
     
-    <button type="submit" class="btn btn-primary float-right margin"  data-dismiss="modal" aria-label="Close" (click)="setContactInformation()" *ngIf="!isUpdate"> 
+    <button type="submit" class="btn btn-primary float-right margin"  data-dismiss="modal" [disabled]="newUserFormcontact.form.invalid" aria-label="Close" (click)="setContactInformation()" *ngIf="!isUpdate"> 
     save
      </button>
-     <button type="submit" class="btn btn-primary float-right margin"  data-dismiss="modal" aria-label="Close" (click)="updateContactdetails()" *ngIf="isUpdate" >
+     <button type="submit" class="btn btn-primary float-right margin" [disabled]="newUserFormcontact.form.invalid" data-dismiss="modal" aria-label="Close" (click)="updateContactdetails()" *ngIf="isUpdate" >
       Update
     </button>
                 <button class="btn btn-primary  float-right"  (click)="newUserFormcontact.reset()" >Clear</button>

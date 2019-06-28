@@ -19,7 +19,7 @@
        </div>
 
        <div class="modal-body">
-         <form class="tile"  #newUserFormKye="ngForm" (ngSubmit)="onSubmit(newUserFormKye)">
+         <form class="tile"  #newUserFormKye="ngForm" (ngSubmit)="onSubmit(UserFormKye)">
            <div class="row">
              <div class="col-md-6">
                 
@@ -69,7 +69,7 @@
                    <div class="form-group">
                        <label> UAN<span class="starColor"> *</span> </label>
                        <input type="text" class="form-control" [(ngModel)]="empkyedetails.uan" name="empkyedetails.uan"
-                       required placeholder="1234 5678 9123" #empkye2="ngModel"  minlength="12" maxlength="12" 
+                       required placeholder="Ex: 1234 5678 9123" #empkye2="ngModel"  minlength="12" maxlength="12" 
                        pattern="^\d{4}\s\d{4}\s\d{4}$">
                        <span style="color:red" *ngIf="empkye2.invalid && empkye2.touched ">
                        
@@ -159,7 +159,7 @@
                    <div class="form-group">
                        <label> Passport No<span class="starColor"> *</span> </label>
                        <input type="text" class="form-control" [(ngModel)]="empkyedetails.passport_no" name="empkyedetails.passport_no" 
-                       required placeholder="A1234567" pattern="^[A-Za-z]{1}[0-9]{7}$" minlength=8 maxlength="8" #empkye7="ngModel">
+                       required placeholder="Ex: A1234567" pattern="^[A-Za-z]{1}[0-9]{7}$" minlength=8 maxlength="8" #empkye7="ngModel">
                        <span style="color:red" *ngIf="empkye7.invalid && empkye7.touched ">
                        
                           <span *ngIf="empkye7.errors.required">
@@ -276,13 +276,12 @@
 
 
                     <!-- <button class="btn btn-primary  float-right margin" >Save</button> -->
-                    <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close"
-                    *ngIf = !isUpdate (click)="saveEmpKye()" >
-                     Save
-                    </button>
+                    
+                    <button class="btn btn-primary float-right margin" data-dismiss="modal" aria-label="Close"
+                      *ngIf = isCreated (click)="saveEmpKye()">Save</button>
 
-                    <button class="btn btn-primary  float-right margin" type="submit"  data-dismiss="modal" aria-label="Close" 
-                    *ngIf = isUpdate (click)="updatekye(kye)">
+                    <button class="btn btn-primary  float-right margin"  data-dismiss="modal" aria-label="Close" 
+                      *ngIf = isUpdate (click)="updatekye(kye)" >
                      Update
                     </button>
 

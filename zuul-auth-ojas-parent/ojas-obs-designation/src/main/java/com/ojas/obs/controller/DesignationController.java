@@ -63,7 +63,13 @@ public class DesignationController {
 		}
 		try {
 			for (Designation des : listDesignation) {
-
+                if (null == des.getDesignation() || des.getDesignation().isEmpty()) {
+					ErrorResponse error = new ErrorResponse();
+					logger.error("Designation is null in DesignationController " +designationRequest );
+					error.setMessage("Designation should not be null");
+					error.setStatusCode("422");
+					return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+				}
 				if ((designationRequest.getTransactionType().equalsIgnoreCase("update")
 						|| designationRequest.getTransactionType().equalsIgnoreCase("delete")) && null == des.getId()) {
 					ErrorResponse error = new ErrorResponse();

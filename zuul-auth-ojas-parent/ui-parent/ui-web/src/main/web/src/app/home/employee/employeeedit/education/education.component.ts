@@ -307,7 +307,7 @@ this.hrms.updateEmpEduDetails(updateEduObj).subscribe(updateEdu =>{
  this.getEmpEdu();
 
 })
-EmpEducationForm.reset();
+// EmpEducationForm.reset();
 
 }
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HrmsService } from './../../../services/hrms.service';
+import { HrmsService } from '../../../services/hrms.service';
 import swal from 'sweetalert';
 import { DataService } from 'src/app/home/services';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-on-boarding',
@@ -14,9 +15,13 @@ export class OnBoardingComponent implements OnInit {
   loggeduser: string;
   empbasic: any;
   empbasicinfo: any;
+  // dt:any;
+  // latest_date:any;
+  // dateToday=new Date();
   constructor(private hrms:HrmsService,private dataservice:DataService) { 
     this.eid=this.dataservice.paramId;
     this.loggeduser=localStorage.getItem('UserName');
+  //  this.latest_date =this.date.transform(this.dateToday, 'yyyy-MM-dd');
   }
 
   ngOnInit() {
@@ -100,7 +105,7 @@ getemploymentdetails(){
   var employmentdetailss=
   {
     "employmentDetails":[{
-    "employeeId": this.eid
+  //  "employeeId": this.eid
     }],
     "transactionType" : "getAll"
     
@@ -188,18 +193,28 @@ separationTypedropdown:any;
     
     "transactionType":"save"
 }
+if(this.onboarddetailsss.joiningDate > this.onboarddetailsss.resignationDate){
+  swal("joining date is greater than exit date");
+}
+else{
   this.hrms.saveonboardingdetails(saveemploymentdetailss).subscribe(response =>{
     this.onboardingdetails = response;
           console.log(this.onboardingdetails);
-       if(this.onboardingdetails.message == "Data is inserted successfully"){
-          swal(this.onboardingdetails.message, "","success");
+       if(this.onboardingdetails.statusMessage == "Data is inserted successfully"){
+          swal(this.onboardingdetails.statusMessage, "","success");
           // this.getemploymentdetails();
          }
          this.getemploymentdetails();
      })
+  
+}
      
     // this.getemploymentdetails();
-
+  // if(this.dt>this.latest_date)
+  //    {
+  //      alert("please enter valid date");
+  //    }
+    
 }
 
 // Master data for Resourse Type
@@ -219,7 +234,7 @@ getResource()
   this.hrms.getResourceType(getresrequest).subscribe(res =>{
     this.getResourceDetails = res;
     console.log(this.getResourceDetails);
-    this.getResourceList = this.getResourceDetails.resourceTypeList;
+    this.getResourceList = this.getResourceDetails.employmentDetailsList;
     console.log(this.getResourceList);
     
   })
@@ -255,6 +270,7 @@ getboardingdetailsbyId(onboard){
   this.isupdateDependent = true;
   this.createdByDependent = false;
    var onboardid = onboard.id;
+   console.log(onboardid);
    var boardingdetailsbyid={
     
     "employmentDetails":[
@@ -300,8 +316,8 @@ getboardingdetailsbyId(onboard){
 this.hrms. updateonboardingdetails(updatenboarddetails).subscribe(res =>{
   this.onboardRes = res;
   console.log(this.onboardRes);
-     if(this.onboardRes.message == "Data is updated successfully"){
-       swal(this.onboardRes.message, "","success");
+     if(this.onboardRes.statusMessage == "Data is updated successfully"){
+       swal(this.onboardRes.statusMessage, "","success");
        this.getemploymentdetails();
      }
 })

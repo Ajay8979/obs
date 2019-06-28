@@ -5,6 +5,7 @@ import { HrmsService } from '../services/hrms.service';
 //import {HttpClient} from '@angular/common/http';
 import swal from 'sweetalert';
 import { DataService } from '../services/data.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-employee',
@@ -37,13 +38,16 @@ Total_CTC:any;
   employeeId: any;
   newUserForminfo: any;
   empid: any;
-
-
+  maxDate = moment().subtract(18, 'years').format('YYYY-MM-DD');
+  minDate = moment().subtract(118, 'years').format('YYYY-MM-DD');
+  
    constructor(private _router: Router , private paramroute:ActivatedRoute,private hrms:HrmsService, 
-    private dataservice:DataService) { 
+private dataservice:DataService) { 
     // this.dataservice.sendMessage.subscribe(empid=>this.Employee_Id=empid);
     // console.log("The Original message from data service"+this.Employee_Id);
     //this.dataservice.sendMessage(this.Employee_Id);
+    alert(this.minDate);
+    alert(this.maxDate);
     this.eid=this.dataservice.paramId;
     this.loggeduser=localStorage.getItem('UserName');
    }
@@ -100,8 +104,8 @@ this.empData.splice(index, 1);
 
 }
  
-maxDate ="2002-01-01"
-minDate ="1960-01-01"  
+//maxDate ="2002-01-01"
+//minDate ="1960-01-01"  
 
 // emp basic starts //
 isUpdate:boolean;
@@ -231,6 +235,28 @@ addempUnit(newUserForminfo)
 
 
 saveemployeeInfo(){
+ // if (new Date(this.empinobj.dob) < this.dateToday) {
+    this.hrms.saveempinfo(request).subscribe(res =>{
+      this.basicinfo =res;
+      console.log(this.basicinfo);
+      console.log("employeeId",parseInt(this.empinobj.employeeId)+1)
+    if(this.basicinfo.message == "Successfully record added"){
+    swal(this.basicinfo.message, "", "success");
+    
+    this.getempdata();
+    }
+    },
+    error => 
+      {
+      swal("Duplicates are not allowed!","","error");
+      
+      this.getempdata();
+         })
+    
+    
+ /*  }else{
+    swal("Please enter a valid date","","error");
+  } */
 var request=
 
 {
@@ -264,22 +290,6 @@ var request=
 //   }],
 //   "transactionType" : "save"
 // }
-this.hrms.saveempinfo(request).subscribe(res =>{
-  this.basicinfo =res;
-  console.log(this.basicinfo);
-  console.log("employeeId",parseInt(this.empinobj.employeeId)+1)
-if(this.basicinfo.message == "Successfully record added"){
-swal(this.basicinfo.message, "", "success");
-
-this.getempdata();
-}
-},
-error => 
-  {
-  swal("Duplicates are not allowed!","","error");
-  
-  this.getempdata();
-     })
 
   
 }
@@ -433,9 +443,3 @@ deleteemp(empbasic: { id: any; }){
 
 
 }
-
-
-
-
-
-

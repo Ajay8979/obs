@@ -157,6 +157,7 @@ var savereqObj =
 }],
            "transactionType"     :  "save"
 }
+if(this.empkyedetails.passport_date_of_Issue<=this.empkyedetails.passport_date_of_expiry)
 this.hrms.saveEmployeeKyeDetails(savereqObj).subscribe(res => {
 this.savekyeres = res;
 console.log(this.savekyeres);
@@ -169,7 +170,10 @@ if(this.savekyeres.message == "record added successfully")
    }
    this.getEmpKye();
 })
-
+else{
+  this.getEmpKye();
+  swal("Enter the valid Date of expiry","","error");
+}
 }
 
 //--- deleting Employee KYE details-------------------
@@ -283,6 +287,7 @@ var updatekyereq =
 }],
 "transactionType"     :  "update"
 }
+if(this.empkyedetails.passport_date_of_Issue<=this.empkyedetails.passport_date_of_expiry)
 this.hrms.updateEmployeeKyeDetails(updatekyereq).subscribe(updateres =>{
 this.updatekyeres = updateres;
 console.log(this.updatekyeres);
@@ -296,7 +301,13 @@ if(this.updatekyeres.message == "record updated successfully")
    }
 this.getEmpKye();
 })
+else{
+  swal("Enter the valid Date of expiry", "", "error")
+  this.getEmpKye();
 }
+}
+
+
 
 
 //---- KYE details  Ends----------------------------------------------

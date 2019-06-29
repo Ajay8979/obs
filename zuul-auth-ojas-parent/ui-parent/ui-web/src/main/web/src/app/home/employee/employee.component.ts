@@ -235,6 +235,24 @@ addempUnit(newUserForminfo)
 
 
 saveemployeeInfo(){
+
+var request=
+
+{
+  "employeeInfo" :[{
+      
+          "firstname" : this.empinobj.firstname,
+          "middlename" : this.empinobj.middlename,
+          "lastname" : this.empinobj.lastname,
+          "status" : this.empinobj.status,
+          "dob":this.empinobj.dob,
+          "gender" : this.empinobj.gender,
+          "title" : this.empinobj.title,
+          "employeeId" :parseInt(this.empinobj.employeeId)+1 ,
+          "createdBy" : this.loggeduser
+  }],
+  "transactionType" : "save"
+}
  // if (new Date(this.empinobj.dob) < this.dateToday) {
     this.hrms.saveempinfo(request).subscribe(res =>{
       this.basicinfo =res;
@@ -257,23 +275,6 @@ saveemployeeInfo(){
  /*  }else{
     swal("Please enter a valid date","","error");
   } */
-var request=
-
-{
-  "employeeInfo" :[{
-      
-          "firstname" : this.empinobj.firstname,
-          "middlename" : this.empinobj.middlename,
-          "lastname" : this.empinobj.lastname,
-          "status" : this.empinobj.status,
-          "dob":this.empinobj.dob,
-          "gender" : this.empinobj.gender,
-          "title" : this.empinobj.title,
-          "employeeId" :parseInt(this.empinobj.employeeId)+1 ,
-          "createdBy" : this.loggeduser
-  }],
-  "transactionType" : "save"
-}
 
 // {
 //   "employeeInfo" :[{

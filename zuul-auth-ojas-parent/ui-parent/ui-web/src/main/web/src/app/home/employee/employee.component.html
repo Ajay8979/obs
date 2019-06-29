@@ -137,10 +137,13 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label>First Name<span class="starColor"> *</span> </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required placeholder="First Name" #first="ngModel">
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required pattern="[A-Za-z]*" placeholder="First Name" #first="ngModel">
                         <span style="color:red" *ngIf="first.invalid && first.touched ">
                           <span *ngIf="first.errors.required">
                             Firstname is required
+                          </span>
+                          <span *ngIf="first.errors.pattern">
+                            Enter alphabets only.
                           </span>
                         </span>
                       </div>
@@ -150,16 +153,12 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> Middle Name </label>
-                        <input type="text" class="form-control" [(ngModel)]="empinobj.middlename" name="emp2" required placeholder="Middle Name">
-
-                        <!-- <span style="color:red" *ngIf="middle.invalid && middle.touched ">
-
-                          <span *ngIf="middle.errors.required">
-
-                            Middle Name is required.
+                        <input type="text" class="form-control" [(ngModel)]="empinobj.middlename" name="emp2" pattern="[A-Za-z]*" placeholder="Middle Name" #middle="ngModel">
+                        <span style="color:red" *ngIf="middle.invalid && middle.touched ">
+                          <span *ngIf="middle.errors.pattern">
+                            Enter alphabets only.
                           </span>
-
-                        </span> -->
+                        </span>
                       </div>
 
                     </div> 
@@ -170,15 +169,14 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> Last Name<span class="starColor"> *</span> </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required placeholder="Last Name" #last="ngModel">
-
+                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required pattern="[A-Za-z]*" placeholder="Last Name" #last="ngModel">
                         <span style="color:red" *ngIf="last.invalid && last.touched ">
-
                           <span *ngIf="last.errors.required">
-
                             Last Name is required.
                           </span>
-
+                          <span *ngIf="last.errors.pattern">
+                            Enter alphabets only.
+                          </span>
                         </span>
                       </div>
 
@@ -187,9 +185,25 @@
                      <div class="col-md-4">
                       <div class="form-group">
                         <label> DOB<span class="starColor"> *</span> </label>
-                        <input class="form-control" type="date" [(ngModel)]="empinobj.dob" name="empname" required placeholder="DD/MM/YYYY"  #empdate="ngModel" >  
-                       
-
+                        <input class="form-control" [max]="maxDate" [min] = "minDate" type="date" [(ngModel)]="empinobj.dob" name="empname" required placeholder="DD/MM/YYYY"  #empdate="ngModel" >  
+                        <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
+                          <span *ngIf="empdate.errors.required">
+                            Date is required.
+                          </span>
+                          <span *ngIf="empdate.errors.min">
+                            Enter valid date.
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                   <!--  <div class="col-md-4">
+                      <div class="form-group">
+                        <label> DOB<span class="starColor"> *</span> </label>
+                        <mat-form-field class="example-full-width">
+                          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
                         <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
 
                           <span *ngIf="empdate.errors.required">
@@ -199,7 +213,7 @@
 
                         </span>
                       </div>
-                    </div> 
+                    </div> -->
                     <!-- [min]="minDate" [max]="maxDate" -->
                     <div class="col-md-4">
                       <div class="form-group">
@@ -260,8 +274,8 @@
                   </div>
                      
                   </div>
-                  <button class="btn btn-primary  float-right margin"  *ngIf="!isUpdate" (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close">Save</button>
-                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" aria-label="Close"  *ngIf="isUpdate" (click)="updateempinfo()">
+                  <button class="btn btn-primary  float-right margin"  *ngIf="!isUpdate" [disabled]="newUserForminfo.form.invalid" (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close">Save</button>
+                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" [disabled]="newUserForminfo.form.invalid" aria-label="Close"  *ngIf="isUpdate" (click)="updateempinfo()">
                     Update
                             </button>
 

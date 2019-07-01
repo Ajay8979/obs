@@ -93,7 +93,7 @@ public class ServiceTest {
 		
 
 		dependentDetailsRequest.setTransactionType("getbyId");
-		dependentDetailsRequest.setSessionId("21");
+		//dependentDetailsRequest.setSessionId("21");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		return dependentDetailsRequest;
 	}
@@ -114,7 +114,7 @@ public class ServiceTest {
 		dependentDetailsRequest = new DependentDetailsRequest();
 		
 		dependentDetailsRequest.setTransactionType("save");
-		dependentDetailsRequest.setSessionId("21");
+		//dependentDetailsRequest.setSessionId("21");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		return dependentDetailsRequest;
 	}
@@ -314,7 +314,7 @@ dependentDetailsRequest = dependentDetailsRequest();
 
 		dependentDetailsRequest = dependentDetailsRequest();
 		dependentDetailsRequest.setTransactionType("getAll");
-		dependentDetailsRequest.setSessionId("121");
+		//dependentDetailsRequest.setSessionId("121");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		when(dependentDetailsDaoImpl.getAll(null)).thenReturn(listDeptDetRequest);
 		DependentDetailsResponse setResponseEntity = dependentDetailsServiceImpl.getDependentDetails(dependentDetailsRequest);

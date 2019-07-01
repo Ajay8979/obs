@@ -10,4 +10,4 @@ DELETE_EMPLOYMENT_DETAILS_STMT = UPDATE obs_employmentdetails set flag=? where i
 
 GET_EMPLOYMENT_DETAILS_BY_EMPLOYEE_ID_STMT= select * from obs_employmentdetails where  flag !=false 
 
-GET_EMPLOYMENT_DETAILS_BY_ID_STMT=select * from employment_details where id=? and flag=1
+GET_EMPLOYMENT_DETAILS_BY_ID_STMT=select * from obs_employmentdetails where id=? and flag=1

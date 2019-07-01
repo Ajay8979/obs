@@ -104,7 +104,7 @@ public class DependentDetailsControllerTest {
 		dependentDetailsResponse = new DependentDetailsResponse();
 
 		dependentDetailsRequest.setTransactionType("save");
-		dependentDetailsRequest.setSessionId("21");
+		//dependentDetailsRequest.setSessionId("21");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		return dependentDetailsRequest;
 	}
@@ -126,7 +126,7 @@ public class DependentDetailsControllerTest {
 		dependentDetailsResponse = new DependentDetailsResponse();	
 		
 		dependentDetailsRequest.setTransactionType("getAll");
-		dependentDetailsRequest.setSessionId("21");
+		//dependentDetailsRequest.setSessionId("21");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		return dependentDetailsRequest;
 	}
@@ -164,7 +164,7 @@ public class DependentDetailsControllerTest {
 		HttpServletRequest httpServletRequest = null;
 		HttpServletResponse httpServletResponse = null;
 		dependentDetailsRequest = dependentDetailsRequest();
-		dependentDetailsRequest.setSessionId(null); 
+		//dependentDetailsRequest.setSessionId(null); 
 		when(dependentDetailsServiceImpl.setDependentDetails(dependentDetailsRequest)).thenReturn(dependentDetailsResponse);
 		ResponseEntity<Object> setResponseEntity = dependentDetailsController.setDependentDetails(dependentDetailsRequest, httpServletRequest, httpServletResponse);
 		HttpStatus httpStatus = setResponseEntity.getStatusCode();
@@ -265,7 +265,7 @@ public class DependentDetailsControllerTest {
 		HttpServletRequest  httpServletRequest= null;
 		HttpServletResponse httpServletResponse= null;
 		dependentDetailsRequest = dependentDetailsRequest();
-		dependentDetailsRequest.setSessionId(null); 
+		//dependentDetailsRequest.setSessionId(null); 
 		when(dependentDetailsServiceImpl.getDependentDetails(anyObject())).thenReturn(dependentDetailsResponse);
 		ResponseEntity<Object> setResponseEntity = dependentDetailsController.getDependentDetails(dependentDetailsRequest, httpServletRequest, httpServletResponse);
 		HttpStatus httpStatus = setResponseEntity.getStatusCode();

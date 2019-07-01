@@ -98,7 +98,7 @@ public class DaoTest {
 		dependentDetailsResponse = new DependentDetailsResponse();	
 		
 		
-		dependentDetailsRequest.setSessionId("21");
+		//dependentDetailsRequest.setSessionId("21");
 		dependentDetailsRequest.setDependentDetails(listDeptDetRequest);
 		return dependentDetailsRequest;
 	}

@@ -46,8 +46,8 @@ private dataservice:DataService) {
     // this.dataservice.sendMessage.subscribe(empid=>this.Employee_Id=empid);
     // console.log("The Original message from data service"+this.Employee_Id);
     //this.dataservice.sendMessage(this.Employee_Id);
-    alert(this.minDate);
-    alert(this.maxDate);
+   // alert(this.minDate);
+   // alert(this.maxDate);
     this.eid=this.dataservice.paramId;
     this.loggeduser=localStorage.getItem('UserName');
    }

@@ -4,7 +4,7 @@ INSERT_EMPLOYMENT_DETAILS_STMT = INSERT into obs_employmentdetails(employee_id,j
 
  GET_EMPLOYMENT_DETAILS_STMT = select * from obs_employmentdetails where flag=1;
 
- UPDATE_EMPLOYMENT_DETAILS_STMT = UPDATE obs_employmentdetails set resource_type=?,bond_status=?,resignation_date=?,exit_date=?,separation_type=?,flag=?,updated_by=?,updated_date=? where id=?; 
+ UPDATE_EMPLOYMENT_DETAILS_STMT = UPDATE obs_employmentdetails set resource_type=?,joining_date=?,bond_status=?,resignation_date=?,exit_date=?,separation_type=?,flag=?,updated_by=?,updated_date=? where id=?; 
 
 DELETE_EMPLOYMENT_DETAILS_STMT = UPDATE obs_employmentdetails set flag=? where id=?
 

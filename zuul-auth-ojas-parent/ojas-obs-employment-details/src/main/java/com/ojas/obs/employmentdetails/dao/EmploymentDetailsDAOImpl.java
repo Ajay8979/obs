@@ -82,7 +82,7 @@ public class EmploymentDetailsDAOImpl implements EmploymentDetailsDAO {
 
 		for (EmploymentDetails employmentObject : employmentDetailsList) {
 			updatedRows = jdbcTemplate.update(queryUtil.getQuery("UPDATE_EMPLOYMENT_DETAILS_STMT"),
-					employmentObject.getResourceType(,)employmentObject.getJoiningDate(), employmentObject.isBondStatus(),
+					employmentObject.getResourceType(), employmentObject.getJoiningDate(), employmentObject.isBondStatus(),
 					employmentObject.getResignationDate(), employmentObject.getExitDate(),
 					employmentObject.getSeparationType(), flag, employmentObject.getUpdatedBy(), updatedDate_date,
 					employmentObject.getId());

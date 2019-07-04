@@ -473,7 +473,7 @@ getempstatus(statusempobj){
   return this.http.post(this.host_url+"8089/obs/EmployeeStatus/get",statusempobj);
 }
 getGenderinfo(getgenderobj){
-  return this.http.post(this.host_url+"8089/obs/genders/get",getgenderobj);
+  return this.http.post(this.host_url+"8089/master/genders/get",getgenderobj);
 }
 // emp basic ends ---------//
 

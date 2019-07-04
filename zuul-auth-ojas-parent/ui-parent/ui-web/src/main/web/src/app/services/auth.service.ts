@@ -34,7 +34,8 @@ export class AuthService {
   //url:any="http://192.168.7.64:8089/login";
   //url:any="http://192.168.5.207:8081/login";
   //url:any="http://192.168.2.167:8081/login";
-  url:any="http://192.168.7.64:8089/login";
+// tslint:disable-next-line: whitespace
+  url:any="http://192.168.1.155:8089/login";
   public async loginAction(postData){
 
     var userObj={username:postData.UserName,password:postData.UserPassword}
@@ -128,7 +129,7 @@ export class AuthService {
   }
 
   public  getEmployeeData():any{
-    var res= this.http.get('http://192.168.6.186:8089/backend/user');
+    var res= this.http.get('http://192.168.1.155:8089/backend/user');
     return res;
   }
 

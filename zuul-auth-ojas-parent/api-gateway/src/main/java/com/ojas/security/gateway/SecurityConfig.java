@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 * .antMatchers("/obs/employmentDetails/get").permitAll()
 */
                    .antMatchers("/master/*/set").access("hasRole('ADMIN') or hasRole('HR')")
-                   .antMatchers("/master/*/get").access("hasRole('ADMIN') or hasRole('HR')")
+                   .antMatchers("/master/*/get").access("hasRole('USER') or hasRole('ADMIN') or hasRole('HR')")
                    .antMatchers("/obs/*/set").access("hasRole('USER') or hasRole('ADMIN') or hasRole('HR')")
                    .antMatchers("/obs/*/get").access("hasRole('USER') or hasRole('ADMIN') or hasRole('HR')")
                     .antMatchers("/backend/admin").hasRole("ADMIN")

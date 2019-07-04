@@ -11,60 +11,60 @@ export class HrmsService {
   }
   constructor(private http:HttpClient) { }
 
-host_url:any="http://192.168.7.64:";
+host_url:any="http://192.168.1.155:";
 //ankamma rao services
 
 
 //Sub Business Unit
 
 setSubbusinessunit(requestObject) {
-  return this.http.post(this.host_url+"8089/obs/subbusinessunit/set",requestObject);
+  return this.http.post(this.host_url+"8089/master/subbusinessunit/set",requestObject);
 }
 
 getSubbusinessUnit(requestObject){
-  return this.http.post(this.host_url+"8089/obs/subbusinessunit/get ",requestObject);
+  return this.http.post(this.host_url+"8089/master/subbusinessunit/get ",requestObject);
 }
 getSubbusinessinfo(requestObject1){
-  return this.http.post(this.host_url+"8089/obs/subbusinessunit/get ",requestObject1);
+  return this.http.post(this.host_url+"8089/master/subbusinessunit/get ",requestObject1);
 }
 updateSubbusinessUnit(updateReqObj){
-  return this.http.post(this.host_url+"8089/obs/subbusinessunit/set ",updateReqObj);
+  return this.http.post(this.host_url+"8089/master/subbusinessunit/set ",updateReqObj);
 }
 deleteSubbusinessUnit(deleteReqObj){
-  return this.http.post(this.host_url+"8089/obs/ojas-obs-online/service/subbusinessunit/set",deleteReqObj);
+  return this.http.post(this.host_url+"8089/master/ojas-obs-online/service/subbusinessunit/set",deleteReqObj);
 }
 
 // Cost Center 
 
 setCostcenter(costcenterReqObj) {
-  return this.http.post(this.host_url+"8089/obs/costcenterservice/set",costcenterReqObj);
+  return this.http.post(this.host_url+"8089/master/costcenterservice/set",costcenterReqObj);
 }
 
 getCostcenter(costcenterReqObj) {
-  return this.http.post(this.host_url+"8089/obs/costcenterservice/get",costcenterReqObj);
+  return this.http.post(this.host_url+"8089/master/costcenterservice/get",costcenterReqObj);
 }
 updateCostCenter(updatedData){
-  return this.http.post(this.host_url+"8089/obs/costcenterservice/set",updatedData);
+  return this.http.post(this.host_url+"8089/master/costcenterservice/set",updatedData);
 }
 
 deleteCostCenter(deleteData){
-  return this.http.post(this.host_url+"8089/obs/ojas-obs-online/costcenter/set",deleteData);
+  return this.http.post(this.host_url+"8089/master/ojas-obs-online/costcenter/set",deleteData);
 }
 
 // Business Unit
 
 setBusinessunit(busiessunitReqObj){
-  return this.http.post(this.host_url+"8089/obs/businessUnit/set",busiessunitReqObj);
+  return this.http.post(this.host_url+"8089/master/businessUnit/set",busiessunitReqObj);
 }
 
 getBusinesinfo(busiessunitReqObj){
-  return this.http.post(this.host_url+"8089/obs/businessUnit/get",busiessunitReqObj);
+  return this.http.post(this.host_url+"8089/master/businessUnit/get",busiessunitReqObj);
 }
 updateBusinessunit(buupdateReqObj){
-  return this.http.post(this.host_url+"8089/obs/businessUnit/set",buupdateReqObj);
+  return this.http.post(this.host_url+"8089/master/businessUnit/set",buupdateReqObj);
 }
 deleteBusiness(buDeleteReqObj){
-  return this.http.post(this.host_url+"8089/obs/ojas-obs-online/businessUnit/service/set",buDeleteReqObj);
+  return this.http.post(this.host_url+"8089/master/ojas-obs-online/businessUnit/service/set",buDeleteReqObj);
 }
 //ankamma rao services ends
 
@@ -73,36 +73,36 @@ deleteBusiness(buDeleteReqObj){
 //Employee Designation
 
 setEmployeeDesignation(EmpDesignationReqObj){
-  return this.http.post(this.host_url+"8089/obs/designation/set",EmpDesignationReqObj);
+  return this.http.post(this.host_url+"8089/master/designation/set",EmpDesignationReqObj);
 }
 
 getEmployeeDesignation(EmpDesignationReqObj){
-  return this.http.post(this.host_url+"8089/obs/designation/get",EmpDesignationReqObj);
+  return this.http.post(this.host_url+"8089/master/designation/get",EmpDesignationReqObj);
 }
 
 updateEmpolyeeDesignation(updatedData){
-  return this.http.post(this.host_url+"8089/obs/designation/set",updatedData);
+  return this.http.post(this.host_url+"8089/master/designation/set",updatedData);
 }
 
 deleteEmpolyeeDesignation(deleteData){
-  return this.http.post(this.host_url+"8089/obs/designation/set",deleteData);
+  return this.http.post(this.host_url+"8089/master/designation/set",deleteData);
 }
 //Employee Designation Ends
 
 // Passport Center
 
 setPassportCeneter(PassportReqObj){
-  return this.http.post(this.host_url+"8089/obs/passportService/set",PassportReqObj);
+  return this.http.post(this.host_url+"8089/master/passportService/set",PassportReqObj);
 }
 
 getPassportCeneter(PassportReqObj){
-  return this.http.post(this.host_url+"8089/obs/passportService/get",PassportReqObj);
+  return this.http.post(this.host_url+"8089/master/passportService/get",PassportReqObj);
 }
 updatePassportCenter(PassportupdateObj){
-  return this.http.post(this.host_url+"8089/obs/passportService/set",PassportupdateObj);
+  return this.http.post(this.host_url+"8089/master/passportService/set",PassportupdateObj);
 }
 deletepassportCenter(PassportdeleteObj){
-  return this.http.post(this.host_url+"8089/obs/passportService/set",PassportdeleteObj);
+  return this.http.post(this.host_url+"8089/master/passportService/set",PassportdeleteObj);
 }
 
 // Passport center Ends
@@ -110,32 +110,32 @@ deletepassportCenter(PassportdeleteObj){
 //skill starts
 
 setSkillMaster(skillmasterReqObj){
-  return this.http.post(this.host_url+"8089/obs/skill/set",skillmasterReqObj)
+  return this.http.post(this.host_url+"8089/master/skill/set",skillmasterReqObj)
 }
 getSkillmaster(getskillmasterReqObj){
-  return this.http.post(this.host_url+"8089/obs/skill/get",getskillmasterReqObj)
+  return this.http.post(this.host_url+"8089/master/skill/get",getskillmasterReqObj)
 }
 updateSkillMaster(updateskillmasterReqObj){
-  return this.http.post(this.host_url+"8089/obs/skill/set",updateskillmasterReqObj)
+  return this.http.post(this.host_url+"8089/master/skill/set",updateskillmasterReqObj)
 }
 deleteSkillMaster(deleteskillmasterReqObj){
-  return this.http.post(this.host_url+"8089/obs/skill/set",deleteskillmasterReqObj)
+  return this.http.post(this.host_url+"8089/master/skill/set",deleteskillmasterReqObj)
 }
 //skill ends
 
 // role management
 
 setRoleManagement(RoleReqObj){
-  return this.http.post(this.host_url+"8089/obs/RoleManagement/set",RoleReqObj);
+  return this.http.post(this.host_url+"8089/master/RoleManagement/set",RoleReqObj);
 }
 getRoleManagement(RoleGetReqObj){
-  return this.http.post(this.host_url+"8089/obs/RoleManagement/get",RoleGetReqObj);
+  return this.http.post(this.host_url+"8089/master/RoleManagement/get",RoleGetReqObj);
 }
 updateRoleManagement(RoleUpdate){
-  return this.http.post(this.host_url+"8089/obs/RoleManagement/set",RoleUpdate);
+  return this.http.post(this.host_url+"8089/master/RoleManagement/set",RoleUpdate);
 }
 dleteRoleManagement(RoleDelete){
-  return this.http.post(this.host_url+"8089/obs/RoleManagement/set",RoleDelete);
+  return this.http.post(this.host_url+"8089/master/RoleManagement/set",RoleDelete);
 }
 
 //role management
@@ -273,16 +273,16 @@ getbyIdbusines(updatebusinesobj){
 
 
   getEmployeeStatus(EmpStatusReqObj){
-    return this.http.post(this.host_url+"8089/obs/ojas-obs-online/obs/emplyoeestatus/get",EmpStatusReqObj);
+    return this.http.post(this.host_url+"8089/master/ojas-obs-online/obs/emplyoeestatus/get",EmpStatusReqObj);
   }
   updateEmployeeStatus(updateEmpStatus){
-    return this.http.post(this.host_url+"8089/obs/ojas-obs-online/obs/emplyoeestatus/set",updateEmpStatus);
+    return this.http.post(this.host_url+"8089/master/ojas-obs-online/obs/emplyoeestatus/set",updateEmpStatus);
   }
   deleteEmployeeStatus(deleteEmpStatus){
-    return this.http.post(this.host_url+"8089/obs/ojas-obs-online/obs/emplyoeestatus/set",deleteEmpStatus);
+    return this.http.post(this.host_url+"8089/master/ojas-obs-online/obs/emplyoeestatus/set",deleteEmpStatus);
   }
   setEmployeeStatus(EmpStatusReqObj){
-    return this.http.post(this.host_url+"8089/obs/ojas-obs-online/obs/emplyoeestatus/set",EmpStatusReqObj);
+    return this.http.post(this.host_url+"8089/master/ojas-obs-online/obs/emplyoeestatus/set",EmpStatusReqObj);
   }
 
   // setEmployeeDesignation(EmpDesignationReqObj){
@@ -317,44 +317,44 @@ getbyIdbusines(updatebusinesobj){
   //state List
 
 setStateList(StateReqObj){
-  return this.http.post(this.host_url+"8089/obs/states/set",StateReqObj);
+  return this.http.post(this.host_url+"8089/master/states/set",StateReqObj);
 }
  getStatusList(StategetReqObj){
-   return this.http.post(this.host_url+"8089/obs/states/get",StategetReqObj);
+   return this.http.post(this.host_url+"8089/master/states/get",StategetReqObj);
  }
  updateStateList(updatestateData){
-   return this.http.post(this.host_url+"8089/obs/states/set",updatestateData);
+   return this.http.post(this.host_url+"8089/master/states/set",updatestateData);
  }
  deleteStateList(deleteStateData){
-   return this.http.post(this.host_url+"8089/obs/states/set",deleteStateData);
+   return this.http.post(this.host_url+"8089/master/states/set",deleteStateData);
  }
 
  //StateList
 
 
  setGpaData(GpaReqObj){
-  return this.http.post(this.host_url+"8089/obs/gpa/set",GpaReqObj);
+  return this.http.post(this.host_url+"8089/master/gpa/set",GpaReqObj);
 }
  getGpaData(GpagetReqObj){
-   return this.http.post(this.host_url+"8089/obs/gpa/get",GpagetReqObj);
+   return this.http.post(this.host_url+"8089/master/gpa/get",GpagetReqObj);
  }
  updateGpaData(GpaupdateReqObj){
-   return this.http.post(this.host_url+"8089/obs/gpa/set",GpaupdateReqObj);
+   return this.http.post(this.host_url+"8089/master/gpa/set",GpaupdateReqObj);
  }
  deleteGpaData(GpadeleteData){
-   return this.http.post(this.host_url+"8089/obs/gpa/set",GpadeleteData);
+   return this.http.post(this.host_url+"8089/master/gpa/set",GpadeleteData);
  }
  setEmployeeEducation(EmpSaveData){
-   return this.http.post(this.host_url+"8089/obs/ojas-obs-online/education/set",EmpSaveData);
+   return this.http.post(this.host_url+"8089/master/ojas-obs-online/education/set",EmpSaveData);
  }
  getEmployeeEducation(EmpEduGetData){
-   return this.http.post(this.host_url+"8088/obs/ojas-obs-online/education/get",EmpEduGetData);
+   return this.http.post(this.host_url+"8089/master/ojas-obs-online/education/get",EmpEduGetData);
  }
  updatedEmployeeEducation(EmpEduUpdateData){
-   return this.http.post(this.host_url+"8089/obs/ojas-obs-online/education/set",EmpEduUpdateData);
+   return this.http.post(this.host_url+"8089/master/ojas-obs-online/education/set",EmpEduUpdateData);
  }
  deleteEmployeeEducation(EmpEduDeleteData){
-   return this.http.post(this.host_url+"8089/obs/ojas-obs-online/education/set",EmpEduDeleteData);
+   return this.http.post(this.host_url+"8089/master/ojas-obs-online/education/set",EmpEduDeleteData);
  }
 //  setRoleManagement(RoleReqObj){
 //    return this.http.post("http://192.168.1.95:8080/ojas-obs-online/role/set",RoleReqObj);
@@ -670,18 +670,18 @@ updateproject(projupdate){
 //Employee Status Master API
 
 getEmployeeStatusMaster(stateListReq){
-  return this.http.post(this.host_url+"8089/obs/EmployeeStatus/get",stateListReq);
+  return this.http.post(this.host_url+"8089/master/EmployeeStatus/get",stateListReq);
 }
 updateEmployeeStatusMaster(updatestateListReq){
-  return this.http.post(this.host_url+"8089/obs/EmployeeStatus/set",updatestateListReq);
+  return this.http.post(this.host_url+"8089/master/EmployeeStatus/set",updatestateListReq);
 }
 
 deleteEmployeeStatusMaster(deletetateListReq){
-  return this.http.post(this.host_url+"8089/obs/EmployeeStatus/set",deletetateListReq);
+  return this.http.post(this.host_url+"8089/master/EmployeeStatus/set",deletetateListReq);
 }
 
 saveEmployeeStatusMaster(savestateListReq){
-  return this.http.post(this.host_url+"8089/obs/EmployeeStatus/set",savestateListReq);
+  return this.http.post(this.host_url+"8089/master/EmployeeStatus/set",savestateListReq);
 }
 
 //Employee Status Master API Ended
@@ -691,18 +691,18 @@ saveEmployeeStatusMaster(savestateListReq){
 //Master API for StateList Started Working
 
 getStateListMaster(stateListReq){
-  return this.http.post(this.host_url+"8089/obs/states/get",stateListReq);
+  return this.http.post(this.host_url+"8089/master/states/get",stateListReq);
 }
 updateStateListMaster(updatestateListReq){
-  return this.http.post(this.host_url+"8089/obs/states/set",updatestateListReq);
+  return this.http.post(this.host_url+"8089/master/states/set",updatestateListReq);
 }
 
 deleteStateListMaster(deletetateListReq){
-  return this.http.post(this.host_url+"8089/obs/states/set",deletetateListReq);
+  return this.http.post(this.host_url+"8089/master/states/set",deletetateListReq);
 }
 
 saveStateListMaster(savestateListReq){
-  return this.http.post(this.host_url+"8089/obs/states/set",savestateListReq);
+  return this.http.post(this.host_url+"8089/master/states/set",savestateListReq);
 }
 //Master API for StateList Ended
 
@@ -769,16 +769,16 @@ deleteEmpEduDetails(deleteEmpEduObj)
 //Employee Education Master Data Start
 
 getEmpEduQualification(getempQualification){
-  return this.http.post(this.host_url+"8089/obs/educationdetails/get",getempQualification);
+  return this.http.post(this.host_url+"8089/master/educationdetails/get",getempQualification);
 }
 saveEmpEducationalQualification(saveEmpQual){
-  return this.http.post(this.host_url+"8089/obs/educationdetails/set",saveEmpQual);
+  return this.http.post(this.host_url+"8089/master/educationdetails/set",saveEmpQual);
 }
 updateEmpEducationalQualification(updateEmpQual){
-  return this.http.post(this.host_url+"8089/obs/obseducationdetails/set",updateEmpQual);
+  return this.http.post(this.host_url+"8089/master/obseducationdetails/set",updateEmpQual);
 }
 deleteEmpEducationalQualification(deleteEmpQual){
-  return this.http.post(this.host_url+"8089/obs/obseducationdetails/set",deleteEmpQual);
+  return this.http.post(this.host_url+"8089/master/obseducationdetails/set",deleteEmpQual);
 }
 //Employee Education Master Data End
 
@@ -789,22 +789,22 @@ deleteEmpEducationalQualification(deleteEmpQual){
  //-----Separation Starts------------------
  getSeperationType(getSeperationResObj)
  {
-   return this.http.post(this.host_url+"8089/obs/separationType/get",getSeperationResObj);
+   return this.http.post(this.host_url+"8089/master/separationType/get",getSeperationResObj);
  }
 
  updateSeperationType(updateSeperationResObj)
  {
-   return this.http.post(this.host_url+"8089/obs/separationType/set",updateSeperationResObj);
+   return this.http.post(this.host_url+"8089/master/separationType/set",updateSeperationResObj);
  }
 
  saveSeperationType(saveSeperationResObj)
  {
-  return this.http.post(this.host_url+"8089/obs/separationType/set",saveSeperationResObj);
+  return this.http.post(this.host_url+"8089/master/separationType/set",saveSeperationResObj);
  }
 
  deleteSeperationType(deleteSeperationResObj)
  {
-   return this.http.post(this.host_url+"8089/obs/ojas-obs-online/separationType/set",deleteSeperationResObj);
+   return this.http.post(this.host_url+"8089/master/ojas-obs-online/separationType/set",deleteSeperationResObj);
  }
 
 //-----Separation Ends------------------
@@ -814,15 +814,15 @@ deleteEmpEducationalQualification(deleteEmpQual){
 
   getResourceType(resgetReqObj)
   {
-    return this.http.post(this.host_url+"8089/obs/resourceType/get",resgetReqObj);
+    return this.http.post(this.host_url+"8089/master/resourceType/get",resgetReqObj);
   }
   setResourceType(ressaveReqObj)
   {
-    return this.http.post(this.host_url+"8089/obs/resourceType/set",ressaveReqObj);
+    return this.http.post(this.host_url+"8089/master/resourceType/set",ressaveReqObj);
   }
   updateResourceType(resupdateObj)
   {
-    return this.http.post(this.host_url+"8089/obs/resourceType/set",resupdateObj);
+    return this.http.post(this.host_url+"8089/master/resourceType/set",resupdateObj);
   }
 
   //--Resource type ends--------------

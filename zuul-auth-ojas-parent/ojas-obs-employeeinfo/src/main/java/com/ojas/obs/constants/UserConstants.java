@@ -21,7 +21,7 @@ public class UserConstants {
 
 	// ======EmployeeInfo Queries==============//
 
-	public static final String SAVEEMPINFO = "insert into obs_employeeinfo  (firstname,middlename,lastname,status,dob,gender,title,employeeId,flag,createdOn,createdBy) values (?,?,?,?,?,?,?,?,?,?,?)";
+	public static final String SAVEEMPINFO = "insert into obs_employeeinfo  (firstname,middlename,lastname,status,statusDate,dob,gender,title,employeeId,flag,createdOn,createdBy) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	public static final String SAVEEMPLOGININFO =  "insert into obs_employee_login(employeeId,password,createdOn,createdBy) values(?,?,?,?)";
 	
@@ -29,7 +29,7 @@ public class UserConstants {
 			
 	public static final String DELETEEMPROLE ="delete from user_role where employee_id =?";
 		
-	public static final String UPDATEEMPINFO = "update obs_employeeinfo set  firstname =?,middlename=?,lastname=? ,status =?,dob=?,gender=?, title=?, employeeId=?,updatedOn =? ,updatedBy=? where id =?";
+	public static final String UPDATEEMPINFO = "update obs_employeeinfo set  firstname =?,middlename=?,lastname=? ,status =?,statusDate=?,dob=?,gender=?, title=?, employeeId=?,updatedOn =? ,updatedBy=? where id =?";
 
 	public static final String DELETEEMPINFO = "update ojas_obs.obs_employeeinfo set flag = ?,updatedOn = ? where id =?";
 	public static final String GETEMPDETAILS = "select * from obs_employeeinfo where flag = true ";

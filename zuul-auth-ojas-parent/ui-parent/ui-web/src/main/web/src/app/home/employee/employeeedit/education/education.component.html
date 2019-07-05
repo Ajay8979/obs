@@ -151,9 +151,9 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label> Institution Name<span class="starColor"> *</span> </label>
+                      <label> Institution Name<span class="starColor"> *</span> </label> 
                       <input type="text" class="form-control" [(ngModel)]="editEduEmp.institution_name"
-                        name="institution_name" required placeholder="Institution Name" #empn5="ngModel">
+                        name="institution_name" required placeholder="Institution Name" #empn5="ngModel" pattern="[a-zA-Z]*">
 
                       <span style="color:red" *ngIf="empn5.invalid && empn5.touched ">
 
@@ -161,6 +161,11 @@
 
                           Institution Name is required.
                         </span>
+                        <span *ngIf="empn5.errors.pattern">
+
+                          Enter only Alphabet.
+                        </span>
+                        
 
                       </span>
                     </div>

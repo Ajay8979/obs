@@ -19,12 +19,20 @@ public class EmployeeInfo {
 	private Integer title;
 	private String employeeId;
 	private boolean flag;
-
+	private String statusDate;
 	private Timestamp createdOn;
 	private Timestamp updatedOn;
 
 	private String createdBy;
 	private String updatedBy;
+
+	public String getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(String statusDate) {
+		this.statusDate = statusDate;
+	}
 
 	public Integer getId() {
 		return id;
@@ -152,8 +160,9 @@ public class EmployeeInfo {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((middlename == null) ? 0 : middlename.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((statusDate == null) ? 0 : statusDate.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
 		result = prime * result + ((updatedOn == null) ? 0 : updatedOn.hashCode());
 		return result;
@@ -215,16 +224,20 @@ public class EmployeeInfo {
 				return false;
 		} else if (!middlename.equals(other.middlename))
 			return false;
-
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
 		} else if (!status.equals(other.status))
+			return false;
+		if (statusDate == null) {
+			if (other.statusDate != null)
+				return false;
+		} else if (!statusDate.equals(other.statusDate))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
 			return false;
 		if (updatedBy == null) {
 			if (other.updatedBy != null)
@@ -243,8 +256,9 @@ public class EmployeeInfo {
 	public String toString() {
 		return "EmployeeInfo [id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname="
 				+ lastname + ", status=" + status + ", dob=" + dob + ", gender=" + gender + ", title=" + title
-				+ ", employeeId=" + employeeId + ", flag=" + flag + ", createdOn=" + createdOn + ", updatedOn="
-				+ updatedOn + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+				+ ", employeeId=" + employeeId + ", flag=" + flag + ", statusDate=" + statusDate + ", createdOn="
+				+ createdOn + ", updatedOn=" + updatedOn + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ "]";
 	}
 
 }

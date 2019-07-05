@@ -50,11 +50,16 @@
               <div class="form-group">
                 <label> Certification Name<span class="starColor"> *</span> </label>
                 <input type="text" class="form-control" [(ngModel)]="Certification.certificationName"
-                  name="certificationName" required placeholder=" Certification Name" #cerName="ngModel">
+                  name="certificationName" required placeholder=" Certification Name" #cerName="ngModel" pattern="[a-zA-Z]*">
                 <span style="color:red" *ngIf="cerName.invalid && cerName.touched ">
                   <span *ngIf="cerName.errors.required">
                     Certification Name is required.
                   </span>
+
+                  <span *ngIf="cerName.errors.pattern">
+                    Enter only Alphabet.
+                  </span>
+
                 </span>
               </div>
             </div>
@@ -65,11 +70,16 @@
               <div class="form-group">
                 <label>Issued by<span class="starColor"> *</span></label>
                 <input type="text" class="form-control" [(ngModel)]="Certification.issuedBy" name="issuedBy" required
-                  placeholder="Authority/Organization" #Issued="ngModel">
+                  placeholder="Authority/Organization" #Issued="ngModel" pattern="[a-zA-Z]*">
                 <span style="color:red" *ngIf="Issued.invalid &&Issued.touched ">
                   <span *ngIf="Issued.errors.required">
                     Issued by is required.
                   </span>
+
+                  <span *ngIf="Issued.errors.pattern">
+                    Enter only Alphabet.
+                  </span>
+
                 </span>
               </div>
             </div>

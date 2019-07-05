@@ -10,7 +10,7 @@ import static com.ojas.obs.constants.UserConstants.UPDATEEMPINFO;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -45,10 +45,11 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 		List<Object[]> employeeInfoList = new ArrayList<>();
 
 		for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
-			java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
+			Date date = Date.valueOf(employeeInfo.getDob());
+			Date statusDate = Date.valueOf(employeeInfo.getStatusDate());
 			Object[] empinfo = { employeeInfo.getFirstname(), employeeInfo.getMiddlename(), employeeInfo.getLastname(),
-					employeeInfo.getStatus(), date, employeeInfo.getGender(), employeeInfo.getTitle(),
-					employeeInfo.getEmployeeId(), true, new Timestamp(new Date().getTime()),
+					employeeInfo.getStatus(),statusDate, date, employeeInfo.getGender(), employeeInfo.getTitle(),
+					employeeInfo.getEmployeeId(), true, new Timestamp(new java.util.Date().getTime()),
 					employeeInfo.getCreatedBy() };
 			employeeInfoList.add(empinfo);
 		}
@@ -69,10 +70,11 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 		logger.debug("inside update employee in employeeDao");
 		List<Object[]> inputList = new ArrayList<>();
 		for (EmployeeInfo employeeInfo : employeeInfoRequest.getEmployeeInfo()) {
-			java.sql.Date date = java.sql.Date.valueOf(employeeInfo.getDob());
+			Date date = Date.valueOf(employeeInfo.getDob());
+			Date statusDate = Date.valueOf(employeeInfo.getStatusDate());
 			Object[] emp = { employeeInfo.getFirstname(), employeeInfo.getMiddlename(), employeeInfo.getLastname(),
-					employeeInfo.getStatus(), date, employeeInfo.getGender(), employeeInfo.getTitle(),
-					employeeInfo.getEmployeeId(), new Timestamp(new Date().getTime()), employeeInfo.getUpdatedBy(),
+					employeeInfo.getStatus(),statusDate, date, employeeInfo.getGender(), employeeInfo.getTitle(),
+					employeeInfo.getEmployeeId(), new Timestamp(new java.util.Date().getTime()), employeeInfo.getUpdatedBy(),
 					employeeInfo.getId() };
 			inputList.add(emp);
 		}
@@ -92,7 +94,7 @@ public class EmployeeDaoImpl implements EmployeeInfoDao {
 		logger.debug("inside delete employee in employeeDao");
 		List<Object[]> inputList = new ArrayList<Object[]>();
 		EmployeeInfo employeeInfo = employeeInfoRequest.getEmployeeInfo().get(0);
-		Object[] emp = { false, new Timestamp(new Date().getTime()), employeeInfo.getId() };
+		Object[] emp = { false, new Timestamp(new java.util.Date().getTime()), employeeInfo.getId() };
 		inputList.add(emp);
 		jdbcTemplate.batchUpdate(DELETEEMPINFO, inputList);
 		return true;

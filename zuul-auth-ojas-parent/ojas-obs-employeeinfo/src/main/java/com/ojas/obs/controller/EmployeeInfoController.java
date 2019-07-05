@@ -84,6 +84,7 @@ public class EmployeeInfoController {
 								|| (null == empInfo.getLastname() || empInfo.getLastname().isEmpty())
 								|| (null == empInfo.getStatus()) || (null == empInfo.getGender())
 								|| (null == empInfo.getDob() || empInfo.getDob().isEmpty())
+								|| (null == empInfo.getStatusDate() || empInfo.getStatusDate().isEmpty())
 								|| (null == empInfo.getTitle()) || null == empInfo.getEmployeeId()
 								|| empInfo.getEmployeeId().isEmpty())) {
 					ErrorResponse error = new ErrorResponse();

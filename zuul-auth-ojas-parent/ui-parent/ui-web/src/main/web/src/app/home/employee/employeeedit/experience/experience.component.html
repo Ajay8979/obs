@@ -156,13 +156,15 @@
                                           <div class="form-group">
                                               <label> Location<span class="starColor"> *</span> </label>
                                               <input type="text" class="form-control" [(ngModel)]="editemparrlist.location" name="editemparrlist.location" 
-                                              required placeholder="Location"  #emexp6="ngModel">
+                                              required placeholder="Location"  #emexp6="ngModel" pattern="[a-zA-Z]*" >
                                               <span style="color:red" *ngIf="emexp6.invalid && emexp6.touched ">
                                               
                                                  <span *ngIf="emexp6.errors.required">
                                                   Location is required.
                                                  </span>
-                                                 
+                                                 <span *ngIf="emexp6.errors.pattern">
+                                                  Enter only Alphabet.
+                                                 </span>
                                                </span>
                                             </div>
                                            
@@ -194,14 +196,17 @@
                                                  <div class="form-group">
                                                      <label> Reference Name </label> 
                                                      <input type="text" class="form-control" [(ngModel)]="editemparrlist.first_Reference_Name" name="editemparrlist.first_Reference_Name" 
-                                                     required placeholder="reference Name">
-                                                      <!-- <span style="color:red" *ngIf="emexp8.invalid && emexp8.touched ">
+                                                     required placeholder="reference Name" pattern="[a-zA-Z]*" #emexp8="ngModel">
+                                                      <span style="color:red" *ngIf="emexp8.invalid && emexp8.touched ">
                                                      
-                                                        <span *ngIf="emexp8.errors.required">
+                                                        <!-- <span *ngIf="emexp8.errors.required">
                                                           Reference Name is required.
+                                                        </span> -->
+                                                        <span *ngIf="emexp8.errors.pattern">
+                                                          Enter only Alphabet.
                                                         </span>
                                                         
-                                                      </span>  -->
+                                                      </span> 
                                                    </div>
                                                   </div>
                                                 </div>
@@ -244,11 +249,14 @@
                                                     <div class="form-group">
                                                         <label> Company Name<span class="starColor"> *</span> </label>
                                                         <input type="text" class="form-control" [(ngModel)]="editemparrlist.company_name" name="editemparrlist.company_name" 
-                                                        required placeholder="Company Name"  #emexp10="ngModel">
+                                                        required placeholder="Company Name"  #emexp10="ngModel" pattern="[a-zA-Z]*">
                                                         <span style="color:red" *ngIf="emexp10.invalid && emexp10.touched ">
                                                         
                                                            <span *ngIf="emexp10.errors.required">
                                                             Company Name is required.
+                                                           </span>
+                                                           <span *ngIf="emexp10.errors.pattern">
+                                                            Enter only Alphabet.
                                                            </span>
                                                            
                                                          </span>

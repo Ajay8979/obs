@@ -5,96 +5,96 @@ zuul:
   routes:
     auth-center:
       path: /login/**
-      url: http://192.168.1.155:8081/
+      url: http://52.188.186.190:8081/
       sensitiveHeaders: Cookie,Set-Cookie
       stripPrefix: false
     ojas-obs-cost-center:
       path : /master/costcenterservice/**
-      url: http://192.168.1.155:8013/
+      url: http://52.188.186.190:8013/
     ojas-obs-businessunit :
       path : /master/businessUnit/**
-      url : http://192.168.1.155:8015/
+      url : http://52.188.186.190:8015/
     ojas-obs-online-passport:
       path : /master/passportService/**
-      url : http://192.168.1.155:8012/
+      url : http://52.188.186.190:8012/
     ojas-obs-online-gpa:
      path : /master/gpa/**
-     url : http://192.168.1.155:8018/
+     url : http://52.188.186.190:8018/
     ojas-obs-online-employeestatus-service:
      path : /master/EmployeeStatus/**
-     url : http://192.168.1.155:8017/
+     url : http://52.188.186.190:8017/
     ojas-obs-educationtype:
      path : /master/educationdetails/**
-     url : http://192.168.1.155:8016/
+     url : http://52.188.186.190:8016/
     ojas-obs-rolemanagement:
      path : /master/RoleManagement/**
-     url : http://192.168.1.155:8020/
+     url : http://52.188.186.190:8020/
     ojas-obs-subbusinessunit:
      path : /master/subbusinessunit/**
-     url : http://192.168.1.155:8021/
+     url : http://52.188.186.190:8021/
     ojas-obs-gender:
       path: /master/genders/**
-      url: http://192.168.1.155:8010/
+      url: http://52.188.186.190:8010/
     ojas-obs-states :
       path : /master/states/**
-      url : http://192.168.1.155:8014/
+      url : http://52.188.186.190:8014/
     ojas-obs-resource-type:
        path : /master/resourceType/**
-       url : http://192.168.1.155:8022/  
+       url : http://52.188.186.190:8022/  
     ojas-obs-designation:
       path: /master/designation/**
-      url: http://192.168.1.155:8011/
+      url: http://52.188.186.190:8011/
     ojas-obs-online-separationtype-service :
      path : /master/separationType/**
-     url : http://192.168.1.155:8019/  
+     url : http://52.188.186.190:8019/  
     ojas-obs-skill:
       path : /master/skill/**
-      url : http://192.168.1.155:8023/
+      url : http://52.188.186.190:8023/
     ojas-obs-bankdetails:
       path: /obs/BankDetails/**
-      url: http://192.168.1.155:9000/
+      url: http://52.188.186.190:9000/
     ojas-obs-employee-education-details:
       path: /obs/employeeEducationDetails/**
-      url: http://192.168.1.155:8525/
+      url: http://52.188.186.190:8525/
     ojas-obs-dependentdetails:
       path: /obs/DependentDetailsService/**
-      url: http://192.168.1.155:8090/
+      url: http://52.188.186.190:8090/
     ojas-obs-employeebu:
      path: /obs/employeebu/**
-     url: http://192.168.1.155:8087/
+     url: http://52.188.186.190:8087/
     ojas-obs-empcertificationdetails:
      path: /obs/certifications/**
-     url: http://192.168.1.155:8888/ 
+     url: http://52.188.186.190:8888/ 
     ojas-obs-employeeexperiencedetails:
       path: /obs/EmployeeExperienceDetails/**
-      url: http://192.168.1.155:8092/ 
+      url: http://52.188.186.190:8092/ 
     ojas-obs-employeecontactinfo:
       path: /obs/employeecontactinfo/**
-      url: http://192.168.1.155:8091/
+      url: http://52.188.186.190:8091/
     ojas-obs-employeeskills:
       path: /obs/employeeskillsdetails/** 
-      url: http://192.168.1.155:8094/ 
+      url: http://52.188.186.190:8094/ 
     ojas-obs-employment-details :
        path: /obs/employmentDetails/**
-       url: http://192.168.1.155:8084/   
+       url: http://52.188.186.190:8084/   
     ojas-obs-project-details:
        path: /obs/projectDetails/**
-       url: http://192.168.1.155:8083/  
+       url: http://52.188.186.190:8083/  
     ojas-obs-kye :
        path: /obs/kye/**
-       url: http://192.168.1.155:7070/   
+       url: http://52.188.186.190:7070/   
     ojas-obs-employeeinfo :
       path: /obs/employeeInfo/**
-      url: http://192.168.1.155:8093/    
+      url: http://52.188.186.190:8093/    
     ojas-obs-title :
       path: /obs/employeetitle/**
-      url: http://192.168.1.155:8095/  
+      url: http://52.188.186.190:8095/  
     ojas-obs-resetpassword :      
       path : /obs/ResetPassword/**
-      url: http://192.168.1.155:8096/
+      url: http://52.188.186.190:8096/
     ojas-obs-reg-forgot :
       path : /obs/ResetPassword/**
-      url: http://192.168.1.155:8088/
+      url: http://52.188.186.190:8088/
     #192.168.6.186
     
 ojas.security.jwt.secret: otherpeopledontknowit

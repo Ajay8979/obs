@@ -105,7 +105,7 @@ getemploymentdetails(){
   var employmentdetailss=
   {
     "employmentDetails":[{
-  //  "employeeId": this.eid
+    "employeeId": this.eid
     }],
     "transactionType" : "getAll"
     

@@ -13,7 +13,7 @@
       <div class="row">
          <div class="col-md-6">
             <div style="display: block;" class="chart">
-              <canvas baseChart [labels]="barChartLabels" [colors]="colors" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" [datasets]="barChartData">
+              <canvas baseChart [labels]="barChartLabels" [colors]="colors" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" [datasets]="barChartData">
               </canvas>
              <!--  <canvas baseChart 
         
@@ -57,7 +57,7 @@
           [legend]="lineChartLegend"
           [chartType]="lineChartType"
           [plugins]="lineChartPlugins"
-          
+          (click)="clickLineData()"
           >
         </canvas>
         <h4 style="text-align: center;color: #1d62a7;font-family: 'Times New Roman', Times, serif;">Exit Employee</h4>
@@ -75,7 +75,7 @@
                   [labels]="chartLabels"
                   [options]="chartOptions"
                   [legend]="true" 
-                  
+                  (click)="clickLineData()"
                   (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)"
                   >

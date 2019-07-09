@@ -39,10 +39,10 @@ export class HrRoleComponent {
   public pieChartLabels: Label[] = [['Hyderabad'], ['Pune'], ['Chennai'], ['Banglore'], ['Mumbai']];
   public pieChartData: SingleDataSet = [100, 100, 100, 55, 34];
   public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
+  
 
   public pieChartPlugins = []; */
-
+public pieChartLegend = true;
 
  
   public lineChartLegend = true;
@@ -187,6 +187,11 @@ export class HrRoleComponent {
 
     });
   }
+
+clickLineData(){
+    this.chartData = this.chartData.slice();
+    this.lineChartData = this.lineChartData.slice();
+    }
 
 //Pie Chart
 user;
@@ -366,7 +371,7 @@ public barChartOptions: ChartOptions = {
   public options: any = {
     legend: {position: 'left'},
     };
-  public barChartLabels = ['Jan', 'Feb', 'March', 'April', 'May', 'June','July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  public barChartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];

@@ -14,7 +14,7 @@
     <div class="col-md-1 " style="padding-left:40px">
       <div class="input-group add">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModaldependent" 
-        (click)="addnewdepartment(newUserFormDependent)" >
+        (click)="addnewdepartment(newUserFormDependent)" style="position:absolute;bottom:-88px;">
           Add
         </button>
       </div>
@@ -27,13 +27,14 @@
       
     
       <div class="d-inline-block">
-        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+        <h5 style="margin-left:-80px;">Employee Id:&nbsp; {{empbasic.employeeId}}</h5>
+        <h5 style="margin-left:-80px;">Full Name:&nbsp;&nbsp; {{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
       </div>
    
   
    
   <div  class="d-inline-block marginLeft">
-    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+   
   </div>
   </div>
   
@@ -46,7 +47,7 @@
     <table class="table table-condensed  tile">
       <thead class="two">
         <tr>
-          <th>Employee Id</th>
+          <!-- <th>Employee Id</th> -->
           <th>Dependent Name</th>
           <th>Relation</th>
           <th>Date of Birth</th>
@@ -55,12 +56,12 @@
         </tr>
       </thead>
       <tr *ngFor="let dependent of dependents| filter:key | paginate: { itemsPerPage: 100, currentPage:skillpage }; let i=index">
-        <td>
+        <!-- <td>
           <div *ngIf="!dependent.isEditable">
             {{dependent.employee_Id}}
           </div>
           <input class="form-control" type="text" [(ngModel)]="dependent.dependents" *ngIf="dependent.isEditable" />
-        </td>
+        </td> -->
 
         <td>{{dependent.dependent_Name}}</td>
         <td>{{dependent.relation}}</td>

@@ -9,7 +9,86 @@
         <!-- <li class="breadcrumb-item"><a a routerLink="/dashboard">Dashboard</a></li> -->
       </ul>
     </div>
-    <div class="row">
+    
+      <div class="row">
+         <div class="col-md-6">
+            <div style="display: block;" class="chart">
+              <canvas baseChart [labels]="barChartLabels" [colors]="colors" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" [datasets]="barChartData">
+              </canvas>
+             <!--  <canvas baseChart 
+        
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType"
+        [datasets]="barChartData">
+      
+                </canvas> -->
+                  <h4 style="text-align: center;color: #1d62a7;font-family: 'Times New Roman', Times, serif;">EmployeeInformation</h4>
+                 </div>
+             </div>
+     
+      <div class="col-md-6">
+    <div style="display: block;" class="chart">
+      <canvas baseChart [data]="pieChartData" [colors]="bidDistributionStatColors" [legend]="pieChartLegend" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+     <!--  <canvas baseChart 
+        [data]="pieChartData" 
+        [labels]="pieChartLabels" 
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend"
+       >
+      </canvas> -->
+      <h4 style="text-align: center;color: #1d62a7;font-family: 'Times New Roman', Times, serif;padding-left: 10px;">Reports</h4>
+    </div>
+  </div>
+    </div>
+  
+     <div class="row">
+       <div class="col-md-6" >
+          <div style="display: block;" class="line" style="margin-top:40px;">
+        <canvas baseChart 
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+          
+          >
+        </canvas>
+        <h4 style="text-align: center;color: #1d62a7;font-family: 'Times New Roman', Times, serif;">Exit Employee</h4>
+              </div>
+       </div>
+
+      
+       <div class="col-md-6" >
+          <div style="display: block;" class="line" style="margin-top:40px;">
+            <div *ngIf="chartLabels.length > 0">
+              <canvas
+               baseChart
+                  [datasets]="chartData"
+                  [chartType]="'line'"
+                  [labels]="chartLabels"
+                  [options]="chartOptions"
+                  [legend]="true" 
+                  
+                  (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"
+                  >
+              </canvas>
+            </div>
+              <h4 style="text-align: center;color: #1d62a7;font-family: 'Times New Roman', Times, serif;">Events</h4>
+
+            </div>
+       </div>
+      </div>
+  
+
+    <!-- <div class="row">
         <div class="row">
             <div class="col-md-6 col-lg-3">
               <div class="widget-small primary coloured-icon"><i class="icon fa fa-list-ul fa-3x"></i>
@@ -69,7 +148,7 @@
               </div>
             </div>
           </div>
-    </div>
+    </div> -->
     <!-- <div class="row">
       <div class="col-md-6">
         <div class="tile">
@@ -119,3 +198,5 @@
     </div> -->
   
   <!-- {{userData|json}} -->
+  
+  

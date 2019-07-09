@@ -49,8 +49,7 @@ import { HrRoleComponent } from './hr-role/hr-role.component';
 import { EmployeeRoleComponent } from './employee-role/employee-role.component';
 import { CareerComponent } from './career/career.component';
 import { JobDescriptionComponent } from './job-description/job-description.component';
-import { ChartsModule } from 'ng2-charts';
-import { EmployeeinfoComponent } from './employee/employeeedit/employeeinfo/employeeinfo.component';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { PersonaldetailComponent } from './personaldetail/personaldetail.component';
 import { LeaveComponent } from './leave/leave.component';
 
@@ -94,7 +93,7 @@ import { LeaveComponent } from './leave/leave.component';
     ProjectComponent, 
     DependentComponent, 
     SkillMasterComponent, 
-    HrReportsComponent, AdminRoleComponent, HrRoleComponent, EmployeeRoleComponent, CareerComponent, JobDescriptionComponent, EmployeeinfoComponent, PersonaldetailComponent, LeaveComponent, 
+    HrReportsComponent, AdminRoleComponent, HrRoleComponent, EmployeeRoleComponent, CareerComponent, JobDescriptionComponent, PersonaldetailComponent, LeaveComponent, 
 
   ],
   imports: [

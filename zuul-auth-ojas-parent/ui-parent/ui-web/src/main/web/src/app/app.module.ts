@@ -13,6 +13,7 @@ import { NoPageComponent } from './no-page/no-page.component';
 import {routes} from './app.router';
 import { TokenInterceptor } from './services/token-interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     HomeModule,
     IndexModule,
     RouterModule.forRoot(routes),
+    ChartsModule,
   ],
   //providers: [AuthService,AuthGuard],
   providers: [AuthService, AuthGuard,{ useClass: TokenInterceptor,provide:HTTP_INTERCEPTORS,multi: true}],

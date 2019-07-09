@@ -1,0 +1,89 @@
+<!-- empbasic starts-->
+<div class="tab-pane fade show " id="nav-empbasic" role="tabpanel" aria-labelledby="nav-empbasic-tab">
+  <br>
+  <div class="row">
+    <div class="col-md-11" style="margin-bottom: 25px;">
+      <form class="form-inline ">
+        <div class="input-group ">
+          <!-- <input type="text" class="form-control" name="key" [(ngModel)]="key" size="50" placeholder="Search"> -->
+          <div class="input-group-btn">
+            <h1></h1>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1 " style="padding-left:40px">
+      <div class="input-group add">
+        <!-- <button type="button" (click)="addSkillvalue(newUserForminfo)" class="btn btn-primary" data-toggle="modal" data-target="#myModal11" (click)="newUserForm1.reset">
+            Add
+          </button> -->
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!-- <div class="container">
+  <div class="row" >
+    <div *ngFor="let empbasic of empbasicinfo" >
+      
+    
+      <div class="d-inline-block">
+        <h5>Employee Id:{{empbasic.employeeId}}</h5>
+      </div>
+   
+  
+   
+  <div  class="d-inline-block marginLeft">
+    <h5>Full Name:{{empbasic.firstname}} {{empbasic.middlename}} {{empbasic.lastname}}</h5>
+  </div>
+  </div>
+  
+  </div>
+  </div>
+   -->
+  <br>
+
+  <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
+    <table class="table table-condensed  tile">
+      <thead class="two">
+        <tr class="bg-primary" style="font-size: 17px;">
+          <th>Employee Id </th>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Last Name</th>
+          <th>Status</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Title</th>
+
+
+
+          <!-- <th>Edit</th> -->
+          <!-- <th>Delete</th> -->
+        </tr>
+      </thead>
+      <tr
+        *ngFor="let empbasic of empbasicinfo |  filter:key | paginate: { itemsPerPage: 4, currentPage: p }; let i=index">
+
+        <td>{{empbasic.employeeId}} </td>
+        <td>{{empbasic.firstname}} </td>
+        <td>{{empbasic.middlename}} </td>
+        <td>{{empbasic.lastname}}</td>
+        <td>{{empbasic.status}}</td>
+        <td>{{empbasic.dob}}</td>
+        <td>{{empbasic.gender}} </td>
+        <td>{{empbasic.title}}</td>
+
+
+
+        <!-- <td><img src="/assets/pe.png" width="35px" data-toggle="modal" data-target="#myModal11"
+            (click)="getbyIdbasicdata(empbasic)"></td> -->
+        <!-- <td><img src="/assets/delete.png" width="25px"(click)="deleteemp(empbasic)"></td> -->
+
+      </tr>
+    </table>
+
+
+  </div>
+  <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+ </div>

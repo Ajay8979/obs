@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets,Chart } from 'chart.js';
-import { Label, SingleDataSet, Color, } from 'ng2-charts';
+import { Color, } from 'ng2-charts';
 import { HrmsService } from '../services/hrms.service';
 import * as moment from 'moment';
 
@@ -126,7 +126,7 @@ export class HrRoleComponent {
     { data: this.exitData, label: 'Exit Employees' },
     { data: [5, 6, 7, 6, 4, 6, 4, 7, 5, 3, 12, 4], label: 'Internal Employees' },
   ];
-  public lineChartLabels: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'sep', 'oct', 'nov', 'Dec'];
+  public lineChartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'sep', 'oct', 'nov', 'Dec'];
   public lineChartOptions: (ChartOptions & { annotation: any }); string = {
     responsive: true,
   };
@@ -366,7 +366,7 @@ public barChartOptions: ChartOptions = {
   public options: any = {
     legend: {position: 'left'},
     };
-  public barChartLabels: Label[] = ['Jan', 'Feb', 'March', 'April', 'May', 'June','July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  public barChartLabels = ['Jan', 'Feb', 'March', 'April', 'May', 'June','July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];

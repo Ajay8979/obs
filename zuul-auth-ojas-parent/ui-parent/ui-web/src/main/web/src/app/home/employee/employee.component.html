@@ -1,14 +1,14 @@
 <!-- empbasic starts-->
 <div class="app-title">
-    <div>
-      <h1><i class="fa fa-th-list"></i> Employee List</h1>
-    </div>
-      <ul class="app-breadcrumb breadcrumb">
-          <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <!-- <li class="breadcrumb-item">Emplo</li> -->
-          <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
-        </ul>
+  <div>
+    <h1><i class="fa fa-th-list"></i> Employee List</h1>
   </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <!-- <li class="breadcrumb-item">Emplo</li> -->
+    <li class="breadcrumb-item active"><a routerLink="/dashboard">Dashboard</a></li>
+  </ul>
+</div>
 <div class="tab-pane fade show active" id="nav-empbasic" role="tabpanel" aria-labelledby="nav-empbasic-tab">
   <br>
   <div class="row">
@@ -24,7 +24,8 @@
     </div>
     <div class="col-md-1 " style="padding-left:40px">
       <div class="input-group add">
-        <button type="button" (click)="addempUnit(newUserForminfo)"class="btn btn-primary" data-toggle="modal" data-target="#myModal11">
+        <button type="button" (click)="addempUnit(newUserForminfo)" class="btn btn-primary" data-toggle="modal"
+          data-target="#myModal11">
           Add
         </button>
       </div>
@@ -36,58 +37,59 @@
   <div class="row top table-responsive" style="margin-right: 0px; margin-left: 0px;">
     <table class="table table-condensed  tile">
       <thead class="two">
-            <tr>  
-              <th>Employee Id </th>      
-              <th>First Name</th>
-              <th>Middle Name</th>
-              <th>Last Name</th>
-              <th>Status</th>
-              <th>DOB</th>
-              <th>Gender</th>
-                             
-          
-            
-              <th>More Info</th>
-              <!-- <th>Delete</th> -->
-            </tr> 
-            </thead>
-            <tr *ngFor="let empbasic of empbasicinfo  |  filter:key | paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index">
-              <td>{{empbasic.employeeId}} </td>
-                <td>{{empbasic.firstname}} </td>
-                <td>{{empbasic.middlename}} </td>
-                <td>{{empbasic.lastname}}</td>
-                <td>{{empbasic.status}}</td>
-                <td>{{empbasic.dob}}</td>
-                <td>{{empbasic.gender}} </td>
-              
-                
-            
-                
-              <td><img src="/assets/pe.png" width="35px"  [routerLink]="['/employeeedit',empbasic.employeeId]"></td>
-              <!-- <td><img src="/assets/delete.png" width="25px"(click)="deleteemp(empbasic)"></td> -->
-              
-            </tr>
-            </table>
-   
+        <tr>
+          <th>Employee Id </th>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Last Name</th>
+          <th>Status</th>
+          <th>DOB</th>
+          <th>Gender</th>
+
+
+
+          <th>More Info</th>
+          <!-- <th>Delete</th> -->
+        </tr>
+      </thead>
+      <tr
+        *ngFor="let empbasic of empbasicinfo  |  filter:key | paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index">
+        <td>{{empbasic.employeeId}} </td>
+        <td>{{empbasic.firstname}} </td>
+        <td>{{empbasic.middlename}} </td>
+        <td>{{empbasic.lastname}}</td>
+        <td>{{empbasic.status}}</td>
+        <td>{{empbasic.dob}}</td>
+        <td>{{empbasic.gender}} </td>
+
+
+
+
+        <td><img src="/assets/pe.png" width="35px" [routerLink]="['/employeeedit',empbasic.employeeId]"></td>
+        <!-- <td><img src="/assets/delete.png" width="25px"(click)="deleteemp(empbasic)"></td> -->
+
+      </tr>
+    </table>
+
 
   </div>
-   <pagination-controls  class="pull-right" (pageChange)="p = $event"></pagination-controls>
-   <div class="row">
-      <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
-      
-          
-         <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
-            <option [ngValue]="5">5</option>
-            <option [ngValue]="10">10</option>
-            <option [ngValue]="15">15</option>
-            <option [ngValue]="20">20</option>
-        </select>
-       
-         </div>
-          <!-- private pageSize: number = 5; -->
-  
+  <pagination-controls class="pull-right" (pageChange)="p = $event"></pagination-controls>
+  <div class="row">
+    <label class="ml-3">Items per Page: </label>&nbsp;&nbsp;&nbsp;
 
-   
+
+    <select id="PerPage" class="pull-right" [(ngModel)]="pageSize">
+      <option [ngValue]="5">5</option>
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="15">15</option>
+      <option [ngValue]="20">20</option>
+    </select>
+
+  </div>
+  <!-- private pageSize: number = 5; -->
+
+
+
   <div class="container demo">
 
 
@@ -98,21 +100,22 @@
 
           <div class="modal-header">
             <h3> Employee Info</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newUserForminfo.reset()">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+              (click)="newUserForminfo.reset()">
               <span aria-hidden="true">&times;</span>
             </button>
 
           </div>
 
           <div class="modal-body">
-              <form class="tile" #newUserForminfo="ngForm" (ngSubmit)="onSubmit1(newUserForm)" autocomplete="on">
-                  
+            <form class="tile" #newUserForminfo="ngForm" (ngSubmit)="onSubmit1(newUserForm)" autocomplete="on">
 
-                  <div class="row">
-                      <div class="col-md-4" *ngIf="!isUpdate">
-                          <label>EmpId:</label>
-                          <span><b>{{a}}</b></span>
-                          <!-- <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required placeholder="Enter EmployeeId" #eid="ngModel">
+
+              <div class="row">
+                <div class="col-md-4" *ngIf="!isUpdate">
+                  <label>EmpId:</label>
+                  <span><b>{{a}}</b></span>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required placeholder="Enter EmployeeId" #eid="ngModel">
                           <span style="color:red" *ngIf="eid.invalid && eid.touched ">
     
                             <span *ngIf="email.errors.required">
@@ -121,82 +124,87 @@
                             </span>
     
                           </span> -->
-                        </div>
-                        <div class="col-md-4" *ngIf="isUpdate">
-                          <label>EmployeeId <span class="starColor"> *</span></label>
-                          <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required placeholder="Enter EmployeeId" #eid="ngModel">
-                          <span style="color:red" *ngIf="eid.invalid && eid.touched ">
-    
-                            <span *ngIf="email.errors.required">
-    
-                              EmployeeId is required.
-                            </span>
-    
-                          </span>
-                        </div>
-                     <div class="col-md-4">
-                      <div class="form-group">
-                        <label>First Name<span class="starColor"> *</span> </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required pattern="[A-Za-z]*" placeholder="First Name" #first="ngModel">
-                        <span style="color:red" *ngIf="first.invalid && first.touched ">
-                          <span *ngIf="first.errors.required">
-                            Firstname is required
-                          </span>
-                          <span *ngIf="first.errors.pattern">
-                            Enter alphabets only.
-                          </span>
-                        </span>
-                      </div>
+                </div>
+                <div class="col-md-4" *ngIf="isUpdate">
+                  <label>EmployeeId <span class="starColor"> *</span></label>
+                  <input type="text" class="form-control" [(ngModel)]="empinobj.employeeId" name="emp5" required
+                    placeholder="Enter EmployeeId" #eid="ngModel">
+                  <span style="color:red" *ngIf="eid.invalid && eid.touched ">
 
-                    </div> 
+                    <span *ngIf="email.errors.required">
 
-                     <div class="col-md-4">
-                      <div class="form-group">
-                        <label> Middle Name </label>
-                        <input type="text" class="form-control" [(ngModel)]="empinobj.middlename" name="emp2" pattern="[A-Za-z]*" placeholder="Middle Name" #middle="ngModel">
-                        <span style="color:red" *ngIf="middle.invalid && middle.touched ">
-                          <span *ngIf="middle.errors.pattern">
-                            Enter alphabets only.
-                          </span>
-                        </span>
-                      </div>
+                      EmployeeId is required.
+                    </span>
 
-                    </div> 
-
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>First Name<span class="starColor"> *</span> </label>
+                    <input type="text" class="form-control" [(ngModel)]=" empinobj.firstname" name="emp1" required
+                      pattern="[A-Za-z]*" placeholder="First Name" #first="ngModel">
+                    <span style="color:red" *ngIf="first.invalid && first.touched ">
+                      <span *ngIf="first.errors.required">
+                        Firstname is required
+                      </span>
+                      <span *ngIf="first.errors.pattern">
+                        Enter alphabets only.
+                      </span>
+                    </span>
                   </div>
 
-                  <div class="row">
-                     <div class="col-md-4">
-                      <div class="form-group">
-                        <label> Last Name<span class="starColor"> *</span> </label>
-                        <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required pattern="[A-Za-z]*" placeholder="Last Name" #last="ngModel">
-                        <span style="color:red" *ngIf="last.invalid && last.touched ">
-                          <span *ngIf="last.errors.required">
-                            Last Name is required.
-                          </span>
-                          <span *ngIf="last.errors.pattern">
-                            Enter alphabets only.
-                          </span>
-                        </span>
-                      </div>
+                </div>
 
-                    </div>
-                   
-                     <div class="col-md-4">
-                      <div class="form-group">
-                        <label> DOB<span class="starColor"> *</span> </label>
-                        <input class="form-control" [max]="maxDate" [min] = "minDate" type="date" [(ngModel)]="empinobj.dob" name="empname" required placeholder="DD/MM/YYYY"  #empdate="ngModel" >  
-                        <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
-                          <span *ngIf="empdate.errors.required">
-                            Date is required.
-                          </span>
-                          <span *ngIf="empdate.errors.min">
-                            Enter valid date.
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                   <!--  <div class="col-md-4">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label> Middle Name </label>
+                    <input type="text" class="form-control" [(ngModel)]="empinobj.middlename" name="emp2"
+                      pattern="[A-Za-z]*" placeholder="Middle Name" #middle="ngModel">
+                    <span style="color:red" *ngIf="middle.invalid && middle.touched ">
+                      <span *ngIf="middle.errors.pattern">
+                        Enter alphabets only.
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label> Last Name<span class="starColor"> *</span> </label>
+                    <input type="text" class="form-control" [(ngModel)]=" empinobj.lastname" name="lastname" required
+                      pattern="[A-Za-z]*" placeholder="Last Name" #last="ngModel">
+                    <span style="color:red" *ngIf="last.invalid && last.touched ">
+                      <span *ngIf="last.errors.required">
+                        Last Name is required.
+                      </span>
+                      <span *ngIf="last.errors.pattern">
+                        Enter alphabets only.
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label> DOB<span class="starColor"> *</span> </label>
+                    <input class="form-control" [max]="maxDate" [min]="minDate" type="date" [(ngModel)]="empinobj.dob"
+                      name="empname" required placeholder="DD/MM/YYYY" #empdate="ngModel">
+                    <span style="color:red" *ngIf="empdate.invalid && empdate.touched ">
+                      <span *ngIf="empdate.errors.required">
+                        Date is required.
+                      </span>
+                      <span *ngIf="empdate.errors.min">
+                        Enter valid date.
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <!--  <div class="col-md-4">
                       <div class="form-group">
                         <label> DOB<span class="starColor"> *</span> </label>
                         <mat-form-field class="example-full-width">
@@ -214,79 +222,96 @@
                         </span>
                       </div>
                     </div> -->
-                    <!-- [min]="minDate" [max]="maxDate" -->
-                    <div class="col-md-4">
-                      <div class="form-group">
-                            <label>Status<span class="starColor"> *</span></label>
-                            <select class="form-control" [(ngModel)]="empinobj.status" (change)="selectOption($event.target.value)"  #status1="ngModel" name="emp02" 
-                            required >
-                          
-                           
-                            <option *ngFor="let estatus of employee_statuslist" [value]="estatus.id">{{ estatus.status }}</option>
-                      
-                            </select>
-                            <span style="color:red" *ngIf="status1.invalid && status1.touched ">
-                            <span *ngIf="status1.errors.required">
-                                Status is mandatory.
-                            </span> 
-                            </span>
-                            </div>
-  
-                  </div>
-                   </div>
-                  <div class="row">
-                      <div class="col-md-4">
-                      <div class="form-group">
-                          <label>Gender<span class="starColor"> *</span></label>
-                          <select class="form-control" [(ngModel)]="empinobj.gender"  (change)="selectOption($event.target.value)"  name="emp03" 
-                          required
-                          #Dropdown="ngModel">
-                      
-                       
-                          <option *ngFor="let egender of empgenderinfo"  [value]="egender.id">{{ egender.gender }}</option>
-                      
-                          </select>
-                          <span style="color:red" *ngIf="Dropdown.invalid && Dropdown.touched ">
-                          <span *ngIf="Dropdown.errors.required">
-                              Gender is mandatory.
-                          </span> 
-                          </span>
-                        </div>
+                <!-- [min]="minDate" [max]="maxDate" -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Status<span class="starColor"> *</span></label>
+                    <select class="form-control" [(ngModel)]="empinobj.status"
+                      (change)="selectOption($event.target.value)" #status1="ngModel" name="emp02" required>
 
-                        </div>
-                        <div class="col-md-4">
-                    
-                          <div class="form-group">
-                            <label>Title<span class="starColor"> *</span></label>
-                            <select class="form-control" [(ngModel)]="empinobj.title" (change)="selectOption($event.target.value)" placeholder="Select SBU" name="Title" 
-                            required placeholder="Qualification"
-                            #title="ngModel">
-                          
-                            <option *ngFor="let etitle of roleManagemenList" [value]="etitle.id">{{ etitle.roleName }}</option>
-                            </select>
-                            <span style="color:red" *ngIf="title.invalid && title.touched ">
-                            <span *ngIf="title.errors.required">
-                                Title is mandatory.
-                            </span> 
-                            </span>
-                            </div>
-  
-                  </div>
-                     
-                  </div>
-                  <button class="btn btn-primary  float-right margin"  *ngIf="!isUpdate" [disabled]="newUserForminfo.form.invalid" (click)="saveemployeeInfo()" data-dismiss="modal" aria-label="Close">Save</button>
-                  <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal" [disabled]="newUserForminfo.form.invalid" aria-label="Close"  *ngIf="isUpdate" (click)="updateempinfo()">
-                    Update
-                            </button>
 
-                  <button class="btn btn-primary  float-right" (click)="newUserForminfo.reset()">Clear</button>
-                  <br/><br/>
-                  <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>Back</button> -->
-                  <!-- <button class="btn btn-primary" data-dismiss="modal">
+                      <option *ngFor="let estatus of employee_statuslist" [value]="estatus.id">{{ estatus.status }}
+                      </option>
+
+                    </select>
+                    <span style="color:red" *ngIf="status1.invalid && status1.touched ">
+                      <span *ngIf="status1.errors.required">
+                        Status is mandatory.
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Gender<span class="starColor"> *</span></label>
+                    <select class="form-control" [(ngModel)]="empinobj.gender"
+                      (change)="selectOption($event.target.value)" name="emp03" required #Dropdown="ngModel">
+
+
+                      <option *ngFor="let egender of empgenderinfo" [value]="egender.id">{{ egender.gender }}</option>
+
+                    </select>
+                    <span style="color:red" *ngIf="Dropdown.invalid && Dropdown.touched ">
+                      <span *ngIf="Dropdown.errors.required">
+                        Gender is mandatory.
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+
+                  <div class="form-group">
+                    <label>Title<span class="starColor"> *</span></label>
+                    <select class="form-control" [(ngModel)]="empinobj.title"
+                      (change)="selectOption($event.target.value)" placeholder="Select SBU" name="Title" required
+                      placeholder="Qualification" #title="ngModel">
+
+                      <option *ngFor="let etitle of roleManagemenList" [value]="etitle.id">{{ etitle.roleName }}
+                      </option>
+                    </select>
+                    <span style="color:red" *ngIf="title.invalid && title.touched ">
+                      <span *ngIf="title.errors.required">
+                        Title is mandatory.
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label> Employee status updated date<span class="starColor"> *</span> </label>
+                    <input class="form-control" type="date" [(ngModel)]="empinobj.statusDate" name="statusDate" required placeholder="DD/MM/YYYY" #stdate="ngModel">
+                    <span style="color:red" *ngIf="stdate.invalid && stdate.touched ">
+                      <span *ngIf="stdate.errors.required">
+                        Date is required.
+                      </span>
+                      <span *ngIf="stdate.errors.min">
+                        Enter valid date.
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary  float-right margin" *ngIf="!isUpdate"
+                [disabled]="newUserForminfo.form.invalid" (click)="saveemployeeInfo()" data-dismiss="modal"
+                aria-label="Close">Save</button>
+              <button class="btn btn-primary  float-right margin" type="submit" data-dismiss="modal"
+                [disabled]="newUserForminfo.form.invalid" aria-label="Close" *ngIf="isUpdate" (click)="updateempinfo()">
+                Update
+              </button>
+
+              <button class="btn btn-primary  float-right" (click)="newUserForminfo.reset()">Clear</button>
+              <br /><br />
+              <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>Back</button> -->
+              <!-- <button class="btn btn-primary" data-dismiss="modal">
                     <span aria-hidden="true"></span>Back</button> -->
-                </form>
+            </form>
 
-           
+
 
 
           </div>
@@ -301,7 +326,7 @@
 
   </div>
   <!-- container -->
-  
+
 </div>
 <!-- empbasic ends-->
 <!-- 

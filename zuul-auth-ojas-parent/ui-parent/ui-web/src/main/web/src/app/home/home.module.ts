@@ -49,6 +49,9 @@ import { HrRoleComponent } from './hr-role/hr-role.component';
 import { EmployeeRoleComponent } from './employee-role/employee-role.component';
 import { CareerComponent } from './career/career.component';
 import { JobDescriptionComponent } from './job-description/job-description.component';
+import { PersonaldetailComponent } from './personaldetail/personaldetail.component';
+import { LeaveComponent } from './leave/leave.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -91,6 +94,7 @@ import { JobDescriptionComponent } from './job-description/job-description.compo
     DependentComponent, 
     SkillMasterComponent, 
     HrReportsComponent, AdminRoleComponent, HrRoleComponent, EmployeeRoleComponent, CareerComponent, JobDescriptionComponent,
+    PersonaldetailComponent, LeaveComponent, 
 
   ],
   imports: [
@@ -101,7 +105,8 @@ import { JobDescriptionComponent } from './job-description/job-description.compo
     Ng2SearchPipeModule,
     Ng2OrderModule,
     FormsModule,
-    OrderModule
+    OrderModule,
+    ChartsModule 
   ]
 })
 export class HomeModule { }

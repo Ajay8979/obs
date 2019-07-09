@@ -412,7 +412,7 @@ users;
             }],
             "transactionType" : "getall"
     }
-debugger;
+
 this.hrms.getempinfo(req).subscribe(use=>{
 this.users=use;
 this.empInfo=this.users.employeeInfo;

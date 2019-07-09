@@ -5,6 +5,7 @@
 label{
   font-weight:bold;
  }
+ 
 // nav > .nav.nav-tabs{
 
 //  border: none;
@@ -74,7 +75,11 @@ label{
 
 // }
 
-
+#nav{
+  position: fixed;
+  
+  
+}
 
 
 .left{

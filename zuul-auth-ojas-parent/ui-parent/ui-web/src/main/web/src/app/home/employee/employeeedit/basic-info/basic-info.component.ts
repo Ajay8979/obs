@@ -35,22 +35,15 @@ export class BasicInfoComponent implements OnInit {
     // this.latest_date =this.date.transform(this.dateToday, 'yyyy-MM-dd');
   }
   ngOnInit() {
+    this.getEmployeeStatusData();
+    this.getRole();
+    this.getgender();
     this.dataservice.getMessage().subscribe(Response => {
       this.message = Response.text;
       console.log("Message from the Basic Info Component", this.message);
     });
-
-
-
+   
     this.getempdata();
-    this.getEmployeeStatusData();
-    this.getEmployeeStatusData();
-    this.getRole();
-
-    this.getgender();
-
-
-    this.getgender()
 
   }
 
@@ -61,6 +54,7 @@ export class BasicInfoComponent implements OnInit {
   emp_lname: any;
   emp_dob: any;
   emp_status: any;
+  emp_statusDate: any;
   emp_id: any;
   emp_password: any;
   emp_created: any;
@@ -106,6 +100,7 @@ export class BasicInfoComponent implements OnInit {
       "middlename": "",
       "lastname": "",
       "status": "",
+      "emp_statusDate": "",
       "dob": "",
       "gender": "",
       "title": "",
@@ -124,7 +119,7 @@ export class BasicInfoComponent implements OnInit {
   getstatusontable: any;
   getroleontable: any;
   getempdata() {
-
+  
 
     //this.isupdate=false;
 
@@ -148,7 +143,7 @@ export class BasicInfoComponent implements OnInit {
 
 
 
-      for (let i = 0; i <= this.empbasicinfo.length; i++) {
+      for (let i = 0; i < this.empbasicinfo.length; i++) {
 
         for (let j = 0; j < this.employee_statuslist.length; j++) {
           if (this.employee_statuslist[j].id == this.empbasicinfo[i].status) {
@@ -162,7 +157,7 @@ export class BasicInfoComponent implements OnInit {
         console.log(this.empbasicinfo);
       }
 
-      for (let i = 0; i <= this.empbasicinfo.length; i++) {
+      for (let i = 0; i < this.empbasicinfo.length; i++) {
 
         for (let j = 0; j < this.roleManagemenList.length; j++) {
           if (this.roleManagemenList[j].id == this.empbasicinfo[i].title) {
@@ -175,6 +170,19 @@ export class BasicInfoComponent implements OnInit {
         console.log("Final Educational ");
         console.log(this.empbasicinfo);
       }
+      for(let i=0;i<this.empbasicinfo.length;i++){
+
+        for(let j=0;j<this.empgenderinfo.length;j++){
+        if(this.empbasicinfo[i].gender==this.empgenderinfo[j].id){
+        this.getgenderdata=this.empgenderinfo[j].gender;
+        console.log("Gender details");
+        console.log(this.getgenderdata);
+        } 
+        }
+        this.empbasicinfo[i].gender=this.getgenderdata;
+        //console.log("Final Educational Details Array");
+       // console.log(this.empbasicinfo);
+        }
     })
 
   }
@@ -188,9 +196,7 @@ export class BasicInfoComponent implements OnInit {
   CREATEDBY = true;
 
   saveemployeeInfo() {
-    if (new Date(this.empinobj.dob) < this.dateToday) {
-      swal("Please enter a valid date", "", "error");
-    }
+
     var request = {
       "employeeInfo": [{
         //"id":this.empinobj.id,
@@ -198,6 +204,7 @@ export class BasicInfoComponent implements OnInit {
         "middlename": this.empinobj.middlename,
         "lastname": this.empinobj.lastname,
         "status": this.empinobj.status,
+        "emp_statusDate": this.empinobj.emp_statusDate,
         //"status" :2,
         "dob": this.empinobj.dob,
         "gender": this.empinobj.gender,
@@ -269,6 +276,7 @@ export class BasicInfoComponent implements OnInit {
         "middlename": this.empinobj.middlename,
         "lastname": this.empinobj.lastname,
         "status": this.empinobj.status,
+        "emp_statusDate": this.empinobj.emp_statusDate,
         "dob": this.empinobj.dob,
         "gender": this.empinobj.gender,
         "title": this.empinobj.title,

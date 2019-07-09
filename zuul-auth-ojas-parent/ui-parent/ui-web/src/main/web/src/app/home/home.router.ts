@@ -43,6 +43,8 @@ import { HrRoleComponent } from './hr-role/hr-role.component';
 import { EmployeeRoleComponent } from './employee-role/employee-role.component';
 import { CareerComponent } from './career/career.component';
 import { JobDescriptionComponent } from './job-description/job-description.component';
+import { PersonaldetailComponent } from './personaldetail/personaldetail.component';
+import { LeaveComponent } from './leave/leave.component';
 
 export const HomeRoutes: Routes = [
     {path:'',component:HomeComponent,canActivate:[AuthGuard],
@@ -75,7 +77,10 @@ export const HomeRoutes: Routes = [
     {path:'system',component:SystemComponent},
     {path:'Empskill',component:SkillMasterComponent},
     {path:'help',component:HelpComponent},
+    {path:'personaldetails',component:PersonaldetailComponent},
+    {path:'leave',component:LeaveComponent},
     {path:'employeeedit/:employee_Id',component:EmployeeeditComponent,
+    
     children:
     [
     

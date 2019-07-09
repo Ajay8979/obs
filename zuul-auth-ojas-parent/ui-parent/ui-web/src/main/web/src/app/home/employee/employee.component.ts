@@ -94,11 +94,11 @@ deleteFieldValue(index) {
 this.empData.splice(index, 1);
  }
  ngOnInit() {
-  this.getempdata();
-  this.getEmployeeStatusData();
-  this.getEmployeeStatusData();
-  this.getRole();
-  this.getgender();
+  // this.getEmployeeStatusData();
+   this.getEmployeeStatusData();
+   this.getRole();
+   this.getgender();
+   this.getempdata();
    
 
 
@@ -114,6 +114,7 @@ emp_mname:any;
 emp_lname:any;
 emp_dob:any;
 emp_status:any;
+emp_statusDate: any;
 emp_id:any;
 emp_password:any;
 emp_created:any;
@@ -159,6 +160,7 @@ public empinobj=
               "middlename" : "",
               "lastname" : "",
               "status" : "",
+              "emp_statusDate": "",
            "dob":"",
            "title" : "",
               "gender" : "",
@@ -189,32 +191,32 @@ var empinfo =
 this.empbasic =res;
 this.empbasicinfo= this.empbasic.employeeInfo;
  console.log(this.empbasicinfo);
- for(let i=0;i<=this.empbasicinfo.length;i++){
+ for(let i=0;i<this.empbasicinfo.length;i++){
 
   for(let j=0;j<this.empgenderinfo.length;j++){
   if(this.empbasicinfo[i].gender==this.empgenderinfo[j].id){
   this.getgenderdata=this.empgenderinfo[j].gender;
-  console.log("GEnder details");
+  console.log("Gender details");
   console.log(this.getgenderdata);
   } 
   }
   this.empbasicinfo[i].gender=this.getgenderdata;
-  console.log("Final Educational Details Array");
-  console.log(this.empbasicinfo);
+  //console.log("Final Educational Details Array");
+ // console.log(this.empbasicinfo);
   }
-  for(let i=0;i<=this.empbasicinfo.length;i++){
+  for(let i=0;i<this.empbasicinfo.length;i++){
 
-    for(let j=0;j<this.empbasicstatus.length;j++){
-    if(this.empbasicinfo[i].status==this.empbasicstatus[j].id){
+    for(let j=0;j<this.employee_statuslist.length;j++){
+    if(this.empbasicinfo[i].status==this.employee_statuslist[j].id){
     
-      this.getstatusdata=this.empbasicstatus[j].status;
+      this.getstatusdata=this.employee_statuslist[j].status;
     console.log("GEnder And Status details");
     console.log(this.getstatusdata);
     } 
     }
     this.empbasicinfo[i].status=this.getstatusdata;
-    console.log("Final Educational Details Array");
-    console.log(this.empbasicinfo);
+    //console.log("Final Educational Details Array");
+    //console.log(this.empbasicinfo);
     }
 
  })
@@ -245,6 +247,7 @@ var request=
           "middlename" : this.empinobj.middlename,
           "lastname" : this.empinobj.lastname,
           "status" : this.empinobj.status,
+          "emp_statusDate": this.empinobj.emp_statusDate,
           "dob":this.empinobj.dob,
           "gender" : this.empinobj.gender,
           "title" : this.empinobj.title,
@@ -258,18 +261,18 @@ var request=
       this.basicinfo =res;
       console.log(this.basicinfo);
       console.log("employeeId",parseInt(this.empinobj.employeeId)+1)
-    if(this.basicinfo.message == "Successfully record added"){
+    //if(this.basicinfo.message == "Successfully record added"){
     swal(this.basicinfo.message, "", "success");
     
     this.getempdata();
-    }
+    //}
     },
-    error => 
+ /*    error => 
       {
       swal("Duplicates are not allowed!","","error");
       
       this.getempdata();
-         })
+         } */)
     
     
  /*  }else{
@@ -326,6 +329,7 @@ deleteemp(empbasic: { id: any; }){
                 "middlename" : this.empinobj.middlename,
                 "lastname" : this.empinobj.lastname,
                 "status" : this.empinobj.status,
+                "emp_statusDate": this.empinobj.emp_statusDate,
              "dob":this.empinobj.dob,
                 "gender" : this.empinobj.gender,
                 //"password" : this.empinobj.password,

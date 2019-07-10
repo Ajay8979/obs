@@ -100,10 +100,10 @@ var reqData=
 
 this.hrms.setSkill(reqData).subscribe(responce=>{
   this.skillReq = responce;
-  console.log(this.skillReq);
-  if(this.skillReq.message =="Successfully record added"){
+  console.log("Skill response: ",this.skillReq);
+  if(this.skillReq.statusMessage =="Successfully record added"){
    
-    swal(this.skillReq.message, "","success");
+    swal(this.skillReq.statusMessage, "","success");
    // this.getSkillInfo();
    }
    //this.SkillArr = this.skillReq.getSkillInfoList;
@@ -188,7 +188,7 @@ getSkillInfomaster(){
 addSkillvalue(newUserForm1){
   newUserForm1.reset()
 this.isUPDATEDBY=false;
-this.CREATEDBY=true;
+this.CREATEDBY=false;
 }
 isUPDATEDBY=false;
 CREATEDBY=true;
@@ -276,8 +276,8 @@ var updaterequestData={
            this.updateRes= res;
               
           console.log(this.updateRes);
-          if(this.updateRes.message == "Successfully record updated"){
-            swal(this.updateRes.message, "","success");
+          if(this.updateRes.statusMessage == "Successfully record updated"){
+            swal(this.updateRes.statusMessage, "","success");
             this.getSkillInfo();
           }
                this.getSkillInfo();
